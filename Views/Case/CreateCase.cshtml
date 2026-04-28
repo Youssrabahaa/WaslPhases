@@ -1,0 +1,122 @@
+@{
+    ViewData["Title"] = "Create Case";
+}
+
+<section class="health-page">
+    <div class="health-hero compact-hero">
+        <div>
+            <span class="health-kicker">Case Module</span>
+            <h1 class="health-title">Create New Case</h1>
+            <p class="health-subtitle">A focused case intake form styled like a practical healthcare workflow.</p>
+        </div>
+        <div class="hero-actions">
+            <a class="ghost-action" asp-controller="Case" asp-action="MyCases">Back to cases</a>
+        </div>
+    </div>
+
+    <div class="content-grid">
+        <section class="content-main">
+            <form class="health-panel form-panel">
+                <div class="panel-heading">
+                    <div>
+                        <h2>Case Intake</h2>
+                        <p>Use structured sections to keep the flow easy to scan.</p>
+                    </div>
+                </div>
+
+                <div class="form-grid">
+                    <label class="field-group">
+                        <span>Case title</span>
+                        <input class="form-control modern-input" placeholder="Follow-up for pediatric restorative treatment" />
+                    </label>
+                    <label class="field-group">
+                        <span>Service type</span>
+                        <select class="form-select modern-input">
+                            <option>Home Visit</option>
+                            <option>In-Clinic Session</option>
+                            <option>Online Follow-Up</option>
+                        </select>
+                    </label>
+                    <label class="field-group">
+                        <span>Treatment category</span>
+                        <select class="form-select modern-input">
+                            <option>Pediatric Dentistry</option>
+                            <option>Restorative Dentistry</option>
+                            <option>Oral Surgery</option>
+                        </select>
+                    </label>
+                    <label class="field-group">
+                        <span>Urgency level</span>
+                        <select class="form-select modern-input">
+                            <option>Normal</option>
+                            <option>Priority</option>
+                            <option>Urgent</option>
+                        </select>
+                    </label>
+                    <label class="field-group">
+                        <span>Estimated budget from</span>
+                        <input class="form-control modern-input" placeholder="180 EGP" />
+                    </label>
+                    <label class="field-group">
+                        <span>Estimated budget to</span>
+                        <input class="form-control modern-input" placeholder="250 EGP" />
+                    </label>
+                    <label class="field-group">
+                        <span>Governorate</span>
+                        <input class="form-control modern-input" placeholder="Cairo" />
+                    </label>
+                    <label class="field-group">
+                        <span>City / area</span>
+                        <input class="form-control modern-input" placeholder="Nasr City - Seventh District" />
+                    </label>
+                </div>
+
+                <label class="field-group">
+                    <span>Case description</span>
+                    <textarea class="form-control modern-input modern-textarea" rows="6" placeholder="Add a short clinical summary, family expectations, and any scheduling constraints."></textarea>
+                </label>
+
+                <div class="inline-check">
+                    <input class="form-check-input" type="checkbox" checked />
+                    <label>Needs supervisor approval</label>
+                </div>
+
+                <div class="form-actions">
+                    <button type="button" class="primary-action">Create case</button>
+                    <a class="ghost-action" asp-controller="Case" asp-action="MyCases">Save draft later</a>
+                </div>
+            </form>
+        </section>
+
+        <aside class="content-side">
+            <article class="health-panel side-accent">
+                <div class="panel-heading">
+                    <div>
+                        <h2>Submission Guide</h2>
+                        <p>Useful helper content for the left-to-right flow.</p>
+                    </div>
+                </div>
+
+                <ul class="clean-list">
+                    <li>Lead with the main clinical need in the title.</li>
+                    <li>Keep the description short, practical, and family-friendly.</li>
+                    <li>Include location details that help with scheduling.</li>
+                </ul>
+            </article>
+
+            <article class="health-panel">
+                <div class="panel-heading">
+                    <div>
+                        <h2>Preview Status</h2>
+                        <p>Static preview block for now.</p>
+                    </div>
+                </div>
+
+                <div class="status-stack">
+                    <span class="status-badge status-draft">Draft</span>
+                    <span class="status-badge status-progress">Ready for review</span>
+                </div>
+            </article>
+        </aside>
+    </div>
+</section>

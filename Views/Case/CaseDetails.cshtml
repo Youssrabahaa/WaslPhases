@@ -1,0 +1,152 @@
+@{
+    ViewData["Title"] = "Case Details";
+}
+
+<section class="health-page">
+    <div class="health-hero compact-hero">
+        <div>
+            <span class="health-kicker">Case Module</span>
+            <h1 class="health-title">Case Details</h1>
+            <p class="health-subtitle">A structured detail page with summary, notes, and a side snapshot for quick coordination.</p>
+        </div>
+        <div class="hero-actions">
+            <a class="ghost-action" asp-controller="Case" asp-action="MyCases">Back to cases</a>
+            <a class="primary-action" asp-controller="Case" asp-action="EditCase">Edit case</a>
+        </div>
+    </div>
+
+    <div class="content-grid">
+        <section class="content-main">
+            <article class="health-panel">
+                <div class="panel-heading">
+                    <div>
+                        <h2>Follow-up for a child with multiple dental caries</h2>
+                        <p>Pediatric dentistry case submitted for a supervised home visit.</p>
+                    </div>
+                    <span class="status-badge status-open">Open</span>
+                </div>
+
+                <div class="info-grid">
+                    <div class="info-block">
+                        <span>Service type</span>
+                        <strong>Home Visit</strong>
+                    </div>
+                    <div class="info-block">
+                        <span>Urgency</span>
+                        <strong>Priority</strong>
+                    </div>
+                    <div class="info-block">
+                        <span>Budget</span>
+                        <strong>180 - 250 EGP</strong>
+                    </div>
+                    <div class="info-block">
+                        <span>Location</span>
+                        <strong>Cairo, Nasr City</strong>
+                    </div>
+                </div>
+
+                <div class="detail-section">
+                    <h3>Case summary</h3>
+                    <p>
+                        The family is looking for a supervised dental student to help with examination, preventive guidance, and an easy-to-follow treatment plan for a child who needs consistent follow-up.
+                    </p>
+                </div>
+
+                <div class="detail-section">
+                    <h3>Notes for care coordination</h3>
+                    <ul class="clean-list">
+                        <li>Parent wants evening appointments when possible.</li>
+                        <li>Phone reminders are preferred one day before visits.</li>
+                        <li>Supervisor approval is required before confirmation.</li>
+                    </ul>
+                </div>
+            </article>
+
+            <article class="health-panel">
+                <div class="panel-heading">
+                    <div>
+                        <h2>Timeline</h2>
+                        <p>Simple activity feed placeholder.</p>
+                    </div>
+                </div>
+
+                <div class="timeline-list">
+                    <div class="timeline-item">
+                        <span class="timeline-dot timeline-blue"></span>
+                        <div>
+                            <strong>Case created</strong>
+                            <p>Initial case submitted by the patient profile.</p>
+                        </div>
+                        <span class="timeline-time">10:45 AM</span>
+                    </div>
+                    <div class="timeline-item">
+                        <span class="timeline-dot timeline-teal"></span>
+                        <div>
+                            <strong>Student notified</strong>
+                            <p>Matching queue updated for pediatric candidates.</p>
+                        </div>
+                        <span class="timeline-time">11:20 AM</span>
+                    </div>
+                    <div class="timeline-item">
+                        <span class="timeline-dot timeline-amber"></span>
+                        <div>
+                            <strong>Awaiting review</strong>
+                            <p>Supervisor confirmation pending.</p>
+                        </div>
+                        <span class="timeline-time">12:00 PM</span>
+                    </div>
+                </div>
+            </article>
+        </section>
+
+        <aside class="content-side">
+            <article class="health-panel side-accent">
+                <div class="panel-heading">
+                    <div>
+                        <h2>Quick Snapshot</h2>
+                        <p>Key metadata at a glance.</p>
+                    </div>
+                </div>
+
+                <dl class="stacked-list">
+                    <div>
+                        <dt>Case ID</dt>
+                        <dd>#CASE-1024</dd>
+                    </div>
+                    <div>
+                        <dt>Patient</dt>
+                        <dd>Mona Ahmed Abdelrahman</dd>
+                    </div>
+                    <div>
+                        <dt>Created</dt>
+                        <dd>28 Apr 2026</dd>
+                    </div>
+                    <div>
+                        <dt>Preferred contact</dt>
+                        <dd>Phone call</dd>
+                    </div>
+                </dl>
+            </article>
+
+            <article class="health-panel">
+                <div class="panel-heading">
+                    <div>
+                        <h2>Quick Actions</h2>
+                        <p>Static CTA list for now.</p>
+                    </div>
+                </div>
+
+                <div class="action-list">
+                    <a class="action-tile" asp-controller="Case" asp-action="EditCase">
+                        <strong>Edit this case</strong>
+                        <span>Update service, urgency, or location details.</span>
+                    </a>
+                    <a class="action-tile" asp-controller="Case" asp-action="DeleteCase">
+                        <strong>Delete draft</strong>
+                        <span>Use when the case should be removed before matching.</span>
+                    </a>
+                </div>
+            </article>
+        </aside>
+    </div>
+</section>

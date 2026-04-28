@@ -1,0 +1,174 @@
+@{
+    ViewData["Title"] = "Patient Profile";
+}
+
+<section class="health-page">
+    <div class="health-hero">
+        <div>
+            <span class="health-kicker">Patient Module</span>
+            <h1 class="health-title">Mona Ahmed Abdelrahman</h1>
+            <p class="health-subtitle">A clean patient snapshot with profile details, care preferences, and a quick jump into active cases.</p>
+        </div>
+        <div class="hero-actions">
+            <a class="primary-action" asp-controller="Patients" asp-action="EditProfile">Edit profile</a>
+            <a class="ghost-action" asp-controller="Case" asp-action="MyCases">View cases</a>
+        </div>
+    </div>
+
+    <div class="metric-strip">
+        <article class="mini-kpi">
+            <span class="mini-kpi-label">Active cases</span>
+            <strong>03</strong>
+            <span class="mini-kpi-meta">1 needs review</span>
+        </article>
+        <article class="mini-kpi">
+            <span class="mini-kpi-label">Preferred service</span>
+            <strong>Home Visit</strong>
+            <span class="mini-kpi-meta">Mon, Wed, Sat</span>
+        </article>
+        <article class="mini-kpi">
+            <span class="mini-kpi-label">Response rate</span>
+            <strong>94%</strong>
+            <span class="mini-kpi-meta">Usually replies in 2h</span>
+        </article>
+    </div>
+
+    <div class="content-grid">
+        <section class="content-main">
+            <article class="health-panel">
+                <div class="panel-heading">
+                    <div>
+                        <h2>Profile Overview</h2>
+                        <p>Core patient identity and contact details.</p>
+                    </div>
+                </div>
+
+                <div class="info-grid">
+                    <div class="info-block">
+                        <span>Phone</span>
+                        <strong>01010000001</strong>
+                    </div>
+                    <div class="info-block">
+                        <span>Email</span>
+                        <strong>mona.ahmed@example.com</strong>
+                    </div>
+                    <div class="info-block">
+                        <span>Date of birth</span>
+                        <strong>12 May 2019</strong>
+                    </div>
+                    <div class="info-block">
+                        <span>Gender</span>
+                        <strong>Female</strong>
+                    </div>
+                </div>
+            </article>
+
+            <article class="health-panel">
+                <div class="panel-heading">
+                    <div>
+                        <h2>Care Preferences</h2>
+                        <p>Simple placeholders that match a healthcare coordination flow.</p>
+                    </div>
+                </div>
+
+                <div class="tag-row">
+                    <span class="soft-tag soft-tag-teal">Home visits</span>
+                    <span class="soft-tag soft-tag-amber">Parent present</span>
+                    <span class="soft-tag soft-tag-rose">Evening slots</span>
+                    <span class="soft-tag soft-tag-blue">Cairo - Nasr City</span>
+                </div>
+
+                <p class="body-copy">
+                    The family prefers supervised treatment with clear follow-up notes after each session. They are comfortable with phone-based coordination and short reminder calls before appointments.
+                </p>
+            </article>
+
+            <article class="health-panel">
+                <div class="panel-heading">
+                    <div>
+                        <h2>Recent Case Activity</h2>
+                        <p>Latest touchpoints in the patient journey.</p>
+                    </div>
+                    <a class="text-link" asp-controller="Case" asp-action="MyCases">See all</a>
+                </div>
+
+                <div class="timeline-list">
+                    <div class="timeline-item">
+                        <span class="timeline-dot timeline-blue"></span>
+                        <div>
+                            <strong>New follow-up case submitted</strong>
+                            <p>Pediatric dentistry review created for a 6-year-old child.</p>
+                        </div>
+                        <span class="timeline-time">Today</span>
+                    </div>
+                    <div class="timeline-item">
+                        <span class="timeline-dot timeline-teal"></span>
+                        <div>
+                            <strong>Case matched with a student</strong>
+                            <p>Shortlisted for supervised home assessment next week.</p>
+                        </div>
+                        <span class="timeline-time">Yesterday</span>
+                    </div>
+                    <div class="timeline-item">
+                        <span class="timeline-dot timeline-amber"></span>
+                        <div>
+                            <strong>Reminder sent</strong>
+                            <p>Family received a phone reminder for the session window.</p>
+                        </div>
+                        <span class="timeline-time">2 days ago</span>
+                    </div>
+                </div>
+            </article>
+        </section>
+
+        <aside class="content-side">
+            <article class="health-panel side-accent">
+                <div class="panel-heading">
+                    <div>
+                        <h2>Patient Snapshot</h2>
+                        <p>Quick reference block.</p>
+                    </div>
+                </div>
+
+                <dl class="stacked-list">
+                    <div>
+                        <dt>Primary guardian</dt>
+                        <dd>Ahmed Abdelrahman</dd>
+                    </div>
+                    <div>
+                        <dt>Preferred contact</dt>
+                        <dd>Phone call</dd>
+                    </div>
+                    <div>
+                        <dt>Service history</dt>
+                        <dd>3 completed visits</dd>
+                    </div>
+                    <div>
+                        <dt>Last update</dt>
+                        <dd>28 Apr 2026</dd>
+                    </div>
+                </dl>
+            </article>
+
+            <article class="health-panel">
+                <div class="panel-heading">
+                    <div>
+                        <h2>Next Best Actions</h2>
+                        <p>Useful CTA area for later logic.</p>
+                    </div>
+                </div>
+
+                <div class="action-list">
+                    <a class="action-tile" asp-controller="Case" asp-action="CreateCase">
+                        <strong>Create a new case</strong>
+                        <span>Start a new supervised treatment request.</span>
+                    </a>
+                    <a class="action-tile" asp-controller="Patients" asp-action="EditProfile">
+                        <strong>Update profile details</strong>
+                        <span>Refresh contact data and preferences.</span>
+                    </a>
+                </div>
+            </article>
+        </aside>
+    </div>
+</section>

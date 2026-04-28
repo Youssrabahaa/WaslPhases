@@ -1,0 +1,21 @@
+@{
+    ViewData["Title"] = "Delete Case";
+}
+
+<section class="health-page">
+    <div class="single-state-wrap">
+        <div class="state-card danger-state">
+            <div class="state-icon state-icon-danger">
+                <svg viewBox="0 0 24 24" aria-hidden="true">
+                    <path d="M12 9v4m0 4h.01M10.29 3.86 1.82 18A2 2 0 0 0 3.53 21h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0Z" />
+                </svg>
+            </div>
+            <h2>Delete this case?</h2>
+            <p>This is a simple placeholder confirmation screen until real delete logic is added.</p>
+            <div class="form-actions center-actions">
+                <button type="button" class="danger-action">Delete case</button>
+                <a class="ghost-action" asp-controller="Case" asp-action="CaseDetails">Cancel</a>
+            </div>
+        </div>
+    </div>
+</section>

@@ -6,11 +6,16 @@ public class PatientsController : Controller
 {
     public IActionResult Profile()
     {
-        return View();
+        return View("~/Views/Patient/Profile.cshtml");
+    }
+
+    public IActionResult EditProfile()
+    {
+        return View("~/Views/Patient/EditProfile.cshtml");
     }
 
     public IActionResult PatientProfile()
     {
-        return View();
+        return View("~/Views/Patient/Profile.cshtml");
     }
 }

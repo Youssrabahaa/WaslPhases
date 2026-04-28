@@ -1,0 +1,113 @@
+@{
+    ViewData["Title"] = "Edit Profile";
+}
+
+<section class="health-page">
+    <div class="health-hero compact-hero">
+        <div>
+            <span class="health-kicker">Patient Module</span>
+            <h1 class="health-title">Edit Patient Profile</h1>
+            <p class="health-subtitle">A soft, structured edit screen inspired by modern healthcare admin tools.</p>
+        </div>
+        <div class="hero-actions">
+            <a class="ghost-action" asp-controller="Patients" asp-action="Profile">Back to profile</a>
+        </div>
+    </div>
+
+    <div class="content-grid">
+        <section class="content-main">
+            <form class="health-panel form-panel">
+                <div class="panel-heading">
+                    <div>
+                        <h2>Basic Information</h2>
+                        <p>Keep the form minimal and readable.</p>
+                    </div>
+                </div>
+
+                <div class="form-grid">
+                    <label class="field-group">
+                        <span>Full name</span>
+                        <input class="form-control modern-input" value="Mona Ahmed Abdelrahman" />
+                    </label>
+                    <label class="field-group">
+                        <span>Phone number</span>
+                        <input class="form-control modern-input" value="01010000001" />
+                    </label>
+                    <label class="field-group">
+                        <span>Email address</span>
+                        <input class="form-control modern-input" value="mona.ahmed@example.com" />
+                    </label>
+                    <label class="field-group">
+                        <span>Date of birth</span>
+                        <input type="date" class="form-control modern-input" value="2019-05-12" />
+                    </label>
+                    <label class="field-group">
+                        <span>Gender</span>
+                        <select class="form-select modern-input">
+                            <option>Female</option>
+                            <option>Male</option>
+                        </select>
+                    </label>
+                    <label class="field-group">
+                        <span>Preferred service</span>
+                        <select class="form-select modern-input">
+                            <option>Home Visit</option>
+                            <option>In-Clinic Session</option>
+                            <option>Online Follow-Up</option>
+                        </select>
+                    </label>
+                    <label class="field-group">
+                        <span>Governorate</span>
+                        <input class="form-control modern-input" value="Cairo" />
+                    </label>
+                    <label class="field-group">
+                        <span>City</span>
+                        <input class="form-control modern-input" value="Nasr City" />
+                    </label>
+                </div>
+
+                <label class="field-group">
+                    <span>Clinical notes</span>
+                    <textarea class="form-control modern-input modern-textarea" rows="5">Young child who benefits from regular follow-up and simple family instructions after every visit.</textarea>
+                </label>
+
+                <div class="form-actions">
+                    <button type="button" class="primary-action">Save changes</button>
+                    <a class="ghost-action" asp-controller="Patients" asp-action="Profile">Cancel</a>
+                </div>
+            </form>
+        </section>
+
+        <aside class="content-side">
+            <article class="health-panel side-accent">
+                <div class="panel-heading">
+                    <div>
+                        <h2>Editing Notes</h2>
+                        <p>Supportive helper copy for the operator.</p>
+                    </div>
+                </div>
+
+                <ul class="clean-list">
+                    <li>Keep contact details current before creating a new case.</li>
+                    <li>Use short notes that future coordinators can scan quickly.</li>
+                    <li>Prefer consistent wording for service and location fields.</li>
+                </ul>
+            </article>
+
+            <article class="health-panel">
+                <div class="panel-heading">
+                    <div>
+                        <h2>Profile Status</h2>
+                        <p>Placeholder status card.</p>
+                    </div>
+                </div>
+
+                <div class="status-stack">
+                    <span class="status-badge status-open">Profile complete</span>
+                    <span class="status-badge status-progress">Phone verified</span>
+                    <span class="status-badge status-draft">Medical notes pending review</span>
+                </div>
+            </article>
+        </aside>
+    </div>
+</section>

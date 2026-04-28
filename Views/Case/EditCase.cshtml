@@ -1,0 +1,105 @@
+@{
+    ViewData["Title"] = "Edit Case";
+}
+
+<section class="health-page">
+    <div class="health-hero compact-hero">
+        <div>
+            <span class="health-kicker">Case Module</span>
+            <h1 class="health-title">Edit Case</h1>
+            <p class="health-subtitle">A small edit surface that stays close to the create flow.</p>
+        </div>
+        <div class="hero-actions">
+            <a class="ghost-action" asp-controller="Case" asp-action="CaseDetails">Back to details</a>
+        </div>
+    </div>
+
+    <div class="content-grid">
+        <section class="content-main">
+            <form class="health-panel form-panel">
+                <div class="panel-heading">
+                    <div>
+                        <h2>Update Case Information</h2>
+                        <p>Prefilled placeholders so the screen feels real even before binding.</p>
+                    </div>
+                </div>
+
+                <div class="form-grid">
+                    <label class="field-group">
+                        <span>Case title</span>
+                        <input class="form-control modern-input" value="Follow-up for a child with multiple dental caries" />
+                    </label>
+                    <label class="field-group">
+                        <span>Service type</span>
+                        <select class="form-select modern-input">
+                            <option selected>Home Visit</option>
+                            <option>In-Clinic Session</option>
+                            <option>Online Follow-Up</option>
+                        </select>
+                    </label>
+                    <label class="field-group">
+                        <span>Treatment category</span>
+                        <select class="form-select modern-input">
+                            <option selected>Pediatric Dentistry</option>
+                            <option>Restorative Dentistry</option>
+                            <option>Oral Surgery</option>
+                        </select>
+                    </label>
+                    <label class="field-group">
+                        <span>Status</span>
+                        <select class="form-select modern-input">
+                            <option selected>Open</option>
+                            <option>In progress</option>
+                            <option>Completed</option>
+                            <option>Archived</option>
+                        </select>
+                    </label>
+                    <label class="field-group">
+                        <span>Budget from</span>
+                        <input class="form-control modern-input" value="180" />
+                    </label>
+                    <label class="field-group">
+                        <span>Budget to</span>
+                        <input class="form-control modern-input" value="250" />
+                    </label>
+                </div>
+
+                <label class="field-group">
+                    <span>Description</span>
+                    <textarea class="form-control modern-input modern-textarea" rows="6">The family is looking for a supervised dental student to help with examination, preventive guidance, and a treatment plan for a 6-year-old child.</textarea>
+                </label>
+
+                <div class="form-actions">
+                    <button type="button" class="primary-action">Save case</button>
+                    <a class="ghost-action" asp-controller="Case" asp-action="CaseDetails">Discard changes</a>
+                </div>
+            </form>
+        </section>
+
+        <aside class="content-side">
+            <article class="health-panel side-accent">
+                <div class="panel-heading">
+                    <div>
+                        <h2>Update Summary</h2>
+                        <p>Good place for future audit info.</p>
+                    </div>
+                </div>
+
+                <dl class="stacked-list">
+                    <div>
+                        <dt>Last edited by</dt>
+                        <dd>Patient coordinator</dd>
+                    </div>
+                    <div>
+                        <dt>Last saved</dt>
+                        <dd>28 Apr 2026, 1:20 PM</dd>
+                    </div>
+                    <div>
+                        <dt>Approval</dt>
+                        <dd>Supervisor required</dd>
+                    </div>
+                </dl>
+            </article>
+        </aside>
+    </div>
+</section>
