@@ -1,17 +1,17 @@
 @{
-    ViewData["Title"] = "Case Details";
+    ViewData["Title"] = "تفاصيل الحالة";
 }
 
 <section class="health-page">
     <div class="health-hero compact-hero">
         <div>
-            <span class="health-kicker">Case Module</span>
-            <h1 class="health-title">Case Details</h1>
-            <p class="health-subtitle">A structured detail page with summary, notes, and a side snapshot for quick coordination.</p>
+            <span class="health-kicker">وحدة الحالات</span>
+            <h1 class="health-title">تفاصيل الحالة</h1>
+            <p class="health-subtitle">صفحة تفاصيل منظمة تعرض الملخص والملاحظات وصورة جانبية سريعة لتسهيل التنسيق والمتابعة.</p>
         </div>
         <div class="hero-actions">
-            <a class="ghost-action" asp-controller="Case" asp-action="MyCases">Back to cases</a>
-            <a class="primary-action" asp-controller="Case" asp-action="EditCase">Edit case</a>
+            <a class="ghost-action" asp-controller="Case" asp-action="MyCases">العودة إلى الحالات</a>
+            <a class="primary-action" asp-controller="Case" asp-action="EditCase">تعديل الحالة</a>
         </div>
     </div>
 
@@ -20,44 +20,44 @@
             <article class="health-panel">
                 <div class="panel-heading">
                     <div>
-                        <h2>Follow-up for a child with multiple dental caries</h2>
-                        <p>Pediatric dentistry case submitted for a supervised home visit.</p>
+                        <h2>متابعة لطفل يعاني من تسوسات متعددة بالأسنان</h2>
+                        <p>حالة في طب أسنان الأطفال تم تقديمها لزيارة منزلية تحت إشراف.</p>
                     </div>
-                    <span class="status-badge status-open">Open</span>
+                    <span class="status-badge status-open">مفتوحة</span>
                 </div>
 
                 <div class="info-grid">
                     <div class="info-block">
-                        <span>Service type</span>
-                        <strong>Home Visit</strong>
+                        <span>نوع الخدمة</span>
+                        <strong>زيارة منزلية</strong>
                     </div>
                     <div class="info-block">
-                        <span>Urgency</span>
-                        <strong>Priority</strong>
+                        <span>الأولوية</span>
+                        <strong>أولوية</strong>
                     </div>
                     <div class="info-block">
-                        <span>Budget</span>
-                        <strong>180 - 250 EGP</strong>
+                        <span>الميزانية</span>
+                        <strong>180 - 250 ج.م</strong>
                     </div>
                     <div class="info-block">
-                        <span>Location</span>
-                        <strong>Cairo, Nasr City</strong>
+                        <span>الموقع</span>
+                        <strong>القاهرة، مدينة نصر</strong>
                     </div>
                 </div>
 
                 <div class="detail-section">
-                    <h3>Case summary</h3>
+                    <h3>ملخص الحالة</h3>
                     <p>
-                        The family is looking for a supervised dental student to help with examination, preventive guidance, and an easy-to-follow treatment plan for a child who needs consistent follow-up.
+                        الأسرة تبحث عن طالب طب أسنان تحت إشراف للمساعدة في الفحص، والتوجيه الوقائي، ووضع خطة علاج واضحة لطفل يحتاج إلى متابعة منتظمة.
                     </p>
                 </div>
 
                 <div class="detail-section">
-                    <h3>Notes for care coordination</h3>
+                    <h3>ملاحظات التنسيق والمتابعة</h3>
                     <ul class="clean-list">
-                        <li>Parent wants evening appointments when possible.</li>
-                        <li>Phone reminders are preferred one day before visits.</li>
-                        <li>Supervisor approval is required before confirmation.</li>
+                        <li>الأسرة تفضل المواعيد المسائية متى أمكن.</li>
+                        <li>المكالمات التذكيرية مطلوبة قبل الزيارة بيوم.</li>
+                        <li>يلزم اعتماد المشرف قبل تأكيد الحالة.</li>
                     </ul>
                 </div>
             </article>
@@ -65,8 +65,8 @@
             <article class="health-panel">
                 <div class="panel-heading">
                     <div>
-                        <h2>Timeline</h2>
-                        <p>Simple activity feed placeholder.</p>
+                        <h2>الخط الزمني</h2>
+                        <p>معاينة بسيطة لتسلسل النشاطات المرتبطة بالحالة.</p>
                     </div>
                 </div>
 
@@ -74,26 +74,26 @@
                     <div class="timeline-item">
                         <span class="timeline-dot timeline-blue"></span>
                         <div>
-                            <strong>Case created</strong>
-                            <p>Initial case submitted by the patient profile.</p>
+                            <strong>تم إنشاء الحالة</strong>
+                            <p>تم إرسال الطلب الأولي من خلال ملف المريض.</p>
                         </div>
-                        <span class="timeline-time">10:45 AM</span>
+                        <span class="timeline-time">10:45 ص</span>
                     </div>
                     <div class="timeline-item">
                         <span class="timeline-dot timeline-teal"></span>
                         <div>
-                            <strong>Student notified</strong>
-                            <p>Matching queue updated for pediatric candidates.</p>
+                            <strong>تم إشعار الطالب</strong>
+                            <p>تم تحديث قائمة الترشيح للطلاب المناسبين لهذا النوع من الحالات.</p>
                         </div>
-                        <span class="timeline-time">11:20 AM</span>
+                        <span class="timeline-time">11:20 ص</span>
                     </div>
                     <div class="timeline-item">
                         <span class="timeline-dot timeline-amber"></span>
                         <div>
-                            <strong>Awaiting review</strong>
-                            <p>Supervisor confirmation pending.</p>
+                            <strong>بانتظار المراجعة</strong>
+                            <p>اعتماد المشرف ما يزال قيد الانتظار.</p>
                         </div>
-                        <span class="timeline-time">12:00 PM</span>
+                        <span class="timeline-time">12:00 م</span>
                     </div>
                 </div>
             </article>
@@ -103,27 +103,27 @@
             <article class="health-panel side-accent">
                 <div class="panel-heading">
                     <div>
-                        <h2>Quick Snapshot</h2>
-                        <p>Key metadata at a glance.</p>
+                        <h2>ملخص سريع</h2>
+                        <p>أهم البيانات المساعدة في نظرة واحدة.</p>
                     </div>
                 </div>
 
                 <dl class="stacked-list">
                     <div>
-                        <dt>Case ID</dt>
+                        <dt>رقم الحالة</dt>
                         <dd>#CASE-1024</dd>
                     </div>
                     <div>
-                        <dt>Patient</dt>
-                        <dd>Mona Ahmed Abdelrahman</dd>
+                        <dt>المريض</dt>
+                        <dd>منى أحمد عبدالرحمن</dd>
                     </div>
                     <div>
-                        <dt>Created</dt>
-                        <dd>28 Apr 2026</dd>
+                        <dt>تاريخ الإنشاء</dt>
+                        <dd>28 أبريل 2026</dd>
                     </div>
                     <div>
-                        <dt>Preferred contact</dt>
-                        <dd>Phone call</dd>
+                        <dt>وسيلة التواصل المفضلة</dt>
+                        <dd>مكالمة هاتفية</dd>
                     </div>
                 </dl>
             </article>
@@ -131,19 +131,19 @@
             <article class="health-panel">
                 <div class="panel-heading">
                     <div>
-                        <h2>Quick Actions</h2>
-                        <p>Static CTA list for now.</p>
+                        <h2>إجراءات سريعة</h2>
+                        <p>قائمة ثابتة حاليًا وقابلة للتطوير لاحقًا.</p>
                     </div>
                 </div>
 
                 <div class="action-list">
                     <a class="action-tile" asp-controller="Case" asp-action="EditCase">
-                        <strong>Edit this case</strong>
-                        <span>Update service, urgency, or location details.</span>
+                        <strong>تعديل هذه الحالة</strong>
+                        <span>حدّث نوع الخدمة أو الأولوية أو بيانات الموقع.</span>
                     </a>
                     <a class="action-tile" asp-controller="Case" asp-action="DeleteCase">
-                        <strong>Delete draft</strong>
-                        <span>Use when the case should be removed before matching.</span>
+                        <strong>حذف المسودة</strong>
+                        <span>استخدم هذا الخيار إذا كان يجب إزالة الحالة قبل بدء الترشيح.</span>
                     </a>
                 </div>
             </article>

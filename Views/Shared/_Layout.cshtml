@@ -1,45 +1,97 @@
-﻿<!DOCTYPE html>
-<html lang="en">
+@{
+    var currentController = ViewContext.RouteData.Values["controller"]?.ToString() ?? string.Empty;
+    var currentAction = ViewContext.RouteData.Values["action"]?.ToString() ?? string.Empty;
+
+    string NavLinkClass(string controller, string action)
+    {
+        var isActive =
+            string.Equals(currentController, controller, StringComparison.OrdinalIgnoreCase) &&
+            string.Equals(currentAction, action, StringComparison.OrdinalIgnoreCase);
+
+        return isActive ? "app-nav-link active" : "app-nav-link";
+    }
+
+    string QuickLinkClass(string controller, string action)
+    {
+        var isActive =
+            string.Equals(currentController, controller, StringComparison.OrdinalIgnoreCase) &&
+            string.Equals(currentAction, action, StringComparison.OrdinalIgnoreCase);
+
+        return isActive ? "app-quick-link active" : "app-quick-link";
+    }
+}
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - phase_1</title>
+    <title>@ViewData["Title"] - وصل</title>
     <script type="importmap"></script>
-    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.rtl.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/phase_1.styles.css" asp-append-version="true" />
 </head>
 <body>
-    <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
-            <div class="container-fluid">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">phase_1</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
+    <header class="app-shell-header">
+        <nav class="navbar navbar-expand-lg app-shell-nav">
+            <div class="container">
+                <a class="app-brand" asp-area="" asp-controller="Home" asp-action="Index">
+                    <span class="app-brand-mark">و</span>
+                    <span>
+                        <strong>لوحة وصل</strong>
+                        <small>ادخل على صفحاتك بسرعة</small>
+                    </span>
+                </a>
+                <button class="navbar-toggler app-nav-toggle" type="button" data-bs-toggle="collapse" data-bs-target="#appShellNav" aria-controls="appShellNav"
+                        aria-expanded="false" aria-label="تبديل التنقل">
                     <span class="navbar-toggler-icon"></span>
                 </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                    <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-                        </li>
-                    </ul>
+
+                <div class="collapse navbar-collapse app-shell-collapse" id="appShellNav">
+                    <div class="app-nav-links">
+                        <a class="@NavLinkClass("Home", "Index")" asp-area="" asp-controller="Home" asp-action="Index">لوحة التحكم</a>
+                        <a class="@NavLinkClass("Case", "MyCases")" asp-area="" asp-controller="Case" asp-action="MyCases">حالاتي</a>
+                        <a class="@NavLinkClass("Case", "CreateCase")" asp-area="" asp-controller="Case" asp-action="CreateCase">إنشاء حالة</a>
+                        <a class="@NavLinkClass("Patients", "Profile")" asp-area="" asp-controller="Patients" asp-action="Profile">ملف المريض</a>
+                        <a class="@NavLinkClass("Patients", "EditProfile")" asp-area="" asp-controller="Patients" asp-action="EditProfile">تعديل الملف</a>
+                    </div>
+
+                    <div class="app-shell-actions">
+                        <a class="primary-action app-header-action" asp-area="" asp-controller="Case" asp-action="MyCases">الانتقال إلى الحالات</a>
+                    </div>
                 </div>
             </div>
         </nav>
+
+        <div class="app-quick-strip">
+            <div class="container">
+                <div class="app-quick-links">
+                    <span class="app-quick-label">وصول سريع</span>
+                    <a class="@QuickLinkClass("Case", "CaseDetails")" asp-area="" asp-controller="Case" asp-action="CaseDetails">تفاصيل الحالة</a>
+                    <a class="@QuickLinkClass("Case", "EditCase")" asp-area="" asp-controller="Case" asp-action="EditCase">تعديل الحالة</a>
+                    <a class="@QuickLinkClass("Case", "DeleteCase")" asp-area="" asp-controller="Case" asp-action="DeleteCase">حذف الحالة</a>
+                    <a class="@QuickLinkClass("Home", "Privacy")" asp-area="" asp-controller="Home" asp-action="Privacy">الخصوصية</a>
+                </div>
+            </div>
+        </div>
     </header>
-    <div class="container">
+
+    <div class="container app-shell-main">
         <main role="main" class="pb-3">
             @RenderBody()
         </main>
     </div>
 
-    <footer class="border-top footer text-muted">
+    <footer class="app-footer">
         <div class="container">
-            &copy; 2026 - phase_1 - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+            <div class="app-footer-content">
+                <span>&copy; 2026 - وصل</span>
+                <div class="app-footer-links">
+                    <a asp-area="" asp-controller="Home" asp-action="Index">لوحة التحكم</a>
+                    <a asp-area="" asp-controller="Case" asp-action="MyCases">حالاتي</a>
+                    <a asp-area="" asp-controller="Patients" asp-action="Profile">ملف المريض</a>
+                </div>
+            </div>
         </div>
     </footer>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
