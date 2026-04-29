@@ -1,0 +1,69 @@
+@{
+    ViewData["Title"] = "إضافة تقييم";
+}
+
+<section class="health-page">
+    <div class="health-hero compact-hero">
+        <div>
+            <span class="health-kicker">Add Review</span>
+            <h1 class="health-title">سجل تقييم واضح بعد اكتمال الخدمة.</h1>
+            <p class="health-subtitle">Review / Rating module جاهز لاختيار النجوم وكتابة تعليق مختصر.</p>
+        </div>
+        <div class="hero-actions">
+            <a class="ghost-action" asp-controller="Review" asp-action="ViewReviews">عرض التقييمات</a>
+        </div>
+    </div>
+
+    <div class="content-grid">
+        <section class="content-main">
+            <form asp-controller="Review" asp-action="AddReview" method="post" class="health-panel form-panel" data-loading-form>
+                <div asp-validation-summary="ModelOnly" class="alert-soft-danger"></div>
+
+                <label class="field-group">
+                    <span>التقييم</span>
+                    <select class="form-select modern-input" name="rating">
+                        <option value="5">5 نجوم - ممتاز</option>
+                        <option value="4">4 نجوم - جيد جدا</option>
+                        <option value="3">3 نجوم - جيد</option>
+                        <option value="2">2 نجوم - يحتاج تحسين</option>
+                        <option value="1">1 نجمة - تجربة ضعيفة</option>
+                    </select>
+                </label>
+
+                <div class="rating-row" aria-hidden="true">
+                    <span class="star">★</span>
+                    <span class="star">★</span>
+                    <span class="star">★</span>
+                    <span class="star">★</span>
+                    <span class="star">★</span>
+                </div>
+
+                <label class="field-group">
+                    <span>تعليق اختياري</span>
+                    <textarea class="form-control modern-input modern-textarea" name="comment" rows="6" placeholder="اكتب ملاحظة تساعد على تحسين الخدمة."></textarea>
+                </label>
+
+                <button type="submit" class="primary-action loading-button">
+                    <span class="button-label">حفظ التقييم</span>
+                    <span class="button-loader"></span>
+                </button>
+            </form>
+        </section>
+
+        <aside class="content-side">
+            <article class="health-panel side-accent">
+                <div class="panel-heading">
+                    <div>
+                        <h2>قبل التقييم</h2>
+                        <p>التقييم يظهر بعد اكتمال الجلسة أو المطابقة.</p>
+                    </div>
+                </div>
+                <ul class="clean-list">
+                    <li>اكتب تعليق عملي ومحترم.</li>
+                    <li>لا تشارك بيانات طبية حساسة داخل التعليق العام.</li>
+                    <li>استخدم البلاغات للمشاكل التي تحتاج تدخل إدارة.</li>
+                </ul>
+            </article>
+        </aside>
+    </div>
+</section>

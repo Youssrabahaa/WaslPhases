@@ -1,25 +1,3 @@
-@{
-    var currentController = ViewContext.RouteData.Values["controller"]?.ToString() ?? string.Empty;
-    var currentAction = ViewContext.RouteData.Values["action"]?.ToString() ?? string.Empty;
-
-    string NavLinkClass(string controller, string action)
-    {
-        var isActive =
-            string.Equals(currentController, controller, StringComparison.OrdinalIgnoreCase) &&
-            string.Equals(currentAction, action, StringComparison.OrdinalIgnoreCase);
-
-        return isActive ? "app-nav-link active" : "app-nav-link";
-    }
-
-    string QuickLinkClass(string controller, string action)
-    {
-        var isActive =
-            string.Equals(currentController, controller, StringComparison.OrdinalIgnoreCase) &&
-            string.Equals(currentAction, action, StringComparison.OrdinalIgnoreCase);
-
-        return isActive ? "app-quick-link active" : "app-quick-link";
-    }
-}
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
@@ -32,68 +10,27 @@
     <link rel="stylesheet" href="~/phase_1.styles.css" asp-append-version="true" />
 </head>
 <body>
-    <header class="app-shell-header">
-        <nav class="navbar navbar-expand-lg app-shell-nav">
-            <div class="container">
-                <a class="app-brand" asp-area="" asp-controller="Home" asp-action="Index">
-                    <span class="app-brand-mark">و</span>
-                    <span>
-                        <strong>لوحة وصل</strong>
-                        <small>ادخل على صفحاتك بسرعة</small>
-                    </span>
-                </a>
-                <button class="navbar-toggler app-nav-toggle" type="button" data-bs-toggle="collapse" data-bs-target="#appShellNav" aria-controls="appShellNav"
-                        aria-expanded="false" aria-label="تبديل التنقل">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
+    <div class="surface-orb surface-orb-one"></div>
+    <div class="surface-orb surface-orb-two"></div>
 
-                <div class="collapse navbar-collapse app-shell-collapse" id="appShellNav">
-                    <div class="app-nav-links">
-                        <a class="@NavLinkClass("Home", "Index")" asp-area="" asp-controller="Home" asp-action="Index">لوحة التحكم</a>
-                        <a class="@NavLinkClass("Case", "MyCases")" asp-area="" asp-controller="Case" asp-action="MyCases">حالاتي</a>
-                        <a class="@NavLinkClass("Case", "CreateCase")" asp-area="" asp-controller="Case" asp-action="CreateCase">إنشاء حالة</a>
-                        <a class="@NavLinkClass("Patients", "Profile")" asp-area="" asp-controller="Patients" asp-action="Profile">ملف المريض</a>
-                        <a class="@NavLinkClass("Patients", "EditProfile")" asp-area="" asp-controller="Patients" asp-action="EditProfile">تعديل الملف</a>
-                    </div>
-
-                    <div class="app-shell-actions">
-                        <a class="primary-action app-header-action" asp-area="" asp-controller="Case" asp-action="MyCases">الانتقال إلى الحالات</a>
-                    </div>
-                </div>
-            </div>
-        </nav>
-
-        <div class="app-quick-strip">
-            <div class="container">
-                <div class="app-quick-links">
-                    <span class="app-quick-label">وصول سريع</span>
-                    <a class="@QuickLinkClass("Case", "CaseDetails")" asp-area="" asp-controller="Case" asp-action="CaseDetails">تفاصيل الحالة</a>
-                    <a class="@QuickLinkClass("Case", "EditCase")" asp-area="" asp-controller="Case" asp-action="EditCase">تعديل الحالة</a>
-                    <a class="@QuickLinkClass("Case", "DeleteCase")" asp-area="" asp-controller="Case" asp-action="DeleteCase">حذف الحالة</a>
-                    <a class="@QuickLinkClass("Home", "Privacy")" asp-area="" asp-controller="Home" asp-action="Privacy">الخصوصية</a>
-                </div>
-            </div>
-        </div>
-    </header>
+    @await Html.PartialAsync("_Navbar")
 
     <div class="container app-shell-main">
-        <main role="main" class="pb-3">
+        @if (TempData["StatusMessage"] is string statusMessage)
+        {
+            <div class="app-toast" role="status">
+                <span class="app-toast-dot"></span>
+                @statusMessage
+            </div>
+        }
+
+        <main role="main">
             @RenderBody()
         </main>
     </div>
 
-    <footer class="app-footer">
-        <div class="container">
-            <div class="app-footer-content">
-                <span>&copy; 2026 - وصل</span>
-                <div class="app-footer-links">
-                    <a asp-area="" asp-controller="Home" asp-action="Index">لوحة التحكم</a>
-                    <a asp-area="" asp-controller="Case" asp-action="MyCases">حالاتي</a>
-                    <a asp-area="" asp-controller="Patients" asp-action="Profile">ملف المريض</a>
-                </div>
-            </div>
-        </div>
-    </footer>
+    @await Html.PartialAsync("_Footer")
+
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>

@@ -1,0 +1,88 @@
+@{
+    ViewData["Title"] = "عرض التقرير";
+    var reportId = ViewData["ReportId"] ?? 1;
+}
+
+<section class="health-page">
+    <div class="health-hero compact-hero">
+        <div>
+            <span class="health-kicker">View Report</span>
+            <h1 class="health-title">تقرير رقم @reportId</h1>
+            <p class="health-subtitle">عرض واضح لحالة التقرير ومن قام بإرساله وما تم التعامل معه.</p>
+        </div>
+        <div class="hero-actions">
+            <a class="primary-action" asp-controller="Report" asp-action="AddReport">تقرير جديد</a>
+        </div>
+    </div>
+
+    <div class="content-grid">
+        <section class="content-main">
+            <article class="health-panel">
+                <div class="panel-heading">
+                    <div>
+                        <h2>ملخص التقرير</h2>
+                        <p>بيانات من `Report` model.</p>
+                    </div>
+                    <span class="status-badge status-pending">قيد المراجعة</span>
+                </div>
+                <div class="info-grid">
+                    <div class="info-block">
+                        <span>المُبلّغ</span>
+                        <strong>أحمد خالد منصور</strong>
+                    </div>
+                    <div class="info-block">
+                        <span>المستخدم المرتبط</span>
+                        <strong>منى أحمد عبدالرحمن</strong>
+                    </div>
+                    <div class="info-block">
+                        <span>الهدف</span>
+                        <strong>جلسة علاجية</strong>
+                    </div>
+                    <div class="info-block">
+                        <span>تاريخ الإنشاء</span>
+                        <strong>29 أبريل 2026</strong>
+                    </div>
+                </div>
+            </article>
+
+            <article class="health-panel">
+                <div class="panel-heading">
+                    <div>
+                        <h2>سبب التقرير</h2>
+                        <p>النص الكامل المرسل للمراجعة.</p>
+                    </div>
+                </div>
+                <p class="body-copy">تمت الجلسة الأولى بنجاح، لكن يلزم مراجعة المشرف للخطة المقترحة قبل تحديد الجلسة التالية.</p>
+            </article>
+        </section>
+
+        <aside class="content-side">
+            <article class="health-panel side-accent">
+                <div class="panel-heading">
+                    <div>
+                        <h2>مسار المعالجة</h2>
+                        <p>Timeline لحالة التقرير.</p>
+                    </div>
+                </div>
+                <div class="timeline-list">
+                    <div class="timeline-item">
+                        <span class="timeline-dot"></span>
+                        <div>
+                            <strong>تم إنشاء التقرير</strong>
+                            <p>وصل للإدارة للمراجعة.</p>
+                        </div>
+                        <span class="timeline-time">اليوم</span>
+                    </div>
+                    <div class="timeline-item">
+                        <span class="timeline-dot timeline-amber"></span>
+                        <div>
+                            <strong>بانتظار الإجراء</strong>
+                            <p>لم يتم تعيين مسؤول معالجة بعد.</p>
+                        </div>
+                        <span class="timeline-time">قادم</span>
+                    </div>
+                </div>
+            </article>
+        </aside>
+    </div>
+</section>

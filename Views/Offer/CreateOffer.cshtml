@@ -1,0 +1,85 @@
+@{
+    ViewData["Title"] = "تقديم عرض";
+    var caseId = ViewData["CaseId"] ?? 1;
+}
+
+<section class="health-page">
+    <div class="health-hero compact-hero">
+        <div>
+            <span class="health-kicker">Create Offer</span>
+            <h1 class="health-title">قدّم عرض واضح للمريض.</h1>
+            <p class="health-subtitle">العرض الجيد يوضح السعر، عدد الجلسات، والخطة المختصرة قبل قبول المريض.</p>
+        </div>
+        <div class="hero-actions">
+            <a class="ghost-action" asp-controller="Offer" asp-action="BrowseCases">العودة للحالات</a>
+        </div>
+    </div>
+
+    <div class="content-grid">
+        <section class="content-main">
+            <form asp-controller="Offer" asp-action="CreateOffer" method="post" class="health-panel form-panel" data-loading-form>
+                <input type="hidden" name="caseId" value="@caseId" />
+                <div asp-validation-summary="ModelOnly" class="alert-soft-danger"></div>
+
+                <div class="panel-heading">
+                    <div>
+                        <h2>تفاصيل العرض</h2>
+                        <p>كل الحقول مبنية لتطابق `Offer` model.</p>
+                    </div>
+                </div>
+
+                <div class="form-grid">
+                    <label class="field-group">
+                        <span>السعر المقترح</span>
+                        <input class="form-control modern-input" name="proposedPrice" inputmode="decimal" placeholder="220" />
+                    </label>
+                    <label class="field-group">
+                        <span>عدد الجلسات المتوقع</span>
+                        <input class="form-control modern-input" name="estimatedSessionsCount" inputmode="numeric" placeholder="2" />
+                    </label>
+                    <label class="field-group field-span-2">
+                        <span>رسالة للمريض</span>
+                        <textarea class="form-control modern-input modern-textarea" name="message" rows="6" placeholder="اشرح خطتك المختصرة، سبب السعر، وما يحتاجه المريض قبل الجلسة."></textarea>
+                    </label>
+                </div>
+
+                <div class="alert-soft-success">
+                    مثال لحالة جاهزية: الطالب موثق ويمكنه تقديم عروض على الحالات المفتوحة.
+                </div>
+
+                <div class="form-actions">
+                    <button type="submit" class="primary-action loading-button">
+                        <span class="button-label">إرسال العرض</span>
+                        <span class="button-loader"></span>
+                    </button>
+                    <a class="ghost-action" asp-controller="Offer" asp-action="BrowseCases">حفظ كمسودة</a>
+                </div>
+            </form>
+        </section>
+
+        <aside class="content-side">
+            <article class="health-panel side-accent">
+                <div class="panel-heading">
+                    <div>
+                        <h2>ملخص الحالة</h2>
+                        <p>مرجع سريع أثناء كتابة العرض.</p>
+                    </div>
+                </div>
+                <dl class="stacked-list">
+                    <div>
+                        <dt>العنوان</dt>
+                        <dd>متابعة لطفل يعاني من تسوسات متعددة</dd>
+                    </div>
+                    <div>
+                        <dt>الموقع</dt>
+                        <dd>القاهرة، مدينة نصر</dd>
+                    </div>
+                    <div>
+                        <dt>الميزانية</dt>
+                        <dd>180 - 250 ج.م</dd>
+                    </div>
+                </dl>
+            </article>
+        </aside>
+    </div>
+</section>

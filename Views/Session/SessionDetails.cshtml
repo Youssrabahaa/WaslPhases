@@ -1,0 +1,82 @@
+@{
+    ViewData["Title"] = "تفاصيل الجلسة";
+    var sessionId = ViewData["SessionId"] ?? 1;
+}
+
+<section class="health-page">
+    <div class="health-hero compact-hero">
+        <div>
+            <span class="health-kicker">Session Details</span>
+            <h1 class="health-title">جلسة رقم @sessionId</h1>
+            <p class="health-subtitle">تفاصيل الجلسة، حالتها، ومكانها مع إجراءات البدء والإنهاء.</p>
+        </div>
+        <div class="hero-actions">
+            <a class="ghost-action" asp-controller="Session" asp-action="SessionList">كل الجلسات</a>
+        </div>
+    </div>
+
+    <div class="content-grid">
+        <section class="content-main">
+            <article class="health-panel">
+                <div class="panel-heading">
+                    <div>
+                        <h2>بيانات الجلسة</h2>
+                        <p>حقول مباشرة من `Session` model.</p>
+                    </div>
+                    <span class="status-badge status-inprogress">Session in progress</span>
+                </div>
+                <div class="info-grid">
+                    <div class="info-block">
+                        <span>الموعد</span>
+                        <strong>29 أبريل 2026 - 5:00 م</strong>
+                    </div>
+                    <div class="info-block">
+                        <span>المكان</span>
+                        <strong>Kasr Al-Ainy Clinic</strong>
+                    </div>
+                    <div class="info-block">
+                        <span>الغرفة</span>
+                        <strong>C-12</strong>
+                    </div>
+                    <div class="info-block">
+                        <span>المشرف</span>
+                        <strong>د. هالة سمير</strong>
+                    </div>
+                </div>
+            </article>
+
+            <article class="health-panel">
+                <div class="panel-heading">
+                    <div>
+                        <h2>ملاحظات الجلسة</h2>
+                        <p>مساحة تجهيز للتقرير النهائي بعد انتهاء الجلسة.</p>
+                    </div>
+                </div>
+                <p class="body-copy">تم بدء الجلسة، والتقييم الأولي يشير إلى احتياج المريض لجلسة متابعة بعد أسبوع مع تعليمات وقائية قصيرة.</p>
+            </article>
+        </section>
+
+        <aside class="content-side">
+            <article class="health-panel side-accent">
+                <div class="panel-heading">
+                    <div>
+                        <h2>حالة التنفيذ</h2>
+                        <p>أزرار lifecycle للجلسة.</p>
+                    </div>
+                </div>
+                <div class="form-actions">
+                    <form asp-controller="Session" asp-action="StartSession" asp-route-id="@sessionId" method="post" data-loading-form>
+                        <button type="submit" class="primary-action loading-button">
+                            <span class="button-label">بدء الجلسة</span>
+                            <span class="button-loader"></span>
+                        </button>
+                    </form>
+                    <form asp-controller="Session" asp-action="EndSession" asp-route-id="@sessionId" method="post">
+                        <button type="submit" class="ghost-action">إنهاء الجلسة</button>
+                    </form>
+                    <a class="soft-action" asp-controller="Report" asp-action="AddReport">إضافة تقرير</a>
+                </div>
+            </article>
+        </aside>
+    </div>
+</section>

@@ -1,0 +1,68 @@
+@{
+    ViewData["Title"] = "الإشعارات";
+}
+
+<section class="health-page">
+    <div class="health-hero">
+        <div>
+            <span class="health-kicker">Notifications</span>
+            <h1 class="health-title">كل التنبيهات المهمة في مكان واحد.</h1>
+            <p class="health-subtitle">GetNotifications وMarkAsRead جاهزين كـ endpoints بسيطة لحد ما تتربط بخدمة إشعارات حقيقية.</p>
+        </div>
+        <div class="hero-actions">
+            <a class="ghost-action" asp-controller="Home" asp-action="Index">الرئيسية</a>
+        </div>
+    </div>
+
+    <div class="content-grid">
+        <section class="content-main">
+            <div class="notification-list">
+                <article class="notification-item unread">
+                    <span class="notification-glow"></span>
+                    <div>
+                        <strong>تم قبول عرض جديد</strong>
+                        <p>تم تحويل العرض إلى Match ويمكنك الآن متابعة الجلسات.</p>
+                    </div>
+                    <time>منذ 12 دقيقة</time>
+                </article>
+
+                <article class="notification-item unread">
+                    <span class="notification-glow"></span>
+                    <div>
+                        <strong>كود تحقق جديد</strong>
+                        <p>تم إرسال كود OTP إلى رقم الهاتف المسجل.</p>
+                    </div>
+                    <time>منذ ساعة</time>
+                </article>
+
+                <article class="notification-item">
+                    <span class="notification-glow"></span>
+                    <div>
+                        <strong>تقرير قيد المراجعة</strong>
+                        <p>تم إرسال تقرير الجلسة للمشرف وينتظر القرار.</p>
+                    </div>
+                    <time>أمس</time>
+                </article>
+            </div>
+        </section>
+
+        <aside class="content-side">
+            <article class="health-panel side-accent">
+                <div class="panel-heading">
+                    <div>
+                        <h2>Mark as read</h2>
+                        <p>زر تجريبي لمسؤولية MarkAsRead.</p>
+                    </div>
+                </div>
+                <form asp-controller="Notification" asp-action="MarkAsRead" asp-route-id="1" method="post" data-loading-form>
+                    <button type="submit" class="primary-action loading-button">
+                        <span class="button-label">تعليم كمقروء</span>
+                        <span class="button-loader"></span>
+                    </button>
+                </form>
+            </article>
+
+            @await Html.PartialAsync("_EmptyState")
+        </aside>
+    </div>
+</section>

@@ -1,0 +1,47 @@
+@{
+    var currentController = ViewContext.RouteData.Values["controller"]?.ToString() ?? string.Empty;
+    var currentAction = ViewContext.RouteData.Values["action"]?.ToString() ?? string.Empty;
+
+    string NavLinkClass(string controller, string? action = null)
+    {
+        var controllerMatches = string.Equals(currentController, controller, StringComparison.OrdinalIgnoreCase);
+        var actionMatches = action is null || string.Equals(currentAction, action, StringComparison.OrdinalIgnoreCase);
+        return controllerMatches && actionMatches ? "nav-pill active" : "nav-pill";
+    }
+}
+
+<header class="app-shell-header">
+    <nav class="navbar navbar-expand-xl app-navbar">
+        <div class="container">
+            <a class="app-brand" asp-controller="Home" asp-action="Index" aria-label="وصل">
+                <span class="app-brand-mark">و</span>
+                <span>
+                    <strong>وصل</strong>
+                    <small>Healthcare Matching Platform</small>
+                </span>
+            </a>
+
+            <button class="navbar-toggler app-nav-toggle" type="button" data-bs-toggle="collapse" data-bs-target="#mainNavigation"
+                    aria-controls="mainNavigation" aria-expanded="false" aria-label="فتح القائمة">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse app-navbar-collapse" id="mainNavigation">
+                <div class="app-nav-links">
+                    <a class="@NavLinkClass("Home", "Index")" asp-controller="Home" asp-action="Index">الرئيسية</a>
+                    <a class="@NavLinkClass("Offer", "BrowseCases")" asp-controller="Offer" asp-action="BrowseCases">تصفح الحالات</a>
+                    <a class="@NavLinkClass("Student")" asp-controller="Student" asp-action="Profile">ملف الطالب</a>
+                    <a class="@NavLinkClass("Session")" asp-controller="Session" asp-action="SessionList">الجلسات</a>
+                    <a class="@NavLinkClass("Report")" asp-controller="Report" asp-action="AddReport">التقارير</a>
+                    <a class="@NavLinkClass("Review")" asp-controller="Review" asp-action="ViewReviews">التقييمات</a>
+                    <a class="@NavLinkClass("Notification")" asp-controller="Notification" asp-action="GetNotifications">الإشعارات</a>
+                </div>
+
+                <div class="app-shell-actions">
+                    <a class="ghost-action compact-action" asp-controller="Auth" asp-action="Login">دخول</a>
+                    <a class="primary-action compact-action" asp-controller="Auth" asp-action="Register">حساب جديد</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+</header>

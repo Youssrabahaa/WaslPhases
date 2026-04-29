@@ -1,0 +1,48 @@
+@{
+    ViewData["Title"] = "تسجيل الدخول";
+}
+
+<section class="auth-page">
+    <div class="auth-visual">
+        <div class="auth-visual-content">
+            <span class="health-kicker">بوابة وصل</span>
+            <h1>ادخل بسرعة، وشوف أنسب حالة أو متابعة من مكان واحد.</h1>
+            <p>تجربة دخول بسيطة برقم الهاتف وكود تحقق، مع واجهة واضحة لحالات الخطأ والتحميل قبل الربط بخدمة الرسائل الفعلية.</p>
+            <div class="chip-row mt-4">
+                <span class="soft-tag soft-tag-teal">OTP آمن</span>
+                <span class="soft-tag soft-tag-blue">Responsive</span>
+                <span class="soft-tag soft-tag-amber">جاهز للربط</span>
+            </div>
+        </div>
+    </div>
+
+    <article class="auth-card">
+        <span class="health-kicker">Login</span>
+        <h2>تسجيل الدخول</h2>
+        <p>اكتب رقم الهاتف المسجل وسيتم تحويلك لخطوة التحقق.</p>
+
+        <form asp-controller="Auth" asp-action="Login" method="post" class="form-panel" data-loading-form>
+            <div asp-validation-summary="ModelOnly" class="alert-soft-danger"></div>
+
+            <label class="field-group">
+                <span>رقم الهاتف</span>
+                <input class="form-control modern-input" name="phone" inputmode="tel" placeholder="01012345678" />
+                <small class="field-error">مثال لحالة الخطأ: رقم الهاتف مطلوب.</small>
+            </label>
+
+            <div class="alert-soft-info">
+                حالة التحميل تظهر عند الضغط على الزر، وتمنع تكرار الإرسال أثناء معالجة الطلب.
+            </div>
+
+            <button type="submit" class="primary-action loading-button">
+                <span class="button-label">إرسال كود التحقق</span>
+                <span class="button-loader"></span>
+            </button>
+        </form>
+
+        <div class="row-actions mt-3">
+            <a class="text-link" asp-controller="Auth" asp-action="ForgotPassword">نسيت كلمة المرور؟</a>
+            <a class="text-link" asp-controller="Auth" asp-action="Register">إنشاء حساب جديد</a>
+        </div>
+    </article>
+</section>

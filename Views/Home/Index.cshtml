@@ -1,88 +1,59 @@
 @{
-    ViewData["Title"] = "لوحة التحكم";
+    ViewData["Title"] = "الرئيسية";
 }
 
 <section class="health-page">
     <div class="health-hero">
         <div>
-            <span class="health-kicker">التنقل داخل المشروع</span>
-            <h1 class="health-title">كل صفحاتك في مكان واحد</h1>
-            <p class="health-subtitle">ابدأ من هنا كل مرة تفتح فيها الموقع. لوحة التحكم تجمع الشاشات التي بنيتها حتى تتنقل بينها بسرعة ومن غير ما تدور في الروابط.</p>
+            <span class="health-kicker">Healthcare Matching Platform</span>
+            <h1 class="health-title">وصل ينظم الرحلة من الحالة للعرض للجلسة.</h1>
+            <p class="health-subtitle">Dashboard موحد يجمع الـ Auth flow، الطالب، العروض، المطابقات، الجلسات، التقارير، والتقييمات في تجربة واحدة متماسكة.</p>
         </div>
         <div class="hero-actions">
-            <a class="primary-action" asp-controller="Case" asp-action="MyCases">فتح حالاتي</a>
-            <a class="ghost-action" asp-controller="Patients" asp-action="Profile">فتح ملف المريض</a>
+            <a class="primary-action" asp-controller="Auth" asp-action="Login">ابدأ من Login</a>
+            <a class="ghost-action" asp-controller="Offer" asp-action="BrowseCases">تصفح الحالات</a>
         </div>
     </div>
 
     <div class="metric-strip">
         <article class="mini-kpi">
-            <span class="mini-kpi-label">شاشات الحالات</span>
-            <strong>05</strong>
-            <span class="mini-kpi-meta">إنشاء، قائمة، تفاصيل، تعديل، حذف</span>
+            <span class="mini-kpi-label">Modules</span>
+            <strong>5</strong>
+            <span class="mini-kpi-meta">Auth, Student, Core, UI</span>
         </article>
         <article class="mini-kpi">
-            <span class="mini-kpi-label">شاشات المرضى</span>
-            <strong>02</strong>
-            <span class="mini-kpi-meta">الملف الشخصي وتعديل الملف</span>
+            <span class="mini-kpi-label">Views</span>
+            <strong>20+</strong>
+            <span class="mini-kpi-meta">جاهزة للربط</span>
         </article>
         <article class="mini-kpi">
-            <span class="mini-kpi-label">أفضل نقطة بداية</span>
-            <strong>لوحة التحكم</strong>
-            <span class="mini-kpi-meta">اجعلها نقطة الدخول الرئيسية أثناء التطوير</span>
+            <span class="mini-kpi-label">States</span>
+            <strong>Empty / Loading / Error</strong>
+            <span class="mini-kpi-meta">موجودة في الصفحات</span>
+        </article>
+        <article class="mini-kpi">
+            <span class="mini-kpi-label">Responsive</span>
+            <strong>Yes</strong>
+            <span class="mini-kpi-meta">Desktop + Mobile</span>
         </article>
     </div>
 
-    <section class="health-panel">
-        <div class="panel-heading">
-            <div>
-                <h2>وصول سريع</h2>
-                <p>كل شاشة بنيتها أصبحت على بعد ضغطة واحدة من هنا.</p>
-            </div>
-        </div>
-
-        <div class="shortcut-grid">
-            <a class="shortcut-card" asp-controller="Case" asp-action="MyCases">
-                <span class="shortcut-kicker">وحدة الحالات</span>
-                <strong>حالاتي</strong>
-                <p>اعرض قائمة الحالات الكاملة وانتقل مباشرة إلى المسار الأساسي.</p>
-            </a>
-            <a class="shortcut-card" asp-controller="Case" asp-action="CreateCase">
-                <span class="shortcut-kicker">وحدة الحالات</span>
-                <strong>إنشاء حالة</strong>
-                <p>ادخل فورًا إلى نموذج إضافة حالة جديدة.</p>
-            </a>
-            <a class="shortcut-card" asp-controller="Case" asp-action="CaseDetails">
-                <span class="shortcut-kicker">وحدة الحالات</span>
-                <strong>تفاصيل الحالة</strong>
-                <p>راجع شاشة التفاصيل مع الملاحظات والبيانات المساندة.</p>
-            </a>
-            <a class="shortcut-card" asp-controller="Case" asp-action="EditCase">
-                <span class="shortcut-kicker">وحدة الحالات</span>
-                <strong>تعديل الحالة</strong>
-                <p>افتح شاشة التعديل وراجع تنظيم الحقول بالعربي.</p>
-            </a>
-            <a class="shortcut-card" asp-controller="Case" asp-action="DeleteCase">
-                <span class="shortcut-kicker">وحدة الحالات</span>
-                <strong>حذف الحالة</strong>
-                <p>انتقل إلى شاشة تأكيد الحذف مباشرة.</p>
-            </a>
-            <a class="shortcut-card" asp-controller="Patients" asp-action="Profile">
-                <span class="shortcut-kicker">وحدة المرضى</span>
-                <strong>ملف المريض</strong>
-                <p>اعرض ملخص المريض ونشاطه الأخير في مكان واحد.</p>
-            </a>
-            <a class="shortcut-card" asp-controller="Patients" asp-action="EditProfile">
-                <span class="shortcut-kicker">وحدة المرضى</span>
-                <strong>تعديل الملف</strong>
-                <p>افتح نموذج تعديل بيانات المريض مباشرة.</p>
-            </a>
-            <a class="shortcut-card" asp-controller="Home" asp-action="Privacy">
-                <span class="shortcut-kicker">النظام</span>
-                <strong>الخصوصية</strong>
-                <p>احتفظ بصفحة الخصوصية ضمن التنقل العام للموقع.</p>
-            </a>
-        </div>
+    <section class="module-grid">
+        <a class="module-card" asp-controller="Auth" asp-action="Login">
+            <span class="module-icon">A</span>
+            <h2>Authentication</h2>
+            <p>Login, Register, OTP, Forgot/Reset password, Select role.</p>
+        </a>
+        <a class="module-card" asp-controller="Student" asp-action="Profile">
+            <span class="module-icon">S</span>
+            <h2>Student Flow</h2>
+            <p>Profile, Edit profile, Browse cases, Create offer, My offers.</p>
+        </a>
+        <a class="module-card" asp-controller="Match" asp-action="MatchDetails">
+            <span class="module-icon">M</span>
+            <h2>Matching Core</h2>
+            <p>Offer to Match, sessions lifecycle, reports, and follow-up.</p>
+        </a>
     </section>
 
     <div class="content-grid">
@@ -90,29 +61,26 @@
             <article class="health-panel">
                 <div class="panel-heading">
                     <div>
-                        <h2>مسار مقترح للمراجعة</h2>
-                        <p>ترتيب بسيط لو حابب تراجع المشروع بسرعة من البداية للنهاية.</p>
+                        <h2>Reusable Components</h2>
+                        <p>أمثلة فعلية للـ shared partials المطلوبة.</p>
+                    </div>
+                    <button class="ghost-action compact-action" data-bs-toggle="modal" data-bs-target="#sharedModal">فتح Modal</button>
+                </div>
+                <div class="state-grid">
+                    @await Html.PartialAsync("_Card")
+                    @await Html.PartialAsync("_EmptyState")
+                    @await Html.PartialAsync("_Loader")
+                </div>
+            </article>
+
+            <article class="health-panel">
+                <div class="panel-heading">
+                    <div>
+                        <h2>نموذج موحد</h2>
+                        <p>Partial جاهز لإعادة الاستخدام داخل أي شاشة.</p>
                     </div>
                 </div>
-
-                <div class="action-list">
-                    <a class="action-tile" asp-controller="Case" asp-action="MyCases">
-                        <strong>1. ابدأ من حالاتي</strong>
-                        <span>راجع قائمة الحالات المختلفة وحالات العرض الأساسية أولًا.</span>
-                    </a>
-                    <a class="action-tile" asp-controller="Case" asp-action="CreateCase">
-                        <strong>2. انتقل إلى إنشاء حالة</strong>
-                        <span>شاهد نموذج الإدخال الرئيسي وطريقة ترتيب البيانات.</span>
-                    </a>
-                    <a class="action-tile" asp-controller="Case" asp-action="EditCase">
-                        <strong>3. راجع صفحة تعديل الحالة</strong>
-                        <span>قارن بين شاشة الإنشاء وشاشة التعديل بعد التعريب.</span>
-                    </a>
-                    <a class="action-tile" asp-controller="Patients" asp-action="Profile">
-                        <strong>4. اختم بملف المريض</strong>
-                        <span>شاهد الجانب الخاص بالمريض والإجراءات المرتبطة به.</span>
-                    </a>
-                </div>
+                @await Html.PartialAsync("_Form")
             </article>
         </section>
 
@@ -120,26 +88,25 @@
             <article class="health-panel side-accent">
                 <div class="panel-heading">
                     <div>
-                        <h2>لماذا هذا مفيد؟</h2>
-                        <p>تحسينات بسيطة في التنقل توفر وقتك أثناء التطوير والاختبار.</p>
+                        <h2>آخر الإشعارات</h2>
+                        <p>Component موحد للإشعار.</p>
                     </div>
+                    <a class="text-link" asp-controller="Notification" asp-action="GetNotifications">الكل</a>
                 </div>
-
-                <ul class="helper-list">
-                    <li>
-                        <strong>لا مزيد من الصفحة الافتراضية</strong>
-                        <span>أول شاشة الآن تقودك مباشرة إلى شغلك الحقيقي بدل صفحة الترحيب الجاهزة.</span>
-                    </li>
-                    <li>
-                        <strong>وصول مباشر من كل صفحة</strong>
-                        <span>الـ layout الجديد يحافظ على أهم الروابط ظاهرة أثناء تنقلك داخل المشروع.</span>
-                    </li>
-                    <li>
-                        <strong>تنقل أوضح أثناء الاختبار</strong>
-                        <span>تقدر تعرف بسهولة أين تذهب بعد ذلك بدون كتابة روابط يدويًا.</span>
-                    </li>
-                </ul>
+                <div class="notification-list">
+                    @await Html.PartialAsync("_NotificationItem")
+                    <article class="notification-item">
+                        <span class="notification-glow"></span>
+                        <div>
+                            <strong>جلسة قادمة</strong>
+                            <p>تم تأكيد موعد الجلسة التالية في الخامسة مساء.</p>
+                        </div>
+                        <time>اليوم</time>
+                    </article>
+                </div>
             </article>
         </aside>
     </div>
 </section>
+
+@await Html.PartialAsync("_Modal")
