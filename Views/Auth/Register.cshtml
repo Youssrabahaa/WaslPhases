@@ -7,7 +7,7 @@
         <div class="auth-visual-content">
             <span class="health-kicker">انضم إلى وصل</span>
             <h1>حساب واحد يفتح رحلة رعاية كاملة.</h1>
-            <p>سواء كنت مريضا تبحث عن رعاية مناسبة أو طالبا يحتاج حالات تدريب موثقة، النموذج ده يجهزك للخطوة التالية.</p>
+            <p>سواء كنت مريضا تبحث عن رعاية مناسبة أو طالبا يحتاج حالات تدريب موثقة، النموذج يجهزك للخطوة التالية.</p>
             <div class="metric-strip mt-4">
                 <article class="mini-kpi">
                     <span class="mini-kpi-label">خطوات التسجيل</span>
@@ -28,9 +28,7 @@
         <h2>إنشاء حساب جديد</h2>
         <p>املأ البيانات الأساسية، ثم انتقل للتحقق بكود الهاتف.</p>
 
-        <form asp-controller="Auth" asp-action="Register" method="post" class="form-panel" data-loading-form>
-            <div asp-validation-summary="ModelOnly" class="alert-soft-danger"></div>
-
+        <form class="form-panel">
             <label class="field-group">
                 <span>الاسم بالكامل</span>
                 <input class="form-control modern-input" name="fullName" placeholder="مثال: محمد مصطفى" />
@@ -55,10 +53,10 @@
                 <input class="form-control modern-input" name="email" placeholder="name example.com" />
             </label>
 
-            <button type="submit" class="primary-action loading-button">
+            <a class="primary-action loading-button" asp-controller="Auth" asp-action="VerifyOTP">
                 <span class="button-label">إنشاء الحساب</span>
                 <span class="button-loader"></span>
-            </button>
+            </a>
         </form>
 
         <div class="row-actions mt-3">

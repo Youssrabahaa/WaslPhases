@@ -16,14 +16,6 @@
     @await Html.PartialAsync("_Navbar")
 
     <div class="container app-shell-main">
-        @if (TempData["StatusMessage"] is string statusMessage)
-        {
-            <div class="app-toast" role="status">
-                <span class="app-toast-dot"></span>
-                @statusMessage
-            </div>
-        }
-
         <main role="main">
             @RenderBody()
         </main>

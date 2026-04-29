@@ -1,13 +1,12 @@
 @{
     ViewData["Title"] = "تفاصيل العرض";
-    var offerId = ViewData["OfferId"] ?? 1;
 }
 
 <section class="health-page">
     <div class="health-hero compact-hero">
         <div>
             <span class="health-kicker">Offer Details</span>
-            <h1 class="health-title">تفاصيل العرض رقم @offerId</h1>
+            <h1 class="health-title">تفاصيل العرض رقم 1</h1>
             <p class="health-subtitle">عرض شامل لبيانات العرض، الحالة، ورسالة الطالب قبل قرار المريض.</p>
         </div>
         <div class="hero-actions">
@@ -21,7 +20,7 @@
                 <div class="panel-heading">
                     <div>
                         <h2>ملخص العرض</h2>
-                        <p>بيانات مباشرة من `Offer` model.</p>
+                        <p>ملخص سريع للسعر، عدد الجلسات، وحالة رد المريض.</p>
                     </div>
                     <span class="status-badge status-pending">قيد المراجعة</span>
                 </div>
@@ -65,15 +64,11 @@
                     </div>
                 </div>
                 <div class="form-actions">
-                    <form asp-controller="Match" asp-action="AcceptOffer" asp-route-id="@offerId" method="post" data-loading-form>
-                        <button type="submit" class="primary-action loading-button">
-                            <span class="button-label">قبول العرض</span>
-                            <span class="button-loader"></span>
-                        </button>
-                    </form>
-                    <form asp-controller="Match" asp-action="RejectOffer" asp-route-id="@offerId" method="post">
-                        <button type="submit" class="danger-action">رفض العرض</button>
-                    </form>
+                    <a class="primary-action loading-button" asp-controller="Match" asp-action="MatchDetails">
+                        <span class="button-label">قبول العرض</span>
+                        <span class="button-loader"></span>
+                    </a>
+                    <a class="danger-action" asp-controller="Offer" asp-action="MyOffers">رفض العرض</a>
                 </div>
             </article>
         </aside>

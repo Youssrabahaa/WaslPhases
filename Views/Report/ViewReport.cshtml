@@ -1,13 +1,12 @@
 @{
     ViewData["Title"] = "عرض التقرير";
-    var reportId = ViewData["ReportId"] ?? 1;
 }
 
 <section class="health-page">
     <div class="health-hero compact-hero">
         <div>
             <span class="health-kicker">View Report</span>
-            <h1 class="health-title">تقرير رقم @reportId</h1>
+            <h1 class="health-title">تقرير رقم 1</h1>
             <p class="health-subtitle">عرض واضح لحالة التقرير ومن قام بإرساله وما تم التعامل معه.</p>
         </div>
         <div class="hero-actions">
@@ -21,7 +20,7 @@
                 <div class="panel-heading">
                     <div>
                         <h2>ملخص التقرير</h2>
-                        <p>بيانات من `Report` model.</p>
+                        <p>ملخص يوضح صاحب التقرير، الحالة المرتبطة، وتاريخ الإرسال.</p>
                     </div>
                     <span class="status-badge status-pending">قيد المراجعة</span>
                 </div>

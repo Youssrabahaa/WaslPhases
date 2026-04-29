@@ -1,12 +1,11 @@
 @{
     ViewData["Title"] = "تأكيد كود التحقق";
-    var phone = ViewData["Phone"]?.ToString() ?? "01000000000";
 }
 
 <section class="auth-page">
     <div class="auth-visual">
         <div class="auth-visual-content">
-            <span class="health-kicker">Verify OTP</span>
+            <span class="health-kicker">تأكيد الهاتف</span>
             <h1>خطوة صغيرة، وأمان أكبر لكل رحلة علاج.</h1>
             <p>هذه الصفحة جاهزة لعرض أخطاء الكود، إعادة الإرسال، وحالة التحميل أثناء التحقق.</p>
         </div>
@@ -15,12 +14,9 @@
     <article class="auth-card">
         <span class="health-kicker">OTP</span>
         <h2>تأكيد رقم الهاتف</h2>
-        <p>أدخل الكود المرسل إلى <strong>@phone</strong>.</p>
+        <p>أدخل الكود المرسل إلى <strong>01000000000</strong>.</p>
 
-        <form asp-controller="Auth" asp-action="VerifyOTP" method="post" class="form-panel" data-loading-form>
-            <input type="hidden" name="phone" value="@phone" />
-            <div asp-validation-summary="ModelOnly" class="alert-soft-danger"></div>
-
+        <form class="form-panel">
             <label class="field-group">
                 <span>كود التحقق</span>
                 <input class="form-control modern-input text-center" name="code" inputmode="numeric" maxlength="6" placeholder="123456" />
@@ -34,10 +30,10 @@
                 <input class="form-control modern-input" value="4" readonly />
             </div>
 
-            <button type="submit" class="primary-action loading-button">
+            <a class="primary-action loading-button" asp-controller="Home" asp-action="Index">
                 <span class="button-label">تأكيد الكود</span>
                 <span class="button-loader"></span>
-            </button>
+            </a>
         </form>
 
         <div class="row-actions mt-3">

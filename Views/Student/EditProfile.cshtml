@@ -7,7 +7,7 @@
         <div>
             <span class="health-kicker">Edit Student Profile</span>
             <h1 class="health-title">تعديل بيانات الطالب</h1>
-            <p class="health-subtitle">نموذج منظم لبيانات الطالب الأكاديمية والعيادة والمشرف، مع validation states واضحة.</p>
+            <p class="health-subtitle">نموذج منظم لبيانات الطالب الأكاديمية والعيادة والمشرف، مع حالات إدخال واضحة.</p>
         </div>
         <div class="hero-actions">
             <a class="ghost-action" asp-controller="Student" asp-action="Profile">العودة للملف</a>
@@ -16,13 +16,11 @@
 
     <div class="content-grid">
         <section class="content-main">
-            <form asp-controller="Student" asp-action="EditProfile" method="post" class="health-panel form-panel" data-loading-form>
-                <div asp-validation-summary="ModelOnly" class="alert-soft-danger"></div>
-
+            <form class="health-panel form-panel">
                 <div class="panel-heading">
                     <div>
                         <h2>البيانات الأساسية</h2>
-                        <p>كل حقل جاهز للربط لاحقا بـ `StudentProfile`.</p>
+                        <p>حقول مركزة تساعد الطالب على مراجعة بياناته بسرعة.</p>
                     </div>
                 </div>
 
@@ -63,10 +61,10 @@
                 </div>
 
                 <div class="form-actions">
-                    <button type="submit" class="primary-action loading-button">
+                    <a class="primary-action loading-button" asp-controller="Student" asp-action="Profile">
                         <span class="button-label">حفظ التغييرات</span>
                         <span class="button-loader"></span>
-                    </button>
+                    </a>
                     <a class="ghost-action" asp-controller="Student" asp-action="Profile">إلغاء</a>
                 </div>
             </form>

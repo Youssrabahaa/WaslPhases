@@ -7,7 +7,7 @@
         <div>
             <span class="health-kicker">Add Review</span>
             <h1 class="health-title">سجل تقييم واضح بعد اكتمال الخدمة.</h1>
-            <p class="health-subtitle">Review / Rating module جاهز لاختيار النجوم وكتابة تعليق مختصر.</p>
+            <p class="health-subtitle">واجهة بسيطة لاختيار النجوم وكتابة تعليق مختصر بعد نهاية الخدمة.</p>
         </div>
         <div class="hero-actions">
             <a class="ghost-action" asp-controller="Review" asp-action="ViewReviews">عرض التقييمات</a>
@@ -16,9 +16,7 @@
 
     <div class="content-grid">
         <section class="content-main">
-            <form asp-controller="Review" asp-action="AddReview" method="post" class="health-panel form-panel" data-loading-form>
-                <div asp-validation-summary="ModelOnly" class="alert-soft-danger"></div>
-
+            <form class="health-panel form-panel">
                 <label class="field-group">
                     <span>التقييم</span>
                     <select class="form-select modern-input" name="rating">
@@ -43,10 +41,10 @@
                     <textarea class="form-control modern-input modern-textarea" name="comment" rows="6" placeholder="اكتب ملاحظة تساعد على تحسين الخدمة."></textarea>
                 </label>
 
-                <button type="submit" class="primary-action loading-button">
+                <a class="primary-action loading-button" asp-controller="Review" asp-action="ViewReviews">
                     <span class="button-label">حفظ التقييم</span>
                     <span class="button-loader"></span>
-                </button>
+                </a>
             </form>
         </section>
 

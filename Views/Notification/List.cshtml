@@ -7,7 +7,7 @@
         <div>
             <span class="health-kicker">Notifications</span>
             <h1 class="health-title">كل التنبيهات المهمة في مكان واحد.</h1>
-            <p class="health-subtitle">GetNotifications وMarkAsRead جاهزين كـ endpoints بسيطة لحد ما تتربط بخدمة إشعارات حقيقية.</p>
+            <p class="health-subtitle">قائمة مركزة تعرض الجديد والمهم، مع حالة قراءة واضحة لكل إشعار.</p>
         </div>
         <div class="hero-actions">
             <a class="ghost-action" asp-controller="Home" asp-action="Index">الرئيسية</a>
@@ -50,12 +50,12 @@
             <article class="health-panel side-accent">
                 <div class="panel-heading">
                     <div>
-                        <h2>Mark as read</h2>
-                        <p>زر تجريبي لمسؤولية MarkAsRead.</p>
+                        <h2>تعليم الإشعارات</h2>
+                        <p>إجراء سريع لتجربة حالة القراءة داخل الواجهة.</p>
                     </div>
                 </div>
-                <form asp-controller="Notification" asp-action="MarkAsRead" asp-route-id="1" method="post" data-loading-form>
-                    <button type="submit" class="primary-action loading-button">
+                <form>
+                    <button type="button" class="primary-action loading-button">
                         <span class="button-label">تعليم كمقروء</span>
                         <span class="button-loader"></span>
                     </button>

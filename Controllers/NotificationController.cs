@@ -8,12 +8,4 @@ public class NotificationController : Controller
     {
         return View("List");
     }
-
-    [HttpPost]
-    [ValidateAntiForgeryToken]
-    public IActionResult MarkAsRead(int id)
-    {
-        TempData["StatusMessage"] = "تم تعليم الإشعار كمقروء.";
-        return RedirectToAction(nameof(GetNotifications));
-    }
 }

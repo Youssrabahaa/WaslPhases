@@ -5,7 +5,7 @@
 <section class="health-page">
     <div class="health-hero compact-hero">
         <div>
-            <span class="health-kicker">Add Report</span>
+            <span class="health-kicker">إضافة تقرير</span>
             <h1 class="health-title">أضف تقريرا طبيا مختصرا.</h1>
             <p class="health-subtitle">التقرير يساعد المشرف والمريض على متابعة جودة الجلسة ووضوح الخطوات القادمة.</p>
         </div>
@@ -16,9 +16,7 @@
 
     <div class="content-grid">
         <section class="content-main">
-            <form asp-controller="Report" asp-action="AddReport" method="post" class="health-panel form-panel" data-loading-form>
-                <div asp-validation-summary="ModelOnly" class="alert-soft-danger"></div>
-
+            <form class="health-panel form-panel">
                 <div class="form-grid">
                     <label class="field-group">
                         <span>نوع التقرير</span>
@@ -42,10 +40,10 @@
                     </label>
                 </div>
 
-                <button type="submit" class="primary-action loading-button">
+                <a class="primary-action loading-button" asp-controller="Report" asp-action="ViewReport">
                     <span class="button-label">إرسال التقرير</span>
                     <span class="button-loader"></span>
-                </button>
+                </a>
             </form>
         </section>
 
