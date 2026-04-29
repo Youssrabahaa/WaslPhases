@@ -1,0 +1,85 @@
+﻿@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>وصل - إنشاء حساب طالب</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="~/css/registerStudent.css">
+</head>
+<body>
+    <div class="container">
+        <div class="card">
+            <div class="card-header">
+                <div class="logo-section">
+                    <h1 class="logo-title">وصل</h1>
+                    <p class="logo-subtitle">منصة المطابقة الصحية</p>
+                </div>
+                <h2 class="page-title">إنشاء حساب جديد</h2>
+            </div>
+
+            <form asp-action="RegisterStudent" method="post" id="registrationForm" class="form-content">
+                
+                <div class="registration-type-badge">
+                    <p class="badge-text">التسجيل كـ طالب</p>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">الاسم الكامل</label>
+                    <input type="text"
+                           name="FullName"
+                           class="form-input"
+                           placeholder="أدخل اسمك الكامل"
+                           required>
+                    <span class="error-message" id="fullNameError"></span>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">رقم الجوال</label>
+                    <input type="tel"
+                           name="PhoneNumber"
+                           class="form-input"
+                           placeholder="أدخل رقم جوالك  "
+                           dir="ltr"
+                           required>
+                    <span class="error-message" id="phoneError"></span>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">البريد الإلكتروني</label>
+                    <input type="email"
+                           name="Email"
+                           class="form-input"
+                           placeholder="أدخل بريدك الإلكتروني   "
+                           required>
+                    <span class="error-message" id="emailError"></span>
+                </div>
+
+                <div class="form-buttons">
+                    <button type="submit" class="btn btn-primary" id="submitBtn">
+                        <span class="btn-text">إنشاء الحساب</span>
+                    </button>
+                    
+                    <a asp-action="SelectRole" class="btn btn-secondary" style="text-decoration: none; text-align: center; line-height: 40px;">
+                        رجوع
+                    </a>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div class="toast" id="successToast">
+        <span id="toastMessage"></span>
+    </div>
+
+    <script src="~/js/registerStudent.js"></script>
+</body>
+</html>

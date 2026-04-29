@@ -1,0 +1,395 @@
+/* ============================================
+   Healthcare Matching Platform - Verification Code Page
+   Design System:
+   - Font: Cairo (Arabic-optimized)
+   - Primary Color: #0284C7 (Sky-600)
+   - Secondary Color: #717182 (Gray)
+   - Background Gradient: Sky-600 (light) to White
+   - Card: White with subtle border and shadow
+   ============================================ */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    font-family: 'Cairo', sans-serif;
+    direction: rtl;
+}
+
+body {
+    background-color: #ffffff;
+    color: #1f2937;
+    font-size: 16px;
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+/* ============================================
+   Main Container & Background
+   ============================================ */
+
+.verification-container {
+    position: relative;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 16px;
+}
+
+.verification-background {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(135deg, rgba(2, 132, 199, 0.05) 0%, #ffffff 50%, rgba(2, 132, 199, 0.1) 100%);
+    z-index: -1;
+}
+
+/* ============================================
+   Card Styling
+   ============================================ */
+
+.verification-card {
+    background: #ffffff;
+    border-radius: 10px;
+    border: 0.8px solid rgba(0, 0, 0, 0.1);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    width: 100%;
+    max-width: 448px;
+    padding: 24.8px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+/* ============================================
+   Card Header
+   ============================================ */
+
+.card-header {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.header-content {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    text-align: center;
+}
+
+.logo-title {
+    font-size: 30px;
+    font-weight: 500;
+    color: #0284C7;
+    line-height: 36px;
+    letter-spacing: -0.5px;
+}
+
+.logo-subtitle {
+    font-size: 14px;
+    font-weight: 400;
+    color: #717182;
+    line-height: 20px;
+}
+
+.card-title {
+    font-size: 18px;
+    font-weight: 500;
+    color: #1f2937;
+    text-align: center;
+    line-height: 27px;
+}
+
+/* ============================================
+   Card Body
+   ============================================ */
+
+.card-body {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+/* Info Section */
+
+.info-section {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+}
+
+.info-label {
+    font-size: 14px;
+    font-weight: 400;
+    color: #717182;
+    text-align: center;
+    line-height: 20px;
+}
+
+.info-email {
+    font-size: 14px;
+    font-weight: 500;
+    color: #1f2937;
+    text-align: center;
+    line-height: 20px;
+    margin-top: 4px;
+}
+
+/* Input Group */
+
+.input-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.input-label {
+    font-size: 14px;
+    font-weight: 500;
+    color: #1f2937;
+    text-align: right;
+    line-height: 20px;
+}
+
+.input-field {
+    width: 100%;
+    height: 40px;
+    padding: 12px;
+    background-color: #f3f3f5;
+    border: 0.8px solid rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+    font-family: 'Cairo', sans-serif;
+    font-size: 16px;
+    color: #1f2937;
+    text-align: right;
+    transition: all 0.3s ease;
+    outline: none;
+}
+
+.input-field::placeholder {
+    color: rgba(31, 41, 55, 0.5);
+}
+
+.input-field:focus {
+    background-color: #ffffff;
+    border-color: #0284C7;
+    box-shadow: 0 0 0 3px rgba(2, 132, 199, 0.1);
+}
+
+.input-field:hover {
+    background-color: #f9f9fb;
+}
+
+/* Verify Button */
+
+.verify-button {
+    width: 100%;
+    height: 40px;
+    background-color: #0284C7;
+    color: #ffffff;
+    border: none;
+    border-radius: 10px;
+    font-family: 'Cairo', sans-serif;
+    font-size: 16px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-align: center;
+    line-height: 24px;
+    margin-top: 32px;    
+}
+
+.verify-button:hover {
+    background-color: #0369a1;
+    box-shadow: 0 4px 12px rgba(2, 132, 199, 0.3);
+    transform: translateY(-2px);
+}
+
+.verify-button:active {
+    background-color: #0c5aa6;
+    transform: translateY(0);
+}
+
+.verify-button:disabled {
+    background-color: #cbd5e1;
+    cursor: not-allowed;
+    opacity: 0.6;
+}
+
+/* Action Containers */
+
+.action-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 8px 0;
+}
+
+.resend-container {
+    padding: 8px 0;
+}
+
+.change-email-container {
+    border-top: 0.8px solid rgba(0, 0, 0, 0.1);
+    padding-top: 19.2px;
+    padding-bottom: 0;
+}
+
+/* Action Links */
+
+.action-link {
+    background: none;
+    border: none;
+    font-family: 'Cairo', sans-serif;
+    font-size: 14px;
+    font-weight: 500;
+    color: #0284C7;
+    cursor: pointer;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    padding: 4px 8px;
+    border-radius: 4px;
+    text-align: center;
+    line-height: 20px;
+}
+
+.action-link:hover {
+    color: #0369a1;
+    background-color: rgba(2, 132, 199, 0.05);
+}
+
+.action-link:active {
+    color: #0c5aa6;
+}
+
+.action-link.secondary {
+    color: #717182;
+}
+
+.action-link.secondary:hover {
+    color: #5a5a66;
+    background-color: rgba(113, 113, 130, 0.05);
+}
+
+/* ============================================
+   Responsive Design
+   ============================================ */
+
+@media (max-width: 768px) {
+    .verification-card {
+        max-width: 100%;
+        padding: 20px;
+    }
+
+    .logo-title {
+        font-size: 28px;
+    }
+
+    .card-title {
+        font-size: 16px;
+    }
+
+    .input-field,
+    .verify-button {
+        font-size: 16px;
+        height: 44px;
+    }
+}
+
+@media (max-width: 480px) {
+    .verification-container {
+        padding: 12px;
+    }
+
+    .verification-card {
+        padding: 16px;
+        gap: 12px;
+    }
+
+    .card-header {
+        gap: 12px;
+    }
+
+    .header-content {
+        gap: 6px;
+    }
+
+    .logo-title {
+        font-size: 24px;
+        line-height: 32px;
+    }
+
+    .logo-subtitle {
+        font-size: 12px;
+    }
+
+    .card-title {
+        font-size: 14px;
+    }
+
+    .input-field,
+    .verify-button {
+        height: 40px;
+        font-size: 14px;
+    }
+
+    .action-link {
+        font-size: 12px;
+    }
+}
+
+/* ============================================
+   Accessibility & Focus States
+   ============================================ */
+
+button:focus-visible {
+    outline: 2px solid #0284C7;
+    outline-offset: 2px;
+}
+
+input:focus-visible {
+    outline: 2px solid #0284C7;
+    outline-offset: 2px;
+}
+
+/* ============================================
+   Animation
+   ============================================ */
+
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.verification-card {
+    animation: slideIn 0.4s ease-out;
+}
+
+/* ============================================
+   Print Styles
+   ============================================ */
+
+@media print {
+    .verification-background {
+        display: none;
+    }
+
+    .verification-card {
+        box-shadow: none;
+        border: 1px solid #e5e7eb;
+    }
+}

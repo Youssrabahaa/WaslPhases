@@ -1,0 +1,453 @@
+/* ============================================
+   Healthcare Matching Platform - Registration
+   Design System:
+   - Font: Cairo (Arabic)
+   - Primary Color: #0284c7 (Sky-600)
+   - Background: Light blue gradient
+   - Direction: RTL (Right-to-Left)
+   ============================================ */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html, body {
+    width: 100%;
+    height: 100%;
+}
+
+body {
+    font-family: 'Cairo', sans-serif;
+    background: linear-gradient(135deg, rgba(6, 182, 212, 0.05) 0%, rgba(255, 255, 255, 1) 50%, rgba(6, 182, 212, 0.1) 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    padding: 1rem;
+    direction: rtl;
+}
+
+/* ============================================
+   Container & Card Layout
+   ============================================ */
+
+.container {
+    width: 100%;
+    max-width: 672px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.card {
+    width: 100%;
+    background: #ffffff;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+    padding: 24.8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    animation: slideIn 0.3s ease-out;
+}
+
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* ============================================
+   Card Header Section
+   ============================================ */
+
+.card-header {
+    margin-bottom: 1.5rem;
+    text-align: center;
+}
+
+.logo-section {
+    margin-bottom: 1rem;
+}
+
+.logo-title {
+    font-size: 1.875rem; /* 30px */
+    font-weight: 500;
+    color: #0284c7;
+    margin-bottom: 0.5rem;
+    letter-spacing: -0.5px;
+}
+
+.logo-subtitle {
+    font-size: 0.875rem; /* 14px */
+    color: #717182;
+    font-weight: 400;
+    margin-bottom: 1rem;
+}
+
+.page-title {
+    font-size: 1.125rem; /* 18px */
+    font-weight: 500;
+    color: #1a1a1a;
+    margin-top: 0.5rem;
+}
+
+/* ============================================
+   Form Content
+   ============================================ */
+
+.form-content {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.description {
+    font-size: 1rem; /* 16px */
+    color: #717182;
+    font-weight: 400;
+    text-align: center;
+}
+
+/* ============================================
+   Roles Container & Buttons
+   ============================================ */
+
+.roles-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+    width: 100%;
+}
+
+.role-button {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 1rem;
+    padding: 1.6rem;
+    background: #ffffff;
+    border: 1.6px solid rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-family: 'Cairo', sans-serif;
+    min-height: 186.2px;
+}
+
+.role-button:hover {
+    border-color: #0284c7;
+    box-shadow: 0 4px 12px rgba(2, 132, 199, 0.15);
+    transform: translateY(-2px);
+}
+
+.role-button:active {
+    transform: translateY(0);
+    box-shadow: 0 2px 6px rgba(2, 132, 199, 0.1);
+}
+
+.role-button.selected {
+    border-color: #0284c7;
+    background-color: rgba(2, 132, 199, 0.05);
+    box-shadow: 0 4px 12px rgba(2, 132, 199, 0.2);
+}
+
+/* ============================================
+   Role Icon
+   ============================================ */
+
+.role-icon-container {
+    width: 64px;
+    height: 64px;
+    background-color: rgba(2, 132, 199, 0.1);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+}
+
+.role-button:hover .role-icon-container {
+    background-color: rgba(2, 132, 199, 0.15);
+    transform: scale(1.05);
+}
+
+.role-icon {
+    width: 32px;
+    height: 32px;
+    color: #0284c7;
+}
+
+/* ============================================
+   Role Content
+   ============================================ */
+
+.role-content {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    text-align: center;
+    flex: 1;
+    width: 100%;
+}
+
+.role-title {
+    font-size: 1.125rem; /* 18px */
+    font-weight: 500;
+    color: #1a1a1a;
+    margin: 0;
+}
+
+.role-description {
+    font-size: 0.875rem; /* 14px */
+    font-weight: 500;
+    color: #717182;
+    margin: 0;
+    line-height: 1.4;
+}
+
+/* ============================================
+   Login Link
+   ============================================ */
+
+.login-link-container {
+    display: flex;
+    justify-content: center;
+    padding-top: 0.5rem;
+}
+
+.login-link {
+    background: none;
+    border: none;
+    color: #0284c7;
+    font-family: 'Cairo', sans-serif;
+    font-size: 0.875rem; /* 14px */
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    padding: 0.5rem 1rem;
+    border-radius: 6px;
+    text-decoration: none;
+}
+
+.login-link:hover {
+    color: #0369a1;
+    background-color: rgba(2, 132, 199, 0.05);
+}
+
+.login-link:active {
+    transform: scale(0.98);
+}
+
+/* ============================================
+   Toast Notification
+   ============================================ */
+
+.toast {
+    position: fixed;
+    bottom: 2rem;
+    right: 2rem;
+    background-color: #10b981;
+    color: #ffffff;
+    padding: 1rem 1.5rem;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    font-size: 0.875rem;
+    font-weight: 500;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease;
+    z-index: 1000;
+    max-width: 300px;
+    word-wrap: break-word;
+}
+
+.toast.show {
+    opacity: 1;
+    visibility: visible;
+    animation: slideInUp 0.3s ease-out;
+}
+
+@keyframes slideInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.toast.error {
+    background-color: #ef4444;
+}
+
+/* ============================================
+   Responsive Design
+   ============================================ */
+
+@media (max-width: 768px) {
+    .card {
+        padding: 1.5rem;
+    }
+
+    .roles-container {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+
+    .role-button {
+        min-height: auto;
+        flex-direction: row;
+        align-items: center;
+        justify-content: flex-start;
+        padding: 1.25rem;
+    }
+
+    .role-icon-container {
+        width: 56px;
+        height: 56px;
+        flex-shrink: 0;
+    }
+
+    .role-icon {
+        width: 28px;
+        height: 28px;
+    }
+
+    .role-content {
+        text-align: right;
+        gap: 0.25rem;
+    }
+
+    .role-title {
+        font-size: 1rem;
+    }
+
+    .role-description {
+        font-size: 0.8125rem;
+    }
+
+    .toast {
+        right: 1rem;
+        left: 1rem;
+        bottom: 1rem;
+        max-width: none;
+    }
+}
+
+@media (max-width: 640px) {
+    body {
+        padding: 1rem;
+    }
+
+    .card {
+        padding: 1.25rem;
+    }
+
+    .logo-title {
+        font-size: 1.5rem;
+    }
+
+    .logo-subtitle {
+        font-size: 0.8125rem;
+    }
+
+    .page-title {
+        font-size: 1rem;
+    }
+
+    .description {
+        font-size: 0.9375rem;
+    }
+
+    .roles-container {
+        grid-template-columns: 1fr;
+        gap: 0.75rem;
+    }
+
+    .role-button {
+        padding: 1rem;
+    }
+
+    .role-icon-container {
+        width: 48px;
+        height: 48px;
+    }
+
+    .role-icon {
+        width: 24px;
+        height: 24px;
+    }
+
+    .role-title {
+        font-size: 0.95rem;
+    }
+
+    .role-description {
+        font-size: 0.75rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .card {
+        padding: 1rem;
+    }
+
+    .card-header {
+        margin-bottom: 1rem;
+    }
+
+    .form-content {
+        gap: 1rem;
+    }
+
+    .logo-title {
+        font-size: 1.375rem;
+    }
+
+    .roles-container {
+        gap: 0.5rem;
+    }
+
+    .role-button {
+        padding: 0.875rem;
+        min-height: auto;
+    }
+
+    .role-icon-container {
+        width: 44px;
+        height: 44px;
+    }
+
+    .role-icon {
+        width: 20px;
+        height: 20px;
+    }
+}
+
+/* ============================================
+   Accessibility
+   ============================================ */
+
+@media (prefers-reduced-motion: reduce) {
+    * {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+}
+
+/* Focus visible for keyboard navigation */
+.role-button:focus-visible,
+.login-link:focus-visible {
+    outline: 2px solid #0284c7;
+    outline-offset: 2px;
+}

@@ -1,0 +1,67 @@
+﻿@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>التحقق من الرمز - منصة المطابقة الصحية</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="~/css/verifyOTP.css">
+</head>
+<body>
+    <div class="verification-container">
+        <div class="verification-background"></div>
+        
+        <div class="verification-card">
+            <div class="card-header">
+                <div class="header-content">
+                    <h1 class="logo-title">وصل</h1>
+                    <p class="logo-subtitle">منصة المطابقة الصحية</p>
+                </div>
+                <h2 class="card-title">التحقق من الرمز</h2>
+            </div>
+
+            <div class="card-body">
+                <div class="info-section">
+                    <p class="info-label">تم إرسال رمز التحقق إلى</p>
+                    <p class="info-email">@ViewBag.UserEmail</p>
+                </div>
+
+                <form asp-action="VerifyOTP" asp-controller="Auth" method="post">
+                    <div class="input-group">
+                        <label for="verification-code" class="input-label">رمز التحقق</label>
+                        <input name="OTPCode"
+                               type="text"
+                               id="verification-code"
+                               class="input-field"
+                               placeholder="أدخل الرمز"
+                               maxlength="6"
+                               required>
+                    </div>
+
+                    <button type="submit" class="verify-button" id="verify-btn">تحقق</button>
+                </form>
+
+                <div class="action-container resend-container">
+                    <form asp-action="ResendCode" method="post">
+                        <button type="submit" class="action-link" id="resend-btn">إعادة إرسال الرمز</button>
+                    </form>
+                </div>
+
+                @* <div class="action-container change-email-container">
+                    <a asp-action="RegisterStudent" class="action-link secondary" id="change-email-btn" style="text-decoration: none;">تغيير البريد الإلكتروني</a>
+                </div> *@
+            </div>
+        </div>
+    </div>
+
+    <script src="~/js/verifyOTP.js"></script>
+</body>
+</html>

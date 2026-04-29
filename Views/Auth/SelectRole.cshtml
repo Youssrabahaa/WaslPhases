@@ -1,0 +1,115 @@
+﻿@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>وصل - اختيار الدور</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="~/css/selectRole.css">
+</head>
+<body>
+    <div class="container">
+        <div class="card">
+            <div class="card-header">
+                <div class="logo-section">
+                    <h1 class="logo-title">وصل</h1>
+                    <p class="logo-subtitle">منصة المطابقة الصحية</p>
+                </div>
+                <h2 class="page-title">إنشاء حساب جديد</h2>
+            </div>
+
+            <div class="form-content">
+                <p class="description">اختر دورك للبدء</p>
+                
+                @{
+                    Layout = null;
+                }
+                <!DOCTYPE html>
+                <html lang="ar" dir="rtl">
+                <head>
+                    <meta charset="UTF-8">
+                    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                    <title>وصل - اختيار الدور</title>
+    
+                    <link rel="preconnect" href="https://fonts.googleapis.com">
+                    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+                    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+                    <link rel="stylesheet" href="~/css/selectRole.css">
+                </head>
+                <body>
+                    <div class="container">
+                        <div class="card">
+                            <div class="card-header">
+                                <div class="logo-section">
+                                    <h1 class="logo-title">وصل</h1>
+                                    <p class="logo-subtitle">منصة المطابقة الصحية</p>
+                                </div>
+                                <h2 class="page-title">إنشاء حساب جديد</h2>
+                            </div>
+
+                            <div class="form-content">
+                                <p class="description">اختر دورك للبدء</p>
+                
+                                <div class="roles-container">
+                                    <div class="role-button" onclick="alert('صفحة تسجيل المريض قيد التطوير')" style="cursor: pointer;">
+                                        <div class="role-icon-container">
+                                            <svg class="role-icon" width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                <path d="M25.3334 28V25.3333C25.3334 23.9188 24.7715 22.5623 23.7713 21.5621C22.7711 20.5619 21.4146 20 20.0001 20H12.0001C10.5856 20 9.22904 20.5619 8.22885 21.5621C7.22865 22.5623 6.66675 23.9188 6.66675 25.3333V28" stroke="#0284C7" stroke-width="2.66667" stroke-linecap="round" stroke-linejoin="round" />
+                                                <path d="M16.0001 14.6667C18.9456 14.6667 21.3334 12.2789 21.3334 9.33333C21.3334 6.38781 18.9456 4 16.0001 4C13.0546 4 10.6667 6.38781 10.6667 9.33333C10.6667 12.2789 13.0546 14.6667 16.0001 14.6667Z" stroke="#0284C7" stroke-width="2.66667" stroke-linecap="round" stroke-linejoin="round" />
+                                            </svg>
+                                        </div>
+                                        <div class="role-content">
+                                            <h3 class="role-title">مريض</h3>
+                                            <p class="role-description">أبحث عن علاج أسنان من العيادات التدريبية</p>
+                                        </div>
+                                    </div>
+
+                                    <div class="role-button" onclick="window.location.href='/Auth/Register'" style="cursor: pointer;">
+                                        <div class="role-icon-container">
+                                            <svg class="role-icon" width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                <path d="M28.56 14.5627C28.7987 14.4574 29.0012 14.2844 29.1426 14.0651C29.2839 13.8458 29.3578 13.5899 29.3551 13.329C29.3524 13.0681 29.2732 12.8138 29.1274 12.5975C28.9815 12.3811 28.7755 12.2123 28.5346 12.112L17.1066 6.90667C16.7592 6.74821 16.3818 6.6662 16 6.6662C15.6181 6.6662 15.2407 6.74821 14.8933 6.90667L3.46664 12.1067C3.22927 12.2106 3.02733 12.3815 2.88553 12.5984C2.74373 12.8153 2.66821 13.0689 2.66821 13.328C2.66821 13.5872 2.74373 13.8407 2.88553 14.0576C3.02733 14.2745 3.22927 14.4454 3.46664 14.5493L14.8933 19.76C15.2407 19.9185 15.6181 20.0005 16 20.0005C16.3818 20.0005 16.7592 19.9185 17.1066 19.76L28.56 14.5627Z" stroke="#0284C7" stroke-width="2.66667" stroke-linecap="round" stroke-linejoin="round" />
+                                                <path d="M29.3333 13.3333V21.3333" stroke="#0284C7" stroke-width="2.66667" stroke-linecap="round" stroke-linejoin="round" />
+                                                <path d="M8 16.6667V21.3333C8 22.3942 8.84286 23.4116 10.3431 24.1618C11.8434 24.9119 13.8783 25.3333 16 25.3333C18.1217 25.3333 20.1566 24.9119 21.6569 24.1618C23.1571 23.4116 24 22.3942 24 21.3333V16.6667" stroke="#0284C7" stroke-width="2.66667" stroke-linecap="round" stroke-linejoin="round" />
+                                            </svg>
+                                        </div>
+                                        <div class="role-content">
+                                            <h3 class="role-title">طالب طب أسنان</h3>
+                                            <p class="role-description">طالب طب أسنان يقدم خدمات علاجية</p>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="login-link-container">
+                                    <a href="/Auth/Login" class="login-link" style="text-decoration: none;">
+                                        لديك حساب؟ سجل دخولك
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <script src="~/js/selectRole.js"></script>
+                </body>
+            </html>
+
+                <div class="login-link-container">
+                    <a asp-action="Login" class="login-link" style="text-decoration: none;">
+                        لديك حساب؟ سجل دخولك
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="~/js/selectRole.js"></script>
+</body>
+</html>
