@@ -1,128 +1,77 @@
 @{
-    ViewData["Title"] = "تفاصيل المطابقة";
+    ViewData["Title"] = "المطابقات";
 }
 
 <section class="health-page">
-    <div class="health-hero">
+    <div class="page-heading">
         <div>
-            <span class="health-kicker">Offer → Match</span>
-            <h1 class="health-title">مطابقة رقم 1 جاهزة للمتابعة.</h1>
-            <p class="health-subtitle">هذه الصفحة تمثل لحظة تحويل العرض المقبول إلى Match مع بيانات المريض والطالب والجلسات القادمة.</p>
-        </div>
-        <div class="hero-actions">
-            <a class="primary-action" asp-controller="Session" asp-action="SessionList">إدارة الجلسات</a>
-            <a class="ghost-action" asp-controller="Report" asp-action="AddReport">إضافة تقرير</a>
+            <h1>حالتي المطابقة</h1>
+            <p>الحالات التي تم قبول عروضك فيها</p>
         </div>
     </div>
 
     <div class="metric-strip">
         <article class="mini-kpi">
-            <span class="mini-kpi-label">حالة المطابقة</span>
-            <strong>نشطة</strong>
-            <span class="mini-kpi-meta">تم قبول العرض</span>
+            <div>
+                <span class="mini-kpi-label">إجمالي المطابقات</span>
+                <strong>1</strong>
+            </div>
         </article>
         <article class="mini-kpi">
-            <span class="mini-kpi-label">الجلسات</span>
-            <strong>2 / 3</strong>
-            <span class="mini-kpi-meta">جلسة واحدة متبقية</span>
+            <div>
+                <span class="mini-kpi-label">العلاجات النشطة</span>
+                <strong class="text-success">1</strong>
+            </div>
         </article>
         <article class="mini-kpi">
-            <span class="mini-kpi-label">التواصل</span>
-            <strong>هاتف</strong>
-            <span class="mini-kpi-meta">Phone contact only</span>
-        </article>
-        <article class="mini-kpi">
-            <span class="mini-kpi-label">آخر تحديث</span>
-            <strong>اليوم</strong>
-            <span class="mini-kpi-meta">تم تأكيد الموعد</span>
+            <div>
+                <span class="mini-kpi-label">إجمالي الأرباح</span>
+                <strong class="text-primary">300 ريال</strong>
+            </div>
         </article>
     </div>
 
-    <div class="content-grid">
-        <section class="content-main">
-            <article class="health-panel">
-                <div class="panel-heading">
-                    <div>
-                        <h2>أطراف المطابقة</h2>
-                        <p>ملخص واضح للمريض، الطالب، الحالة، والعرض المقبول.</p>
-                    </div>
-                    <span class="status-badge status-inprogress">In progress</span>
+    <article class="health-panel">
+        <div class="case-card-top">
+            <span class="user-avatar">⌾</span>
+            <div>
+                <div class="case-card-top">
+                    <span class="status-badge status-open">مطابقة</span>
+                    <h2 class="m-0">حشو أسنان مطلوب</h2>
                 </div>
-                <div class="info-grid">
-                    <div class="info-block">
-                        <span>المريض</span>
-                        <strong>منى أحمد عبدالرحمن</strong>
-                    </div>
-                    <div class="info-block">
-                        <span>الطالب</span>
-                        <strong>أحمد خالد منصور</strong>
-                    </div>
-                    <div class="info-block">
-                        <span>الحالة</span>
-                        <strong>علاج تحفظي لضروس متضررة</strong>
-                    </div>
-                    <div class="info-block">
-                        <span>العرض المقبول</span>
-                        <strong>220 ج.م / جلستان</strong>
-                    </div>
-                </div>
-            </article>
+                <span class="case-meta">حالة مريض</span>
+            </div>
+        </div>
 
-            <article class="health-panel">
-                <div class="panel-heading">
-                    <div>
-                        <h2>رحلة المطابقة</h2>
-                        <p>Timeline يوضح النقلة من Offer إلى Match ثم Sessions.</p>
-                    </div>
-                </div>
-                <div class="timeline-list">
-                    <div class="timeline-item">
-                        <span class="timeline-dot"></span>
-                        <div>
-                            <strong>تم قبول العرض</strong>
-                            <p>المريض وافق على السعر وعدد الجلسات المقترح.</p>
-                        </div>
-                        <span class="timeline-time">28 أبريل</span>
-                    </div>
-                    <div class="timeline-item">
-                        <span class="timeline-dot timeline-blue"></span>
-                        <div>
-                            <strong>تم إنشاء الجلسة الأولى</strong>
-                            <p>تم تحديد الموعد داخل العيادة وإرسال إشعار للطرفين.</p>
-                        </div>
-                        <span class="timeline-time">29 أبريل</span>
-                    </div>
-                    <div class="timeline-item">
-                        <span class="timeline-dot timeline-amber"></span>
-                        <div>
-                            <strong>بانتظار تقرير الجلسة</strong>
-                            <p>بعد نهاية الجلسة يجب إضافة تقرير مختصر للحالة.</p>
-                        </div>
-                        <span class="timeline-time">قادم</span>
-                    </div>
-                </div>
-            </article>
-        </section>
+        <p class="body-copy mt-4">لدي تسوس في الضرس السفلي ويحتاج إلى حشو. أعاني من ألم خفيف.</p>
 
-        <aside class="content-side">
-            <article class="health-panel side-accent">
-                <div class="panel-heading">
-                    <div>
-                        <h2>إجراءات سريعة</h2>
-                        <p>أهم العمليات المرتبطة بالمطابقة.</p>
-                    </div>
-                </div>
-                <div class="action-list">
-                    <a class="action-tile" asp-controller="Session" asp-action="SessionDetails" asp-route-id="1">
-                        <strong>فتح الجلسة الحالية</strong>
-                        <span>راجع حالة الجلسة ومكانها وملاحظاتها.</span>
-                    </a>
-                    <a class="action-tile" asp-controller="Review" asp-action="AddReview">
-                        <strong>إضافة تقييم</strong>
-                        <span>بعد اكتمال الجلسات يمكن تسجيل تقييم.</span>
-                    </a>
-                </div>
-            </article>
-        </aside>
-    </div>
+        <div class="summary-strip mt-4">
+            <div class="summary-tile">
+                <span>الفئة</span>
+                <strong>طب الأسنان الترميمي</strong>
+            </div>
+            <div class="summary-tile">
+                <span>الموقع</span>
+                <strong>الرياض</strong>
+            </div>
+            <div class="summary-tile">
+                <span>السعر المتفق عليه</span>
+                <strong class="text-primary">300 ريال</strong>
+            </div>
+            <div class="summary-tile">
+                <span>الجلسات</span>
+                <strong>1</strong>
+            </div>
+        </div>
+
+        <div class="info-block mt-4">
+            <span>رسالة عرضك</span>
+            <strong>لدي خبرة في الحشوات المركبة. الإجراء بسيط وخالي من الآلام.</strong>
+        </div>
+
+        <div class="form-actions mt-4">
+            <a class="primary-action" asp-controller="Session" asp-action="SessionList">عرض الجلسات</a>
+            <a class="ghost-action" asp-controller="Offer" asp-action="OfferDetails">تفاصيل العرض</a>
+        </div>
+    </article>
 </section>

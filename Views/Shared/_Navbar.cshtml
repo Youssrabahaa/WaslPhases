@@ -2,46 +2,119 @@
     var currentController = ViewContext.RouteData.Values["controller"]?.ToString() ?? string.Empty;
     var currentAction = ViewContext.RouteData.Values["action"]?.ToString() ?? string.Empty;
 
-    string NavLinkClass(string controller, string? action = null)
+    bool IsActive(string controller, string? action = null)
     {
         var controllerMatches = string.Equals(currentController, controller, StringComparison.OrdinalIgnoreCase);
         var actionMatches = action is null || string.Equals(currentAction, action, StringComparison.OrdinalIgnoreCase);
-        return controllerMatches && actionMatches ? "nav-pill active" : "nav-pill";
+        return controllerMatches && actionMatches;
     }
+
+    string NavClass(string controller, string? action = null) => IsActive(controller, action) ? "sidebar-link active" : "sidebar-link";
+    var isPatientArea = string.Equals(currentController, "Patients", StringComparison.OrdinalIgnoreCase)
+        || (string.Equals(currentController, "Case", StringComparison.OrdinalIgnoreCase) && !string.Equals(currentAction, "CaseDetails", StringComparison.OrdinalIgnoreCase));
+    var portalTitle = isPatientArea ? "بوابة المريض" : "بوابة الطالب";
+    var userName = isPatientArea ? "Sara" : "Guest";
+    var userRole = isPatientArea ? "مريض" : "طالب";
 }
 
-<header class="app-shell-header">
-    <nav class="navbar navbar-expand-xl app-navbar">
-        <div class="container">
-            <a class="app-brand" asp-controller="Home" asp-action="Index" aria-label="وصل">
-                <span class="app-brand-mark">و</span>
-                <span>
-                    <strong>وصل</strong>
-                    <small>منصة تنسيق الرعاية</small>
-                </span>
+@functions {
+    private static string Icon(string name) => name switch
+    {
+        "dashboard" => "<svg viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M4 4h6v6H4V4Zm10 0h6v6h-6V4ZM4 14h6v6H4v-6Zm10 0h6v6h-6v-6Z\" /></svg>",
+        "search" => "<svg viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"m21 21-4.2-4.2M10.8 18a7.2 7.2 0 1 1 0-14.4 7.2 7.2 0 0 1 0 14.4Z\" /></svg>",
+        "book" => "<svg viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M4 5.5A2.5 2.5 0 0 1 6.5 3H20v16H7a3 3 0 0 0-3 3V5.5Zm0 0V22m4-3h12\" /></svg>",
+        "file" => "<svg viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M7 3h7l5 5v13H7V3Zm7 0v6h5M9 13h6M9 17h6\" /></svg>",
+        "message" => "<svg viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M5 5h14v10H8l-3 3V5Z\" /></svg>",
+        "calendar" => "<svg viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M6 4v3m12-3v3M4 9h16M5 6h14v14H5V6Z\" /></svg>",
+        "star" => "<svg viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"m12 3 2.7 5.5 6.1.9-4.4 4.3 1 6.1-5.4-2.9-5.4 2.9 1-6.1-4.4-4.3 6.1-.9L12 3Z\" /></svg>",
+        "bell" => "<svg viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M18 10a6 6 0 1 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9ZM10 21h4\" /></svg>",
+        "logout" => "<svg viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M14 7V4H5v16h9v-3m1-2 4-3-4-3m4 3H9\" /></svg>",
+        "user" => "<svg viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M12 12a4 4 0 1 0 0-8 4 4 0 0 0 0 8Zm7 8a7 7 0 0 0-14 0\" /></svg>",
+        _ => string.Empty
+    };
+}
+
+<aside class="wasl-sidebar">
+    <a class="sidebar-brand" asp-controller="Home" asp-action="Index" aria-label="وصل">
+        <strong>وصل</strong>
+        <span>الربط الطبي</span>
+    </a>
+
+    <nav class="sidebar-nav" aria-label="التنقل الرئيسي">
+        @if (isPatientArea)
+        {
+            <a class="@NavClass("Patients", "Profile")" asp-controller="Patients" asp-action="Profile">
+                <span class="nav-icon">@Html.Raw(Icon("dashboard"))</span>
+                <span>لوحة التحكم</span>
             </a>
-
-            <button class="navbar-toggler app-nav-toggle" type="button" data-bs-toggle="collapse" data-bs-target="#mainNavigation"
-                    aria-controls="mainNavigation" aria-expanded="false" aria-label="فتح القائمة">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-
-            <div class="collapse navbar-collapse app-navbar-collapse" id="mainNavigation">
-                <div class="app-nav-links">
-                    <a class="@NavLinkClass("Home", "Index")" asp-controller="Home" asp-action="Index">الرئيسية</a>
-                    <a class="@NavLinkClass("Offer", "BrowseCases")" asp-controller="Offer" asp-action="BrowseCases">تصفح الحالات</a>
-                    <a class="@NavLinkClass("Student")" asp-controller="Student" asp-action="Profile">ملف الطالب</a>
-                    <a class="@NavLinkClass("Session")" asp-controller="Session" asp-action="SessionList">الجلسات</a>
-                    <a class="@NavLinkClass("Report")" asp-controller="Report" asp-action="AddReport">التقارير</a>
-                    <a class="@NavLinkClass("Review")" asp-controller="Review" asp-action="ViewReviews">التقييمات</a>
-                    <a class="@NavLinkClass("Notification")" asp-controller="Notification" asp-action="GetNotifications">الإشعارات</a>
-                </div>
-
-                <div class="app-shell-actions">
-                    <a class="ghost-action compact-action" asp-controller="Auth" asp-action="Login">دخول</a>
-                    <a class="primary-action compact-action" asp-controller="Auth" asp-action="Register">حساب جديد</a>
-                </div>
-            </div>
-        </div>
+            <a class="@NavClass("Case", "MyCases")" asp-controller="Case" asp-action="MyCases">
+                <span class="nav-icon">@Html.Raw(Icon("file"))</span>
+                <span>حالاتي</span>
+            </a>
+            <a class="@NavClass("Session", "SessionList")" asp-controller="Session" asp-action="SessionList">
+                <span class="nav-icon">@Html.Raw(Icon("calendar"))</span>
+                <span>الجلسات</span>
+            </a>
+            <a class="@NavClass("Review", "ViewReviews")" asp-controller="Review" asp-action="ViewReviews">
+                <span class="nav-icon">@Html.Raw(Icon("star"))</span>
+                <span>التقييمات</span>
+            </a>
+            <a class="@NavClass("Notification", "GetNotifications")" asp-controller="Notification" asp-action="GetNotifications">
+                <span class="nav-icon">@Html.Raw(Icon("bell"))</span>
+                <span>الإشعارات</span>
+            </a>
+        }
+        else
+        {
+            <a class="@NavClass("Home", "Index")" asp-controller="Home" asp-action="Index">
+                <span class="nav-icon">@Html.Raw(Icon("dashboard"))</span>
+                <span>لوحة التحكم</span>
+            </a>
+            <a class="@NavClass("Offer", "BrowseCases")" asp-controller="Offer" asp-action="BrowseCases">
+                <span class="nav-icon">@Html.Raw(Icon("search"))</span>
+                <span>تصفح الحالات</span>
+            </a>
+            <a class="@NavClass("Offer", "MyOffers")" asp-controller="Offer" asp-action="MyOffers">
+                <span class="nav-icon">@Html.Raw(Icon("book"))</span>
+                <span>عروضي</span>
+            </a>
+            <a class="@NavClass("Match", "MatchDetails")" asp-controller="Match" asp-action="MatchDetails">
+                <span class="nav-icon">@Html.Raw(Icon("file"))</span>
+                <span>المطابقات</span>
+            </a>
+            <a class="@NavClass("Session", "SessionList")" asp-controller="Session" asp-action="SessionList">
+                <span class="nav-icon">@Html.Raw(Icon("calendar"))</span>
+                <span>الجلسات</span>
+            </a>
+            <a class="@NavClass("Review", "ViewReviews")" asp-controller="Review" asp-action="ViewReviews">
+                <span class="nav-icon">@Html.Raw(Icon("star"))</span>
+                <span>التقييمات</span>
+            </a>
+            <a class="@NavClass("Notification", "GetNotifications")" asp-controller="Notification" asp-action="GetNotifications">
+                <span class="nav-icon">@Html.Raw(Icon("bell"))</span>
+                <span>الإشعارات</span>
+            </a>
+        }
     </nav>
+</aside>
+
+<header class="wasl-topbar">
+    <h1>@portalTitle</h1>
+    <div class="topbar-actions">
+        <a class="icon-button" asp-controller="Notification" asp-action="GetNotifications" aria-label="الإشعارات">
+            @Html.Raw(Icon("bell"))
+            <span class="notification-dot"></span>
+        </a>
+        <div class="user-chip">
+            <span class="user-avatar">@Html.Raw(Icon("user"))</span>
+            <span>
+                <strong>@userName</strong>
+                <small>@userRole</small>
+            </span>
+        </div>
+        <a class="logout-link" asp-controller="Auth" asp-action="Logout">
+            <span>تسجيل خروج</span>
+            @Html.Raw(Icon("logout"))
+        </a>
+    </div>
 </header>

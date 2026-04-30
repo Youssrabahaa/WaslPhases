@@ -1,174 +1,105 @@
 @{
-    ViewData["Title"] = "ملف المريض";
+    ViewData["Title"] = "لوحة المريض";
 }
 
-<section class="health-page">
-    <div class="health-hero">
+<section class="health-page dashboard-page">
+    <div class="page-heading">
         <div>
-            <span class="health-kicker">وحدة المرضى</span>
-            <h1 class="health-title">منى أحمد عبدالرحمن</h1>
-            <p class="health-subtitle">عرض منظم لبيانات المريض وتفضيلات الرعاية مع وصول سريع إلى الحالات النشطة والإجراءات المرتبطة بها.</p>
+            <h1>مرحبا بعودتك، سارة!</h1>
+            <p>إدارة حالات العلاج والمواعيد الخاصة بك</p>
         </div>
         <div class="hero-actions">
-            <a class="primary-action" asp-controller="Patients" asp-action="EditProfile">تعديل الملف</a>
-            <a class="ghost-action" asp-controller="Case" asp-action="MyCases">عرض الحالات</a>
+            <a class="primary-action" asp-controller="Case" asp-action="CreateCase">إنشاء حالة جديدة</a>
         </div>
     </div>
 
     <div class="metric-strip">
         <article class="mini-kpi">
-            <span class="mini-kpi-label">الحالات النشطة</span>
-            <strong>03</strong>
-            <span class="mini-kpi-meta">حالة واحدة تحتاج إلى مراجعة</span>
+            <span class="metric-icon">▤</span>
+            <div>
+                <span class="mini-kpi-label">إجمالي الحالات</span>
+                <strong>2</strong>
+            </div>
         </article>
         <article class="mini-kpi">
-            <span class="mini-kpi-label">الخدمة المفضلة</span>
-            <strong>زيارة منزلية</strong>
-            <span class="mini-kpi-meta">الاثنين، الأربعاء، السبت</span>
+            <span class="metric-icon amber">↗</span>
+            <div>
+                <span class="mini-kpi-label">الحالات المفتوحة</span>
+                <strong>1</strong>
+            </div>
         </article>
         <article class="mini-kpi">
-            <span class="mini-kpi-label">معدل الاستجابة</span>
-            <strong>94%</strong>
-            <span class="mini-kpi-meta">غالبًا يتم الرد خلال ساعتين</span>
+            <span class="metric-icon green">□</span>
+            <div>
+                <span class="mini-kpi-label">المطابقات النشطة</span>
+                <strong>1</strong>
+            </div>
+        </article>
+        <article class="mini-kpi">
+            <span class="metric-icon">□</span>
+            <div>
+                <span class="mini-kpi-label">الجلسات القادمة</span>
+                <strong>2</strong>
+            </div>
         </article>
     </div>
 
-    <div class="content-grid">
-        <section class="content-main">
-            <article class="health-panel">
-                <div class="panel-heading">
+    <div class="dashboard-columns">
+        <section class="health-panel">
+            <div class="panel-heading">
+                <h2>الحالات الأخيرة</h2>
+            </div>
+            <div class="case-list">
+                <article class="case-list-item">
                     <div>
-                        <h2>نظرة عامة على الملف</h2>
-                        <p>البيانات الأساسية للمريض ووسائل التواصل الرئيسية.</p>
+                        <div class="case-card-top">
+                            <span class="status-badge status-progress">مفتوحة</span>
+                        </div>
+                        <h3>تنظيف أسنان وفحص شامل</h3>
+                        <p>أحتاج إلى تنظيف روتيني وفحص شامل للأسنان. لا توجد مشاكل كبيرة، فقط صيانة دورية.</p>
+                        <div class="row-actions mt-2">
+                            <span class="case-meta">طب الأسنان العام</span>
+                            <span class="case-meta">3 عروض</span>
+                        </div>
                     </div>
-                </div>
+                </article>
 
-                <div class="info-grid">
-                    <div class="info-block">
-                        <span>رقم الهاتف</span>
-                        <strong>01010000001</strong>
-                    </div>
-                    <div class="info-block">
-                        <span>البريد الإلكتروني</span>
-                        <strong>mona.ahmed@example.com</strong>
-                    </div>
-                    <div class="info-block">
-                        <span>تاريخ الميلاد</span>
-                        <strong>12 مايو 2019</strong>
-                    </div>
-                    <div class="info-block">
-                        <span>النوع</span>
-                        <strong>أنثى</strong>
-                    </div>
-                </div>
-            </article>
-
-            <article class="health-panel">
-                <div class="panel-heading">
+                <article class="case-list-item">
                     <div>
-                        <h2>تفضيلات الرعاية</h2>
-                        <p>ملخص سريع للتفضيلات التي تساعد الفريق في التنسيق والمتابعة.</p>
-                    </div>
-                </div>
-
-                <div class="tag-row">
-                    <span class="soft-tag soft-tag-teal">زيارات منزلية</span>
-                    <span class="soft-tag soft-tag-amber">وجود ولي الأمر</span>
-                    <span class="soft-tag soft-tag-rose">مواعيد مسائية</span>
-                    <span class="soft-tag soft-tag-blue">القاهرة - مدينة نصر</span>
-                </div>
-
-                <p class="body-copy">
-                    تفضل الأسرة علاجًا تحت إشراف مع ملاحظات متابعة واضحة بعد كل جلسة، كما تفضل التنسيق عبر الهاتف مع تذكير قصير قبل المواعيد.
-                </p>
-            </article>
-
-            <article class="health-panel">
-                <div class="panel-heading">
-                    <div>
-                        <h2>أحدث نشاط للحالات</h2>
-                        <p>آخر اللمسات التي حدثت في رحلة المريض داخل النظام.</p>
-                    </div>
-                    <a class="text-link" asp-controller="Case" asp-action="MyCases">عرض الكل</a>
-                </div>
-
-                <div class="timeline-list">
-                    <div class="timeline-item">
-                        <span class="timeline-dot timeline-blue"></span>
-                        <div>
-                            <strong>تم إرسال حالة متابعة جديدة</strong>
-                            <p>تم إنشاء مراجعة في طب أسنان الأطفال لطفل عمره 6 سنوات.</p>
+                        <div class="case-card-top">
+                            <span class="status-badge status-open">مطابقة</span>
                         </div>
-                        <span class="timeline-time">اليوم</span>
-                    </div>
-                    <div class="timeline-item">
-                        <span class="timeline-dot timeline-teal"></span>
-                        <div>
-                            <strong>تم ترشيح الحالة لطالب</strong>
-                            <p>أضيفت الحالة إلى قائمة المرشحين لزيارة منزلية تحت إشراف الأسبوع القادم.</p>
+                        <h3>حشو أسنان مطلوب</h3>
+                        <p>لدي تسوس في الضرس السفلي ويحتاج إلى حشو. أعاني من ألم خفيف.</p>
+                        <div class="row-actions mt-2">
+                            <span class="case-meta">طب الأسنان الترميمي</span>
+                            <span class="case-meta">5 عروض</span>
                         </div>
-                        <span class="timeline-time">أمس</span>
                     </div>
-                    <div class="timeline-item">
-                        <span class="timeline-dot timeline-amber"></span>
-                        <div>
-                            <strong>تم إرسال تذكير</strong>
-                            <p>استلمت الأسرة تذكيرًا هاتفيًا بموعد الجلسة المقترح.</p>
-                        </div>
-                        <span class="timeline-time">منذ يومين</span>
-                    </div>
-                </div>
-            </article>
+                </article>
+            </div>
         </section>
 
-        <aside class="content-side">
-            <article class="health-panel side-accent">
-                <div class="panel-heading">
+        <section class="health-panel">
+            <div class="panel-heading">
+                <h2>الجلسات القادمة</h2>
+            </div>
+            <div class="case-list">
+                <article class="case-list-item">
                     <div>
-                        <h2>ملخص المريض</h2>
-                        <p>مرجع سريع لأهم المعلومات.</p>
+                        <span class="status-badge soft-tag-blue">مجدولة</span>
+                        <h3>الاستشارة الأولية</h3>
+                        <p>الثلاثاء، 11 ذو القعدة 1447 هـ في 05:00 م</p>
                     </div>
-                </div>
-
-                <dl class="stacked-list">
+                </article>
+                <article class="case-list-item">
                     <div>
-                        <dt>ولي الأمر الأساسي</dt>
-                        <dd>أحمد عبدالرحمن</dd>
+                        <span class="status-badge soft-tag-blue">مجدولة</span>
+                        <h3>إجراء الحشو</h3>
+                        <p>الثلاثاء، 18 ذو القعدة 1447 هـ في 05:00 م</p>
                     </div>
-                    <div>
-                        <dt>وسيلة التواصل المفضلة</dt>
-                        <dd>مكالمة هاتفية</dd>
-                    </div>
-                    <div>
-                        <dt>سجل الخدمات</dt>
-                        <dd>3 زيارات مكتملة</dd>
-                    </div>
-                    <div>
-                        <dt>آخر تحديث</dt>
-                        <dd>28 أبريل 2026</dd>
-                    </div>
-                </dl>
-            </article>
-
-            <article class="health-panel">
-                <div class="panel-heading">
-                    <div>
-                        <h2>أفضل الإجراءات التالية</h2>
-                        <p>مساحة مناسبة للإجراءات الأساسية المرتبطة بالمريض.</p>
-                    </div>
-                </div>
-
-                <div class="action-list">
-                    <a class="action-tile" asp-controller="Case" asp-action="CreateCase">
-                        <strong>إنشاء حالة جديدة</strong>
-                        <span>ابدأ طلب علاج جديد تحت إشراف مباشر.</span>
-                    </a>
-                    <a class="action-tile" asp-controller="Patients" asp-action="EditProfile">
-                        <strong>تحديث بيانات الملف</strong>
-                        <span>حدّث بيانات التواصل والتفضيلات الخاصة بالمريض.</span>
-                    </a>
-                </div>
-            </article>
-        </aside>
+                </article>
+            </div>
+        </section>
     </div>
 </section>

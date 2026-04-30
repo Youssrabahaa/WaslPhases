@@ -3,44 +3,31 @@
 }
 
 <section class="auth-page">
-    <div class="auth-visual">
-        <div class="auth-visual-content">
-            <span class="health-kicker">بوابة وصل</span>
-            <h1>ادخل بسرعة، وشوف أنسب حالة أو متابعة من مكان واحد.</h1>
-            <p>تجربة دخول بسيطة برقم الهاتف وكود تحقق، مع واجهة واضحة للحالات المختلفة قبل ربطها بالخدمة الفعلية.</p>
-            <div class="chip-row mt-4">
-                <span class="soft-tag soft-tag-teal">تحقق آمن</span>
-                <span class="soft-tag soft-tag-blue">مناسب لكل الشاشات</span>
-                <span class="soft-tag soft-tag-amber">تجربة واضحة</span>
-            </div>
-        </div>
-    </div>
-
     <article class="auth-card">
-        <span class="health-kicker">Login</span>
-        <h2>تسجيل الدخول</h2>
-        <p>اكتب رقم الهاتف المسجل وسيتم تحويلك لخطوة التحقق.</p>
+        <div class="auth-logo">
+            <strong>وصل</strong>
+            <span>منصة المطابقة الصحية</span>
+        </div>
 
-        <form class="form-panel">
+        <h2>مرحبا بعودتك</h2>
+
+        <form class="auth-form-grid">
             <label class="field-group">
-                <span>رقم الهاتف</span>
-                <input class="form-control modern-input" name="phone" inputmode="tel" placeholder="01012345678" />
-                <small class="field-error">مثال لحالة الخطأ: رقم الهاتف مطلوب.</small>
+                <span>البريد الإلكتروني</span>
+                <input class="form-control modern-input" name="email" type="email" placeholder="example@email.com" />
             </label>
 
-            <div class="alert-soft-info">
-                حالة التحميل تظهر عند الضغط على الزر، وتمنع تكرار الإرسال أثناء معالجة الطلب.
-            </div>
+            <label class="field-group">
+                <span>كلمة المرور</span>
+                <input class="form-control modern-input" name="password" type="password" placeholder="أدخل كلمة المرور" />
+            </label>
 
-            <a class="primary-action loading-button" asp-controller="Auth" asp-action="VerifyOTP">
-                <span class="button-label">إرسال كود التحقق</span>
-                <span class="button-loader"></span>
-            </a>
+            <a class="text-link d-inline-block" asp-controller="Auth" asp-action="ForgotPassword">نسيت كلمة المرور؟</a>
+
+            <a class="primary-action" asp-controller="Home" asp-action="Index">تسجيل الدخول</a>
         </form>
 
-        <div class="row-actions mt-3">
-            <a class="text-link" asp-controller="Auth" asp-action="ForgotPassword">نسيت كلمة المرور؟</a>
-            <a class="text-link" asp-controller="Auth" asp-action="Register">إنشاء حساب جديد</a>
-        </div>
+        <div class="auth-divider"></div>
+        <a class="text-link d-block text-center" asp-controller="Auth" asp-action="SelectRole">ليس لديك حساب؟ سجل الآن</a>
     </article>
 </section>

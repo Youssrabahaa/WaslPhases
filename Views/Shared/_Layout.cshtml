@@ -1,31 +1,40 @@
+@{
+    var currentController = ViewContext.RouteData.Values["controller"]?.ToString() ?? string.Empty;
+    var isAuthPage = string.Equals(currentController, "Auth", StringComparison.OrdinalIgnoreCase);
+}
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="theme-color" content="#0f4f3e" />
+    <meta name="theme-color" content="#0b8dcc" />
     <title>@ViewData["Title"] - وصل</title>
     <script type="importmap"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Kufi+Arabic:wght@500;700;800&family=Readex+Pro:wght@400;500;600;700&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Readex+Pro:wght@400;500;600;700&display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.rtl.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/phase_1.styles.css" asp-append-version="true" />
 </head>
-<body>
-    <div class="surface-orb surface-orb-one"></div>
-    <div class="surface-orb surface-orb-two"></div>
-
-    @await Html.PartialAsync("_Navbar")
-
-    <div class="container app-shell-main">
-        <main role="main">
+<body class="@(isAuthPage ? "auth-layout" : "app-layout")">
+    @if (isAuthPage)
+    {
+        <main class="auth-main" role="main">
             @RenderBody()
         </main>
-    </div>
-
-    @await Html.PartialAsync("_Footer")
+    }
+    else
+    {
+        <div class="wasl-shell">
+            @await Html.PartialAsync("_Navbar")
+            <main class="wasl-main" role="main">
+                <div class="wasl-main-content">
+                    @RenderBody()
+                </div>
+            </main>
+        </div>
+    }
 
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>

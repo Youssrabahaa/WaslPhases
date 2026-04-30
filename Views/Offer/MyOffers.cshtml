@@ -3,68 +3,94 @@
 }
 
 <section class="health-page">
-    <div class="health-hero">
+    <div class="page-heading">
         <div>
-            <span class="health-kicker">My Offers</span>
-            <h1 class="health-title">تابع عروضك من أول إرسال لحد القبول.</h1>
-            <p class="health-subtitle">قائمة تعرض حالات العروض: معلق، مقبول، مرفوض، وتدعم حالة عدم وجود عروض.</p>
+            <h1>عروضي</h1>
         </div>
         <div class="hero-actions">
-            <a class="primary-action" asp-controller="Offer" asp-action="BrowseCases">تصفح حالات جديدة</a>
+            <a class="primary-action" asp-controller="Offer" asp-action="BrowseCases">تصفح الحالات</a>
         </div>
     </div>
 
-    <div class="offer-list">
-        <article class="offer-card">
+    <section class="filter-panel">
+        <label class="field-group">
+            <span>تصفية حسب الحالة</span>
+            <select class="form-select modern-input">
+                <option>كل العروض</option>
+                <option>قيد الانتظار</option>
+                <option>مقبول</option>
+                <option>مرفوض</option>
+            </select>
+        </label>
+        <span class="case-meta">2 عرض</span>
+    </section>
+
+    <section class="health-panel">
+        <div class="wasl-table-wrap">
+            <table class="wasl-table">
+                <thead>
+                    <tr>
+                        <th>عنوان الحالة</th>
+                        <th>الفئة</th>
+                        <th>السعر (ريال)</th>
+                        <th>الجلسات</th>
+                        <th>الحالة</th>
+                        <th>تاريخ الإرسال</th>
+                        <th>الإجراءات</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>تنظيف أسنان وفحص شامل</td>
+                        <td>طب الأسنان العام</td>
+                        <td>200</td>
+                        <td>2</td>
+                        <td><span class="status-badge status-pending">قيد الانتظار</span></td>
+                        <td>1447/11/4 هـ</td>
+                        <td><a class="table-link" asp-controller="Offer" asp-action="OfferDetails">عرض</a></td>
+                    </tr>
+                    <tr>
+                        <td>حشو أسنان مطلوب</td>
+                        <td>طب الأسنان الترميمي</td>
+                        <td>300</td>
+                        <td>1</td>
+                        <td><span class="status-badge status-open">مقبول</span></td>
+                        <td>1447/11/2 هـ</td>
+                        <td><a class="table-link" asp-controller="Match" asp-action="MatchDetails">عرض</a></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+    <div class="metric-strip">
+        <article class="mini-kpi">
+            <span class="metric-icon amber">◷</span>
             <div>
-                <div class="offer-card-top">
-                    <span class="status-badge status-open">مقبول</span>
-                    <span class="case-meta">عرض رقم 1024</span>
-                </div>
-                <h3>علاج تحفظي لضروس متضررة</h3>
-                <p>تم قبول العرض وتحويله إلى Match. الخطوة التالية تحديد الجلسة الأولى.</p>
-                <div class="row-actions mt-3">
-                    <a class="primary-action compact-action" asp-controller="Match" asp-action="MatchDetails" asp-route-id="1">تفاصيل المطابقة</a>
-                    <a class="ghost-action compact-action" asp-controller="Offer" asp-action="OfferDetails" asp-route-id="1">تفاصيل العرض</a>
-                </div>
-            </div>
-            <div class="card-side">
-                <strong>220 ج.م</strong>
-                <span class="case-meta">جلستان</span>
+                <span class="mini-kpi-label">العروض قيد الانتظار</span>
+                <strong>1</strong>
             </div>
         </article>
-
-        <article class="offer-card">
+        <article class="mini-kpi">
+            <span class="metric-icon green">✓</span>
             <div>
-                <div class="offer-card-top">
-                    <span class="status-badge status-pending">قيد المراجعة</span>
-                    <span class="case-meta">عرض رقم 1025</span>
-                </div>
-                <h3>متابعة لطفل يعاني من تسوسات متعددة</h3>
-                <p>العرض ينتظر رد المريض. يمكن تعديل الرسالة أو السعر قبل اتخاذ القرار.</p>
-                <div class="row-actions mt-3">
-                    <a class="ghost-action compact-action" asp-controller="Offer" asp-action="OfferDetails" asp-route-id="2">تفاصيل العرض</a>
-                </div>
+                <span class="mini-kpi-label">العروض المقبولة</span>
+                <strong>1</strong>
             </div>
-            <div class="card-side">
-                <strong>250 ج.م</strong>
-                <span class="case-meta">3 جلسات</span>
+        </article>
+        <article class="mini-kpi">
+            <span class="metric-icon rose">×</span>
+            <div>
+                <span class="mini-kpi-label">العروض المرفوضة</span>
+                <strong>0</strong>
+            </div>
+        </article>
+        <article class="mini-kpi">
+            <span class="metric-icon">▤</span>
+            <div>
+                <span class="mini-kpi-label">إجمالي العروض</span>
+                <strong>2</strong>
             </div>
         </article>
     </div>
-
-    <section class="state-grid">
-        <article class="empty-state-card">
-            <span class="empty-state-icon">0</span>
-            <h3>No offers</h3>
-            <p>لم تقدم أي عروض بعد. ابدأ بتصفح الحالات المفتوحة واختر حالة مناسبة لتخصصك.</p>
-            <a class="ghost-action" asp-controller="Offer" asp-action="BrowseCases">تصفح الحالات</a>
-        </article>
-        @await Html.PartialAsync("_Loader")
-        <article class="empty-state-card">
-            <span class="empty-state-icon">!</span>
-            <h3>خطأ في تحميل العروض</h3>
-            <p>تظهر هذه الحالة عند تعذر جلب العروض من الخادم.</p>
-        </article>
-    </section>
 </section>

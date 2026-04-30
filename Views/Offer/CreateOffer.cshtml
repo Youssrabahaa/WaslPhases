@@ -3,11 +3,10 @@
 }
 
 <section class="health-page">
-    <div class="health-hero compact-hero">
+    <div class="page-heading">
         <div>
-            <span class="health-kicker">Create Offer</span>
-            <h1 class="health-title">قدّم عرض واضح للمريض.</h1>
-            <p class="health-subtitle">العرض الجيد يوضح السعر، عدد الجلسات، والخطة المختصرة قبل قبول المريض.</p>
+            <h1>تقديم عرض</h1>
+            <p>وضح السعر وعدد الجلسات والرسالة التي ستظهر للمريض</p>
         </div>
         <div class="hero-actions">
             <a class="ghost-action" asp-controller="Offer" asp-action="BrowseCases">العودة للحالات</a>
@@ -17,62 +16,47 @@
     <div class="content-grid">
         <section class="content-main">
             <form class="health-panel form-panel">
-                <div class="panel-heading">
-                    <div>
-                        <h2>تفاصيل العرض</h2>
-                        <p>حقول مختصرة تساعد المريض على فهم العرض بسرعة.</p>
-                    </div>
-                </div>
-
                 <div class="form-grid">
                     <label class="field-group">
                         <span>السعر المقترح</span>
-                        <input class="form-control modern-input" name="proposedPrice" inputmode="decimal" placeholder="220" />
+                        <input class="form-control modern-input" name="proposedPrice" inputmode="decimal" placeholder="200" />
                     </label>
+
                     <label class="field-group">
                         <span>عدد الجلسات المتوقع</span>
                         <input class="form-control modern-input" name="estimatedSessionsCount" inputmode="numeric" placeholder="2" />
                     </label>
+
                     <label class="field-group field-span-2">
                         <span>رسالة للمريض</span>
-                        <textarea class="form-control modern-input modern-textarea" name="message" rows="6" placeholder="اشرح خطتك المختصرة، سبب السعر، وما يحتاجه المريض قبل الجلسة."></textarea>
+                        <textarea class="form-control modern-input modern-textarea" name="message" rows="6" placeholder="اكتب خطتك المختصرة للمريض"></textarea>
                     </label>
                 </div>
 
-                <div class="alert-soft-success">
-                    مثال لحالة جاهزية: الطالب موثق ويمكنه تقديم عروض على الحالات المفتوحة.
-                </div>
-
                 <div class="form-actions">
-                    <a class="primary-action loading-button" asp-controller="Offer" asp-action="MyOffers">
-                        <span class="button-label">إرسال العرض</span>
-                        <span class="button-loader"></span>
-                    </a>
-                    <a class="ghost-action" asp-controller="Offer" asp-action="BrowseCases">حفظ كمسودة</a>
+                    <a class="primary-action" asp-controller="Offer" asp-action="MyOffers">إرسال العرض</a>
+                    <a class="ghost-action" asp-controller="Offer" asp-action="BrowseCases">إلغاء</a>
                 </div>
             </form>
         </section>
 
         <aside class="content-side">
-            <article class="health-panel side-accent">
+            <article class="health-panel">
                 <div class="panel-heading">
-                    <div>
-                        <h2>ملخص الحالة</h2>
-                        <p>مرجع سريع أثناء كتابة العرض.</p>
-                    </div>
+                    <h2>ملخص الحالة</h2>
                 </div>
                 <dl class="stacked-list">
                     <div>
                         <dt>العنوان</dt>
-                        <dd>متابعة لطفل يعاني من تسوسات متعددة</dd>
+                        <dd>تنظيف أسنان وفحص شامل</dd>
                     </div>
                     <div>
                         <dt>الموقع</dt>
-                        <dd>القاهرة، مدينة نصر</dd>
+                        <dd>الرياض</dd>
                     </div>
                     <div>
-                        <dt>الميزانية</dt>
-                        <dd>180 - 250 ج.م</dd>
+                        <dt>العروض الحالية</dt>
+                        <dd>3 عروض</dd>
                     </div>
                 </dl>
             </article>

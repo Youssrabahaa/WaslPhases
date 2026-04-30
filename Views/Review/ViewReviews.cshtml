@@ -1,81 +1,105 @@
 @{
-    ViewData["Title"] = "عرض التقييمات";
+    ViewData["Title"] = "التقييمات";
 }
 
 <section class="health-page">
-    <div class="health-hero">
+    <div class="page-heading">
         <div>
-            <span class="health-kicker">Reviews</span>
-            <h1 class="health-title">تقييمات تساعد الفريق يشوف جودة التجربة.</h1>
-            <p class="health-subtitle">صفحة تعرض التقييمات، متوسط النجوم، وتعليقات مختصرة من تجارب سابقة.</p>
+            <h1>التقييمات</h1>
         </div>
         <div class="hero-actions">
-            <a class="primary-action" asp-controller="Review" asp-action="AddReview">إضافة تقييم</a>
+            <a class="primary-action" asp-controller="Review" asp-action="AddReview">كتابة تقييم</a>
         </div>
     </div>
 
     <div class="metric-strip">
         <article class="mini-kpi">
-            <span class="mini-kpi-label">متوسط التقييم</span>
-            <strong>4.8</strong>
-            <span class="mini-kpi-meta">من 5</span>
+            <div>
+                <span class="mini-kpi-label">متوسط التقييم</span>
+                <strong><span class="star">★</span> 5.0</strong>
+            </div>
         </article>
         <article class="mini-kpi">
-            <span class="mini-kpi-label">عدد التقييمات</span>
-            <strong>36</strong>
-            <span class="mini-kpi-meta">آخر 30 يوم</span>
+            <span class="metric-icon">☝</span>
+            <div>
+                <span class="mini-kpi-label">التقييمات المستلمة</span>
+                <strong>1</strong>
+            </div>
         </article>
         <article class="mini-kpi">
-            <span class="mini-kpi-label">رضا المرضى</span>
-            <strong>94%</strong>
-            <span class="mini-kpi-meta">تعليقات إيجابية</span>
-        </article>
-        <article class="mini-kpi">
-            <span class="mini-kpi-label">الاستجابة</span>
-            <strong>سريعة</strong>
-            <span class="mini-kpi-meta">أقل من ساعتين</span>
+            <span class="metric-icon green">☆</span>
+            <div>
+                <span class="mini-kpi-label">التقييمات المقدمة</span>
+                <strong>2</strong>
+            </div>
         </article>
     </div>
 
-    <div class="review-grid">
-        <article class="review-card">
-            <div class="rating-row">
-                <span class="star">★</span>
-                <span class="star">★</span>
-                <span class="star">★</span>
-                <span class="star">★</span>
-                <span class="star">★</span>
+    <div class="dashboard-columns">
+        <section class="health-panel">
+            <div class="panel-heading">
+                <h2>التقييمات المستلمة</h2>
             </div>
-            <h3>تجربة منظمة وواضحة</h3>
-            <p>الطالب شرح الخطة قبل الجلسة، والتقرير كان مفهوما بعد الانتهاء.</p>
-            <span class="case-meta">منى أحمد - مريض</span>
-        </article>
+            <article class="review-card">
+                <div class="case-card-top">
+                    <span class="user-avatar">⌾</span>
+                    <div>
+                        <h3>أحمد الراشد</h3>
+                        <span class="case-meta">طالب</span>
+                    </div>
+                </div>
+                <div class="rating-row">
+                    <span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span>
+                </div>
+                <p>مريضة رائعة! متعاونة جدا واتبعت جميع تعليمات ما بعد العلاج بشكل مثالي.</p>
+                <div class="row-actions">
+                    <span class="status-badge status-draft">حشو أسنان مطلوب</span>
+                    <span class="case-meta">1447/10/28 هـ</span>
+                </div>
+            </article>
+        </section>
 
-        <article class="review-card">
-            <div class="rating-row">
-                <span class="star">★</span>
-                <span class="star">★</span>
-                <span class="star">★</span>
-                <span class="star">★</span>
+        <section class="health-panel">
+            <div class="panel-heading">
+                <h2>التقييمات التي قدمتها</h2>
             </div>
-            <h3>متابعة جيدة</h3>
-            <p>التذكيرات ساعدت على الالتزام بالموعد، لكن نحتاج تفاصيل أكثر قبل الحضور.</p>
-            <span class="case-meta">يوسف محمد - مريض</span>
-        </article>
+            <div class="case-list">
+                <article class="review-card">
+                    <div class="case-card-top">
+                        <span class="user-avatar">⌾</span>
+                        <div>
+                            <h3>أحمد الراشد</h3>
+                            <span class="case-meta">طالب</span>
+                        </div>
+                    </div>
+                    <div class="rating-row">
+                        <span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span>
+                    </div>
+                    <p>تجربة ممتازة! أحمد كان محترفا جدا وجعلني أشعر بالراحة طوال الإجراء. أنصح به بشدة.</p>
+                    <div class="row-actions">
+                        <span class="status-badge status-draft">حشو أسنان مطلوب</span>
+                        <span class="case-meta">1447/10/27 هـ</span>
+                    </div>
+                </article>
 
-        <article class="review-card">
-            <div class="rating-row">
-                <span class="star">★</span>
-                <span class="star">★</span>
-                <span class="star">★</span>
-                <span class="star">★</span>
-                <span class="star">★</span>
+                <article class="review-card">
+                    <div class="case-card-top">
+                        <span class="user-avatar">⌾</span>
+                        <div>
+                            <h3>أحمد الراشد</h3>
+                            <span class="case-meta">طالب</span>
+                        </div>
+                    </div>
+                    <div class="rating-row">
+                        <span class="star">☆</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span>
+                    </div>
+                    <p>خدمة جيدة بشكل عام. العلاج كان ناجحا والطالب كان لديه معرفة جيدة.</p>
+                    <div class="row-actions">
+                        <span class="status-badge status-draft">تنظيف الأسنان</span>
+                        <span class="case-meta">1447/10/23 هـ</span>
+                    </div>
+                </article>
             </div>
-            <h3>حالات مناسبة للتدريب</h3>
-            <p>تصفح الحالات والعروض واضح، وسهل متابعة حالة كل عرض بعد إرساله.</p>
-            <span class="case-meta">أحمد خالد - طالب</span>
-        </article>
-
-        @await Html.PartialAsync("_EmptyState")
+        </section>
     </div>
 </section>

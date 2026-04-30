@@ -3,11 +3,10 @@
 }
 
 <section class="health-page">
-    <div class="health-hero compact-hero">
+    <div class="page-heading">
         <div>
-            <span class="health-kicker">Add Review</span>
-            <h1 class="health-title">سجل تقييم واضح بعد اكتمال الخدمة.</h1>
-            <p class="health-subtitle">واجهة بسيطة لاختيار النجوم وكتابة تعليق مختصر بعد نهاية الخدمة.</p>
+            <h1>كتابة تقييم</h1>
+            <p>سجل تقييمك بعد اكتمال الخدمة</p>
         </div>
         <div class="hero-actions">
             <a class="ghost-action" asp-controller="Review" asp-action="ViewReviews">عرض التقييمات</a>
@@ -38,29 +37,28 @@
 
                 <label class="field-group">
                     <span>تعليق اختياري</span>
-                    <textarea class="form-control modern-input modern-textarea" name="comment" rows="6" placeholder="اكتب ملاحظة تساعد على تحسين الخدمة."></textarea>
+                    <textarea class="form-control modern-input modern-textarea" name="comment" rows="6" placeholder="اكتب ملاحظتك"></textarea>
                 </label>
 
-                <a class="primary-action loading-button" asp-controller="Review" asp-action="ViewReviews">
-                    <span class="button-label">حفظ التقييم</span>
-                    <span class="button-loader"></span>
-                </a>
+                <a class="primary-action" asp-controller="Review" asp-action="ViewReviews">حفظ التقييم</a>
             </form>
         </section>
 
         <aside class="content-side">
-            <article class="health-panel side-accent">
+            <article class="health-panel">
                 <div class="panel-heading">
-                    <div>
-                        <h2>قبل التقييم</h2>
-                        <p>التقييم يظهر بعد اكتمال الجلسة أو المطابقة.</p>
-                    </div>
+                    <h2>الخدمة المرتبطة</h2>
                 </div>
-                <ul class="clean-list">
-                    <li>اكتب تعليق عملي ومحترم.</li>
-                    <li>لا تشارك بيانات طبية حساسة داخل التعليق العام.</li>
-                    <li>استخدم البلاغات للمشاكل التي تحتاج تدخل إدارة.</li>
-                </ul>
+                <dl class="stacked-list">
+                    <div>
+                        <dt>الحالة</dt>
+                        <dd>حشو أسنان مطلوب</dd>
+                    </div>
+                    <div>
+                        <dt>الطالب</dt>
+                        <dd>أحمد الراشد</dd>
+                    </div>
+                </dl>
             </article>
         </aside>
     </div>

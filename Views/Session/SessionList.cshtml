@@ -1,72 +1,87 @@
 @{
-    ViewData["Title"] = "قائمة الجلسات";
+    ViewData["Title"] = "الجلسات";
 }
 
 <section class="health-page">
-    <div class="health-hero">
+    <div class="page-heading">
         <div>
-            <span class="health-kicker">Sessions</span>
-            <h1 class="health-title">إدارة الجلسات بوضوح من البداية للنهاية.</h1>
-            <p class="health-subtitle">قائمة الجلسات تعرض المواعيد، الحالات، وإجراءات البدء أو المتابعة مع حالة عدم وجود جلسات.</p>
-        </div>
-        <div class="hero-actions">
-            <a class="primary-action" asp-controller="Match" asp-action="MatchDetails">تفاصيل المطابقة</a>
+            <h1>الجلسات</h1>
         </div>
     </div>
 
-    <div class="offer-list">
-        <article class="session-card">
+    <div class="metric-strip">
+        <article class="mini-kpi">
+            <span class="metric-icon">□</span>
             <div>
-                <div class="case-card-top">
-                    <span class="status-badge status-inprogress">Session in progress</span>
-                    <span class="case-meta">الجلسة 1</span>
-                    <span class="case-meta">غرفة C-12</span>
-                </div>
-                <h3>جلسة تقييم أولية لعلاج تحفظي</h3>
-                <p>بدأت الجلسة، ويجب إضافة تقرير مختصر عند الانتهاء.</p>
-                <div class="row-actions mt-3">
-                    <a class="primary-action compact-action" asp-controller="Session" asp-action="SessionDetails" asp-route-id="1">تفاصيل الجلسة</a>
-                    <button type="button" class="ghost-action compact-action">إنهاء الجلسة</button>
-                </div>
-            </div>
-            <div class="card-side">
-                <strong>اليوم 5:00 م</strong>
-                <span class="case-meta">داخل العيادة</span>
+                <span class="mini-kpi-label">القادمة</span>
+                <strong>2</strong>
             </div>
         </article>
-
-        <article class="session-card">
+        <article class="mini-kpi">
+            <span class="metric-icon green">✓</span>
             <div>
-                <div class="case-card-top">
-                    <span class="status-badge status-completed">Completed session</span>
-                    <span class="case-meta">الجلسة 0</span>
-                    <span class="case-meta">تم التقرير</span>
-                </div>
-                <h3>جلسة فحص وتحضير</h3>
-                <p>تمت الجلسة وإضافة التقرير الطبي المطلوب.</p>
-                <div class="row-actions mt-3">
-                    <a class="ghost-action compact-action" asp-controller="Session" asp-action="SessionDetails" asp-route-id="2">عرض التفاصيل</a>
-                    <a class="ghost-action compact-action" asp-controller="Report" asp-action="ViewReport" asp-route-id="1">عرض التقرير</a>
-                </div>
+                <span class="mini-kpi-label">المكتملة</span>
+                <strong>1</strong>
             </div>
-            <div class="card-side">
-                <strong>أمس 4:30 م</strong>
-                <span class="case-meta">داخل العيادة</span>
+        </article>
+        <article class="mini-kpi">
+            <span class="metric-icon rose">×</span>
+            <div>
+                <span class="mini-kpi-label">الملغاة</span>
+                <strong>0</strong>
             </div>
         </article>
     </div>
 
-    <section class="state-grid">
-        <article class="empty-state-card">
-            <span class="empty-state-icon">0</span>
-            <h3>No sessions</h3>
-            <p>لا توجد جلسات مرتبطة بهذه المطابقة بعد. عند قبول العرض وتحديد موعد ستظهر هنا.</p>
-        </article>
-        @await Html.PartialAsync("_Loader")
-        <article class="empty-state-card">
-            <span class="empty-state-icon">✓</span>
-            <h3>Completed session</h3>
-            <p>حالة جاهزة للجلسات المكتملة، مع ربط مباشر للتقرير والتقييم.</p>
-        </article>
+    <section class="health-panel">
+        <div class="panel-heading">
+            <h2>الجدول الزمني للجلسات</h2>
+        </div>
+
+        <div class="timeline-list">
+            <article class="timeline-entry">
+                <span class="timeline-line">
+                    <span class="timeline-icon">◷</span>
+                </span>
+                <div class="timeline-card">
+                    <span class="timeline-status soft-tag-blue">scheduled</span>
+                    <h3>الاستشارة الأولية</h3>
+                    <time>Tuesday, April 28, 2026 at 05:00 PM</time>
+                    <div class="row-actions">
+                        <a class="ghost-action compact-action" asp-controller="Session" asp-action="SessionDetails">إعادة جدولة</a>
+                        <button class="ghost-action compact-action" type="button">إلغاء</button>
+                    </div>
+                </div>
+            </article>
+
+            <article class="timeline-entry">
+                <span class="timeline-line">
+                    <span class="timeline-icon">◷</span>
+                </span>
+                <div class="timeline-card">
+                    <span class="timeline-status soft-tag-blue">scheduled</span>
+                    <h3>إجراء الحشو</h3>
+                    <time>Tuesday, May 5, 2026 at 05:00 PM</time>
+                    <div class="row-actions">
+                        <a class="ghost-action compact-action" asp-controller="Session" asp-action="SessionDetails">إعادة جدولة</a>
+                        <button class="ghost-action compact-action" type="button">إلغاء</button>
+                    </div>
+                </div>
+            </article>
+
+            <article class="timeline-entry">
+                <span class="timeline-line">
+                    <span class="timeline-icon green">✓</span>
+                </span>
+                <div class="timeline-card">
+                    <span class="timeline-status soft-tag-teal">completed</span>
+                    <h3>تنظيف الأسنان</h3>
+                    <time>April 15, 2026 at 12:00 PM</time>
+                    <div class="row-actions">
+                        <a class="ghost-action compact-action" asp-controller="Report" asp-action="ViewReport">عرض التقرير</a>
+                    </div>
+                </div>
+            </article>
+        </div>
     </section>
 </section>

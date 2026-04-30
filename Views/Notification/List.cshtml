@@ -3,66 +3,39 @@
 }
 
 <section class="health-page">
-    <div class="health-hero">
+    <div class="page-heading">
         <div>
-            <span class="health-kicker">Notifications</span>
-            <h1 class="health-title">كل التنبيهات المهمة في مكان واحد.</h1>
-            <p class="health-subtitle">قائمة مركزة تعرض الجديد والمهم، مع حالة قراءة واضحة لكل إشعار.</p>
-        </div>
-        <div class="hero-actions">
-            <a class="ghost-action" asp-controller="Home" asp-action="Index">الرئيسية</a>
+            <h1>الإشعارات</h1>
+            <p>آخر التنبيهات المرتبطة بالحالات والعروض والجلسات</p>
         </div>
     </div>
 
-    <div class="content-grid">
-        <section class="content-main">
-            <div class="notification-list">
-                <article class="notification-item unread">
-                    <span class="notification-glow"></span>
-                    <div>
-                        <strong>تم قبول عرض جديد</strong>
-                        <p>تم تحويل العرض إلى Match ويمكنك الآن متابعة الجلسات.</p>
-                    </div>
-                    <time>منذ 12 دقيقة</time>
-                </article>
-
-                <article class="notification-item unread">
-                    <span class="notification-glow"></span>
-                    <div>
-                        <strong>كود تحقق جديد</strong>
-                        <p>تم إرسال كود OTP إلى رقم الهاتف المسجل.</p>
-                    </div>
-                    <time>منذ ساعة</time>
-                </article>
-
-                <article class="notification-item">
-                    <span class="notification-glow"></span>
-                    <div>
-                        <strong>تقرير قيد المراجعة</strong>
-                        <p>تم إرسال تقرير الجلسة للمشرف وينتظر القرار.</p>
-                    </div>
-                    <time>أمس</time>
-                </article>
+    <div class="notification-list">
+        <article class="notification-item unread">
+            <span class="notification-glow"></span>
+            <div>
+                <strong>تم قبول عرض جديد</strong>
+                <p>تم تحويل العرض إلى مطابقة ويمكنك متابعة الجلسات.</p>
             </div>
-        </section>
+            <time>منذ 12 دقيقة</time>
+        </article>
 
-        <aside class="content-side">
-            <article class="health-panel side-accent">
-                <div class="panel-heading">
-                    <div>
-                        <h2>تعليم الإشعارات</h2>
-                        <p>إجراء سريع لتجربة حالة القراءة داخل الواجهة.</p>
-                    </div>
-                </div>
-                <form>
-                    <button type="button" class="primary-action loading-button">
-                        <span class="button-label">تعليم كمقروء</span>
-                        <span class="button-loader"></span>
-                    </button>
-                </form>
-            </article>
+        <article class="notification-item unread">
+            <span class="notification-glow"></span>
+            <div>
+                <strong>جلسة قادمة</strong>
+                <p>الاستشارة الأولية مجدولة يوم الثلاثاء الساعة 05:00 م.</p>
+            </div>
+            <time>اليوم</time>
+        </article>
 
-            @await Html.PartialAsync("_EmptyState")
-        </aside>
+        <article class="notification-item">
+            <span class="notification-glow"></span>
+            <div>
+                <strong>تقرير قيد المراجعة</strong>
+                <p>تم إرسال تقرير الجلسة للمراجعة.</p>
+            </div>
+            <time>أمس</time>
+        </article>
     </div>
 </section>

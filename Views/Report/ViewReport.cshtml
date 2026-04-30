@@ -3,11 +3,10 @@
 }
 
 <section class="health-page report-page">
-    <div class="health-hero compact-hero">
+    <div class="page-heading">
         <div>
-            <span class="health-kicker">عرض التقرير</span>
-            <h1 class="health-title">تقرير رقم 1</h1>
-            <p class="health-subtitle">عرض واضح لحالة التقرير ومن قام بإرساله وما تم التعامل معه.</p>
+            <h1>تقرير الجلسة</h1>
+            <p>تفاصيل التقرير وحالة المراجعة</p>
         </div>
         <div class="hero-actions">
             <a class="primary-action" asp-controller="Report" asp-action="AddReport">تقرير جديد</a>
@@ -20,55 +19,50 @@
                 <div class="panel-heading">
                     <div>
                         <h2>ملخص التقرير</h2>
-                        <p>ملخص يوضح صاحب التقرير، الحالة المرتبطة، وتاريخ الإرسال.</p>
+                        <p>تم إرسال التقرير بعد جلسة الاستشارة الأولية.</p>
                     </div>
                     <span class="status-badge status-pending">قيد المراجعة</span>
                 </div>
+
                 <div class="info-grid">
                     <div class="info-block">
-                        <span>المُبلّغ</span>
-                        <strong>أحمد خالد منصور</strong>
+                        <span>المبلغ</span>
+                        <strong>أحمد الراشد</strong>
                     </div>
                     <div class="info-block">
-                        <span>المستخدم المرتبط</span>
-                        <strong>منى أحمد عبدالرحمن</strong>
+                        <span>الحالة المرتبطة</span>
+                        <strong>حشو أسنان مطلوب</strong>
                     </div>
                     <div class="info-block">
-                        <span>الهدف</span>
+                        <span>نوع التقرير</span>
                         <strong>جلسة علاجية</strong>
                     </div>
                     <div class="info-block">
                         <span>تاريخ الإنشاء</span>
-                        <strong>29 أبريل 2026</strong>
+                        <strong>1447/11/4 هـ</strong>
                     </div>
                 </div>
             </article>
 
             <article class="health-panel">
                 <div class="panel-heading">
-                    <div>
-                        <h2>سبب التقرير</h2>
-                        <p>النص الكامل المرسل للمراجعة.</p>
-                    </div>
+                    <h2>سبب التقرير</h2>
                 </div>
-                <p class="body-copy">تمت الجلسة الأولى بنجاح، لكن يلزم مراجعة المشرف للخطة المقترحة قبل تحديد الجلسة التالية.</p>
+                <p class="body-copy">تمت الجلسة الأولى بنجاح، ويحتاج المريض إلى جلسة متابعة بعد أسبوع مع تعليمات وقائية قصيرة.</p>
             </article>
         </section>
 
         <aside class="content-side">
-            <article class="health-panel side-accent">
+            <article class="health-panel">
                 <div class="panel-heading">
-                    <div>
-                        <h2>مسار المعالجة</h2>
-                        <p>Timeline لحالة التقرير.</p>
-                    </div>
+                    <h2>مسار المراجعة</h2>
                 </div>
                 <div class="timeline-list">
                     <div class="timeline-item">
                         <span class="timeline-dot"></span>
                         <div>
                             <strong>تم إنشاء التقرير</strong>
-                            <p>وصل للإدارة للمراجعة.</p>
+                            <p>وصل التقرير للمراجعة.</p>
                         </div>
                         <span class="timeline-time">اليوم</span>
                     </div>
@@ -76,7 +70,7 @@
                         <span class="timeline-dot timeline-amber"></span>
                         <div>
                             <strong>بانتظار الإجراء</strong>
-                            <p>لم يتم تعيين مسؤول معالجة بعد.</p>
+                            <p>لم يتم اعتماد التقرير بعد.</p>
                         </div>
                         <span class="timeline-time">قادم</span>
                     </div>

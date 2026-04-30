@@ -3,109 +3,74 @@
 }
 
 <section class="health-page">
-    <div class="health-hero">
+    <div class="page-heading">
         <div>
-            <span class="health-kicker">وحدة الحالات</span>
-            <h1 class="health-title">حالاتي</h1>
-            <p class="health-subtitle">قائمة حالات موجهة للمريض مع فلاتر عملية، وشارات حالة واضحة، ومعاينات مبسطة للحالات المختلفة.</p>
+            <h1>حالاتي</h1>
         </div>
         <div class="hero-actions">
-            <a class="primary-action" asp-controller="Case" asp-action="CreateCase">إنشاء حالة</a>
-            <a class="ghost-action" asp-controller="Patients" asp-action="Profile">ملف المريض</a>
+            <a class="primary-action" asp-controller="Case" asp-action="CreateCase">إنشاء حالة جديدة</a>
         </div>
     </div>
 
-    <div class="filter-row">
-        <span class="filter-pill active">كل الحالات</span>
-        <span class="filter-pill">مفتوحة</span>
-        <span class="filter-pill">قيد التنفيذ</span>
-        <span class="filter-pill">مكتملة</span>
-        <span class="filter-pill">مؤرشفة</span>
+    <section class="filter-panel">
+        <div class="search-grid">
+            <input class="form-control modern-input" placeholder="البحث في الحالات..." />
+            <select class="form-select modern-input" aria-label="الحالة">
+                <option>كل الحالات</option>
+                <option>مفتوحة</option>
+                <option>مطابقة</option>
+            </select>
+            <select class="form-select modern-input" aria-label="الفئة">
+                <option>كل الفئات</option>
+                <option>طب الأسنان العام</option>
+                <option>طب الأسنان الترميمي</option>
+            </select>
+            <select class="form-select modern-input" aria-label="العروض">
+                <option>كل العروض</option>
+                <option>لديها عروض</option>
+            </select>
+        </div>
+    </section>
+
+    <div class="case-list">
+        <article class="case-card">
+            <div>
+                <div class="case-card-top">
+                    <span class="status-badge status-progress">مفتوحة</span>
+                    <span class="status-badge status-draft">عادية</span>
+                </div>
+                <h3>تنظيف أسنان وفحص شامل</h3>
+                <p>أحتاج إلى تنظيف روتيني وفحص شامل للأسنان. لا توجد مشاكل كبيرة، فقط صيانة دورية.</p>
+                <div class="row-actions mt-3">
+                    <span class="case-meta">طب الأسنان العام</span>
+                    <span class="case-meta">الرياض</span>
+                    <span class="case-meta">3 عروض مستلمة</span>
+                    <span class="case-meta">تم الإنشاء 1447/11/3 هـ</span>
+                </div>
+            </div>
+            <div class="card-side">
+                <a class="ghost-action compact-action" asp-controller="Case" asp-action="CaseDetails" asp-route-id="1">عرض العروض (3)</a>
+            </div>
+        </article>
+
+        <article class="case-card">
+            <div>
+                <div class="case-card-top">
+                    <span class="status-badge status-open">مطابقة</span>
+                    <span class="status-badge status-pending">متوسطة</span>
+                </div>
+                <h3>حشو أسنان مطلوب</h3>
+                <p>لدي تسوس في الضرس السفلي ويحتاج إلى حشو. أعاني من ألم خفيف.</p>
+                <div class="row-actions mt-3">
+                    <span class="case-meta">طب الأسنان الترميمي</span>
+                    <span class="case-meta">الرياض</span>
+                    <span class="case-meta">5 عروض مستلمة</span>
+                    <span class="case-meta">تم الإنشاء 1447/11/1 هـ</span>
+                </div>
+            </div>
+            <div class="card-side">
+                <a class="ghost-action compact-action" asp-controller="Match" asp-action="MatchDetails">عرض المطابقة</a>
+            </div>
+        </article>
     </div>
-
-    <section class="health-panel">
-        <div class="panel-heading">
-            <div>
-                <h2>قائمة الحالات</h2>
-                <p>محتوى تجريبي حاليًا وجاهز للربط بالبيانات الفعلية لاحقًا.</p>
-            </div>
-        </div>
-
-        <div class="case-list">
-            <article class="case-list-item">
-                <div class="case-list-main">
-                    <div class="case-list-top">
-                        <span class="status-badge status-open">مفتوحة</span>
-                        <span class="case-meta">زيارة منزلية</span>
-                        <span class="case-meta">تم إنشاؤها اليوم</span>
-                    </div>
-                    <h3>متابعة لطفل يعاني من تسوسات متعددة بالأسنان</h3>
-                    <p>الأسرة تطلب دعمًا منزليًا بإشراف مع خطة وقائية واضحة وملاحظات متابعة قصيرة بعد كل زيارة.</p>
-                </div>
-                <div class="case-list-side">
-                    <strong>180 - 250 ج.م</strong>
-                    <span>القاهرة، مدينة نصر</span>
-                    <div class="row-actions">
-                        <a class="table-link" asp-controller="Case" asp-action="CaseDetails">التفاصيل</a>
-                        <a class="table-link" asp-controller="Case" asp-action="EditCase">تعديل</a>
-                    </div>
-                </div>
-            </article>
-
-            <article class="case-list-item">
-                <div class="case-list-main">
-                    <div class="case-list-top">
-                        <span class="status-badge status-progress">قيد التنفيذ</span>
-                        <span class="case-meta">جلسة داخل العيادة</span>
-                        <span class="case-meta">تم تحديثها أمس</span>
-                    </div>
-                    <h3>علاج تحفظي لضروس متضررة</h3>
-                    <p>تم قبول التقييم من قبل أحد الطلاب، وننتظر تأكيد الموعد القادم داخل العيادة.</p>
-                </div>
-                <div class="case-list-side">
-                    <strong>220 - 320 ج.م</strong>
-                    <span>القاهرة، المعادي</span>
-                    <div class="row-actions">
-                        <a class="table-link" asp-controller="Case" asp-action="CaseDetails">التفاصيل</a>
-                        <a class="table-link" asp-controller="Case" asp-action="EditCase">تعديل</a>
-                    </div>
-                </div>
-            </article>
-
-            <article class="case-list-item">
-                <div class="case-list-main">
-                    <div class="case-list-top">
-                        <span class="status-badge status-draft">مسودة</span>
-                        <span class="case-meta">متابعة أونلاين</span>
-                        <span class="case-meta">تم حفظها منذ 3 أيام</span>
-                    </div>
-                    <h3>متابعة عن بُعد بعد استشارة جراحة فم</h3>
-                    <p>مراجعة مختصرة للأعراض والأدوية قبل الزيارة الحضورية التالية.</p>
-                </div>
-                <div class="case-list-side">
-                    <strong>120 - 150 ج.م</strong>
-                    <span>عن بُعد</span>
-                    <div class="row-actions">
-                        <a class="table-link" asp-controller="Case" asp-action="CaseDetails">التفاصيل</a>
-                        <a class="table-link" asp-controller="Case" asp-action="EditCase">تعديل</a>
-                    </div>
-                </div>
-            </article>
-        </div>
-    </section>
-
-    <section class="state-showcase">
-        <div class="panel-heading">
-            <div>
-                <h2>معاينات الحالات</h2>
-                <p>حالات واجهة مطلوبة لشاشة قائمة الحالات.</p>
-            </div>
-        </div>
-
-        <div class="state-grid">
-            @await Html.PartialAsync("_EmptyCasesState")
-            @await Html.PartialAsync("_LoadingState")
-            @await Html.PartialAsync("_ErrorState")
-        </div>
-    </section>
 </section>
