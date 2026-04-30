@@ -13,19 +13,19 @@
         <p class="text-center">اختر دورك للبدء</p>
 
         <div class="auth-role-grid">
-            <a class="role-card" asp-controller="Auth" asp-action="Register">
+            <a class="role-card" asp-controller="Auth" asp-action="Register" asp-route-role="patient">
                 <span class="role-icon">⌾</span>
                 <h2>مريض</h2>
                 <p>أبحث عن علاج أسنان من العيادات التدريبية</p>
             </a>
 
-            <a class="role-card" asp-controller="Auth" asp-action="Register">
+            <a class="role-card" asp-controller="Auth" asp-action="Register" asp-route-role="student">
                 <span class="role-icon">▱</span>
                 <h2>طالب طب أسنان</h2>
                 <p>طالب طب أسنان يقدم خدمات علاجية</p>
             </a>
         </div>
 
-        <a class="text-link d-block text-center mt-4" asp-controller="Auth" asp-action="Login">لديك حساب؟ سجل دخولك</a>
+        <a class="text-link d-block text-center mt-4" asp-controller="Auth" asp-action="Login" asp-route-role="patient">لديك حساب؟ سجل دخولك</a>
     </article>
 </section>

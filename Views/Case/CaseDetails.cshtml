@@ -1,3 +1,5 @@
+@model phase_1.ViewModels.PatientPortal.PatientCaseDetailsViewModel
+
 @{
     ViewData["Title"] = "تفاصيل الحالة";
 }
@@ -6,12 +8,15 @@
     <div class="health-hero compact-hero">
         <div>
             <span class="health-kicker">وحدة الحالات</span>
-            <h1 class="health-title">تفاصيل الحالة</h1>
-            <p class="health-subtitle">صفحة تفاصيل منظمة تعرض الملخص والملاحظات وصورة جانبية سريعة لتسهيل التنسيق والمتابعة.</p>
+            <h1 class="health-title">@Model.Case.Title</h1>
+            <p class="health-subtitle">@Model.Case.Description</p>
         </div>
         <div class="hero-actions">
             <a class="ghost-action" asp-controller="Case" asp-action="MyCases">العودة إلى الحالات</a>
-            <a class="primary-action" asp-controller="Case" asp-action="EditCase">تعديل الحالة</a>
+            @if (Model.Match is not null)
+            {
+                <a class="primary-action" asp-controller="Match" asp-action="MatchDetails" asp-route-id="@Model.Match.Id">عرض المطابقة</a>
+            }
         </div>
     </div>
 
@@ -20,45 +25,29 @@
             <article class="health-panel">
                 <div class="panel-heading">
                     <div>
-                        <h2>متابعة لطفل يعاني من تسوسات متعددة بالأسنان</h2>
-                        <p>حالة في طب أسنان الأطفال تم تقديمها لزيارة منزلية تحت إشراف.</p>
+                        <h2>ملخص الحالة</h2>
+                        <p>نفس الحالة التي تظهر في صفحة "حالتي" مع ربط مباشر بالمطابقة والجلسات.</p>
                     </div>
-                    <span class="status-badge status-open">مفتوحة</span>
+                    <span class="status-badge @Model.Case.StatusCssClass">@Model.Case.StatusLabel</span>
                 </div>
 
                 <div class="info-grid">
                     <div class="info-block">
+                        <span>الفئة</span>
+                        <strong>@Model.Case.Category</strong>
+                    </div>
+                    <div class="info-block">
                         <span>نوع الخدمة</span>
-                        <strong>زيارة منزلية</strong>
+                        <strong>@Model.Case.ServiceType</strong>
                     </div>
                     <div class="info-block">
                         <span>الأولوية</span>
-                        <strong>أولوية</strong>
-                    </div>
-                    <div class="info-block">
-                        <span>الميزانية</span>
-                        <strong>180 - 250 ج.م</strong>
+                        <strong>@Model.Case.UrgencyLabel</strong>
                     </div>
                     <div class="info-block">
                         <span>الموقع</span>
-                        <strong>القاهرة، مدينة نصر</strong>
+                        <strong>@Model.Case.Location</strong>
                     </div>
-                </div>
-
-                <div class="detail-section">
-                    <h3>ملخص الحالة</h3>
-                    <p>
-                        الأسرة تبحث عن طالب طب أسنان تحت إشراف للمساعدة في الفحص، والتوجيه الوقائي، ووضع خطة علاج واضحة لطفل يحتاج إلى متابعة منتظمة.
-                    </p>
-                </div>
-
-                <div class="detail-section">
-                    <h3>ملاحظات التنسيق والمتابعة</h3>
-                    <ul class="clean-list">
-                        <li>الأسرة تفضل المواعيد المسائية متى أمكن.</li>
-                        <li>المكالمات التذكيرية مطلوبة قبل الزيارة بيوم.</li>
-                        <li>يلزم اعتماد المشرف قبل تأكيد الحالة.</li>
-                    </ul>
                 </div>
             </article>
 
@@ -66,35 +55,22 @@
                 <div class="panel-heading">
                     <div>
                         <h2>الخط الزمني</h2>
-                        <p>معاينة بسيطة لتسلسل النشاطات المرتبطة بالحالة.</p>
+                        <p>يوضح انتقال الحالة من الإنشاء حتى الجلسات.</p>
                     </div>
                 </div>
 
                 <div class="timeline-list">
-                    <div class="timeline-item">
-                        <span class="timeline-dot timeline-blue"></span>
-                        <div>
-                            <strong>تم إنشاء الحالة</strong>
-                            <p>تم إرسال الطلب الأولي من خلال ملف المريض.</p>
+                    @foreach (var item in Model.Timeline)
+                    {
+                        <div class="timeline-item">
+                            <span class="timeline-dot @item.AccentCssClass"></span>
+                            <div>
+                                <strong>@item.Title</strong>
+                                <p>@item.Description</p>
+                            </div>
+                            <span class="timeline-time">@item.TimeLabel</span>
                         </div>
-                        <span class="timeline-time">10:45 ص</span>
-                    </div>
-                    <div class="timeline-item">
-                        <span class="timeline-dot timeline-teal"></span>
-                        <div>
-                            <strong>تم إشعار الطالب</strong>
-                            <p>تم تحديث قائمة الترشيح للطلاب المناسبين لهذا النوع من الحالات.</p>
-                        </div>
-                        <span class="timeline-time">11:20 ص</span>
-                    </div>
-                    <div class="timeline-item">
-                        <span class="timeline-dot timeline-amber"></span>
-                        <div>
-                            <strong>بانتظار المراجعة</strong>
-                            <p>اعتماد المشرف ما يزال قيد الانتظار.</p>
-                        </div>
-                        <span class="timeline-time">12:00 م</span>
-                    </div>
+                    }
                 </div>
             </article>
         </section>
@@ -104,49 +80,51 @@
                 <div class="panel-heading">
                     <div>
                         <h2>ملخص سريع</h2>
-                        <p>أهم البيانات المساعدة في نظرة واحدة.</p>
                     </div>
                 </div>
 
                 <dl class="stacked-list">
                     <div>
                         <dt>رقم الحالة</dt>
-                        <dd>#CASE-1024</dd>
+                        <dd>#CASE-@Model.Case.Id</dd>
                     </div>
                     <div>
-                        <dt>المريض</dt>
-                        <dd>منى أحمد عبدالرحمن</dd>
+                        <dt>العروض</dt>
+                        <dd>@Model.Case.OffersCount عروض</dd>
                     </div>
                     <div>
                         <dt>تاريخ الإنشاء</dt>
-                        <dd>28 أبريل 2026</dd>
+                        <dd>@Model.Case.CreatedAtLabel</dd>
                     </div>
                     <div>
-                        <dt>وسيلة التواصل المفضلة</dt>
-                        <dd>مكالمة هاتفية</dd>
+                        <dt>الحالة الحالية</dt>
+                        <dd>@Model.Case.StatusLabel</dd>
                     </div>
                 </dl>
             </article>
 
-            <article class="health-panel">
-                <div class="panel-heading">
-                    <div>
-                        <h2>إجراءات سريعة</h2>
-                        <p>قائمة ثابتة حاليًا وقابلة للتطوير لاحقًا.</p>
+            @if (Model.Match is not null)
+            {
+                <article class="health-panel">
+                    <div class="panel-heading">
+                        <div>
+                            <h2>المطابقة المرتبطة</h2>
+                            <p>هذه هي نقطة الربط بين الحالة والجلسات والتقييمات.</p>
+                        </div>
                     </div>
-                </div>
 
-                <div class="action-list">
-                    <a class="action-tile" asp-controller="Case" asp-action="EditCase">
-                        <strong>تعديل هذه الحالة</strong>
-                        <span>حدّث نوع الخدمة أو الأولوية أو بيانات الموقع.</span>
-                    </a>
-                    <a class="action-tile" asp-controller="Case" asp-action="DeleteCase">
-                        <strong>حذف المسودة</strong>
-                        <span>استخدم هذا الخيار إذا كان يجب إزالة الحالة قبل بدء الترشيح.</span>
-                    </a>
-                </div>
-            </article>
+                    <div class="action-list">
+                        <a class="action-tile" asp-controller="Match" asp-action="MatchDetails" asp-route-id="@Model.Match.Id">
+                            <strong>@Model.Match.StudentName</strong>
+                            <span>@Model.Match.StatusLabel</span>
+                        </a>
+                        <a class="action-tile" asp-controller="Session" asp-action="SessionList">
+                            <strong>عرض الجلسات</strong>
+                            <span>@Model.Match.SessionsCount جلسات مرتبطة بهذه المطابقة.</span>
+                        </a>
+                    </div>
+                </article>
+            }
         </aside>
     </div>
 </section>

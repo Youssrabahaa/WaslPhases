@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using phase_1.Data;
+using phase_1.Services;
 
 namespace phase_1
 {
@@ -11,6 +12,7 @@ namespace phase_1
 
             // Add services to the container.
             builder.Services.AddControllersWithViews();
+            builder.Services.AddSingleton<IPatientPortalService, DemoPatientPortalService>();
 
             builder.Services.AddDbContext<AppDbContext>(options =>
                 options.UseSqlServer(
@@ -33,6 +35,16 @@ namespace phase_1
             app.UseAuthorization();
 
             app.MapStaticAssets();
+            app.MapControllerRoute(
+                name: "patient-portal",
+                pattern: "patient/{action=Profile}/{id?}",
+                defaults: new { controller = "Patients" })
+                .WithStaticAssets();
+            app.MapControllerRoute(
+                name: "student-portal",
+                pattern: "student/{action=Index}/{id?}",
+                defaults: new { controller = "Home" })
+                .WithStaticAssets();
             app.MapControllerRoute(
                 name: "default",
                 pattern: "{controller=Home}/{action=Index}/{id?}")

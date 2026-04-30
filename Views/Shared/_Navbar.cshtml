@@ -1,6 +1,7 @@
 @{
     var currentController = ViewContext.RouteData.Values["controller"]?.ToString() ?? string.Empty;
     var currentAction = ViewContext.RouteData.Values["action"]?.ToString() ?? string.Empty;
+    var patientControllers = new[] { "Patients", "Case", "Session", "Review", "Notification", "Match" };
 
     bool IsActive(string controller, string? action = null)
     {
@@ -10,8 +11,8 @@
     }
 
     string NavClass(string controller, string? action = null) => IsActive(controller, action) ? "sidebar-link active" : "sidebar-link";
-    var isPatientArea = string.Equals(currentController, "Patients", StringComparison.OrdinalIgnoreCase)
-        || (string.Equals(currentController, "Case", StringComparison.OrdinalIgnoreCase) && !string.Equals(currentAction, "CaseDetails", StringComparison.OrdinalIgnoreCase));
+    var isPatientArea = patientControllers.Contains(currentController, StringComparer.OrdinalIgnoreCase);
+    var loginRole = isPatientArea ? "patient" : "student";
     var portalTitle = isPatientArea ? "بوابة المريض" : "بوابة الطالب";
     var userName = isPatientArea ? "Sara" : "Guest";
     var userRole = isPatientArea ? "مريض" : "طالب";
@@ -70,6 +71,10 @@
                 <span class="nav-icon">@Html.Raw(Icon("dashboard"))</span>
                 <span>لوحة التحكم</span>
             </a>
+            <a class="@NavClass("Student", "Profile")" asp-controller="Student" asp-action="Profile">
+                <span class="nav-icon">@Html.Raw(Icon("user"))</span>
+                <span>الملف الشخصي</span>
+            </a>
             <a class="@NavClass("Offer", "BrowseCases")" asp-controller="Offer" asp-action="BrowseCases">
                 <span class="nav-icon">@Html.Raw(Icon("search"))</span>
                 <span>تصفح الحالات</span>
@@ -112,7 +117,7 @@
                 <small>@userRole</small>
             </span>
         </div>
-        <a class="logout-link" asp-controller="Auth" asp-action="Logout">
+        <a class="logout-link" asp-controller="Auth" asp-action="Logout" asp-route-role="@loginRole">
             <span>تسجيل خروج</span>
             @Html.Raw(Icon("logout"))
         </a>

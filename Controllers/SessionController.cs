@@ -1,16 +1,25 @@
 using Microsoft.AspNetCore.Mvc;
+using phase_1.Services;
 
 namespace phase_1.Controllers;
 
 public class SessionController : Controller
 {
-    public IActionResult SessionList()
+    private readonly IPatientPortalService _patientPortalService;
+
+    public SessionController(IPatientPortalService patientPortalService)
     {
-        return View();
+        _patientPortalService = patientPortalService;
     }
 
-    public IActionResult SessionDetails()
+    public IActionResult SessionList()
     {
-        return View();
+        return View(_patientPortalService.GetSessions());
+    }
+
+    public IActionResult SessionDetails(int id)
+    {
+        var viewModel = _patientPortalService.GetSessionDetails(id);
+        return viewModel is null ? NotFound() : View(viewModel);
     }
 }

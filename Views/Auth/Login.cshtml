@@ -1,5 +1,9 @@
 @{
     ViewData["Title"] = "تسجيل الدخول";
+    var selectedRole = (ViewData["SelectedRole"] as string) ?? "patient";
+    var selectedRoleTitle = (ViewData["SelectedRoleTitle"] as string) ?? "مريض";
+    var selectedPortalTitle = (ViewData["SelectedPortalTitle"] as string) ?? "بوابة المريض";
+    var isPatient = selectedRole == "patient";
 }
 
 <section class="auth-page">
@@ -9,7 +13,14 @@
             <span>منصة المطابقة الصحية</span>
         </div>
 
-        <h2>مرحبا بعودتك</h2>
+        <h2>الدخول إلى @selectedPortalTitle</h2>
+
+        <div class="auth-segment">
+            <a class="@(isPatient ? "active" : null)" asp-controller="Auth" asp-action="Login" asp-route-role="patient">مريض</a>
+            <a class="@(!isPatient ? "active" : null)" asp-controller="Auth" asp-action="Login" asp-route-role="student">طالب طب أسنان</a>
+        </div>
+
+        <p class="text-center">سجّل الدخول كـ @selectedRoleTitle للوصول مباشرة إلى المسار المناسب.</p>
 
         <form class="auth-form-grid">
             <label class="field-group">
@@ -22,9 +33,9 @@
                 <input class="form-control modern-input" name="password" type="password" placeholder="أدخل كلمة المرور" />
             </label>
 
-            <a class="text-link d-inline-block" asp-controller="Auth" asp-action="ForgotPassword">نسيت كلمة المرور؟</a>
+            <a class="text-link d-inline-block" asp-controller="Auth" asp-action="ForgotPassword" asp-route-role="@selectedRole">نسيت كلمة المرور؟</a>
 
-            <a class="primary-action" asp-controller="Home" asp-action="Index">تسجيل الدخول</a>
+            <a class="primary-action" asp-controller="Auth" asp-action="EnterPortal" asp-route-role="@selectedRole">تسجيل الدخول</a>
         </form>
 
         <div class="auth-divider"></div>

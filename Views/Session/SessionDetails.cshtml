@@ -1,3 +1,5 @@
+@model phase_1.ViewModels.PatientPortal.PatientSessionDetailsViewModel
+
 @{
     ViewData["Title"] = "تفاصيل الجلسة";
 }
@@ -5,12 +7,13 @@
 <section class="health-page">
     <div class="health-hero compact-hero">
         <div>
-            <span class="health-kicker">Session Details</span>
-            <h1 class="health-title">جلسة رقم 1</h1>
-            <p class="health-subtitle">تفاصيل الجلسة، حالتها، ومكانها مع إجراءات البدء والإنهاء.</p>
+            <span class="health-kicker">تفاصيل الجلسة</span>
+            <h1 class="health-title">جلسة رقم @Model.Session.Number - @Model.Session.Title</h1>
+            <p class="health-subtitle">مرتبطة بالحالة "@Model.Case.Title" والطالب @Model.Match.StudentName.</p>
         </div>
         <div class="hero-actions">
             <a class="ghost-action" asp-controller="Session" asp-action="SessionList">كل الجلسات</a>
+            <a class="ghost-action" asp-controller="Case" asp-action="CaseDetails" asp-route-id="@Model.Case.Id">الحالة المرتبطة</a>
         </div>
     </div>
 
@@ -20,26 +23,26 @@
                 <div class="panel-heading">
                     <div>
                         <h2>بيانات الجلسة</h2>
-                        <p>تفاصيل عملية تساعد على متابعة موعد الجلسة ومكانها.</p>
+                        <p>تفاصيل عملية تساعد على متابعة الموعد والتجهيز له.</p>
                     </div>
-                    <span class="status-badge status-inprogress">Session in progress</span>
+                    <span class="status-badge @Model.Session.StatusCssClass">@Model.Session.StatusLabel</span>
                 </div>
                 <div class="info-grid">
                     <div class="info-block">
                         <span>الموعد</span>
-                        <strong>29 أبريل 2026 - 5:00 م</strong>
+                        <strong>@Model.Session.DateLabel</strong>
                     </div>
                     <div class="info-block">
                         <span>المكان</span>
-                        <strong>Kasr Al-Ainy Clinic</strong>
+                        <strong>@Model.Session.Location</strong>
                     </div>
                     <div class="info-block">
                         <span>الغرفة</span>
-                        <strong>C-12</strong>
+                        <strong>@Model.Session.Room</strong>
                     </div>
                     <div class="info-block">
                         <span>المشرف</span>
-                        <strong>د. هالة سمير</strong>
+                        <strong>@Model.Session.SupervisorName</strong>
                     </div>
                 </div>
             </article>
@@ -48,10 +51,9 @@
                 <div class="panel-heading">
                     <div>
                         <h2>ملاحظات الجلسة</h2>
-                        <p>مساحة تجهيز للتقرير النهائي بعد انتهاء الجلسة.</p>
                     </div>
                 </div>
-                <p class="body-copy">تم بدء الجلسة، والتقييم الأولي يشير إلى احتياج المريض لجلسة متابعة بعد أسبوع مع تعليمات وقائية قصيرة.</p>
+                <p class="body-copy">@Model.Session.Notes</p>
             </article>
         </section>
 
@@ -59,17 +61,18 @@
             <article class="health-panel side-accent">
                 <div class="panel-heading">
                     <div>
-                        <h2>حالة التنفيذ</h2>
-                        <p>أزرار lifecycle للجلسة.</p>
+                        <h2>الربط السريع</h2>
                     </div>
                 </div>
-                <div class="form-actions">
-                    <button type="button" class="primary-action loading-button">
-                        <span class="button-label">بدء الجلسة</span>
-                        <span class="button-loader"></span>
-                    </button>
-                    <button type="button" class="ghost-action">إنهاء الجلسة</button>
-                    <a class="soft-action" asp-controller="Report" asp-action="AddReport">إضافة تقرير</a>
+                <div class="action-list">
+                    <a class="action-tile" asp-controller="Match" asp-action="MatchDetails" asp-route-id="@Model.Match.Id">
+                        <strong>المطابقة</strong>
+                        <span>@Model.Match.StudentName</span>
+                    </a>
+                    <a class="action-tile" asp-controller="Review" asp-action="ViewReviews">
+                        <strong>التقييمات</strong>
+                        <span>الانتقال إلى التقييمات المرتبطة بالعلاج.</span>
+                    </a>
                 </div>
             </article>
         </aside>

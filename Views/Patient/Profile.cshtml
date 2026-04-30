@@ -1,3 +1,5 @@
+@model phase_1.ViewModels.PatientPortal.PatientPortalDashboardViewModel
+
 @{
     ViewData["Title"] = "لوحة المريض";
 }
@@ -5,41 +7,38 @@
 <section class="health-page dashboard-page">
     <div class="page-heading">
         <div>
-            <h1>مرحبا بعودتك، سارة!</h1>
-            <p>إدارة حالات العلاج والمواعيد الخاصة بك</p>
+            <h1>مرحبًا بعودتك، @Model.PatientName!</h1>
+            <p>تابعي حالاتك، جلساتك، والتقييمات من نفس المسار بدون تنقلات منفصلة.</p>
         </div>
         <div class="hero-actions">
             <a class="primary-action" asp-controller="Case" asp-action="CreateCase">إنشاء حالة جديدة</a>
+            <a class="ghost-action" asp-controller="Patients" asp-action="EditProfile">تعديل الملف</a>
         </div>
     </div>
 
     <div class="metric-strip">
         <article class="mini-kpi">
-            <span class="metric-icon">▤</span>
             <div>
                 <span class="mini-kpi-label">إجمالي الحالات</span>
-                <strong>2</strong>
+                <strong>@Model.TotalCases</strong>
             </div>
         </article>
         <article class="mini-kpi">
-            <span class="metric-icon amber">↗</span>
             <div>
                 <span class="mini-kpi-label">الحالات المفتوحة</span>
-                <strong>1</strong>
+                <strong>@Model.OpenCases</strong>
             </div>
         </article>
         <article class="mini-kpi">
-            <span class="metric-icon green">□</span>
             <div>
                 <span class="mini-kpi-label">المطابقات النشطة</span>
-                <strong>1</strong>
+                <strong>@Model.ActiveMatches</strong>
             </div>
         </article>
         <article class="mini-kpi">
-            <span class="metric-icon">□</span>
             <div>
                 <span class="mini-kpi-label">الجلسات القادمة</span>
-                <strong>2</strong>
+                <strong>@Model.UpcomingSessions</strong>
             </div>
         </article>
     </div>
@@ -48,57 +47,51 @@
         <section class="health-panel">
             <div class="panel-heading">
                 <h2>الحالات الأخيرة</h2>
+                <a class="text-link" asp-controller="Case" asp-action="MyCases">عرض الكل</a>
             </div>
             <div class="case-list">
-                <article class="case-list-item">
-                    <div>
-                        <div class="case-card-top">
-                            <span class="status-badge status-progress">مفتوحة</span>
+                @foreach (var patientCase in Model.RecentCases)
+                {
+                    <article class="case-list-item">
+                        <div>
+                            <div class="case-card-top">
+                                <span class="status-badge @patientCase.StatusCssClass">@patientCase.StatusLabel</span>
+                                <span class="status-badge @patientCase.UrgencyCssClass">@patientCase.UrgencyLabel</span>
+                            </div>
+                            <h3>@patientCase.Title</h3>
+                            <p>@patientCase.Description</p>
+                            <div class="row-actions mt-2">
+                                <span class="case-meta">@patientCase.Category</span>
+                                <span class="case-meta">@patientCase.OffersCount عروض</span>
+                            </div>
                         </div>
-                        <h3>تنظيف أسنان وفحص شامل</h3>
-                        <p>أحتاج إلى تنظيف روتيني وفحص شامل للأسنان. لا توجد مشاكل كبيرة، فقط صيانة دورية.</p>
-                        <div class="row-actions mt-2">
-                            <span class="case-meta">طب الأسنان العام</span>
-                            <span class="case-meta">3 عروض</span>
+                        <div class="card-side">
+                            <a class="ghost-action compact-action" asp-controller="Case" asp-action="CaseDetails" asp-route-id="@patientCase.Id">تفاصيل الحالة</a>
                         </div>
-                    </div>
-                </article>
-
-                <article class="case-list-item">
-                    <div>
-                        <div class="case-card-top">
-                            <span class="status-badge status-open">مطابقة</span>
-                        </div>
-                        <h3>حشو أسنان مطلوب</h3>
-                        <p>لدي تسوس في الضرس السفلي ويحتاج إلى حشو. أعاني من ألم خفيف.</p>
-                        <div class="row-actions mt-2">
-                            <span class="case-meta">طب الأسنان الترميمي</span>
-                            <span class="case-meta">5 عروض</span>
-                        </div>
-                    </div>
-                </article>
+                    </article>
+                }
             </div>
         </section>
 
         <section class="health-panel">
             <div class="panel-heading">
                 <h2>الجلسات القادمة</h2>
+                <a class="text-link" asp-controller="Session" asp-action="SessionList">إدارة الجلسات</a>
             </div>
             <div class="case-list">
-                <article class="case-list-item">
-                    <div>
-                        <span class="status-badge soft-tag-blue">مجدولة</span>
-                        <h3>الاستشارة الأولية</h3>
-                        <p>الثلاثاء، 11 ذو القعدة 1447 هـ في 05:00 م</p>
-                    </div>
-                </article>
-                <article class="case-list-item">
-                    <div>
-                        <span class="status-badge soft-tag-blue">مجدولة</span>
-                        <h3>إجراء الحشو</h3>
-                        <p>الثلاثاء، 18 ذو القعدة 1447 هـ في 05:00 م</p>
-                    </div>
-                </article>
+                @foreach (var session in Model.NextSessions)
+                {
+                    <article class="case-list-item">
+                        <div>
+                            <span class="status-badge @session.StatusCssClass">@session.StatusLabel</span>
+                            <h3>@session.Title</h3>
+                            <p>@session.DateLabel</p>
+                        </div>
+                        <div class="card-side">
+                            <a class="ghost-action compact-action" asp-controller="Session" asp-action="SessionDetails" asp-route-id="@session.Id">تفاصيل الجلسة</a>
+                        </div>
+                    </article>
+                }
             </div>
         </section>
     </div>

@@ -72,7 +72,10 @@
                 </label>
 
                 <div class="form-actions">
-                    <button type="button" class="primary-action">حفظ التغييرات</button>
+                    <a class="primary-action loading-button" asp-controller="Patients" asp-action="Profile">
+                        <span class="button-label">حفظ التغييرات</span>
+                        <span class="button-loader"></span>
+                    </a>
                     <a class="ghost-action" asp-controller="Patients" asp-action="Profile">إلغاء</a>
                 </div>
             </form>

@@ -82,7 +82,10 @@
                 </div>
 
                 <div class="form-actions">
-                    <button type="button" class="primary-action">إنشاء الحالة</button>
+                    <a class="primary-action loading-button" asp-controller="Case" asp-action="MyCases">
+                        <span class="button-label">إنشاء الحالة</span>
+                        <span class="button-loader"></span>
+                    </a>
                     <a class="ghost-action" asp-controller="Case" asp-action="MyCases">حفظ كمسودة</a>
                 </div>
             </form>

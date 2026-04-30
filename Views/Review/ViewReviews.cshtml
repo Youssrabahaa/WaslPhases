@@ -1,3 +1,5 @@
+@model phase_1.ViewModels.PatientPortal.PatientReviewsPageViewModel
+
 @{
     ViewData["Title"] = "التقييمات";
 }
@@ -6,9 +8,13 @@
     <div class="page-heading">
         <div>
             <h1>التقييمات</h1>
+            <p>صفحة التقييمات مرتبطة الآن بالمطابقة نفسها، ويمكن الوصول إليها من الجلسات والحالات.</p>
         </div>
         <div class="hero-actions">
-            <a class="primary-action" asp-controller="Review" asp-action="AddReview">كتابة تقييم</a>
+            @if (Model.PendingReview is not null)
+            {
+                <a class="primary-action" asp-controller="Review" asp-action="AddReview" asp-route-matchId="@Model.PendingReview.MatchId">كتابة تقييم</a>
+            }
         </div>
     </div>
 
@@ -16,21 +22,19 @@
         <article class="mini-kpi">
             <div>
                 <span class="mini-kpi-label">متوسط التقييم</span>
-                <strong><span class="star">★</span> 5.0</strong>
+                <strong><span class="star">★</span> @Model.AverageRating.ToString("0.0")</strong>
             </div>
         </article>
         <article class="mini-kpi">
-            <span class="metric-icon">☝</span>
             <div>
                 <span class="mini-kpi-label">التقييمات المستلمة</span>
-                <strong>1</strong>
+                <strong>@Model.ReceivedCount</strong>
             </div>
         </article>
         <article class="mini-kpi">
-            <span class="metric-icon green">☆</span>
             <div>
                 <span class="mini-kpi-label">التقييمات المقدمة</span>
-                <strong>2</strong>
+                <strong>@Model.SubmittedCount</strong>
             </div>
         </article>
     </div>
@@ -40,23 +44,29 @@
             <div class="panel-heading">
                 <h2>التقييمات المستلمة</h2>
             </div>
-            <article class="review-card">
-                <div class="case-card-top">
-                    <span class="user-avatar">⌾</span>
-                    <div>
-                        <h3>أحمد الراشد</h3>
-                        <span class="case-meta">طالب</span>
+            @foreach (var review in Model.ReceivedReviews)
+            {
+                <article class="review-card">
+                    <div class="case-card-top">
+                        <span class="user-avatar">•</span>
+                        <div>
+                            <h3>@review.StudentName</h3>
+                            <span class="case-meta">@review.AuthorRoleLabel</span>
+                        </div>
                     </div>
-                </div>
-                <div class="rating-row">
-                    <span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span>
-                </div>
-                <p>مريضة رائعة! متعاونة جدا واتبعت جميع تعليمات ما بعد العلاج بشكل مثالي.</p>
-                <div class="row-actions">
-                    <span class="status-badge status-draft">حشو أسنان مطلوب</span>
-                    <span class="case-meta">1447/10/28 هـ</span>
-                </div>
-            </article>
+                    <div class="rating-row">
+                        @for (var i = 0; i < review.Rating; i++)
+                        {
+                            <span class="star">★</span>
+                        }
+                    </div>
+                    <p>@review.Comment</p>
+                    <div class="row-actions">
+                        <a class="status-badge status-draft" asp-controller="Case" asp-action="CaseDetails" asp-route-id="@review.CaseId">@review.CaseTitle</a>
+                        <span class="case-meta">@review.CreatedAtLabel</span>
+                    </div>
+                </article>
+            }
         </section>
 
         <section class="health-panel">
@@ -64,41 +74,29 @@
                 <h2>التقييمات التي قدمتها</h2>
             </div>
             <div class="case-list">
-                <article class="review-card">
-                    <div class="case-card-top">
-                        <span class="user-avatar">⌾</span>
-                        <div>
-                            <h3>أحمد الراشد</h3>
-                            <span class="case-meta">طالب</span>
+                @foreach (var review in Model.SubmittedReviews)
+                {
+                    <article class="review-card">
+                        <div class="case-card-top">
+                            <span class="user-avatar">•</span>
+                            <div>
+                                <h3>@review.StudentName</h3>
+                                <span class="case-meta">@review.AuthorRoleLabel</span>
+                            </div>
                         </div>
-                    </div>
-                    <div class="rating-row">
-                        <span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span>
-                    </div>
-                    <p>تجربة ممتازة! أحمد كان محترفا جدا وجعلني أشعر بالراحة طوال الإجراء. أنصح به بشدة.</p>
-                    <div class="row-actions">
-                        <span class="status-badge status-draft">حشو أسنان مطلوب</span>
-                        <span class="case-meta">1447/10/27 هـ</span>
-                    </div>
-                </article>
-
-                <article class="review-card">
-                    <div class="case-card-top">
-                        <span class="user-avatar">⌾</span>
-                        <div>
-                            <h3>أحمد الراشد</h3>
-                            <span class="case-meta">طالب</span>
+                        <div class="rating-row">
+                            @for (var i = 1; i <= 5; i++)
+                            {
+                                <span class="star">@(i <= review.Rating ? "★" : "☆")</span>
+                            }
                         </div>
-                    </div>
-                    <div class="rating-row">
-                        <span class="star">☆</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span>
-                    </div>
-                    <p>خدمة جيدة بشكل عام. العلاج كان ناجحا والطالب كان لديه معرفة جيدة.</p>
-                    <div class="row-actions">
-                        <span class="status-badge status-draft">تنظيف الأسنان</span>
-                        <span class="case-meta">1447/10/23 هـ</span>
-                    </div>
-                </article>
+                        <p>@review.Comment</p>
+                        <div class="row-actions">
+                            <a class="status-badge status-draft" asp-controller="Case" asp-action="CaseDetails" asp-route-id="@review.CaseId">@review.CaseTitle</a>
+                            <span class="case-meta">@review.CreatedAtLabel</span>
+                        </div>
+                    </article>
+                }
             </div>
         </section>
     </div>

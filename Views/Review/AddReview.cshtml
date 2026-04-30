@@ -1,3 +1,5 @@
+@model phase_1.ViewModels.PatientPortal.PatientAddReviewViewModel
+
 @{
     ViewData["Title"] = "إضافة تقييم";
 }
@@ -6,7 +8,7 @@
     <div class="page-heading">
         <div>
             <h1>كتابة تقييم</h1>
-            <p>سجل تقييمك بعد اكتمال الخدمة</p>
+            <p>التقييم مرتبط مباشرة بالمطابقة الخاصة بحالة "@Model.ReviewTarget.CaseTitle".</p>
         </div>
         <div class="hero-actions">
             <a class="ghost-action" asp-controller="Review" asp-action="ViewReviews">عرض التقييمات</a>
@@ -20,7 +22,7 @@
                     <span>التقييم</span>
                     <select class="form-select modern-input" name="rating">
                         <option value="5">5 نجوم - ممتاز</option>
-                        <option value="4">4 نجوم - جيد جدا</option>
+                        <option value="4">4 نجوم - جيد جدًا</option>
                         <option value="3">3 نجوم - جيد</option>
                         <option value="2">2 نجوم - يحتاج تحسين</option>
                         <option value="1">1 نجمة - تجربة ضعيفة</option>
@@ -52,13 +54,16 @@
                 <dl class="stacked-list">
                     <div>
                         <dt>الحالة</dt>
-                        <dd>حشو أسنان مطلوب</dd>
+                        <dd>@Model.ReviewTarget.CaseTitle</dd>
                     </div>
                     <div>
                         <dt>الطالب</dt>
-                        <dd>أحمد الراشد</dd>
+                        <dd>@Model.ReviewTarget.StudentName</dd>
                     </div>
                 </dl>
+                <div class="form-actions mt-4">
+                    <a class="ghost-action" asp-controller="Match" asp-action="MatchDetails" asp-route-id="@Model.ReviewTarget.MatchId">عرض المطابقة</a>
+                </div>
             </article>
         </aside>
     </div>

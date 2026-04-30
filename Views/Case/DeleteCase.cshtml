@@ -13,8 +13,8 @@
             <h2>هل تريد حذف هذه الحالة؟</h2>
             <p>هذه شاشة تأكيد مؤقتة إلى أن يتم ربط منطق الحذف الحقيقي داخل النظام.</p>
             <div class="form-actions center-actions">
-                <button type="button" class="danger-action">حذف الحالة</button>
-                <a class="ghost-action" asp-controller="Case" asp-action="CaseDetails">إلغاء</a>
+                <a class="danger-action" asp-controller="Case" asp-action="MyCases">حذف الحالة</a>
+                <a class="ghost-action" asp-controller="Case" asp-action="CaseDetails" asp-route-id="1">إلغاء</a>
             </div>
         </div>
     </div>

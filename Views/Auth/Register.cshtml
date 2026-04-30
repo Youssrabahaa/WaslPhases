@@ -1,5 +1,9 @@
 @{
     ViewData["Title"] = "إنشاء حساب";
+    var selectedRole = (ViewData["SelectedRole"] as string) ?? "patient";
+    var selectedRoleTitle = (ViewData["SelectedRoleTitle"] as string) ?? "مريض";
+    var selectedPortalTitle = (ViewData["SelectedPortalTitle"] as string) ?? "بوابة المريض";
+    var isPatient = selectedRole == "patient";
 }
 
 <section class="auth-page">
@@ -9,12 +13,14 @@
             <span>منصة الربط الطبي</span>
         </div>
 
-        <h2>إنشاء حساب جديد</h2>
+        <h2>إنشاء حساب @selectedRoleTitle</h2>
 
         <div class="auth-segment">
-            <span class="active">التسجيل ك مريض</span>
-            <a asp-controller="Auth" asp-action="SelectRole">تغيير الدور</a>
+            <a class="@(isPatient ? "active" : null)" asp-controller="Auth" asp-action="Register" asp-route-role="patient">مريض</a>
+            <a class="@(!isPatient ? "active" : null)" asp-controller="Auth" asp-action="Register" asp-route-role="student">طالب طب أسنان</a>
         </div>
+
+        <p class="text-center">بعد التحقق، هنفتح لك @selectedPortalTitle مباشرة.</p>
 
         <form class="auth-form-grid">
             <label class="field-group">
@@ -33,7 +39,7 @@
             </label>
 
             <div class="auth-actions">
-                <a class="primary-action" asp-controller="Auth" asp-action="VerifyOTP">إنشاء الحساب</a>
+                <a class="primary-action" asp-controller="Auth" asp-action="VerifyOTP" asp-route-role="@selectedRole">إنشاء الحساب</a>
                 <a class="ghost-action" asp-controller="Auth" asp-action="SelectRole">رجوع</a>
             </div>
         </form>

@@ -11,7 +11,7 @@
         </div>
         <div class="hero-actions">
             <span class="status-badge status-open">مفتوحة</span>
-            <a class="ghost-action" asp-controller="Case" asp-action="CaseDetails">العودة إلى التفاصيل</a>
+            <a class="ghost-action" asp-controller="Case" asp-action="CaseDetails" asp-route-id="1">العودة إلى التفاصيل</a>
         </div>
     </div>
 
@@ -107,8 +107,11 @@
                 </div>
 
                 <div class="form-actions">
-                    <button type="button" class="primary-action">حفظ الحالة</button>
-                    <a class="ghost-action" asp-controller="Case" asp-action="CaseDetails">إلغاء التغييرات</a>
+                    <a class="primary-action loading-button" asp-controller="Case" asp-action="CaseDetails" asp-route-id="1">
+                        <span class="button-label">حفظ الحالة</span>
+                        <span class="button-loader"></span>
+                    </a>
+                    <a class="ghost-action" asp-controller="Case" asp-action="CaseDetails" asp-route-id="1">إلغاء التغييرات</a>
                 </div>
             </form>
         </section>

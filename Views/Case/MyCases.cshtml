@@ -1,76 +1,46 @@
+@model phase_1.ViewModels.PatientPortal.PatientCasesPageViewModel
+
 @{
-    ViewData["Title"] = "حالاتي";
+    ViewData["Title"] = "حالتي";
 }
 
 <section class="health-page">
     <div class="page-heading">
         <div>
-            <h1>حالاتي</h1>
+            <h1>حالتي</h1>
+            <p>كل حالة موصولة الآن بتفاصيلها، المطابقة المرتبطة بها، والجلسات الناتجة عنها.</p>
         </div>
         <div class="hero-actions">
             <a class="primary-action" asp-controller="Case" asp-action="CreateCase">إنشاء حالة جديدة</a>
         </div>
     </div>
 
-    <section class="filter-panel">
-        <div class="search-grid">
-            <input class="form-control modern-input" placeholder="البحث في الحالات..." />
-            <select class="form-select modern-input" aria-label="الحالة">
-                <option>كل الحالات</option>
-                <option>مفتوحة</option>
-                <option>مطابقة</option>
-            </select>
-            <select class="form-select modern-input" aria-label="الفئة">
-                <option>كل الفئات</option>
-                <option>طب الأسنان العام</option>
-                <option>طب الأسنان الترميمي</option>
-            </select>
-            <select class="form-select modern-input" aria-label="العروض">
-                <option>كل العروض</option>
-                <option>لديها عروض</option>
-            </select>
-        </div>
-    </section>
-
     <div class="case-list">
-        <article class="case-card">
-            <div>
-                <div class="case-card-top">
-                    <span class="status-badge status-progress">مفتوحة</span>
-                    <span class="status-badge status-draft">عادية</span>
+        @foreach (var patientCase in Model.Cases)
+        {
+            <article class="case-card">
+                <div>
+                    <div class="case-card-top">
+                        <span class="status-badge @patientCase.StatusCssClass">@patientCase.StatusLabel</span>
+                        <span class="status-badge @patientCase.UrgencyCssClass">@patientCase.UrgencyLabel</span>
+                    </div>
+                    <h3>@patientCase.Title</h3>
+                    <p>@patientCase.Description</p>
+                    <div class="row-actions mt-3">
+                        <span class="case-meta">@patientCase.Category</span>
+                        <span class="case-meta">@patientCase.Location</span>
+                        <span class="case-meta">@patientCase.OffersCount عروض مستلمة</span>
+                        <span class="case-meta">@patientCase.CreatedAtLabel</span>
+                    </div>
                 </div>
-                <h3>تنظيف أسنان وفحص شامل</h3>
-                <p>أحتاج إلى تنظيف روتيني وفحص شامل للأسنان. لا توجد مشاكل كبيرة، فقط صيانة دورية.</p>
-                <div class="row-actions mt-3">
-                    <span class="case-meta">طب الأسنان العام</span>
-                    <span class="case-meta">الرياض</span>
-                    <span class="case-meta">3 عروض مستلمة</span>
-                    <span class="case-meta">تم الإنشاء 1447/11/3 هـ</span>
+                <div class="card-side">
+                    <a class="ghost-action compact-action" asp-controller="Case" asp-action="CaseDetails" asp-route-id="@patientCase.Id">تفاصيل الحالة</a>
+                    @if (patientCase.MatchId.HasValue)
+                    {
+                        <a class="ghost-action compact-action" asp-controller="Match" asp-action="MatchDetails" asp-route-id="@patientCase.MatchId.Value">عرض المطابقة</a>
+                    }
                 </div>
-            </div>
-            <div class="card-side">
-                <a class="ghost-action compact-action" asp-controller="Case" asp-action="CaseDetails" asp-route-id="1">عرض العروض (3)</a>
-            </div>
-        </article>
-
-        <article class="case-card">
-            <div>
-                <div class="case-card-top">
-                    <span class="status-badge status-open">مطابقة</span>
-                    <span class="status-badge status-pending">متوسطة</span>
-                </div>
-                <h3>حشو أسنان مطلوب</h3>
-                <p>لدي تسوس في الضرس السفلي ويحتاج إلى حشو. أعاني من ألم خفيف.</p>
-                <div class="row-actions mt-3">
-                    <span class="case-meta">طب الأسنان الترميمي</span>
-                    <span class="case-meta">الرياض</span>
-                    <span class="case-meta">5 عروض مستلمة</span>
-                    <span class="case-meta">تم الإنشاء 1447/11/1 هـ</span>
-                </div>
-            </div>
-            <div class="card-side">
-                <a class="ghost-action compact-action" asp-controller="Match" asp-action="MatchDetails">عرض المطابقة</a>
-            </div>
-        </article>
+            </article>
+        }
     </div>
 </section>

@@ -1,3 +1,5 @@
+@model phase_1.ViewModels.PatientPortal.PatientSessionsPageViewModel
+
 @{
     ViewData["Title"] = "الجلسات";
 }
@@ -6,29 +8,27 @@
     <div class="page-heading">
         <div>
             <h1>الجلسات</h1>
+            <p>كل جلسة مرتبطة الآن بالحالة والمطابقة الخاصة بها.</p>
         </div>
     </div>
 
     <div class="metric-strip">
         <article class="mini-kpi">
-            <span class="metric-icon">□</span>
             <div>
                 <span class="mini-kpi-label">القادمة</span>
-                <strong>2</strong>
+                <strong>@Model.UpcomingCount</strong>
             </div>
         </article>
         <article class="mini-kpi">
-            <span class="metric-icon green">✓</span>
             <div>
                 <span class="mini-kpi-label">المكتملة</span>
-                <strong>1</strong>
+                <strong>@Model.CompletedCount</strong>
             </div>
         </article>
         <article class="mini-kpi">
-            <span class="metric-icon rose">×</span>
             <div>
                 <span class="mini-kpi-label">الملغاة</span>
-                <strong>0</strong>
+                <strong>@Model.CancelledCount</strong>
             </div>
         </article>
     </div>
@@ -39,49 +39,27 @@
         </div>
 
         <div class="timeline-list">
-            <article class="timeline-entry">
-                <span class="timeline-line">
-                    <span class="timeline-icon">◷</span>
-                </span>
-                <div class="timeline-card">
-                    <span class="timeline-status soft-tag-blue">scheduled</span>
-                    <h3>الاستشارة الأولية</h3>
-                    <time>Tuesday, April 28, 2026 at 05:00 PM</time>
-                    <div class="row-actions">
-                        <a class="ghost-action compact-action" asp-controller="Session" asp-action="SessionDetails">إعادة جدولة</a>
-                        <button class="ghost-action compact-action" type="button">إلغاء</button>
+            @foreach (var session in Model.Sessions)
+            {
+                <article class="timeline-entry">
+                    <span class="timeline-line">
+                        <span class="timeline-icon">•</span>
+                    </span>
+                    <div class="timeline-card">
+                        <span class="timeline-status @session.StatusCssClass">@session.StatusLabel</span>
+                        <h3>@session.Title</h3>
+                        <time>@session.DateLabel</time>
+                        <div class="row-actions">
+                            <a class="ghost-action compact-action" asp-controller="Session" asp-action="SessionDetails" asp-route-id="@session.Id">تفاصيل الجلسة</a>
+                            <a class="ghost-action compact-action" asp-controller="Case" asp-action="CaseDetails" asp-route-id="@session.CaseId">الحالة المرتبطة</a>
+                            @if (session.CanAddReview)
+                            {
+                                <a class="ghost-action compact-action" asp-controller="Review" asp-action="AddReview" asp-route-matchId="@session.MatchId">إضافة تقييم</a>
+                            }
+                        </div>
                     </div>
-                </div>
-            </article>
-
-            <article class="timeline-entry">
-                <span class="timeline-line">
-                    <span class="timeline-icon">◷</span>
-                </span>
-                <div class="timeline-card">
-                    <span class="timeline-status soft-tag-blue">scheduled</span>
-                    <h3>إجراء الحشو</h3>
-                    <time>Tuesday, May 5, 2026 at 05:00 PM</time>
-                    <div class="row-actions">
-                        <a class="ghost-action compact-action" asp-controller="Session" asp-action="SessionDetails">إعادة جدولة</a>
-                        <button class="ghost-action compact-action" type="button">إلغاء</button>
-                    </div>
-                </div>
-            </article>
-
-            <article class="timeline-entry">
-                <span class="timeline-line">
-                    <span class="timeline-icon green">✓</span>
-                </span>
-                <div class="timeline-card">
-                    <span class="timeline-status soft-tag-teal">completed</span>
-                    <h3>تنظيف الأسنان</h3>
-                    <time>April 15, 2026 at 12:00 PM</time>
-                    <div class="row-actions">
-                        <a class="ghost-action compact-action" asp-controller="Report" asp-action="ViewReport">عرض التقرير</a>
-                    </div>
-                </div>
-            </article>
+                </article>
+            }
         </div>
     </section>
 </section>
