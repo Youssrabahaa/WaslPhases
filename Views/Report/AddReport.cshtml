@@ -2,21 +2,29 @@
     ViewData["Title"] = "إضافة تقرير";
 }
 
-<section class="health-page">
-    <div class="health-hero compact-hero">
+<section class="health-page report-page">
+    <div class="health-hero compact-hero report-hero">
         <div>
-            <span class="health-kicker">إضافة تقرير</span>
-            <h1 class="health-title">أضف تقريرا طبيا مختصرا.</h1>
-            <p class="health-subtitle">التقرير يساعد المشرف والمريض على متابعة جودة الجلسة ووضوح الخطوات القادمة.</p>
+            <span class="health-kicker">تقرير متابعة</span>
+            <h1 class="health-title">أضف تقريرا واضحا في أقل من دقيقة.</h1>
+            <p class="health-subtitle">نفس لوجيك التقارير الحالي، لكن بتجربة عربية أهدأ: حقول مختصرة، أولوية واضحة، ومسار مباشر للمراجعة.</p>
         </div>
-        <div class="hero-actions">
-            <a class="ghost-action" asp-controller="Session" asp-action="SessionList">قائمة الجلسات</a>
+        <div class="report-hero-card">
+            <span>حالة النموذج</span>
+            <strong>جاهز للإرسال</strong>
+            <small>لا توجد رسائل أو محادثات إضافية</small>
         </div>
     </div>
 
     <div class="content-grid">
         <section class="content-main">
-            <form class="health-panel form-panel">
+            <form class="health-panel form-panel report-form-card">
+                <div class="form-section-title">
+                    <span class="section-label">بيانات التقرير</span>
+                    <h2>اكتب التفاصيل الأساسية فقط</h2>
+                    <p>اختار النوع والأولوية، ثم اكتب سبب التقرير بشكل يساعد المشرف على اتخاذ إجراء مناسب.</p>
+                </div>
+
                 <div class="form-grid">
                     <label class="field-group">
                         <span>نوع التقرير</span>
@@ -25,6 +33,7 @@
                             <option>سلوك مستخدم</option>
                             <option>مشكلة إدارية</option>
                         </select>
+                        <small class="field-hint">حدد السياق الأقرب للتقرير.</small>
                     </label>
                     <label class="field-group">
                         <span>درجة الأولوية</span>
@@ -33,33 +42,47 @@
                             <option>متوسطة</option>
                             <option>عاجلة</option>
                         </select>
+                        <small class="field-hint">الأولوية تساعد في ترتيب المراجعة.</small>
                     </label>
                     <label class="field-group field-span-2">
                         <span>سبب التقرير</span>
                         <textarea class="form-control modern-input modern-textarea" name="reason" rows="7" placeholder="اكتب ملخصا واضحا لما حدث، وما المطلوب مراجعته أو متابعته."></textarea>
+                        <small class="field-hint">اكتب وصفا مختصرا وواضحا بدون بيانات حساسة غير ضرورية.</small>
                     </label>
                 </div>
 
-                <a class="primary-action loading-button" asp-controller="Report" asp-action="ViewReport">
-                    <span class="button-label">إرسال التقرير</span>
-                    <span class="button-loader"></span>
-                </a>
+                <div class="report-submit-row">
+                    <a class="ghost-action" asp-controller="Session" asp-action="SessionList">الرجوع للجلسات</a>
+                    <a class="primary-action loading-button" asp-controller="Report" asp-action="ViewReport">
+                        <span class="button-label">إرسال التقرير</span>
+                        <span class="button-loader"></span>
+                    </a>
+                </div>
             </form>
         </section>
 
         <aside class="content-side">
-            <article class="health-panel side-accent">
+            <article class="health-panel side-accent report-side-card">
                 <div class="panel-heading">
                     <div>
                         <h2>متى أستخدم التقرير؟</h2>
-                        <p>إرشادات صغيرة لتوحيد الاستخدام.</p>
+                        <p>إرشادات مختصرة لتوحيد الاستخدام داخل المنصة.</p>
                     </div>
                 </div>
-                <ul class="clean-list">
-                    <li>عند انتهاء جلسة وتحتاج توثيق ما تم.</li>
-                    <li>عند وجود ملاحظة على التزام أحد الأطراف.</li>
-                    <li>عند الحاجة لتدخل مشرف أو إدارة.</li>
-                </ul>
+                <div class="report-tip-list">
+                    <div>
+                        <span>01</span>
+                        <p>بعد انتهاء جلسة وتحتاج توثيق ما تم.</p>
+                    </div>
+                    <div>
+                        <span>02</span>
+                        <p>عند وجود ملاحظة على التزام أحد الأطراف.</p>
+                    </div>
+                    <div>
+                        <span>03</span>
+                        <p>عند الحاجة لتدخل مشرف أو إدارة.</p>
+                    </div>
+                </div>
             </article>
         </aside>
     </div>
