@@ -1,5 +1,6 @@
 @{
     ViewData["Title"] = "عرض التقييمات";
+    var portalRoute = ViewContext.RouteData.Values["portal"]?.ToString();
 }
 
 <section class="health-page">
@@ -10,7 +11,7 @@
             <p class="health-subtitle">صفحة تعرض التقييمات، متوسط النجوم، وتعليقات مختصرة من تجارب سابقة.</p>
         </div>
         <div class="hero-actions">
-            <a class="primary-action" asp-controller="Review" asp-action="AddReview">إضافة تقييم</a>
+            <a class="primary-action" asp-controller="Review" asp-action="AddReview" asp-route-portal="@portalRoute">كتابة تقييم</a>
         </div>
     </div>
 

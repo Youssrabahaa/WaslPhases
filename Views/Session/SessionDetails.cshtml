@@ -1,5 +1,6 @@
 @{
     ViewData["Title"] = "تفاصيل الجلسة";
+    var portalRoute = ViewContext.RouteData.Values["portal"]?.ToString();
 }
 
 <section class="health-page">
@@ -10,7 +11,7 @@
             <p class="health-subtitle">تفاصيل الجلسة، حالتها، ومكانها مع إجراءات البدء والإنهاء.</p>
         </div>
         <div class="hero-actions">
-            <a class="ghost-action" asp-controller="Session" asp-action="SessionList">كل الجلسات</a>
+            <a class="ghost-action" asp-controller="Session" asp-action="SessionList" asp-route-portal="@portalRoute">كل الجلسات</a>
         </div>
     </div>
 
@@ -69,7 +70,7 @@
                         <span class="button-loader"></span>
                     </button>
                     <button type="button" class="ghost-action">إنهاء الجلسة</button>
-                    <a class="soft-action" asp-controller="Report" asp-action="AddReport">إضافة تقرير</a>
+                    <a class="soft-action" asp-controller="Report" asp-action="AddReport" asp-route-portal="@portalRoute">إضافة تقرير</a>
                 </div>
             </article>
         </aside>

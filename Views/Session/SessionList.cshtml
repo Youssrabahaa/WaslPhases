@@ -1,5 +1,6 @@
 @{
     ViewData["Title"] = "قائمة الجلسات";
+    var portalRoute = ViewContext.RouteData.Values["portal"]?.ToString();
 }
 
 <section class="health-page">
@@ -10,7 +11,7 @@
             <p class="health-subtitle">قائمة الجلسات تعرض المواعيد، الحالات، وإجراءات البدء أو المتابعة مع حالة عدم وجود جلسات.</p>
         </div>
         <div class="hero-actions">
-            <a class="primary-action" asp-controller="Match" asp-action="MatchDetails">تفاصيل المطابقة</a>
+            <a class="primary-action" asp-controller="Match" asp-action="MatchDetails" asp-route-portal="@portalRoute">تفاصيل المطابقة</a>
         </div>
     </div>
 
@@ -25,7 +26,7 @@
                 <h3>جلسة تقييم أولية لعلاج تحفظي</h3>
                 <p>بدأت الجلسة، ويجب إضافة تقرير مختصر عند الانتهاء.</p>
                 <div class="row-actions mt-3">
-                    <a class="primary-action compact-action" asp-controller="Session" asp-action="SessionDetails" asp-route-id="1">تفاصيل الجلسة</a>
+                    <a class="primary-action compact-action" asp-controller="Session" asp-action="SessionDetails" asp-route-id="1" asp-route-portal="@portalRoute">تفاصيل الجلسة</a>
                     <button type="button" class="ghost-action compact-action">إنهاء الجلسة</button>
                 </div>
             </div>
@@ -45,8 +46,8 @@
                 <h3>جلسة فحص وتحضير</h3>
                 <p>تمت الجلسة وإضافة التقرير الطبي المطلوب.</p>
                 <div class="row-actions mt-3">
-                    <a class="ghost-action compact-action" asp-controller="Session" asp-action="SessionDetails" asp-route-id="2">عرض التفاصيل</a>
-                    <a class="ghost-action compact-action" asp-controller="Report" asp-action="ViewReport" asp-route-id="1">عرض التقرير</a>
+                    <a class="ghost-action compact-action" asp-controller="Session" asp-action="SessionDetails" asp-route-id="2" asp-route-portal="@portalRoute">عرض التفاصيل</a>
+                    <a class="ghost-action compact-action" asp-controller="Report" asp-action="ViewReport" asp-route-id="1" asp-route-portal="@portalRoute">عرض التقرير</a>
                 </div>
             </div>
             <div class="card-side">
@@ -68,5 +69,57 @@
             <h3>Completed session</h3>
             <p>حالة جاهزة للجلسات المكتملة، مع ربط مباشر للتقرير والتقييم.</p>
         </article>
+    </section>
+
+    <section class="health-panel">
+        <div class="panel-heading">
+            <h2>الجدول الزمني للجلسات</h2>
+        </div>
+
+        <div class="timeline-list">
+            <article class="timeline-entry">
+                <span class="timeline-line">
+                    <span class="timeline-icon">◷</span>
+                </span>
+                <div class="timeline-card">
+                    <span class="timeline-status soft-tag-blue">scheduled</span>
+                    <h3>الاستشارة الأولية</h3>
+                    <time>Tuesday, April 28, 2026 at 05:00 PM</time>
+                    <div class="row-actions">
+                        <a class="ghost-action compact-action" asp-controller="Session" asp-action="SessionDetails" asp-route-id="1" asp-route-portal="@portalRoute">إعادة جدولة</a>
+                        <button class="ghost-action compact-action" type="button">إلغاء</button>
+                    </div>
+                </div>
+            </article>
+
+            <article class="timeline-entry">
+                <span class="timeline-line">
+                    <span class="timeline-icon">◷</span>
+                </span>
+                <div class="timeline-card">
+                    <span class="timeline-status soft-tag-blue">scheduled</span>
+                    <h3>إجراء الحشو</h3>
+                    <time>Tuesday, May 5, 2026 at 05:00 PM</time>
+                    <div class="row-actions">
+                        <a class="ghost-action compact-action" asp-controller="Session" asp-action="SessionDetails" asp-route-id="2" asp-route-portal="@portalRoute">إعادة جدولة</a>
+                        <button class="ghost-action compact-action" type="button">إلغاء</button>
+                    </div>
+                </div>
+            </article>
+
+            <article class="timeline-entry">
+                <span class="timeline-line">
+                    <span class="timeline-icon green">✓</span>
+                </span>
+                <div class="timeline-card">
+                    <span class="timeline-status soft-tag-teal">completed</span>
+                    <h3>تنظيف الأسنان</h3>
+                    <time>April 15, 2026 at 12:00 PM</time>
+                    <div class="row-actions">
+                        <a class="ghost-action compact-action" asp-controller="Report" asp-action="ViewReport" asp-route-portal="@portalRoute">عرض التقرير</a>
+                    </div>
+                </div>
+            </article>
+        </div>
     </section>
 </section>

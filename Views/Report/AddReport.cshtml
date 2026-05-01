@@ -1,5 +1,6 @@
 @{
     ViewData["Title"] = "إضافة تقرير";
+    var portalRoute = ViewContext.RouteData.Values["portal"]?.ToString();
 }
 
 <section class="health-page">
@@ -40,10 +41,10 @@
                     </label>
                 </div>
 
-                <a class="primary-action loading-button" asp-controller="Report" asp-action="ViewReport">
-                    <span class="button-label">إرسال التقرير</span>
-                    <span class="button-loader"></span>
-                </a>
+                <div class="form-actions">
+                    <a class="primary-action" asp-controller="Report" asp-action="ViewReport" asp-route-portal="@portalRoute">إرسال التقرير</a>
+                    <a class="ghost-action" asp-controller="Session" asp-action="SessionList" asp-route-portal="@portalRoute">الرجوع للجلسات</a>
+                </div>
             </form>
         </section>
 

@@ -1,5 +1,6 @@
 @{
     ViewData["Title"] = "تفاصيل المطابقة";
+    var portalRoute = ViewContext.RouteData.Values["portal"]?.ToString();
 }
 
 <section class="health-page">
@@ -10,8 +11,8 @@
             <p class="health-subtitle">هذه الصفحة تمثل لحظة تحويل العرض المقبول إلى Match مع بيانات المريض والطالب والجلسات القادمة.</p>
         </div>
         <div class="hero-actions">
-            <a class="primary-action" asp-controller="Session" asp-action="SessionList">إدارة الجلسات</a>
-            <a class="ghost-action" asp-controller="Report" asp-action="AddReport">إضافة تقرير</a>
+            <a class="primary-action" asp-controller="Session" asp-action="SessionList" asp-route-portal="@portalRoute">إدارة الجلسات</a>
+            <a class="ghost-action" asp-controller="Report" asp-action="AddReport" asp-route-portal="@portalRoute">إضافة تقرير</a>
         </div>
     </div>
 
@@ -113,14 +114,50 @@
                     </div>
                 </div>
                 <div class="action-list">
-                    <a class="action-tile" asp-controller="Session" asp-action="SessionDetails" asp-route-id="1">
+                    <a class="action-tile" asp-controller="Session" asp-action="SessionDetails" asp-route-id="1" asp-route-portal="@portalRoute">
                         <strong>فتح الجلسة الحالية</strong>
                         <span>راجع حالة الجلسة ومكانها وملاحظاتها.</span>
                     </a>
-                    <a class="action-tile" asp-controller="Review" asp-action="AddReview">
+                    <a class="action-tile" asp-controller="Review" asp-action="AddReview" asp-route-portal="@portalRoute">
                         <strong>إضافة تقييم</strong>
                         <span>بعد اكتمال الجلسات يمكن تسجيل تقييم.</span>
                     </a>
+                </div>
+            </article>
+            <article class="health-panel">
+                <div class="panel-heading">
+                    <div>
+                        <h2>ملخص العرض</h2>
+                        <p>بيانات سريعة عن الاتفاق الحالي.</p>
+                    </div>
+                </div>
+                <div class="summary-strip">
+                    <div class="summary-tile">
+                        <span>الفئة</span>
+                        <strong>طب الأسنان الترميمي</strong>
+                    </div>
+                    <div class="summary-tile">
+                        <span>الموقع</span>
+                        <strong>الرياض</strong>
+                    </div>
+                    <div class="summary-tile">
+                        <span>السعر المتفق عليه</span>
+                        <strong class="text-primary">300 ريال</strong>
+                    </div>
+                    <div class="summary-tile">
+                        <span>الجلسات</span>
+                        <strong>1</strong>
+                    </div>
+                </div>
+
+                <div class="info-block mt-4">
+                    <span>رسالة العرض</span>
+                    <strong>لدي خبرة في الحشوات المركبة. الإجراء بسيط وخال من الآلام.</strong>
+                </div>
+
+                <div class="form-actions mt-4">
+                    <a class="primary-action" asp-controller="Session" asp-action="SessionList" asp-route-portal="@portalRoute">عرض الجلسات</a>
+                    <a class="ghost-action" asp-controller="Offer" asp-action="OfferDetails" asp-route-portal="@portalRoute">تفاصيل العرض</a>
                 </div>
             </article>
         </aside>

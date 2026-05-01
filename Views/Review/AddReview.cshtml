@@ -1,5 +1,6 @@
 @{
     ViewData["Title"] = "إضافة تقييم";
+    var portalRoute = ViewContext.RouteData.Values["portal"]?.ToString();
 }
 
 <section class="health-page">
@@ -10,7 +11,7 @@
             <p class="health-subtitle">واجهة بسيطة لاختيار النجوم وكتابة تعليق مختصر بعد نهاية الخدمة.</p>
         </div>
         <div class="hero-actions">
-            <a class="ghost-action" asp-controller="Review" asp-action="ViewReviews">عرض التقييمات</a>
+            <a class="ghost-action" asp-controller="Review" asp-action="ViewReviews" asp-route-portal="@portalRoute">عرض التقييمات</a>
         </div>
     </div>
 
@@ -41,10 +42,7 @@
                     <textarea class="form-control modern-input modern-textarea" name="comment" rows="6" placeholder="اكتب ملاحظة تساعد على تحسين الخدمة."></textarea>
                 </label>
 
-                <a class="primary-action loading-button" asp-controller="Review" asp-action="ViewReviews">
-                    <span class="button-label">حفظ التقييم</span>
-                    <span class="button-loader"></span>
-                </a>
+                <a class="primary-action" asp-controller="Review" asp-action="ViewReviews" asp-route-portal="@portalRoute">حفظ التقييم</a>
             </form>
         </section>
 

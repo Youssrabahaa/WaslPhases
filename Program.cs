@@ -34,6 +34,16 @@ namespace phase_1
 
             app.MapStaticAssets();
             app.MapControllerRoute(
+                name: "patient-portal",
+                pattern: "patient/{controller=Patients}/{action=Profile}/{id?}",
+                defaults: new { portal = "patient" })
+                .WithStaticAssets();
+            app.MapControllerRoute(
+                name: "student-portal",
+                pattern: "student/{controller=Home}/{action=Index}/{id?}",
+                defaults: new { portal = "student" })
+                .WithStaticAssets();
+            app.MapControllerRoute(
                 name: "default",
                 pattern: "{controller=Home}/{action=Index}/{id?}")
                 .WithStaticAssets();
