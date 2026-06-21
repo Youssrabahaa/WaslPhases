@@ -1,0 +1,91 @@
+@{
+    ViewData["Title"] = "تعديل ملف الطالب";
+}
+
+<section class="health-page">
+    <div class="health-hero compact-hero">
+        <div>
+            <span class="health-kicker">Edit Student Profile</span>
+            <h1 class="health-title">تعديل بيانات الطالب</h1>
+            <p class="health-subtitle">نموذج منظم لبيانات الطالب الأكاديمية والعيادة والمشرف، مع حالات إدخال واضحة.</p>
+        </div>
+        <div class="hero-actions">
+            <a class="ghost-action" asp-controller="Student" asp-action="Profile">العودة للملف</a>
+        </div>
+    </div>
+
+    <div class="content-grid">
+        <section class="content-main">
+            <form class="health-panel form-panel">
+                <div class="panel-heading">
+                    <div>
+                        <h2>البيانات الأساسية</h2>
+                        <p>حقول مركزة تساعد الطالب على مراجعة بياناته بسرعة.</p>
+                    </div>
+                </div>
+
+                <div class="form-grid">
+                    <label class="field-group">
+                        <span>الاسم بالكامل</span>
+                        <input class="form-control modern-input" name="fullName" value="أحمد خالد منصور" />
+                    </label>
+                    <label class="field-group">
+                        <span>كود الطالب</span>
+                        <input class="form-control modern-input" name="studentCode" value="CAI-DEN-2401" />
+                    </label>
+                    <label class="field-group">
+                        <span>السنة الدراسية</span>
+                        <select class="form-select modern-input" name="academicYear">
+                            <option>الثالثة</option>
+                            <option selected>الرابعة</option>
+                            <option>الخامسة</option>
+                        </select>
+                    </label>
+                    <label class="field-group">
+                        <span>اسم المشرف</span>
+                        <input class="form-control modern-input" name="supervisorName" value="د. هالة سمير" />
+                    </label>
+                    <label class="field-group field-span-2">
+                        <span>اسم العيادة</span>
+                        <input class="form-control modern-input" name="clinicName" value="Kasr Al-Ainy Teaching Dental Clinic" />
+                    </label>
+                    <label class="field-group field-span-2">
+                        <span>نبذة قصيرة</span>
+                        <textarea class="form-control modern-input modern-textarea" name="bio" rows="5">طالب طب أسنان مهتم بالحالات العلاجية التحفظية وزيارات المتابعة.</textarea>
+                    </label>
+                </div>
+
+                <div class="inline-check">
+                    <input class="form-check-input" type="checkbox" checked />
+                    <label>أؤكد أن البيانات محدثة وجاهزة للمراجعة</label>
+                </div>
+
+                <div class="form-actions">
+                    <a class="primary-action loading-button" asp-controller="Student" asp-action="Profile">
+                        <span class="button-label">حفظ التغييرات</span>
+                        <span class="button-loader"></span>
+                    </a>
+                    <a class="ghost-action" asp-controller="Student" asp-action="Profile">إلغاء</a>
+                </div>
+            </form>
+        </section>
+
+        <aside class="content-side">
+            <article class="health-panel side-accent">
+                <div class="panel-heading">
+                    <div>
+                        <h2>نصائح قبل الحفظ</h2>
+                        <p>تفاصيل صغيرة بتخلي الملف أكثر ثقة للمريض.</p>
+                    </div>
+                </div>
+                <ul class="clean-list">
+                    <li>اكتب اسم المشرف كما يظهر في نظام الكلية.</li>
+                    <li>حدّث اسم العيادة أو المكان الفعلي للجلسات.</li>
+                    <li>راجع كود الطالب لأنه يستخدم في التحقق الداخلي.</li>
+                </ul>
+            </article>
+
+            @await Html.PartialAsync("_Loader")
+        </aside>
+    </div>
+</section>

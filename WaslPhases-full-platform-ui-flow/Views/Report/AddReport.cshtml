@@ -1,0 +1,67 @@
+@{
+    ViewData["Title"] = "إضافة تقرير";
+    var portalRoute = ViewContext.RouteData.Values["portal"]?.ToString();
+}
+
+<section class="health-page">
+    <div class="health-hero compact-hero">
+        <div>
+            <span class="health-kicker">إضافة تقرير</span>
+            <h1 class="health-title">أضف تقريرا طبيا مختصرا.</h1>
+            <p class="health-subtitle">التقرير يساعد المشرف والمريض على متابعة جودة الجلسة ووضوح الخطوات القادمة.</p>
+        </div>
+        <div class="hero-actions">
+            <a class="ghost-action" asp-controller="Session" asp-action="SessionList">قائمة الجلسات</a>
+        </div>
+    </div>
+
+    <div class="content-grid">
+        <section class="content-main">
+            <form class="health-panel form-panel">
+                <div class="form-grid">
+                    <label class="field-group">
+                        <span>نوع التقرير</span>
+                        <select class="form-select modern-input" name="targetType">
+                            <option>جلسة علاجية</option>
+                            <option>سلوك مستخدم</option>
+                            <option>مشكلة إدارية</option>
+                        </select>
+                    </label>
+                    <label class="field-group">
+                        <span>درجة الأولوية</span>
+                        <select class="form-select modern-input" name="priority">
+                            <option>عادية</option>
+                            <option>متوسطة</option>
+                            <option>عاجلة</option>
+                        </select>
+                    </label>
+                    <label class="field-group field-span-2">
+                        <span>سبب التقرير</span>
+                        <textarea class="form-control modern-input modern-textarea" name="reason" rows="7" placeholder="اكتب ملخصا واضحا لما حدث، وما المطلوب مراجعته أو متابعته."></textarea>
+                    </label>
+                </div>
+
+                <div class="form-actions">
+                    <a class="primary-action" asp-controller="Report" asp-action="ViewReport" asp-route-portal="@portalRoute">إرسال التقرير</a>
+                    <a class="ghost-action" asp-controller="Session" asp-action="SessionList" asp-route-portal="@portalRoute">الرجوع للجلسات</a>
+                </div>
+            </form>
+        </section>
+
+        <aside class="content-side">
+            <article class="health-panel side-accent">
+                <div class="panel-heading">
+                    <div>
+                        <h2>متى أستخدم التقرير؟</h2>
+                        <p>إرشادات صغيرة لتوحيد الاستخدام.</p>
+                    </div>
+                </div>
+                <ul class="clean-list">
+                    <li>عند انتهاء جلسة وتحتاج توثيق ما تم.</li>
+                    <li>عند وجود ملاحظة على التزام أحد الأطراف.</li>
+                    <li>عند الحاجة لتدخل مشرف أو إدارة.</li>
+                </ul>
+            </article>
+        </aside>
+    </div>
+</section>

@@ -1,0 +1,180 @@
+@{
+    ViewData["Title"] = "ملف الطالب";
+}
+
+<section class="health-page">
+    <div class="health-hero">
+        <div>
+            <span class="health-kicker">Student Module</span>
+            <h1 class="health-title">أحمد خالد منصور</h1>
+            <p class="health-subtitle">لوحة طالب مركزة تعرض التقدم في الحالات، بيانات الكلية، وحالة التوثيق قبل تقديم العروض.</p>
+        </div>
+        <div class="hero-actions">
+            <a class="primary-action" asp-controller="Offer" asp-action="BrowseCases">تصفح الحالات</a>
+            <a class="ghost-action" asp-controller="Student" asp-action="EditProfile">تعديل الملف</a>
+        </div>
+    </div>
+
+    <div class="metric-strip">
+        <article class="mini-kpi">
+            <span class="mini-kpi-label">الحالات المطلوبة</span>
+            <strong>8</strong>
+            <span class="mini-kpi-meta">حسب خطة التدريب</span>
+        </article>
+        <article class="mini-kpi">
+            <span class="mini-kpi-label">الحالات المكتملة</span>
+            <strong>5</strong>
+            <span class="mini-kpi-meta">63% من المطلوب</span>
+        </article>
+        <article class="mini-kpi">
+            <span class="mini-kpi-label">العروض النشطة</span>
+            <strong>4</strong>
+            <span class="mini-kpi-meta">عرضان قيد المراجعة</span>
+        </article>
+        <article class="mini-kpi">
+            <span class="mini-kpi-label">حالة التوثيق</span>
+            <strong>موثق</strong>
+            <span class="mini-kpi-meta">بواسطة المشرف</span>
+        </article>
+    </div>
+
+    <div class="content-grid">
+        <section class="content-main">
+            <article class="health-panel">
+                <div class="panel-heading">
+                    <div>
+                        <h2>بيانات الطالب</h2>
+                        <p>معلومات أساسية تساعد المريض على تقييم خبرة الطالب وثقة ملفه.</p>
+                    </div>
+                    <span class="status-badge status-open">Verified</span>
+                </div>
+
+                <div class="info-grid">
+                    <div class="info-block">
+                        <span>كود الطالب</span>
+                        <strong>CAI-DEN-2401</strong>
+                    </div>
+                    <div class="info-block">
+                        <span>الكلية</span>
+                        <strong>طب أسنان القاهرة</strong>
+                    </div>
+                    <div class="info-block">
+                        <span>السنة الدراسية</span>
+                        <strong>الرابعة</strong>
+                    </div>
+                    <div class="info-block">
+                        <span>المشرف</span>
+                        <strong>د. هالة سمير</strong>
+                    </div>
+                </div>
+            </article>
+
+            <article class="health-panel">
+                <div class="panel-heading">
+                    <div>
+                        <h2>تقدم الحالات</h2>
+                        <p>متابعة بصرية واضحة لعدد الحالات المطلوبة والمكتملة.</p>
+                    </div>
+                    <strong>5 / 8</strong>
+                </div>
+                <div class="progress-soft" aria-label="نسبة التقدم">
+                    <span style="width: 63%"></span>
+                </div>
+                <div class="summary-strip mt-3">
+                    <div class="summary-tile">
+                        <span>مكتمل</span>
+                        <strong>5 حالات</strong>
+                    </div>
+                    <div class="summary-tile">
+                        <span>قيد التنفيذ</span>
+                        <strong>2 حالة</strong>
+                    </div>
+                    <div class="summary-tile">
+                        <span>مطلوب</span>
+                        <strong>1 حالة</strong>
+                    </div>
+                </div>
+            </article>
+
+            <article class="health-panel">
+                <div class="panel-heading">
+                    <div>
+                        <h2>آخر نشاط</h2>
+                        <p>Timeline مختصر لمتابعة عروض الطالب وجلساته.</p>
+                    </div>
+                </div>
+
+                <div class="timeline-list">
+                    <div class="timeline-item">
+                        <span class="timeline-dot"></span>
+                        <div>
+                            <strong>تم قبول عرض لعلاج تحفظي</strong>
+                            <p>تم تحويل العرض إلى Match وجاري تحديد الجلسة الأولى.</p>
+                        </div>
+                        <span class="timeline-time">اليوم</span>
+                    </div>
+                    <div class="timeline-item">
+                        <span class="timeline-dot timeline-blue"></span>
+                        <div>
+                            <strong>تم إرسال عرض جديد</strong>
+                            <p>عرض بسعر 220 جنيه وعدد جلستين تقديري.</p>
+                        </div>
+                        <span class="timeline-time">أمس</span>
+                    </div>
+                    <div class="timeline-item">
+                        <span class="timeline-dot timeline-amber"></span>
+                        <div>
+                            <strong>تحديث الملف</strong>
+                            <p>تم تحديث بيانات العيادة والمشرف.</p>
+                        </div>
+                        <span class="timeline-time">منذ 3 أيام</span>
+                    </div>
+                </div>
+            </article>
+        </section>
+
+        <aside class="content-side">
+            <article class="health-panel side-accent">
+                <div class="panel-heading">
+                    <div>
+                        <h2>ملخص سريع</h2>
+                        <p>بيانات عملية قبل تقديم أي عرض.</p>
+                    </div>
+                </div>
+                <dl class="stacked-list">
+                    <div>
+                        <dt>العيادة</dt>
+                        <dd>Kasr Al-Ainy Teaching Dental Clinic</dd>
+                    </div>
+                    <div>
+                        <dt>نطاق العمل</dt>
+                        <dd>جلسات داخل العيادة وزيارات منزلية</dd>
+                    </div>
+                    <div>
+                        <dt>آخر دخول</dt>
+                        <dd>15 أبريل 2026</dd>
+                    </div>
+                </dl>
+            </article>
+
+            <article class="health-panel">
+                <div class="panel-heading">
+                    <div>
+                        <h2>اختصارات الطالب</h2>
+                        <p>المسارات الأكثر استخداما في flow الطالب.</p>
+                    </div>
+                </div>
+                <div class="action-list">
+                    <a class="action-tile" asp-controller="Offer" asp-action="BrowseCases">
+                        <strong>تصفح الحالات</strong>
+                        <span>اعرض الحالات المتاحة حسب النوع والموقع.</span>
+                    </a>
+                    <a class="action-tile" asp-controller="Offer" asp-action="MyOffers">
+                        <strong>متابعة العروض</strong>
+                        <span>راجع العروض المقبولة والمعلقة والمرفوضة.</span>
+                    </a>
+                </div>
+            </article>
+        </aside>
+    </div>
+</section>

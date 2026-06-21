@@ -1,0 +1,113 @@
+@{
+    ViewData["Title"] = "تعديل الملف";
+}
+
+<section class="health-page">
+    <div class="health-hero compact-hero">
+        <div>
+            <span class="health-kicker">وحدة المرضى</span>
+            <h1 class="health-title">تعديل ملف المريض</h1>
+            <p class="health-subtitle">شاشة تعديل هادئة ومنظمة مستوحاة من أدوات الإدارة الحديثة في المجال الصحي.</p>
+        </div>
+        <div class="hero-actions">
+            <a class="ghost-action" asp-controller="Patients" asp-action="Profile">العودة إلى الملف</a>
+        </div>
+    </div>
+
+    <div class="content-grid">
+        <section class="content-main">
+            <form class="health-panel form-panel">
+                <div class="panel-heading">
+                    <div>
+                        <h2>البيانات الأساسية</h2>
+                        <p>حافظ على النموذج بسيطًا وواضحًا أثناء إدخال أو مراجعة المعلومات.</p>
+                    </div>
+                </div>
+
+                <div class="form-grid">
+                    <label class="field-group">
+                        <span>الاسم الكامل</span>
+                        <input class="form-control modern-input" value="منى أحمد عبدالرحمن" />
+                    </label>
+                    <label class="field-group">
+                        <span>رقم الهاتف</span>
+                        <input class="form-control modern-input" value="01010000001" />
+                    </label>
+                    <label class="field-group">
+                        <span>البريد الإلكتروني</span>
+                        <input class="form-control modern-input" value="mona.ahmed@example.com" />
+                    </label>
+                    <label class="field-group">
+                        <span>تاريخ الميلاد</span>
+                        <input type="date" class="form-control modern-input" value="2019-05-12" />
+                    </label>
+                    <label class="field-group">
+                        <span>النوع</span>
+                        <select class="form-select modern-input">
+                            <option>أنثى</option>
+                            <option>ذكر</option>
+                        </select>
+                    </label>
+                    <label class="field-group">
+                        <span>الخدمة المفضلة</span>
+                        <select class="form-select modern-input">
+                            <option>زيارة منزلية</option>
+                            <option>جلسة داخل العيادة</option>
+                            <option>متابعة أونلاين</option>
+                        </select>
+                    </label>
+                    <label class="field-group">
+                        <span>المحافظة</span>
+                        <input class="form-control modern-input" value="القاهرة" />
+                    </label>
+                    <label class="field-group">
+                        <span>المدينة</span>
+                        <input class="form-control modern-input" value="مدينة نصر" />
+                    </label>
+                </div>
+
+                <label class="field-group">
+                    <span>ملاحظات إكلينيكية</span>
+                    <textarea class="form-control modern-input modern-textarea" rows="5">طفل صغير يستفيد من المتابعة المنتظمة والتعليمات الأسرية البسيطة بعد كل زيارة.</textarea>
+                </label>
+
+                <div class="form-actions">
+                    <button type="button" class="primary-action">حفظ التغييرات</button>
+                    <a class="ghost-action" asp-controller="Patients" asp-action="Profile">إلغاء</a>
+                </div>
+            </form>
+        </section>
+
+        <aside class="content-side">
+            <article class="health-panel side-accent">
+                <div class="panel-heading">
+                    <div>
+                        <h2>ملاحظات التعديل</h2>
+                        <p>نصائح سريعة تساعد المسؤول أثناء تحديث الملف.</p>
+                    </div>
+                </div>
+
+                <ul class="clean-list">
+                    <li>حدّث بيانات التواصل أولًا قبل إنشاء أي حالة جديدة للمريض.</li>
+                    <li>استخدم ملاحظات مختصرة يستطيع منسقو الحالات قراءتها بسرعة.</li>
+                    <li>حافظ على صياغة موحدة في حقول الخدمة والموقع.</li>
+                </ul>
+            </article>
+
+            <article class="health-panel">
+                <div class="panel-heading">
+                    <div>
+                        <h2>حالة الملف</h2>
+                        <p>بطاقة حالة تجريبية قابلة للتطوير لاحقًا.</p>
+                    </div>
+                </div>
+
+                <div class="status-stack">
+                    <span class="status-badge status-open">الملف مكتمل</span>
+                    <span class="status-badge status-progress">تم التحقق من الهاتف</span>
+                    <span class="status-badge status-draft">الملاحظات الطبية بانتظار المراجعة</span>
+                </div>
+            </article>
+        </aside>
+    </div>
+</section>

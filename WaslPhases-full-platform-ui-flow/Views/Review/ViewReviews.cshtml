@@ -1,0 +1,82 @@
+@{
+    ViewData["Title"] = "عرض التقييمات";
+    var portalRoute = ViewContext.RouteData.Values["portal"]?.ToString();
+}
+
+<section class="health-page">
+    <div class="health-hero">
+        <div>
+            <span class="health-kicker">Reviews</span>
+            <h1 class="health-title">تقييمات تساعد الفريق يشوف جودة التجربة.</h1>
+            <p class="health-subtitle">صفحة تعرض التقييمات، متوسط النجوم، وتعليقات مختصرة من تجارب سابقة.</p>
+        </div>
+        <div class="hero-actions">
+            <a class="primary-action" asp-controller="Review" asp-action="AddReview" asp-route-portal="@portalRoute">كتابة تقييم</a>
+        </div>
+    </div>
+
+    <div class="metric-strip">
+        <article class="mini-kpi">
+            <span class="mini-kpi-label">متوسط التقييم</span>
+            <strong>4.8</strong>
+            <span class="mini-kpi-meta">من 5</span>
+        </article>
+        <article class="mini-kpi">
+            <span class="mini-kpi-label">عدد التقييمات</span>
+            <strong>36</strong>
+            <span class="mini-kpi-meta">آخر 30 يوم</span>
+        </article>
+        <article class="mini-kpi">
+            <span class="mini-kpi-label">رضا المرضى</span>
+            <strong>94%</strong>
+            <span class="mini-kpi-meta">تعليقات إيجابية</span>
+        </article>
+        <article class="mini-kpi">
+            <span class="mini-kpi-label">الاستجابة</span>
+            <strong>سريعة</strong>
+            <span class="mini-kpi-meta">أقل من ساعتين</span>
+        </article>
+    </div>
+
+    <div class="review-grid">
+        <article class="review-card">
+            <div class="rating-row">
+                <span class="star">★</span>
+                <span class="star">★</span>
+                <span class="star">★</span>
+                <span class="star">★</span>
+                <span class="star">★</span>
+            </div>
+            <h3>تجربة منظمة وواضحة</h3>
+            <p>الطالب شرح الخطة قبل الجلسة، والتقرير كان مفهوما بعد الانتهاء.</p>
+            <span class="case-meta">منى أحمد - مريض</span>
+        </article>
+
+        <article class="review-card">
+            <div class="rating-row">
+                <span class="star">★</span>
+                <span class="star">★</span>
+                <span class="star">★</span>
+                <span class="star">★</span>
+            </div>
+            <h3>متابعة جيدة</h3>
+            <p>التذكيرات ساعدت على الالتزام بالموعد، لكن نحتاج تفاصيل أكثر قبل الحضور.</p>
+            <span class="case-meta">يوسف محمد - مريض</span>
+        </article>
+
+        <article class="review-card">
+            <div class="rating-row">
+                <span class="star">★</span>
+                <span class="star">★</span>
+                <span class="star">★</span>
+                <span class="star">★</span>
+                <span class="star">★</span>
+            </div>
+            <h3>حالات مناسبة للتدريب</h3>
+            <p>تصفح الحالات والعروض واضح، وسهل متابعة حالة كل عرض بعد إرساله.</p>
+            <span class="case-meta">أحمد خالد - طالب</span>
+        </article>
+
+        @await Html.PartialAsync("_EmptyState")
+    </div>
+</section>

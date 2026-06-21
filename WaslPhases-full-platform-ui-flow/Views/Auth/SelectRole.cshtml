@@ -1,0 +1,39 @@
+@{
+    ViewData["Title"] = "اختيار نوع الحساب";
+}
+
+<section class="health-page">
+    <div class="health-hero">
+        <div>
+            <span class="health-kicker">Select Role</span>
+            <h1 class="health-title">اختار المسار المناسب قبل التسجيل.</h1>
+            <p class="health-subtitle">الشاشة دي تساعد المستخدم يفهم الفرق بين حساب المريض وحساب الطالب، وتقلل أخطاء التسجيل من البداية.</p>
+        </div>
+        <div class="hero-actions">
+            <a class="ghost-action" asp-controller="Auth" asp-action="Login">لدي حساب</a>
+        </div>
+    </div>
+
+    <div class="role-grid">
+        <a class="role-card" asp-controller="Auth" asp-action="Register">
+            <span class="role-icon">م</span>
+            <h2>مريض / ولي أمر</h2>
+            <p>إنشاء حالات، متابعة العروض، وحجز جلسات علاجية تحت إشراف واضح.</p>
+            <span class="role-chip soft-tag-teal">ابدأ كطالب خدمة</span>
+        </a>
+
+        <a class="role-card" asp-controller="Auth" asp-action="Register">
+            <span class="role-icon">ط</span>
+            <h2>طالب رعاية صحية</h2>
+            <p>تصفح الحالات، تقديم عروض، ومتابعة الجلسات والتقارير المطلوبة للتدريب.</p>
+            <span class="role-chip soft-tag-blue">ابدأ كطالب</span>
+        </a>
+
+        <article class="role-card">
+            <span class="role-icon">إ</span>
+            <h2>مشرف / إدارة</h2>
+            <p>مسار قابل للتفعيل لاحقا لمراجعة البلاغات، اعتماد الحالات، ومتابعة جودة الخدمة.</p>
+            <span class="role-chip soft-tag-amber">قريبا</span>
+        </article>
+    </div>
+</section>

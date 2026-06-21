@@ -1,0 +1,67 @@
+@{
+    ViewData["Title"] = "إنشاء حساب";
+}
+
+<section class="auth-page">
+    <div class="auth-visual">
+        <div class="auth-visual-content">
+            <span class="health-kicker">انضم إلى وصل</span>
+            <h1>حساب واحد يفتح رحلة رعاية كاملة.</h1>
+            <p>سواء كنت مريضا تبحث عن رعاية مناسبة أو طالبا يحتاج حالات تدريب موثقة، النموذج يجهزك للخطوة التالية.</p>
+            <div class="metric-strip mt-4">
+                <article class="mini-kpi">
+                    <span class="mini-kpi-label">خطوات التسجيل</span>
+                    <strong>3</strong>
+                    <span class="mini-kpi-meta">بيانات، دور، تحقق</span>
+                </article>
+                <article class="mini-kpi">
+                    <span class="mini-kpi-label">حالة الحساب</span>
+                    <strong>مبدئي</strong>
+                    <span class="mini-kpi-meta">حتى تأكيد OTP</span>
+                </article>
+            </div>
+        </div>
+    </div>
+
+    <article class="auth-card">
+        <span class="health-kicker">Register</span>
+        <h2>إنشاء حساب جديد</h2>
+        <p>املأ البيانات الأساسية، ثم انتقل للتحقق بكود الهاتف.</p>
+
+        <form class="form-panel">
+            <label class="field-group">
+                <span>الاسم بالكامل</span>
+                <input class="form-control modern-input" name="fullName" placeholder="مثال: محمد مصطفى" />
+            </label>
+
+            <label class="field-group">
+                <span>رقم الهاتف</span>
+                <input class="form-control modern-input" name="phone" inputmode="tel" placeholder="01012345678" />
+            </label>
+
+            <label class="field-group">
+                <span>نوع الحساب</span>
+                <select class="form-select modern-input" name="role">
+                    <option value="">اختر الدور</option>
+                    <option value="Patient">مريض / ولي أمر</option>
+                    <option value="Student">طالب رعاية صحية</option>
+                </select>
+            </label>
+
+            <label class="field-group">
+                <span>البريد الإلكتروني اختياري</span>
+                <input class="form-control modern-input" name="email" placeholder="name example.com" />
+            </label>
+
+            <a class="primary-action loading-button" asp-controller="Auth" asp-action="VerifyOTP">
+                <span class="button-label">إنشاء الحساب</span>
+                <span class="button-loader"></span>
+            </a>
+        </form>
+
+        <div class="row-actions mt-3">
+            <a class="text-link" asp-controller="Auth" asp-action="SelectRole">اختيار الدور أولا</a>
+            <a class="text-link" asp-controller="Auth" asp-action="Login">لدي حساب بالفعل</a>
+        </div>
+    </article>
+</section>

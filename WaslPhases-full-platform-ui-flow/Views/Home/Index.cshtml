@@ -1,0 +1,112 @@
+@{
+    ViewData["Title"] = "الرئيسية";
+}
+
+<section class="health-page">
+    <div class="health-hero">
+        <div>
+            <span class="health-kicker">Healthcare Matching Platform</span>
+            <h1 class="health-title">وصل ينظم الرحلة من الحالة للعرض للجلسة.</h1>
+            <p class="health-subtitle">Dashboard موحد يجمع الـ Auth flow، الطالب، العروض، المطابقات، الجلسات، التقارير، والتقييمات في تجربة واحدة متماسكة.</p>
+        </div>
+        <div class="hero-actions">
+            <a class="primary-action" asp-controller="Auth" asp-action="Login">ابدأ من Login</a>
+            <a class="ghost-action" asp-controller="Offer" asp-action="BrowseCases">تصفح الحالات</a>
+        </div>
+    </div>
+
+    <div class="metric-strip">
+        <article class="mini-kpi">
+            <span class="mini-kpi-label">Modules</span>
+            <strong>5</strong>
+            <span class="mini-kpi-meta">Auth, Student, Core, UI</span>
+        </article>
+        <article class="mini-kpi">
+            <span class="mini-kpi-label">Views</span>
+            <strong>20+</strong>
+            <span class="mini-kpi-meta">جاهزة للربط</span>
+        </article>
+        <article class="mini-kpi">
+            <span class="mini-kpi-label">States</span>
+            <strong>Empty / Loading / Error</strong>
+            <span class="mini-kpi-meta">موجودة في الصفحات</span>
+        </article>
+        <article class="mini-kpi">
+            <span class="mini-kpi-label">Responsive</span>
+            <strong>Yes</strong>
+            <span class="mini-kpi-meta">Desktop + Mobile</span>
+        </article>
+    </div>
+
+    <section class="module-grid">
+        <a class="module-card" asp-controller="Auth" asp-action="Login">
+            <span class="module-icon">A</span>
+            <h2>Authentication</h2>
+            <p>Login, Register, OTP, Forgot/Reset password, Select role.</p>
+        </a>
+        <a class="module-card" asp-controller="Student" asp-action="Profile">
+            <span class="module-icon">S</span>
+            <h2>Student Flow</h2>
+            <p>Profile, Edit profile, Browse cases, Create offer, My offers.</p>
+        </a>
+        <a class="module-card" asp-controller="Match" asp-action="MatchDetails">
+            <span class="module-icon">M</span>
+            <h2>Matching Core</h2>
+            <p>Offer to Match, sessions lifecycle, reports, and follow-up.</p>
+        </a>
+    </section>
+
+    <div class="content-grid">
+        <section class="content-main">
+            <article class="health-panel">
+                <div class="panel-heading">
+                    <div>
+                        <h2>Reusable Components</h2>
+                        <p>أمثلة فعلية للـ shared partials المطلوبة.</p>
+                    </div>
+                    <button class="ghost-action compact-action" data-bs-toggle="modal" data-bs-target="#sharedModal">فتح Modal</button>
+                </div>
+                <div class="state-grid">
+                    @await Html.PartialAsync("_Card")
+                    @await Html.PartialAsync("_EmptyState")
+                    @await Html.PartialAsync("_Loader")
+                </div>
+            </article>
+
+            <article class="health-panel">
+                <div class="panel-heading">
+                    <div>
+                        <h2>نموذج موحد</h2>
+                        <p>Partial جاهز لإعادة الاستخدام داخل أي شاشة.</p>
+                    </div>
+                </div>
+                @await Html.PartialAsync("_Form")
+            </article>
+        </section>
+
+        <aside class="content-side">
+            <article class="health-panel side-accent">
+                <div class="panel-heading">
+                    <div>
+                        <h2>آخر الإشعارات</h2>
+                        <p>Component موحد للإشعار.</p>
+                    </div>
+                    <a class="text-link" asp-controller="Notification" asp-action="GetNotifications">الكل</a>
+                </div>
+                <div class="notification-list">
+                    @await Html.PartialAsync("_NotificationItem")
+                    <article class="notification-item">
+                        <span class="notification-glow"></span>
+                        <div>
+                            <strong>جلسة قادمة</strong>
+                            <p>تم تأكيد موعد الجلسة التالية في الخامسة مساء.</p>
+                        </div>
+                        <time>اليوم</time>
+                    </article>
+                </div>
+            </article>
+        </aside>
+    </div>
+</section>
+
+@await Html.PartialAsync("_Modal")

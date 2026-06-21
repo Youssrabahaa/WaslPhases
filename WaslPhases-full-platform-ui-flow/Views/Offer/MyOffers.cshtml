@@ -1,0 +1,70 @@
+@{
+    ViewData["Title"] = "عروضي";
+}
+
+<section class="health-page">
+    <div class="health-hero">
+        <div>
+            <span class="health-kicker">My Offers</span>
+            <h1 class="health-title">تابع عروضك من أول إرسال لحد القبول.</h1>
+            <p class="health-subtitle">قائمة تعرض حالات العروض: معلق، مقبول، مرفوض، وتدعم حالة عدم وجود عروض.</p>
+        </div>
+        <div class="hero-actions">
+            <a class="primary-action" asp-controller="Offer" asp-action="BrowseCases">تصفح حالات جديدة</a>
+        </div>
+    </div>
+
+    <div class="offer-list">
+        <article class="offer-card">
+            <div>
+                <div class="offer-card-top">
+                    <span class="status-badge status-open">مقبول</span>
+                    <span class="case-meta">عرض رقم 1024</span>
+                </div>
+                <h3>علاج تحفظي لضروس متضررة</h3>
+                <p>تم قبول العرض وتحويله إلى Match. الخطوة التالية تحديد الجلسة الأولى.</p>
+                <div class="row-actions mt-3">
+                    <a class="primary-action compact-action" asp-controller="Match" asp-action="MatchDetails" asp-route-id="1">تفاصيل المطابقة</a>
+                    <a class="ghost-action compact-action" asp-controller="Offer" asp-action="OfferDetails" asp-route-id="1">تفاصيل العرض</a>
+                </div>
+            </div>
+            <div class="card-side">
+                <strong>220 ج.م</strong>
+                <span class="case-meta">جلستان</span>
+            </div>
+        </article>
+
+        <article class="offer-card">
+            <div>
+                <div class="offer-card-top">
+                    <span class="status-badge status-pending">قيد المراجعة</span>
+                    <span class="case-meta">عرض رقم 1025</span>
+                </div>
+                <h3>متابعة لطفل يعاني من تسوسات متعددة</h3>
+                <p>العرض ينتظر رد المريض. يمكن تعديل الرسالة أو السعر قبل اتخاذ القرار.</p>
+                <div class="row-actions mt-3">
+                    <a class="ghost-action compact-action" asp-controller="Offer" asp-action="OfferDetails" asp-route-id="2">تفاصيل العرض</a>
+                </div>
+            </div>
+            <div class="card-side">
+                <strong>250 ج.م</strong>
+                <span class="case-meta">3 جلسات</span>
+            </div>
+        </article>
+    </div>
+
+    <section class="state-grid">
+        <article class="empty-state-card">
+            <span class="empty-state-icon">0</span>
+            <h3>No offers</h3>
+            <p>لم تقدم أي عروض بعد. ابدأ بتصفح الحالات المفتوحة واختر حالة مناسبة لتخصصك.</p>
+            <a class="ghost-action" asp-controller="Offer" asp-action="BrowseCases">تصفح الحالات</a>
+        </article>
+        @await Html.PartialAsync("_Loader")
+        <article class="empty-state-card">
+            <span class="empty-state-icon">!</span>
+            <h3>خطأ في تحميل العروض</h3>
+            <p>تظهر هذه الحالة عند تعذر جلب العروض من الخادم.</p>
+        </article>
+    </section>
+</section>

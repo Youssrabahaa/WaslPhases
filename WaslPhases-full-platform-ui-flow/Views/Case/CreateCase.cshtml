@@ -1,0 +1,122 @@
+@{
+    ViewData["Title"] = "إنشاء حالة";
+}
+
+<section class="health-page">
+    <div class="health-hero compact-hero">
+        <div>
+            <span class="health-kicker">وحدة الحالات</span>
+            <h1 class="health-title">إنشاء حالة جديدة</h1>
+            <p class="health-subtitle">نموذج مركز لإدخال الحالة بتنسيق عملي يناسب مسار العمل داخل القطاع الصحي.</p>
+        </div>
+        <div class="hero-actions">
+            <a class="ghost-action" asp-controller="Case" asp-action="MyCases">العودة إلى الحالات</a>
+        </div>
+    </div>
+
+    <div class="content-grid">
+        <section class="content-main">
+            <form class="health-panel form-panel">
+                <div class="panel-heading">
+                    <div>
+                        <h2>بيانات الحالة</h2>
+                        <p>استخدم أقسامًا واضحة حتى تبقى البيانات سهلة القراءة والمراجعة.</p>
+                    </div>
+                </div>
+
+                <div class="form-grid">
+                    <label class="field-group">
+                        <span>عنوان الحالة</span>
+                        <input class="form-control modern-input" placeholder="متابعة علاج تحفظي لطفل" />
+                    </label>
+                    <label class="field-group">
+                        <span>نوع الخدمة</span>
+                        <select class="form-select modern-input">
+                            <option>زيارة منزلية</option>
+                            <option>جلسة داخل العيادة</option>
+                            <option>متابعة أونلاين</option>
+                        </select>
+                    </label>
+                    <label class="field-group">
+                        <span>التخصص العلاجي</span>
+                        <select class="form-select modern-input">
+                            <option>طب أسنان الأطفال</option>
+                            <option>العلاج التحفظي</option>
+                            <option>جراحة الفم</option>
+                        </select>
+                    </label>
+                    <label class="field-group">
+                        <span>درجة الأولوية</span>
+                        <select class="form-select modern-input">
+                            <option>عادية</option>
+                            <option>أولوية</option>
+                            <option>عاجلة</option>
+                        </select>
+                    </label>
+                    <label class="field-group">
+                        <span>الميزانية المتوقعة من</span>
+                        <input class="form-control modern-input" placeholder="180 ج.م" />
+                    </label>
+                    <label class="field-group">
+                        <span>الميزانية المتوقعة إلى</span>
+                        <input class="form-control modern-input" placeholder="250 ج.م" />
+                    </label>
+                    <label class="field-group">
+                        <span>المحافظة</span>
+                        <input class="form-control modern-input" placeholder="القاهرة" />
+                    </label>
+                    <label class="field-group">
+                        <span>المدينة / المنطقة</span>
+                        <input class="form-control modern-input" placeholder="مدينة نصر - الحي السابع" />
+                    </label>
+                </div>
+
+                <label class="field-group">
+                    <span>وصف الحالة</span>
+                    <textarea class="form-control modern-input modern-textarea" rows="6" placeholder="أضف ملخصًا سريريًا مختصرًا، وتوقعات الأسرة، وأي ملاحظات خاصة بالمواعيد أو المتابعة."></textarea>
+                </label>
+
+                <div class="inline-check">
+                    <input class="form-check-input" type="checkbox" checked />
+                    <label>تحتاج إلى موافقة المشرف</label>
+                </div>
+
+                <div class="form-actions">
+                    <button type="button" class="primary-action">إنشاء الحالة</button>
+                    <a class="ghost-action" asp-controller="Case" asp-action="MyCases">حفظ كمسودة</a>
+                </div>
+            </form>
+        </section>
+
+        <aside class="content-side">
+            <article class="health-panel side-accent">
+                <div class="panel-heading">
+                    <div>
+                        <h2>دليل الإرسال</h2>
+                        <p>ملاحظات مساعدة سريعة لكتابة حالة واضحة وقابلة للمراجعة.</p>
+                    </div>
+                </div>
+
+                <ul class="clean-list">
+                    <li>ابدأ بعنوان يوضح الحاجة العلاجية الأساسية بشكل مباشر.</li>
+                    <li>اجعل الوصف مختصرًا وعمليًا وسهل الفهم للأسرة والفريق.</li>
+                    <li>أضف بيانات الموقع بدقة حتى تسهّل التنسيق وجدولة الزيارات.</li>
+                </ul>
+            </article>
+
+            <article class="health-panel">
+                <div class="panel-heading">
+                    <div>
+                        <h2>حالة المعاينة</h2>
+                        <p>بطاقة معاينة ثابتة مؤقتًا حتى يتم ربطها بالبيانات الحقيقية.</p>
+                    </div>
+                </div>
+
+                <div class="status-stack">
+                    <span class="status-badge status-draft">مسودة</span>
+                    <span class="status-badge status-progress">جاهزة للمراجعة</span>
+                </div>
+            </article>
+        </aside>
+    </div>
+</section>

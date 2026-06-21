@@ -1,0 +1,26 @@
+@using phase_1.Models
+@model ErrorViewModel
+@{
+    ViewData["Title"] = "خطأ";
+}
+
+<h1 class="text-danger">حدث خطأ.</h1>
+<h2 class="text-danger">وقع خطأ أثناء معالجة الطلب.</h2>
+
+@if (Model.ShowRequestId)
+{
+    <p>
+        <strong>رقم الطلب:</strong> <code>@Model.RequestId</code>
+    </p>
+}
+
+<h3>وضع التطوير</h3>
+<p>
+    التبديل إلى بيئة <strong>Development</strong> سيعرض معلومات أكثر تفصيلًا عن الخطأ الذي حدث.
+</p>
+<p>
+    <strong>لا ينبغي تفعيل بيئة التطوير في التطبيقات المنشورة.</strong>
+    قد يؤدي ذلك إلى عرض معلومات حساسة للمستخدمين النهائيين عند حدوث الاستثناءات.
+    ولأغراض التصحيح المحلي، فعّل بيئة <strong>Development</strong> من خلال ضبط المتغير <strong>ASPNETCORE_ENVIRONMENT</strong> على القيمة <strong>Development</strong>
+    ثم أعد تشغيل التطبيق.
+</p>

@@ -1,0 +1,75 @@
+﻿@{
+    ViewData["Title"] = "إضافة جلسة جديدة";
+    var portalRoute = ViewContext.RouteData.Values["portal"]?.ToString();
+}
+
+<section class="health-page">
+    <div class="health-hero compact-hero">
+        <div>
+            <span class="health-kicker">Add Session</span>
+            <h1 class="health-title">إضافة جلسة جديدة</h1>
+            <p class="health-subtitle">أدخل بيانات الجلسة الجديدة لتحديد موعدها ومكانها ومشرفها.</p>
+        </div>
+        <div class="hero-actions">
+            <a class="ghost-action" asp-controller="Session" asp-action="SessionList" asp-route-portal="@portalRoute">كل الجلسات</a>
+        </div>
+    </div>
+
+    <div class="content-grid">
+        <section class="content-main">
+            <article class="health-panel">
+                <div class="panel-heading">
+                    <div>
+                        <h2>بيانات الجلسة الجديدة</h2>
+                        <p>املأ الحقول المطلوبة لإضافة جلسة جديدة إلى الجدول.</p>
+                    </div>
+                </div>
+                <form method="post" action="#">
+                    <div class="info-grid" style="grid-template-columns: 1fr 1fr;">
+                        <div class="info-block" style="display: flex; flex-direction: column; align-items: start;">
+                            <span>الموعد</span>
+                            <input type="datetime-local" value="2026-05-01T17:00" style="width: 100%; padding: 8px 12px; border: 1px solid #d1d5db; border-radius: 8px; font-family: inherit;" />
+                        </div>
+                        <div class="info-block" style="display: flex; flex-direction: column; align-items: start;">
+                            <span>المكان</span>
+                            <input type="text" value="Kasr Al-Ainy Clinic" style="width: 100%; padding: 8px 12px; border: 1px solid #d1d5db; border-radius: 8px; font-family: inherit;" />
+                        </div>
+                        <div class="info-block" style="display: flex; flex-direction: column; align-items: start;">
+                            <span>الغرفة</span>
+                            <input type="text" value="C-14" style="width: 100%; padding: 8px 12px; border: 1px solid #d1d5db; border-radius: 8px; font-family: inherit;" />
+                        </div>
+                        <div class="info-block" style="display: flex; flex-direction: column; align-items: start;">
+                            <span>المشرف</span>
+                            <input type="text" value="د. هالة سمير" style="width: 100%; padding: 8px 12px; border: 1px solid #d1d5db; border-radius: 8px; font-family: inherit;" />
+                        </div>
+                    </div>
+                </form>
+            </article>
+
+            <article class="health-panel">
+                <div class="panel-heading">
+                    <div>
+                        <h2>ملاحظات أولية</h2>
+                        <p>أضف أي ملاحظات أو تعليمات خاصة بالجلسة.</p>
+                    </div>
+                </div>
+                <textarea rows="4" style="width: 100%; padding: 12px; border: 1px solid #d1d5db; border-radius: 8px; font-family: inherit; font-size: 1rem;">سيتم التركيز على التقييم الأولي وتحضير خطة العلاج.</textarea>
+            </article>
+        </section>
+
+        <aside class="content-side">
+            <article class="health-panel side-accent">
+                <div class="panel-heading">
+                    <div>
+                        <h2>إجراءات الإضافة</h2>
+                        <p>أضف الجلسة أو ارجع للقائمة.</p>
+                    </div>
+                </div>
+                <div class="form-actions">
+                    <button type="submit" class="primary-action">إضافة الجلسة</button>
+                    <a class="ghost-action" asp-controller="Session" asp-action="SessionList" asp-route-portal="@portalRoute">إلغاء</a>
+                </div>
+            </article>
+        </aside>
+    </div>
+</section>

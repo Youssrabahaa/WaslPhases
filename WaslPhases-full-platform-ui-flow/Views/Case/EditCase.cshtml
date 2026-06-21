@@ -1,0 +1,206 @@
+@{
+    ViewData["Title"] = "تعديل الحالة";
+}
+
+<section class="health-page edit-case-page">
+    <div class="health-hero compact-hero">
+        <div>
+            <span class="health-kicker">وحدة الحالات</span>
+            <h1 class="health-title">تعديل الحالة</h1>
+            <p class="health-subtitle">حدّث بيانات الإدخال بدقة، وراجع الملخص، وجهّز الحالة للخطوة التالية في دورة المراجعة.</p>
+        </div>
+        <div class="hero-actions">
+            <span class="status-badge status-open">مفتوحة</span>
+            <a class="ghost-action" asp-controller="Case" asp-action="CaseDetails">العودة إلى التفاصيل</a>
+        </div>
+    </div>
+
+    <div class="content-grid">
+        <section class="content-main">
+            <form class="health-panel form-panel">
+                <div class="panel-heading">
+                    <div>
+                        <h2>تحديث بيانات الحالة</h2>
+                        <p>تم تقسيم النموذج إلى أقسام واضحة حتى تبقى التعديلات المهمة سهلة القراءة والمراجعة.</p>
+                    </div>
+                    <span class="status-badge status-progress">بانتظار المراجعة</span>
+                </div>
+
+                <div class="edit-section">
+                    <span class="section-label">أساسيات الحالة</span>
+
+                    <div class="form-grid">
+                        <label class="field-group field-span-2">
+                            <span>عنوان الحالة</span>
+                            <input class="form-control modern-input" value="متابعة لطفل يعاني من تسوسات متعددة بالأسنان" />
+                        </label>
+                        <label class="field-group">
+                            <span>نوع الخدمة</span>
+                            <select class="form-select modern-input">
+                                <option selected>زيارة منزلية</option>
+                                <option>جلسة داخل العيادة</option>
+                                <option>متابعة أونلاين</option>
+                            </select>
+                        </label>
+                        <label class="field-group">
+                            <span>التخصص العلاجي</span>
+                            <select class="form-select modern-input">
+                                <option selected>طب أسنان الأطفال</option>
+                                <option>العلاج التحفظي</option>
+                                <option>جراحة الفم</option>
+                            </select>
+                        </label>
+                        <label class="field-group">
+                            <span>الحالة</span>
+                            <select class="form-select modern-input">
+                                <option selected>مفتوحة</option>
+                                <option>قيد التنفيذ</option>
+                                <option>مكتملة</option>
+                                <option>مؤرشفة</option>
+                            </select>
+                        </label>
+                        <label class="field-group">
+                            <span>درجة الأولوية</span>
+                            <select class="form-select modern-input">
+                                <option>عادية</option>
+                                <option selected>أولوية</option>
+                                <option>عاجلة</option>
+                            </select>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="edit-section">
+                    <span class="section-label">الميزانية والموقع</span>
+
+                    <div class="form-grid">
+                        <div class="field-group field-span-2">
+                            <span>نطاق الميزانية</span>
+                            <div class="range-grid">
+                                <input class="form-control modern-input" value="180 ج.م" />
+                                <input class="form-control modern-input" value="250 ج.م" />
+                            </div>
+                        </div>
+                        <label class="field-group">
+                            <span>المحافظة</span>
+                            <input class="form-control modern-input" value="القاهرة" />
+                        </label>
+                        <label class="field-group">
+                            <span>المدينة / المنطقة</span>
+                            <input class="form-control modern-input" value="مدينة نصر - الحي السابع" />
+                        </label>
+                    </div>
+                </div>
+
+                <div class="edit-section">
+                    <span class="section-label">وصف الحالة</span>
+
+                    <label class="field-group">
+                        <span>الوصف</span>
+                        <textarea class="form-control modern-input modern-textarea" rows="6">الأسرة تبحث عن طالب طب أسنان تحت إشراف للمساعدة في الفحص، والتوجيه الوقائي، ووضع خطة علاج مناسبة لطفل يبلغ من العمر 6 سنوات.</textarea>
+                    </label>
+
+                    <div class="inline-check">
+                        <input class="form-check-input" type="checkbox" checked />
+                        <label>تتطلب الحالة موافقة المشرف قبل تأكيد الطالب</label>
+                    </div>
+                </div>
+
+                <div class="form-actions">
+                    <button type="button" class="primary-action">حفظ الحالة</button>
+                    <a class="ghost-action" asp-controller="Case" asp-action="CaseDetails">إلغاء التغييرات</a>
+                </div>
+            </form>
+        </section>
+
+        <aside class="content-side">
+            <div class="edit-sidebar-stack">
+                <article class="health-panel side-accent">
+                    <div class="panel-heading">
+                        <div>
+                            <h2>ملخص التحديث</h2>
+                            <p>بيانات مركزة وعالية الأهمية حتى تكون مراجعة التعديل أسرع وأسهل.</p>
+                        </div>
+                    </div>
+
+                    <div class="summary-strip">
+                        <div class="summary-tile">
+                            <span>آخر حفظ</span>
+                            <strong>28 أبريل 2026، 1:20 م</strong>
+                        </div>
+                        <div class="summary-tile">
+                            <span>الميزانية</span>
+                            <strong>180 - 250 ج.م</strong>
+                        </div>
+                        <div class="summary-tile">
+                            <span>الموقع</span>
+                            <strong>القاهرة، مدينة نصر</strong>
+                        </div>
+                    </div>
+
+                    <dl class="stacked-list">
+                        <div>
+                            <dt>آخر تعديل بواسطة</dt>
+                            <dd>منسق المريض</dd>
+                        </div>
+                        <div>
+                            <dt>رقم الحالة</dt>
+                            <dd>#CASE-1024</dd>
+                        </div>
+                        <div>
+                            <dt>الموافقة</dt>
+                            <dd>تتطلب موافقة المشرف</dd>
+                        </div>
+                        <div>
+                            <dt>الموعد المفضل</dt>
+                            <dd>زيارة منزلية مسائية</dd>
+                        </div>
+                    </dl>
+                </article>
+
+                <article class="health-panel">
+                    <div class="panel-heading">
+                        <div>
+                            <h2>قبل الحفظ</h2>
+                            <p>فحوصات سريعة تضمن بقاء الحالة جاهزة للترشيح والمراجعة.</p>
+                        </div>
+                    </div>
+
+                    <ul class="helper-list">
+                        <li>
+                            <strong>اجعل العنوان واضحًا ومباشرًا</strong>
+                            <span>ابدأ بالحاجة العلاجية الأساسية حتى تظل الحالة سهلة الفهم داخل القوائم.</span>
+                        </li>
+                        <li>
+                            <strong>راجع الميزانية مع نوع الخدمة</strong>
+                            <span>أعد التأكد من النطاق عند التبديل بين الزيارة المنزلية والعيادة والمتابعة الأونلاين.</span>
+                        </li>
+                        <li>
+                            <strong>أكد بيانات الموقع بدقة</strong>
+                            <span>اسم المنطقة والمحافظة يجب أن يكونا واضحين بما يكفي لدعم الجدولة والتنسيق.</span>
+                        </li>
+                    </ul>
+                </article>
+
+                <article class="health-panel">
+                    <div class="panel-heading">
+                        <div>
+                            <h2>الظهور الحالي</h2>
+                            <p>حالة النشر الحالية الخاصة بهذه الحالة داخل النظام.</p>
+                        </div>
+                    </div>
+
+                    <div class="tag-row">
+                        <span class="soft-tag soft-tag-teal">متاحة لترشيح الطلاب</span>
+                        <span class="soft-tag soft-tag-amber">بانتظار مراجعة المشرف</span>
+                        <span class="soft-tag soft-tag-blue">الأسرة تفضل التذكير بالمواعيد</span>
+                    </div>
+
+                    <p class="body-copy">
+                        الحفظ الآن سيبقي الحالة نشطة مع الحفاظ على متطلبات المراجعة وملاحظات التنسيق الحالية.
+                    </p>
+                </article>
+            </div>
+        </aside>
+    </div>
+</section>
