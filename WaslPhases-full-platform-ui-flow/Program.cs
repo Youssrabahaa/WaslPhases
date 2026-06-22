@@ -1,5 +1,9 @@
 using Microsoft.EntityFrameworkCore;
 using phase_1.Data;
+using phase_1.Middleware;
+using phase_1.Repositories;
+using phase_1.Services;
+using phase_1.Services.Identity;
 
 namespace phase_1
 {
@@ -16,8 +20,17 @@ namespace phase_1
                 options.UseSqlServer(
                     builder.Configuration.GetConnectionString("DefaultConnection")));
 
+            builder.Services.AddScoped<IUserRepository, UserRepository>();
+            builder.Services.AddScoped<ITokenService, TokenService>();
+            builder.Services.AddScoped<IOTPService, OTPService>();
+            builder.Services.AddScoped<IAuthService, AuthService>();
+            builder.Services.AddScoped<IUserManager, UserManager>();
+            builder.Services.AddScoped<IRoleManager, RoleManager>();
+            builder.Services.AddScoped<ISignInManager, SignInManager>();
+
             var app = builder.Build();
 
+            app.UseMiddleware<ExceptionMiddleware>();
 
             // Configure the HTTP request pipeline.
             if (!app.Environment.IsDevelopment())
@@ -30,6 +43,7 @@ namespace phase_1
             app.UseHttpsRedirection();
             app.UseRouting();
 
+            app.UseMiddleware<JwtMiddleware>();
             app.UseAuthorization();
 
             app.MapStaticAssets();

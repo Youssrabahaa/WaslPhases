@@ -34,7 +34,7 @@ public class Offer
 
     public Case Case { get; set; } = default!;
 
-    public User StudentUser { get; set; } = default!;
+    public ApplicationUser StudentUser { get; set; } = default!;
 
     public Match? Match { get; set; }
 }

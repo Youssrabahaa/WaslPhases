@@ -36,9 +36,9 @@ public class Match
 
     public Offer Offer { get; set; } = default!;
 
-    public User PatientUser { get; set; } = default!;
+    public ApplicationUser PatientUser { get; set; } = default!;
 
-    public User StudentUser { get; set; } = default!;
+    public ApplicationUser StudentUser { get; set; } = default!;
 
     // Conversation removed — use phone calls. If true, contact via phone only.
     public bool PhoneContactOnly { get; set; } = true;

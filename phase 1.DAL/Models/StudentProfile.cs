@@ -35,6 +35,6 @@ public class StudentProfile
 
     public DateTime? VerifiedAt { get; set; }
 
-    public User User { get; set; } = default!;
+    public ApplicationUser User { get; set; } = default!;
     public Faculty Faculty { get; set; } = default!;
 }

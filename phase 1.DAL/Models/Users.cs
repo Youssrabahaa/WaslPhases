@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 namespace phase_1.Models;
 
 [Index(nameof(Phone), IsUnique = true)]
-public class User
+public class ApplicationUser
 {
     [Key]
     public int Id { get; set; }
@@ -18,6 +18,9 @@ public class User
     [MaxLength(200)]
     public string? Email { get; set; }
 
+    [Required, MaxLength(500)]
+    public string PasswordHash { get; set; } = default!;
+
     [Required]
     public int Role { get; set; }
 
@@ -25,13 +28,27 @@ public class User
     public int Status { get; set; } = 1;
 
     [Required]
+    public bool IsPhoneVerified { get; set; }
+
+    [Required]
+    public bool IsEmailVerified { get; set; }
+
+    public DateTime? LockedUntil { get; set; }
+
+    [Required]
+    public int FailedLoginAttempts { get; set; }
+
+    [Required]
     public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
+
+    public DateTime? UpdatedAt { get; set; }
 
     public DateTime? LastLoginAt { get; set; }
 
     public PatientProfile? PatientProfile { get; set; }
     public StudentProfile? StudentProfile { get; set; }
     public List<OtpCode> OtpCodes { get; set; } = new();
+    public List<RefreshToken> RefreshTokens { get; set; } = new();
     public List<Case> CasesPosted { get; set; } = new();
     public List<Offer> OffersMade { get; set; } = new();
     public List<Match> PatientMatches { get; set; } = new();

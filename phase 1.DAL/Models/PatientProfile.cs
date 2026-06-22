@@ -17,5 +17,5 @@ public class PatientProfile
     [MaxLength(500)]
     public string? Notes { get; set; }
 
-    public User User { get; set; } = default!;
+    public ApplicationUser User { get; set; } = default!;
 }

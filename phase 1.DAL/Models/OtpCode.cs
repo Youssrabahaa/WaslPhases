@@ -27,10 +27,16 @@ public class OtpCode
     public int Attempts { get; set; }
 
     [Required]
+    public int MaxAttempts { get; set; } = 5;
+
+    [Required]
     public int Purpose { get; set; }
+
+    [MaxLength(100)]
+    public string? CreatedByIp { get; set; }
 
     [Required]
     public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
 
-    public User? User { get; set; }
+    public ApplicationUser? User { get; set; }
 }

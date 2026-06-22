@@ -47,9 +47,9 @@ public class Session
 
     public Match Match { get; set; } = default!;
 
-    public User? SupervisorUser { get; set; }
+    public ApplicationUser? SupervisorUser { get; set; }
 
-    public User? CancelledByUser { get; set; }
+    public ApplicationUser? CancelledByUser { get; set; }
 
     public List<Reminder> Reminders { get; set; } = new List<Reminder>();
     public NoShowStrike? NoShowStrike { get; set; }

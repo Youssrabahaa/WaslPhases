@@ -7,7 +7,7 @@ public static class ModelBuilderSeedExtensions
 {
     public static void ApplyAppSeeds(this ModelBuilder modelBuilder)
     {
-        modelBuilder.Entity<User>().HasData(UserSeed.Data);
+        modelBuilder.Entity<ApplicationUser>().HasData(UserSeed.Data);
         modelBuilder.Entity<University>().HasData(ReferenceSeed.Universities);
         modelBuilder.Entity<Faculty>().HasData(ReferenceSeed.Faculties);
         modelBuilder.Entity<PatientProfile>().HasData(ProfileSeed.PatientProfiles);

@@ -29,7 +29,7 @@ public class Review
 
     public Match Match { get; set; } = default!;
 
-    public User ReviewerUser { get; set; } = default!;
+    public ApplicationUser ReviewerUser { get; set; } = default!;
 
-    public User ReviewedUser { get; set; } = default!;
+    public ApplicationUser ReviewedUser { get; set; } = default!;
 }

@@ -36,10 +36,10 @@ public class Report
     public DateTime? ResolvedAt { get; set; }
 
     [ForeignKey(nameof(ReporterId))]
-    public User Reporter { get; set; } = default!;
+    public ApplicationUser Reporter { get; set; } = default!;
 
     [ForeignKey(nameof(ReportedId))]
-    public User Reported { get; set; } = default!;
+    public ApplicationUser Reported { get; set; } = default!;
 
-    public User? HandledByAdmin { get; set; }
+    public ApplicationUser? HandledByAdmin { get; set; }
 }

@@ -4,11 +4,12 @@ using phase_1.Models;
 
 namespace phase_1.Configurations;
 
-public class UserConfiguration : IEntityTypeConfiguration<User>
+public class UserConfiguration : IEntityTypeConfiguration<ApplicationUser>
 {
-    public void Configure(EntityTypeBuilder<User> builder)
+    public void Configure(EntityTypeBuilder<ApplicationUser> builder)
     {
-        // Make Email uniqueness safe when Email is optional by adding a filtered index
+        builder.ToTable("Users");
+
         builder
             .HasIndex(u => u.Email)
             .IsUnique()

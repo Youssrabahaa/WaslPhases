@@ -50,7 +50,7 @@ public class Case
     [Required, MaxLength(100)]
     public string Area { get; set; } = default!;
 
-    public User PatientUser { get; set; } = default!;
+    public ApplicationUser PatientUser { get; set; } = default!;
     public ServiceType ServiceType { get; set; } = default!;
     public TreatmentCategory TreatmentCategory { get; set; } = default!;
     public List<Offer> Offers { get; set; } = new();

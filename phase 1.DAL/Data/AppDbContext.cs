@@ -11,8 +11,9 @@ namespace phase_1.Data
         {
         }
 
-        public DbSet<User> Users { get; set; } = null!;
+        public DbSet<ApplicationUser> Users { get; set; } = null!;
         public DbSet<OtpCode> OtpCodes { get; set; } = null!;
+        public DbSet<RefreshToken> RefreshTokens { get; set; } = null!;
         public DbSet<PatientProfile> PatientProfiles { get; set; } = null!;
         public DbSet<StudentProfile> StudentProfiles { get; set; } = null!;
         public DbSet<University> Universities { get; set; } = null!;
