@@ -1,0 +1,212 @@
+is_global = true
+build_property.TargetFramework = net9.0
+build_property.TargetFramework = net9.0
+build_property.TargetPlatformMinVersion = 
+build_property.TargetPlatformMinVersion = 
+build_property.UsingMicrosoftNETSdkWeb = true
+build_property.UsingMicrosoftNETSdkWeb = true
+build_property.ProjectTypeGuids = 
+build_property.ProjectTypeGuids = 
+build_property.InvariantGlobalization = 
+build_property.InvariantGlobalization = 
+build_property.PlatformNeutralAssembly = 
+build_property.PlatformNeutralAssembly = 
+build_property.EnforceExtendedAnalyzerRules = 
+build_property.EnforceExtendedAnalyzerRules = 
+build_property._SupportedPlatformList = Linux,macOS,Windows
+build_property._SupportedPlatformList = Linux,macOS,Windows
+build_property.TargetFrameworkIdentifier = .NETCoreApp
+build_property.TargetFrameworkVersion = v9.0
+build_property.EntryPointFilePath = 
+build_property.RootNamespace = phase_1
+build_property.RootNamespace = phase_1
+build_property.ProjectDir = E:\رواد\Wasl\
+build_property.EnableComHosting = 
+build_property.EnableGeneratedComInterfaceComImportInterop = 
+build_property.RazorLangVersion = 9.0
+build_property.SupportLocalizedComponentNames = 
+build_property.GenerateRazorMetadataSourceChecksumAttributes = 
+build_property.MSBuildProjectDirectory = E:\رواد\Wasl
+build_property._RazorSourceGeneratorDebug = 
+build_property.EffectiveAnalysisLevelStyle = 9.0
+build_property.EnableCodeStyleSeverity = 
+
+[E:/رواد/Wasl/Views/Auth/ForgotPassword.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQXV0aFxGb3Jnb3RQYXNzd29yZC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[E:/رواد/Wasl/Views/Auth/Login.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQXV0aFxMb2dpbi5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[E:/رواد/Wasl/Views/Auth/Register.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQXV0aFxSZWdpc3Rlci5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[E:/رواد/Wasl/Views/Auth/ResetPassword.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQXV0aFxSZXNldFBhc3N3b3JkLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[E:/رواد/Wasl/Views/Auth/SelectRole.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQXV0aFxTZWxlY3RSb2xlLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[E:/رواد/Wasl/Views/Auth/VerifyOTP.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQXV0aFxWZXJpZnlPVFAuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[E:/رواد/Wasl/Views/Case/CaseDetails.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ2FzZVxDYXNlRGV0YWlscy5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[E:/رواد/Wasl/Views/Case/CreateCase.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ2FzZVxDcmVhdGVDYXNlLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[E:/رواد/Wasl/Views/Case/DeleteCase.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ2FzZVxEZWxldGVDYXNlLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[E:/رواد/Wasl/Views/Case/EditCase.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ2FzZVxFZGl0Q2FzZS5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[E:/رواد/Wasl/Views/Case/MyCases.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ2FzZVxNeUNhc2VzLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[E:/رواد/Wasl/Views/Home/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxJbmRleC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[E:/رواد/Wasl/Views/Home/Privacy.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxQcml2YWN5LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[E:/رواد/Wasl/Views/Match/MatchDetails.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTWF0Y2hcTWF0Y2hEZXRhaWxzLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[E:/رواد/Wasl/Views/Notification/List.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTm90aWZpY2F0aW9uXExpc3QuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[E:/رواد/Wasl/Views/Offer/BrowseCases.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcT2ZmZXJcQnJvd3NlQ2FzZXMuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[E:/رواد/Wasl/Views/Offer/CreateOffer.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcT2ZmZXJcQ3JlYXRlT2ZmZXIuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[E:/رواد/Wasl/Views/Offer/MyOffers.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcT2ZmZXJcTXlPZmZlcnMuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[E:/رواد/Wasl/Views/Offer/OfferDetails.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcT2ZmZXJcT2ZmZXJEZXRhaWxzLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[E:/رواد/Wasl/Views/Patient/EditProfile.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUGF0aWVudFxFZGl0UHJvZmlsZS5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[E:/رواد/Wasl/Views/Patient/Profile.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUGF0aWVudFxQcm9maWxlLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[E:/رواد/Wasl/Views/Report/AddReport.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUmVwb3J0XEFkZFJlcG9ydC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[E:/رواد/Wasl/Views/Report/ViewReport.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUmVwb3J0XFZpZXdSZXBvcnQuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[E:/رواد/Wasl/Views/Review/AddReview.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUmV2aWV3XEFkZFJldmlldy5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[E:/رواد/Wasl/Views/Review/ViewReviews.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUmV2aWV3XFZpZXdSZXZpZXdzLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[E:/رواد/Wasl/Views/Session/SessionDetails.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2Vzc2lvblxTZXNzaW9uRGV0YWlscy5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[E:/رواد/Wasl/Views/Session/SessionList.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2Vzc2lvblxTZXNzaW9uTGlzdC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[E:/رواد/Wasl/Views/Shared/Error.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXEVycm9yLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[E:/رواد/Wasl/Views/Shared/_Card.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9DYXJkLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[E:/رواد/Wasl/Views/Shared/_EmptyCasesState.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9FbXB0eUNhc2VzU3RhdGUuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[E:/رواد/Wasl/Views/Shared/_EmptyState.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9FbXB0eVN0YXRlLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[E:/رواد/Wasl/Views/Shared/_ErrorState.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9FcnJvclN0YXRlLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[E:/رواد/Wasl/Views/Shared/_Footer.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9Gb290ZXIuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[E:/رواد/Wasl/Views/Shared/_Form.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9Gb3JtLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[E:/رواد/Wasl/Views/Shared/_Loader.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9Mb2FkZXIuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[E:/رواد/Wasl/Views/Shared/_LoadingState.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9Mb2FkaW5nU3RhdGUuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[E:/رواد/Wasl/Views/Shared/_Modal.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9Nb2RhbC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[E:/رواد/Wasl/Views/Shared/_Navbar.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9OYXZiYXIuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[E:/رواد/Wasl/Views/Shared/_NotificationItem.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9Ob3RpZmljYXRpb25JdGVtLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[E:/رواد/Wasl/Views/Shared/_ValidationScriptsPartial.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9WYWxpZGF0aW9uU2NyaXB0c1BhcnRpYWwuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[E:/رواد/Wasl/Views/Student/EditProfile.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU3R1ZGVudFxFZGl0UHJvZmlsZS5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[E:/رواد/Wasl/Views/Student/Profile.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU3R1ZGVudFxQcm9maWxlLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[E:/رواد/Wasl/Views/_ViewImports.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcX1ZpZXdJbXBvcnRzLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[E:/رواد/Wasl/Views/_ViewStart.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcX1ZpZXdTdGFydC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[E:/رواد/Wasl/Views/Shared/_Layout.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9MYXlvdXQuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = b-rruc36ubh2
