@@ -1,4 +1,4 @@
-@{
+﻿@{
     ViewData["Title"] = "إنشاء حساب";
 }
 
@@ -6,62 +6,123 @@
     <div class="auth-visual">
         <div class="auth-visual-content">
             <span class="health-kicker">انضم إلى وصل</span>
-            <h1>حساب واحد يفتح رحلة رعاية كاملة.</h1>
-            <p>سواء كنت مريضا تبحث عن رعاية مناسبة أو طالبا يحتاج حالات تدريب موثقة، النموذج يجهزك للخطوة التالية.</p>
-            <div class="metric-strip mt-4">
-                <article class="mini-kpi">
-                    <span class="mini-kpi-label">خطوات التسجيل</span>
-                    <strong>3</strong>
-                    <span class="mini-kpi-meta">بيانات، دور، تحقق</span>
-                </article>
-                <article class="mini-kpi">
-                    <span class="mini-kpi-label">حالة الحساب</span>
-                    <strong>مبدئي</strong>
-                    <span class="mini-kpi-meta">حتى تأكيد OTP</span>
-                </article>
-            </div>
+            <h1>أنشئ حسابك وأكمل خطوة التحقق.</h1>
+            <p>اختر نوع الحساب المناسب لك، ثم أكد رقم الهاتف برمز التحقق.</p>
         </div>
     </div>
 
     <article class="auth-card">
-        <span class="health-kicker">Register</span>
-        <h2>إنشاء حساب جديد</h2>
-        <p>املأ البيانات الأساسية، ثم انتقل للتحقق بكود الهاتف.</p>
+        <span class="health-kicker">تسجيل جديد</span>
+        <h2>إنشاء حساب</h2>
+        <p>اكتب بياناتك الأساسية، وبعدها أكد رقم الهاتف برمز التحقق.</p>
 
-        <form class="form-panel">
+        <form class="form-panel" action="/Auth/RegisterForm" method="post">
+            @Html.AntiForgeryToken()
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
             <label class="field-group">
                 <span>الاسم بالكامل</span>
-                <input class="form-control modern-input" name="fullName" placeholder="مثال: محمد مصطفى" />
+                <input class="form-control modern-input" name="FullName" placeholder="اسم المستخدم" required />
             </label>
 
             <label class="field-group">
                 <span>رقم الهاتف</span>
-                <input class="form-control modern-input" name="phone" inputmode="tel" placeholder="01012345678" />
+                <input class="form-control modern-input" name="Phone" inputmode="tel" placeholder="01012345678" required />
             </label>
 
             <label class="field-group">
                 <span>نوع الحساب</span>
-                <select class="form-select modern-input" name="role">
-                    <option value="">اختر الدور</option>
-                    <option value="Patient">مريض / ولي أمر</option>
-                    <option value="Student">طالب رعاية صحية</option>
+                <select class="form-select modern-input" name="Role" required>
+                    <option value="">اختر نوع الحساب</option>
+                    <option value="1">مريض / ولي أمر</option>
+                    <option value="2">طالب</option>
                 </select>
             </label>
 
             <label class="field-group">
-                <span>البريد الإلكتروني اختياري</span>
-                <input class="form-control modern-input" name="email" placeholder="name example.com" />
+                <span>البريد الإلكتروني</span>
+                <input class="form-control modern-input" name="Email" type="email" placeholder="البريد الإلكتروني اختياري" />
             </label>
 
-            <a class="primary-action loading-button" asp-controller="Auth" asp-action="VerifyOTP">
+            <label class="field-group">
+                <span>كلمة المرور</span>
+                <input class="form-control modern-input" name="Password" type="password" placeholder="مثال: كلمة مرور قوية" required />
+            </label>
+
+            <label class="field-group">
+                <span>تأكيد كلمة المرور</span>
+                <input class="form-control modern-input" name="ConfirmPassword" type="password" placeholder="أعد كتابة كلمة المرور" required />
+            </label>
+
+            <div class="student-fields" id="student-fields" hidden>
+                <label class="field-group">
+                    <span>الكلية</span>
+                    <select class="form-select modern-input" name="FacultyId" id="faculty-id">
+                        <option value="">اختر الكلية</option>
+                        <option value="1">جامعة القاهرة - كلية طب الأسنان</option>
+                        <option value="2">جامعة الإسكندرية - كلية طب الأسنان</option>
+                    </select>
+                </label>
+
+                <label class="field-group">
+                    <span>السنة الدراسية</span>
+                    <input class="form-control modern-input" name="AcademicYear" id="academic-year" type="number" min="1" max="10" placeholder="4" />
+                </label>
+
+                <label class="field-group">
+                    <span>كود الطالب</span>
+                    <input class="form-control modern-input" name="StudentCode" id="student-code" placeholder="مثال: طالب-1001" />
+                </label>
+
+                <label class="field-group">
+                    <span>اسم العيادة</span>
+                    <input class="form-control modern-input" name="ClinicName" placeholder="العيادة الرئيسية" />
+                </label>
+
+                <label class="field-group">
+                    <span>اسم المشرف</span>
+                    <input class="form-control modern-input" name="SupervisorName" placeholder="د. اسم المشرف" />
+                </label>
+
+                <label class="field-group">
+                    <span>عدد الحالات المطلوبة</span>
+                    <input class="form-control modern-input" name="RequiredCasesCount" type="number" min="0" max="100" placeholder="0" />
+                </label>
+            </div>
+
+            <button class="primary-action loading-button" type="submit">
                 <span class="button-label">إنشاء الحساب</span>
                 <span class="button-loader"></span>
-            </a>
+            </button>
         </form>
 
         <div class="row-actions mt-3">
-            <a class="text-link" asp-controller="Auth" asp-action="SelectRole">اختيار الدور أولا</a>
             <a class="text-link" asp-controller="Auth" asp-action="Login">لدي حساب بالفعل</a>
         </div>
     </article>
 </section>
+
+<script>
+    (() => {
+        const role = document.querySelector('select[name="Role"]');
+        const fields = document.getElementById('student-fields');
+        const requiredInputs = [
+            document.getElementById('faculty-id'),
+            document.getElementById('academic-year'),
+            document.getElementById('student-code')
+        ];
+
+        const syncStudentFields = () => {
+            const isStudent = role?.value === '2';
+            fields.hidden = !isStudent;
+            requiredInputs.forEach((input) => {
+                if (input) {
+                    input.required = isStudent;
+                }
+            });
+        };
+
+        role?.addEventListener('change', syncStudentFields);
+        syncStudentFields();
+    })();
+</script>

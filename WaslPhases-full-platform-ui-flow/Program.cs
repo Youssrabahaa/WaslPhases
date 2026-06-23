@@ -41,6 +41,7 @@ namespace phase_1
             }
 
             app.UseHttpsRedirection();
+            app.UseStaticFiles();
             app.UseRouting();
 
             app.UseMiddleware<JwtMiddleware>();
@@ -59,7 +60,7 @@ namespace phase_1
                 .WithStaticAssets();
             app.MapControllerRoute(
                 name: "default",
-                pattern: "{controller=Home}/{action=Index}/{id?}")
+                pattern: "{controller=Auth}/{action=Register}/{id?}")
                 .WithStaticAssets();
 
             app.Run();

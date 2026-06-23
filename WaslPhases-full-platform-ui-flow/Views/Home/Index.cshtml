@@ -5,54 +5,54 @@
 <section class="health-page">
     <div class="health-hero">
         <div>
-            <span class="health-kicker">Healthcare Matching Platform</span>
+            <span class="health-kicker">منصة مطابقة الرعاية الصحية</span>
             <h1 class="health-title">وصل ينظم الرحلة من الحالة للعرض للجلسة.</h1>
-            <p class="health-subtitle">Dashboard موحد يجمع الـ Auth flow، الطالب، العروض، المطابقات، الجلسات، التقارير، والتقييمات في تجربة واحدة متماسكة.</p>
+            <p class="health-subtitle">لوحة موحدة تجمع التسجيل، الطالب، العروض، المطابقات، الجلسات، التقارير، والتقييمات في تجربة واحدة متماسكة.</p>
         </div>
         <div class="hero-actions">
-            <a class="primary-action" asp-controller="Auth" asp-action="Login">ابدأ من Login</a>
+            <a class="primary-action" asp-controller="Auth" asp-action="Login">ابدأ من تسجيل الدخول</a>
             <a class="ghost-action" asp-controller="Offer" asp-action="BrowseCases">تصفح الحالات</a>
         </div>
     </div>
 
     <div class="metric-strip">
         <article class="mini-kpi">
-            <span class="mini-kpi-label">Modules</span>
+            <span class="mini-kpi-label">الأقسام</span>
             <strong>5</strong>
-            <span class="mini-kpi-meta">Auth, Student, Core, UI</span>
+            <span class="mini-kpi-meta">التسجيل، الطالب، الأساسيات، الواجهة</span>
         </article>
         <article class="mini-kpi">
-            <span class="mini-kpi-label">Views</span>
+            <span class="mini-kpi-label">الصفحات</span>
             <strong>20+</strong>
             <span class="mini-kpi-meta">جاهزة للربط</span>
         </article>
         <article class="mini-kpi">
-            <span class="mini-kpi-label">States</span>
-            <strong>Empty / Loading / Error</strong>
+            <span class="mini-kpi-label">الحالات</span>
+            <strong>فارغ / تحميل / خطأ</strong>
             <span class="mini-kpi-meta">موجودة في الصفحات</span>
         </article>
         <article class="mini-kpi">
-            <span class="mini-kpi-label">Responsive</span>
-            <strong>Yes</strong>
-            <span class="mini-kpi-meta">Desktop + Mobile</span>
+            <span class="mini-kpi-label">متجاوبة</span>
+            <strong>نعم</strong>
+            <span class="mini-kpi-meta">حاسوب وهاتف</span>
         </article>
     </div>
 
     <section class="module-grid">
         <a class="module-card" asp-controller="Auth" asp-action="Login">
-            <span class="module-icon">A</span>
-            <h2>Authentication</h2>
-            <p>Login, Register, OTP, Forgot/Reset password, Select role.</p>
+            <span class="module-icon">ت</span>
+            <h2>التسجيل والدخول</h2>
+            <p>تسجيل الدخول، إنشاء الحساب، رمز التحقق، واستعادة كلمة المرور.</p>
         </a>
         <a class="module-card" asp-controller="Student" asp-action="Profile">
-            <span class="module-icon">S</span>
-            <h2>Student Flow</h2>
-            <p>Profile, Edit profile, Browse cases, Create offer, My offers.</p>
+            <span class="module-icon">ط</span>
+            <h2>مسار الطالب</h2>
+            <p>الملف الشخصي، تعديل البيانات، تصفح الحالات، إنشاء عرض، ومتابعة العروض.</p>
         </a>
         <a class="module-card" asp-controller="Match" asp-action="MatchDetails">
-            <span class="module-icon">M</span>
-            <h2>Matching Core</h2>
-            <p>Offer to Match, sessions lifecycle, reports, and follow-up.</p>
+            <span class="module-icon">م</span>
+            <h2>المطابقة والمتابعة</h2>
+            <p>تحويل العرض إلى مطابقة، متابعة الجلسات، التقارير، وخطوات المتابعة.</p>
         </a>
     </section>
 
@@ -61,10 +61,10 @@
             <article class="health-panel">
                 <div class="panel-heading">
                     <div>
-                        <h2>Reusable Components</h2>
-                        <p>أمثلة فعلية للـ shared partials المطلوبة.</p>
+                        <h2>مكونات قابلة لإعادة الاستخدام</h2>
+                        <p>أمثلة فعلية للأجزاء المشتركة المطلوبة.</p>
                     </div>
-                    <button class="ghost-action compact-action" data-bs-toggle="modal" data-bs-target="#sharedModal">فتح Modal</button>
+                    <button class="ghost-action compact-action" data-bs-toggle="modal" data-bs-target="#sharedModal">فتح النافذة</button>
                 </div>
                 <div class="state-grid">
                     @await Html.PartialAsync("_Card")
@@ -77,7 +77,7 @@
                 <div class="panel-heading">
                     <div>
                         <h2>نموذج موحد</h2>
-                        <p>Partial جاهز لإعادة الاستخدام داخل أي شاشة.</p>
+                        <p>جزء جاهز لإعادة الاستخدام داخل أي شاشة.</p>
                     </div>
                 </div>
                 @await Html.PartialAsync("_Form")
@@ -89,7 +89,7 @@
                 <div class="panel-heading">
                     <div>
                         <h2>آخر الإشعارات</h2>
-                        <p>Component موحد للإشعار.</p>
+                        <p>مكون موحد للإشعار.</p>
                     </div>
                     <a class="text-link" asp-controller="Notification" asp-action="GetNotifications">الكل</a>
                 </div>

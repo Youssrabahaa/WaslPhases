@@ -6,13 +6,13 @@
 <section class="health-page">
     <div class="health-hero">
         <div>
-            <span class="health-kicker">Sessions</span>
+            <span class="health-kicker">الجلسات</span>
             <h1 class="health-title">إدارة الجلسات بوضوح من البداية للنهاية.</h1>
             <p class="health-subtitle">قائمة الجلسات تعرض المواعيد، الحالات، وإجراءات البدء أو المتابعة مع حالة عدم وجود جلسات.</p>
         </div>
         <div class="hero-actions">
             <a class="primary-action" asp-controller="Match" asp-action="MatchDetails" asp-route-portal="@portalRoute">تفاصيل المطابقة</a>
-            <!-- New Navigation Buttons -->
+            <!-- أزرار تنقل إضافية -->
             <a class="primary-action" asp-controller="Session" asp-action="AddSession" asp-route-portal="@portalRoute" style="background-color: #10b981;">إضافة جلسة</a>
             <a class="ghost-action" asp-controller="Session" asp-action="EditSession" asp-route-portal="@portalRoute">تعديل جلسة</a>
         </div>
@@ -22,7 +22,7 @@
         <article class="session-card">
             <div>
                 <div class="case-card-top">
-                    <span class="status-badge status-inprogress">Session in progress</span>
+                    <span class="status-badge status-inprogress">جلسة قيد التنفيذ</span>
                     <span class="case-meta">الجلسة 1</span>
                     <span class="case-meta">غرفة C-12</span>
                 </div>
@@ -42,7 +42,7 @@
         <article class="session-card">
             <div>
                 <div class="case-card-top">
-                    <span class="status-badge status-completed">Completed session</span>
+                    <span class="status-badge status-completed">جلسة مكتملة</span>
                     <span class="case-meta">الجلسة 0</span>
                     <span class="case-meta">تم التقرير</span>
                 </div>
@@ -63,13 +63,13 @@
     <section class="state-grid">
         <article class="empty-state-card">
             <span class="empty-state-icon">0</span>
-            <h3>No sessions</h3>
+            <h3>لا توجد جلسات</h3>
             <p>لا توجد جلسات مرتبطة بهذه المطابقة بعد. عند قبول العرض وتحديد موعد ستظهر هنا.</p>
         </article>
         @await Html.PartialAsync("_Loader")
         <article class="empty-state-card">
             <span class="empty-state-icon">✓</span>
-            <h3>Completed session</h3>
+            <h3>جلسة مكتملة</h3>
             <p>حالة جاهزة للجلسات المكتملة، مع ربط مباشر للتقرير والتقييم.</p>
         </article>
     </section>
@@ -85,9 +85,9 @@
                     <span class="timeline-icon">◷</span>
                 </span>
                 <div class="timeline-card">
-                    <span class="timeline-status soft-tag-blue">scheduled</span>
+                    <span class="timeline-status soft-tag-blue">مجدولة</span>
                     <h3>الاستشارة الأولية</h3>
-                    <time>Tuesday, April 28, 2026 at 05:00 PM</time>
+                    <time>الثلاثاء، 28 أبريل 2026 الساعة 05:00 مساء</time>
                     <div class="row-actions">
                         <a class="ghost-action compact-action" asp-controller="Session" asp-action="SessionDetails" asp-route-id="1" asp-route-portal="@portalRoute">إعادة جدولة</a>
                         <button class="ghost-action compact-action" type="button">إلغاء</button>
@@ -100,9 +100,9 @@
                     <span class="timeline-icon">◷</span>
                 </span>
                 <div class="timeline-card">
-                    <span class="timeline-status soft-tag-blue">scheduled</span>
+                    <span class="timeline-status soft-tag-blue">مجدولة</span>
                     <h3>إجراء الحشو</h3>
-                    <time>Tuesday, May 5, 2026 at 05:00 PM</time>
+                    <time>الثلاثاء، 5 مايو 2026 الساعة 05:00 مساء</time>
                     <div class="row-actions">
                         <a class="ghost-action compact-action" asp-controller="Session" asp-action="SessionDetails" asp-route-id="2" asp-route-portal="@portalRoute">إعادة جدولة</a>
                         <button class="ghost-action compact-action" type="button">إلغاء</button>
@@ -115,9 +115,9 @@
                     <span class="timeline-icon green">✓</span>
                 </span>
                 <div class="timeline-card">
-                    <span class="timeline-status soft-tag-teal">completed</span>
+                    <span class="timeline-status soft-tag-teal">مكتملة</span>
                     <h3>تنظيف الأسنان</h3>
-                    <time>April 15, 2026 at 12:00 PM</time>
+                    <time>15 أبريل 2026 الساعة 12:00 مساء</time>
                     <div class="row-actions">
                         <a class="ghost-action compact-action" asp-controller="Report" asp-action="ViewReport" asp-route-portal="@portalRoute">عرض التقرير</a>
                     </div>

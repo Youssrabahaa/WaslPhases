@@ -7,6 +7,9 @@
   "targets": {
     ".NETCoreApp,Version=v9.0": {
       "phase 1.BLL/1.0.0": {
+        "dependencies": {
+          "Microsoft.Extensions.Configuration.Abstractions": "9.0.0"
+        },
         "runtime": {
           "phase 1.BLL.dll": {}
         }

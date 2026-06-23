@@ -1,4 +1,4 @@
-@{
+﻿@{
     ViewData["Title"] = "تسجيل الدخول";
 }
 
@@ -6,41 +6,44 @@
     <div class="auth-visual">
         <div class="auth-visual-content">
             <span class="health-kicker">بوابة وصل</span>
-            <h1>ادخل بسرعة، وشوف أنسب حالة أو متابعة من مكان واحد.</h1>
-            <p>تجربة دخول بسيطة برقم الهاتف وكود تحقق، مع واجهة واضحة للحالات المختلفة قبل ربطها بالخدمة الفعلية.</p>
-            <div class="chip-row mt-4">
-                <span class="soft-tag soft-tag-teal">تحقق آمن</span>
-                <span class="soft-tag soft-tag-blue">مناسب لكل الشاشات</span>
-                <span class="soft-tag soft-tag-amber">تجربة واضحة</span>
-            </div>
+            <h1>سجل دخولك وتابع خطواتك.</h1>
+            <p>استخدم رقم الهاتف وكلمة المرور التي سجلت بها.</p>
         </div>
     </div>
 
     <article class="auth-card">
-        <span class="health-kicker">Login</span>
+        <span class="health-kicker">دخول</span>
         <h2>تسجيل الدخول</h2>
-        <p>اكتب رقم الهاتف المسجل وسيتم تحويلك لخطوة التحقق.</p>
+        <p>اكتب رقم الهاتف المسجل وكلمة المرور.</p>
 
-        <form class="form-panel">
+        <form class="form-panel" action="/Auth/LoginForm" method="post">
+            @Html.AntiForgeryToken()
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
             <label class="field-group">
                 <span>رقم الهاتف</span>
-                <input class="form-control modern-input" name="phone" inputmode="tel" placeholder="01012345678" />
-                <small class="field-error">مثال لحالة الخطأ: رقم الهاتف مطلوب.</small>
+                <input class="form-control modern-input" name="Phone" inputmode="tel" placeholder="01012345678" required />
             </label>
 
-            <div class="alert-soft-info">
-                حالة التحميل تظهر عند الضغط على الزر، وتمنع تكرار الإرسال أثناء معالجة الطلب.
-            </div>
+            <label class="field-group">
+                <span>كلمة المرور</span>
+                <input class="form-control modern-input" name="Password" type="password" placeholder="كلمة المرور" required />
+            </label>
 
-            <a class="primary-action loading-button" asp-controller="Auth" asp-action="VerifyOTP">
-                <span class="button-label">إرسال كود التحقق</span>
+            <label class="field-group d-flex flex-row align-items-center gap-2">
+                <input name="RememberMe" type="checkbox" value="true" />
+                <span>تذكرني</span>
+            </label>
+
+            <button class="primary-action loading-button" type="submit">
+                <span class="button-label">دخول</span>
                 <span class="button-loader"></span>
-            </a>
+            </button>
         </form>
 
         <div class="row-actions mt-3">
             <a class="text-link" asp-controller="Auth" asp-action="ForgotPassword">نسيت كلمة المرور؟</a>
-            <a class="text-link" asp-controller="Auth" asp-action="Register">إنشاء حساب جديد</a>
+            <a class="text-link" asp-controller="Auth" asp-action="Register">إنشاء حساب</a>
         </div>
     </article>
 </section>

@@ -240,7 +240,7 @@ public class AuthService : IAuthService
             StudentProfile = user.StudentProfile is null ? null : new StudentProfileDTO
             {
                 FacultyId = user.StudentProfile.FacultyId,
-                FacultyName = user.StudentProfile.Faculty.Name,
+                FacultyName = user.StudentProfile.Faculty?.Name,
                 AcademicYear = user.StudentProfile.AcademicYear,
                 ClinicName = user.StudentProfile.ClinicName,
                 StudentCode = user.StudentProfile.StudentCode,

@@ -20,7 +20,9 @@ public class OTPService : IOTPService
 
     public async Task<string> GenerateOtpAsync(string phone, int purpose, int? userId = null, string? ipAddress = null)
     {
-        var code = Random.Shared.Next(100000, 999999).ToString();
+        var code = UseFixedOtp()
+            ? GetFixedOtpCode()
+            : Random.Shared.Next(100000, 999999).ToString();
 
         _context.OtpCodes.Add(new OtpCode
         {
@@ -66,5 +68,16 @@ public class OTPService : IOTPService
     private int GetOtpMinutes()
     {
         return int.TryParse(_configuration["Auth:OtpMinutes"], out var minutes) ? minutes : 10;
+    }
+
+    private bool UseFixedOtp()
+    {
+        return bool.TryParse(_configuration["Auth:UseFixedOtp"], out var useFixedOtp) && useFixedOtp;
+    }
+
+    private string GetFixedOtpCode()
+    {
+        var configuredCode = _configuration["Auth:FixedOtpCode"];
+        return string.IsNullOrWhiteSpace(configuredCode) ? "123456" : configuredCode.Trim();
     }
 }

@@ -6,13 +6,13 @@
 <section class="health-page">
     <div class="health-hero compact-hero">
         <div>
-            <span class="health-kicker">Edit Session</span>
+            <span class="health-kicker">تعديل الجلسة</span>
             <h1 class="health-title">تعديل الجلسة رقم 1</h1>
             <p class="health-subtitle">قم بتحديث بيانات الجلسة الحالية مثل الموعد، المكان، أو المشرف.</p>
         </div>
         <div class="hero-actions">
             <a class="ghost-action" asp-controller="Session" asp-action="SessionList" asp-route-portal="@portalRoute">كل الجلسات</a>
-            <!-- New Navigation Buttons -->
+            <!-- أزرار تنقل إضافية -->
              </div>
     </div>
 
@@ -24,7 +24,7 @@
                         <h2>بيانات الجلسة</h2>
                         <p>عدل البيانات الحالية للجلسة.</p>
                     </div>
-                    <span class="status-badge status-inprogress">Session in progress</span>
+                    <span class="status-badge status-inprogress">جلسة قيد التنفيذ</span>
                 </div>
                 <form method="post" action="#">
                     <div class="info-grid" style="grid-template-columns: 1fr 1fr;">
@@ -34,11 +34,11 @@
                         </div>
                         <div class="info-block" style="display: flex; flex-direction: column; align-items: start;">
                             <span>المكان</span>
-                            <input type="text" value="Kasr Al-Ainy Clinic" style="width: 100%; padding: 8px 12px; border: 1px solid #d1d5db; border-radius: 8px; font-family: inherit;" />
+                            <input type="text" value="عيادة قصر العيني" style="width: 100%; padding: 8px 12px; border: 1px solid #d1d5db; border-radius: 8px; font-family: inherit;" />
                         </div>
                         <div class="info-block" style="display: flex; flex-direction: column; align-items: start;">
                             <span>الغرفة</span>
-                            <input type="text" value="C-12" style="width: 100%; padding: 8px 12px; border: 1px solid #d1d5db; border-radius: 8px; font-family: inherit;" />
+                            <input type="text" value="غرفة 12" style="width: 100%; padding: 8px 12px; border: 1px solid #d1d5db; border-radius: 8px; font-family: inherit;" />
                         </div>
                         <div class="info-block" style="display: flex; flex-direction: column; align-items: start;">
                             <span>المشرف</span>

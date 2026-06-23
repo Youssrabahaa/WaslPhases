@@ -1,23 +1,25 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Huawei\\Downloads\\WaslPhases-full-platform-ui-flow (1)\\phase 1.BLL\\phase 1.BLL.csproj": {}
+    "E:\\رواد\\Wasl\\phase 1.BLL\\phase 1.BLL.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Huawei\\Downloads\\WaslPhases-full-platform-ui-flow (1)\\phase 1.BLL\\phase 1.BLL.csproj": {
+    "E:\\رواد\\Wasl\\phase 1.BLL\\phase 1.BLL.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Huawei\\Downloads\\WaslPhases-full-platform-ui-flow (1)\\phase 1.BLL\\phase 1.BLL.csproj",
+        "projectUniqueName": "E:\\رواد\\Wasl\\phase 1.BLL\\phase 1.BLL.csproj",
         "projectName": "phase 1.BLL",
-        "projectPath": "C:\\Users\\Huawei\\Downloads\\WaslPhases-full-platform-ui-flow (1)\\phase 1.BLL\\phase 1.BLL.csproj",
-        "packagesPath": "C:\\Users\\Huawei\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Huawei\\Downloads\\WaslPhases-full-platform-ui-flow (1)\\phase 1.BLL\\obj\\",
+        "projectPath": "E:\\رواد\\Wasl\\phase 1.BLL\\phase 1.BLL.csproj",
+        "packagesPath": "C:\\Users\\AbdoAmr\\.nuget\\packages\\",
+        "outputPath": "E:\\رواد\\Wasl\\phase 1.BLL\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
+          "C:\\Program Files\\DevExpress 25.1\\Components\\Offline Packages",
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
         ],
         "configFilePaths": [
-          "C:\\Users\\Huawei\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\AbdoAmr\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\DevExpress 25.1.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
@@ -26,14 +28,16 @@
         ],
         "sources": {
           "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "C:\\Program Files\\DevExpress 25.1\\Components\\System\\Components\\Packages": {},
+          "C:\\Program Files\\dotnet\\library-packs": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
           "net9.0": {
             "targetAlias": "net9.0",
             "projectReferences": {
-              "C:\\Users\\Huawei\\Downloads\\WaslPhases-full-platform-ui-flow (1)\\phase 1.DAL\\phase 1.DAL.csproj": {
-                "projectPath": "C:\\Users\\Huawei\\Downloads\\WaslPhases-full-platform-ui-flow (1)\\phase 1.DAL\\phase 1.DAL.csproj"
+              "E:\\رواد\\Wasl\\phase 1.DAL\\phase 1.DAL.csproj": {
+                "projectPath": "E:\\رواد\\Wasl\\phase 1.DAL\\phase 1.DAL.csproj"
               }
             }
           }
@@ -53,6 +57,12 @@
       "frameworks": {
         "net9.0": {
           "targetAlias": "net9.0",
+          "dependencies": {
+            "Microsoft.Extensions.Configuration.Abstractions": {
+              "target": "Package",
+              "version": "[9.0.0, )"
+            }
+          },
           "imports": [
             "net461",
             "net462",
@@ -64,12 +74,6 @@
           ],
           "assetTargetFallback": true,
           "warn": true,
-          "downloadDependencies": [
-            {
-              "name": "Microsoft.Net.Sdk.Compilers.Toolset",
-              "version": "[9.0.304, 9.0.304]"
-            }
-          ],
           "frameworkReferences": {
             "Microsoft.NETCore.App": {
               "privateAssets": "all"
@@ -79,20 +83,22 @@
         }
       }
     },
-    "C:\\Users\\Huawei\\Downloads\\WaslPhases-full-platform-ui-flow (1)\\phase 1.DAL\\phase 1.DAL.csproj": {
+    "E:\\رواد\\Wasl\\phase 1.DAL\\phase 1.DAL.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Huawei\\Downloads\\WaslPhases-full-platform-ui-flow (1)\\phase 1.DAL\\phase 1.DAL.csproj",
+        "projectUniqueName": "E:\\رواد\\Wasl\\phase 1.DAL\\phase 1.DAL.csproj",
         "projectName": "phase 1.DAL",
-        "projectPath": "C:\\Users\\Huawei\\Downloads\\WaslPhases-full-platform-ui-flow (1)\\phase 1.DAL\\phase 1.DAL.csproj",
-        "packagesPath": "C:\\Users\\Huawei\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Huawei\\Downloads\\WaslPhases-full-platform-ui-flow (1)\\phase 1.DAL\\obj\\",
+        "projectPath": "E:\\رواد\\Wasl\\phase 1.DAL\\phase 1.DAL.csproj",
+        "packagesPath": "C:\\Users\\AbdoAmr\\.nuget\\packages\\",
+        "outputPath": "E:\\رواد\\Wasl\\phase 1.DAL\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
+          "C:\\Program Files\\DevExpress 25.1\\Components\\Offline Packages",
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
         ],
         "configFilePaths": [
-          "C:\\Users\\Huawei\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\AbdoAmr\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\DevExpress 25.1.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
@@ -101,6 +107,8 @@
         ],
         "sources": {
           "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "C:\\Program Files\\DevExpress 25.1\\Components\\System\\Components\\Packages": {},
+          "C:\\Program Files\\dotnet\\library-packs": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
@@ -151,12 +159,6 @@
           ],
           "assetTargetFallback": true,
           "warn": true,
-          "downloadDependencies": [
-            {
-              "name": "Microsoft.Net.Sdk.Compilers.Toolset",
-              "version": "[9.0.304, 9.0.304]"
-            }
-          ],
           "frameworkReferences": {
             "Microsoft.NETCore.App": {
               "privateAssets": "all"

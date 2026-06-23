@@ -18,6 +18,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\phase 1.BLL\phase 1.BLL.csproj" />
+    <ProjectReference Include="..\phase 1.DAL\phase 1.DAL.csproj" />
   </ItemGroup>
 
 </Project>
