@@ -1,26 +1,62 @@
 using Microsoft.AspNetCore.Mvc;
+using phase_1.BLL.DTOs;
+using phase_1.BLL.Services;
 
 namespace phase_1.Controllers;
 
 public class OfferController : Controller
 {
-    public IActionResult BrowseCases()
+    private readonly IOfferService _offerService;
+
+    public OfferController(IOfferService offerService)
     {
-        return View();
+        _offerService = offerService;
     }
 
-    public IActionResult CreateOffer()
+    [HttpGet]
+    public IActionResult CreateOffer(int caseId)
     {
-        return View();
+        var model = new CreateOfferDTO { CaseId = caseId };
+        return View(model);
     }
 
-    public IActionResult MyOffers()
+    [HttpPost]
+    public async Task<IActionResult> CreateOffer(CreateOfferDTO model)
     {
-        return View();
+        if (!ModelState.IsValid)
+        {
+            return View(model);
+        }
+        
+        await _offerService.CreateOfferAsync(model);
+        return RedirectToAction(nameof(MyOffers));
     }
 
-    public IActionResult OfferDetails()
+    public async Task<IActionResult> MyOffers(int studentId = 1)
     {
-        return View();
+        var offers = await _offerService.GetOffersByStudentAsync(studentId);
+        return View(offers);
+    }
+
+    public async Task<IActionResult> OfferDetails(int id)
+    {
+        var offer = await _offerService.GetOfferDetailsAsync(id);
+        if (offer == null) return NotFound();
+
+        return View(offer);
+    }
+
+    [HttpPost]
+    public async Task<IActionResult> AcceptOffer(int id)
+    {
+        await _offerService.AcceptOfferAsync(id);
+        return RedirectToAction("OfferDetails", new { id });
+    }
+
+    [HttpPost]
+    public async Task<IActionResult> RejectOffer(int id)
+    {
+        await _offerService.RejectOfferAsync(id);
+        return RedirectToAction("OfferDetails", new { id });
     }
 }

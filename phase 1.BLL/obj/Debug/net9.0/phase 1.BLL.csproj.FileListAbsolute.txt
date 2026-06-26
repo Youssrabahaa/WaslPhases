@@ -13,3 +13,19 @@ C:\Users\Huawei\Downloads\WaslPhases-full-platform-ui-flow (1)\phase 1.BLL\obj\D
 C:\Users\Huawei\Downloads\WaslPhases-full-platform-ui-flow (1)\phase 1.BLL\obj\Debug\net9.0\refint\phase 1.BLL.dll
 C:\Users\Huawei\Downloads\WaslPhases-full-platform-ui-flow (1)\phase 1.BLL\obj\Debug\net9.0\phase 1.BLL.pdb
 C:\Users\Huawei\Downloads\WaslPhases-full-platform-ui-flow (1)\phase 1.BLL\obj\Debug\net9.0\ref\phase 1.BLL.dll
+D:\WEB\FULL STACK\Graduation Project\wasl_phase3\WaslPhases\phase 1.BLL\bin\Debug\net9.0\phase 1.BLL.deps.json
+D:\WEB\FULL STACK\Graduation Project\wasl_phase3\WaslPhases\phase 1.BLL\bin\Debug\net9.0\phase 1.BLL.dll
+D:\WEB\FULL STACK\Graduation Project\wasl_phase3\WaslPhases\phase 1.BLL\bin\Debug\net9.0\phase 1.BLL.pdb
+D:\WEB\FULL STACK\Graduation Project\wasl_phase3\WaslPhases\phase 1.BLL\bin\Debug\net9.0\phase 1.DAL.dll
+D:\WEB\FULL STACK\Graduation Project\wasl_phase3\WaslPhases\phase 1.BLL\bin\Debug\net9.0\phase 1.DAL.pdb
+D:\WEB\FULL STACK\Graduation Project\wasl_phase3\WaslPhases\phase 1.BLL\obj\Debug\net9.0\phase 1.BLL.csproj.AssemblyReference.cache
+D:\WEB\FULL STACK\Graduation Project\wasl_phase3\WaslPhases\phase 1.BLL\obj\Debug\net9.0\phase 1.BLL.GeneratedMSBuildEditorConfig.editorconfig
+D:\WEB\FULL STACK\Graduation Project\wasl_phase3\WaslPhases\phase 1.BLL\obj\Debug\net9.0\phase 1.BLL.AssemblyInfoInputs.cache
+D:\WEB\FULL STACK\Graduation Project\wasl_phase3\WaslPhases\phase 1.BLL\obj\Debug\net9.0\phase 1.BLL.AssemblyInfo.cs
+D:\WEB\FULL STACK\Graduation Project\wasl_phase3\WaslPhases\phase 1.BLL\obj\Debug\net9.0\phase 1.BLL.csproj.CoreCompileInputs.cache
+D:\WEB\FULL STACK\Graduation Project\wasl_phase3\WaslPhases\phase 1.BLL\obj\Debug\net9.0\phase 1.BLL.sourcelink.json
+D:\WEB\FULL STACK\Graduation Project\wasl_phase3\WaslPhases\phase 1.BLL\obj\Debug\net9.0\phase 1..E3D70615.Up2Date
+D:\WEB\FULL STACK\Graduation Project\wasl_phase3\WaslPhases\phase 1.BLL\obj\Debug\net9.0\phase 1.BLL.dll
+D:\WEB\FULL STACK\Graduation Project\wasl_phase3\WaslPhases\phase 1.BLL\obj\Debug\net9.0\refint\phase 1.BLL.dll
+D:\WEB\FULL STACK\Graduation Project\wasl_phase3\WaslPhases\phase 1.BLL\obj\Debug\net9.0\phase 1.BLL.pdb
+D:\WEB\FULL STACK\Graduation Project\wasl_phase3\WaslPhases\phase 1.BLL\obj\Debug\net9.0\ref\phase 1.BLL.dll

@@ -16,6 +16,10 @@ namespace phase_1
                 options.UseSqlServer(
                     builder.Configuration.GetConnectionString("DefaultConnection")));
 
+            builder.Services.AddScoped<phase_1.DAL.Repositories.IOfferRepository, phase_1.DAL.Repositories.OfferRepository>();
+
+            builder.Services.AddScoped<phase_1.BLL.Services.IOfferService, phase_1.BLL.Services.OfferService>();
+
             var app = builder.Build();
 
 
