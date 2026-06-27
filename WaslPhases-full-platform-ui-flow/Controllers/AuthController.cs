@@ -1,4 +1,4 @@
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using phase_1.DTOs;
 using phase_1.Services;
 
@@ -71,6 +71,22 @@ public class AuthController : Controller
     public IActionResult VerifyOtpPageRedirect(string? phone = null, int purpose = 1)
     {
         return Redirect($"/Auth/VerifyOTP?phone={Uri.EscapeDataString(phone ?? string.Empty)}&purpose={purpose}");
+    }
+
+    [HttpGet("/api/auth/forgot-password")]
+    [HttpGet("/api/auth/forget-password")]
+    [HttpGet("/api/auth/forgotpassword")]
+    [HttpGet("/api/auth/forgetpassword")]
+    [HttpGet("/Auth/ForgetPassword")]
+    public IActionResult ForgotPasswordPageRedirect()
+    {
+        return Redirect("/Auth/ForgotPassword");
+    }
+
+    [HttpGet("/api/auth/reset-password")]
+    public IActionResult ResetPasswordPageRedirect(string? phone = null)
+    {
+        return Redirect($"/Auth/ResetPassword?phone={Uri.EscapeDataString(phone ?? string.Empty)}");
     }
 
     [HttpPost("/Auth/RegisterForm")]

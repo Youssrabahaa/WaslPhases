@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("phase 1.DAL")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+c4ef599bc0e5b28801c41f661752c788901a68fb")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+eec8ee9a27cddbc8274a56714ddd62927978a6e7")]
 [assembly: System.Reflection.AssemblyProductAttribute("phase 1.DAL")]
 [assembly: System.Reflection.AssemblyTitleAttribute("phase 1.DAL")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

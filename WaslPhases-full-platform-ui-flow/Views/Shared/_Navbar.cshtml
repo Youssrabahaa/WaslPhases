@@ -1,4 +1,4 @@
-@{
+﻿@{
     var currentController = ViewContext.RouteData.Values["controller"]?.ToString() ?? string.Empty;
     var currentAction = ViewContext.RouteData.Values["action"]?.ToString() ?? string.Empty;
     var currentPortal = ViewContext.RouteData.Values["portal"]?.ToString()
@@ -11,6 +11,7 @@
         var actionMatches = action is null || string.Equals(currentAction, action, StringComparison.OrdinalIgnoreCase);
         return controllerMatches && actionMatches ? "nav-pill active" : "nav-pill";
     }
+
     var isPatientArea = string.Equals(currentPortal, "patient", StringComparison.OrdinalIgnoreCase)
         || (string.IsNullOrEmpty(currentPortal)
             && (string.Equals(currentController, "Patients", StringComparison.OrdinalIgnoreCase)
@@ -66,5 +67,5 @@
                 </div>
             </div>
         </div>
-</nav>
+    </nav>
 </header>

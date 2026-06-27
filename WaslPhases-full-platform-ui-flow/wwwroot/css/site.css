@@ -72,29 +72,6 @@ a {
   box-shadow: 0 0 0 0.18rem rgba(22, 160, 133, 0.2);
 }
 
-.surface-orb {
-  position: fixed;
-  z-index: -2;
-  width: 20rem;
-  height: 20rem;
-  border-radius: 999px;
-  filter: blur(14px);
-  opacity: 0.56;
-  pointer-events: none;
-}
-
-.surface-orb-one {
-  top: 7rem;
-  right: -8rem;
-  background: rgba(22, 160, 133, 0.18);
-}
-
-.surface-orb-two {
-  bottom: 5rem;
-  left: -7rem;
-  background: rgba(242, 184, 75, 0.18);
-}
-
 .app-shell-header {
   position: sticky;
   top: 0;
@@ -144,7 +121,7 @@ a {
 .app-brand strong {
   font-size: 1.15rem;
   font-weight: 900;
-  letter-spacing: -0.02em;
+  letter-spacing: 0;
 }
 
 .app-brand small {
@@ -340,7 +317,7 @@ a {
   color: var(--ink);
   font-size: clamp(1.8rem, 4vw, 3.5rem);
   font-weight: 950;
-  letter-spacing: -0.04em;
+  letter-spacing: 0;
   line-height: 1.15;
 }
 
@@ -758,7 +735,7 @@ form.is-loading .loading-button {
   margin: 0;
   font-size: clamp(2.2rem, 5vw, 4.8rem);
   font-weight: 950;
-  letter-spacing: -0.05em;
+  letter-spacing: 0;
   line-height: 1.08;
 }
 
