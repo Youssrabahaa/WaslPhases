@@ -53,26 +53,4 @@ public static class StudentOfferMapper
         };
     }
 
-    public static StudentProfileDTO ToDTO(this StudentProfile entity, List<StudentSkill>? skills = null)
-    {
-        var dto = new StudentProfileDTO
-        {
-            UserId = entity.UserId,
-            FacultyId = entity.FacultyId,
-            AcademicYear = entity.AcademicYear,
-            ClinicName = entity.ClinicName,
-            StudentCode = entity.StudentCode,
-            SupervisorName = entity.SupervisorName,
-            RequiredCasesCount = entity.RequiredCasesCount,
-            CompletedCasesCount = entity.CompletedCasesCount,
-            IsVerified = entity.IsVerified
-        };
-
-        if (skills != null)
-        {
-            dto.Skills = skills.Select(s => s.SkillName).ToList();
-        }
-
-        return dto;
-    }
 }
