@@ -1,0 +1,10 @@
+E:\رواد\Wasl\obj\Debug\net9.0\phase 1.csproj.AssemblyReference.cache
+E:\رواد\Wasl\obj\Debug\net9.0\rpswa.dswa.cache.json
+E:\رواد\Wasl\obj\Debug\net9.0\phase 1.GeneratedMSBuildEditorConfig.editorconfig
+E:\رواد\Wasl\obj\Debug\net9.0\phase 1.AssemblyInfoInputs.cache
+E:\رواد\Wasl\obj\Debug\net9.0\phase 1.AssemblyInfo.cs
+E:\رواد\Wasl\obj\Debug\net9.0\phase 1.csproj.CoreCompileInputs.cache
+E:\رواد\Wasl\obj\Debug\net9.0\phase 1.MvcApplicationPartsAssemblyInfo.cache
+E:\رواد\Wasl\obj\Debug\net9.0\phase 1.RazorAssemblyInfo.cache
+E:\رواد\Wasl\obj\Debug\net9.0\phase 1.RazorAssemblyInfo.cs
+E:\رواد\Wasl\obj\Debug\net9.0\phase 1.sourcelink.json
