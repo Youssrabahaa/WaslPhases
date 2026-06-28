@@ -4,6 +4,7 @@
     var currentPortal = ViewContext.RouteData.Values["portal"]?.ToString()
         ?? ViewData["Portal"]?.ToString()
         ?? string.Empty;
+    var isAuthPage = string.Equals(currentController, "Auth", StringComparison.OrdinalIgnoreCase);
 
     string NavLinkClass(string controller, string? action = null)
     {
@@ -19,9 +20,9 @@
                     && !string.Equals(currentAction, "CaseDetails", StringComparison.OrdinalIgnoreCase))));
 
     var portalRoute = isPatientArea ? "patient" : "student";
-    var portalTitle = isPatientArea ? "بوابة المريض" : "بوابة الطالب";
-    var portalHomeController = isPatientArea ? "Patients" : "Home";
-    var portalHomeAction = isPatientArea ? "Profile" : "Index";
+    var portalTitle = isAuthPage ? "بوابة التسجيل" : isPatientArea ? "بوابة المريض" : "بوابة الطالب";
+    var portalHomeController = isAuthPage ? "Auth" : isPatientArea ? "Patients" : "Home";
+    var portalHomeAction = isAuthPage ? "Register" : isPatientArea ? "Profile" : "Index";
 }
 
 <header class="app-shell-header">
@@ -40,30 +41,40 @@
             </button>
 
             <div class="collapse navbar-collapse app-navbar-collapse" id="mainNavigation">
-                <div class="app-nav-links">
-                    @if (isPatientArea)
+                @if (!isAuthPage)
+                {
+                    <div class="app-nav-links">
+                        @if (isPatientArea)
+                        {
+                            <a class="@NavLinkClass("Patients", "Profile")" asp-controller="Patients" asp-action="Profile" asp-route-portal="@portalRoute">الرئيسية</a>
+                            <a class="@NavLinkClass("Case", "MyCases")" asp-controller="Case" asp-action="MyCases" asp-route-portal="@portalRoute">حالاتي</a>
+                            <a class="@NavLinkClass("Session")" asp-controller="Session" asp-action="SessionList" asp-route-portal="@portalRoute">الجلسات</a>
+                            <a class="@NavLinkClass("Review")" asp-controller="Review" asp-action="ViewReviews" asp-route-portal="@portalRoute">التقييمات</a>
+                            <a class="@NavLinkClass("Notification")" asp-controller="Notification" asp-action="GetNotifications" asp-route-portal="@portalRoute">الإشعارات</a>
+                        }
+                        else
+                        {
+                            <a class="@NavLinkClass("Home", "Index")" asp-controller="Home" asp-action="Index" asp-route-portal="@portalRoute">الرئيسية</a>
+                            <a class="@NavLinkClass("Offer", "BrowseCases")" asp-controller="Offer" asp-action="BrowseCases" asp-route-portal="@portalRoute">تصفح الحالات</a>
+                            <a class="@NavLinkClass("Offer", "MyOffers")" asp-controller="Offer" asp-action="MyOffers" asp-route-portal="@portalRoute">عروضي</a>
+                            <a class="@NavLinkClass("Match", "MatchDetails")" asp-controller="Match" asp-action="MatchDetails" asp-route-portal="@portalRoute">المطابقات</a>
+                            <a class="@NavLinkClass("Session")" asp-controller="Session" asp-action="SessionList" asp-route-portal="@portalRoute">الجلسات</a>
+                            <a class="@NavLinkClass("Review")" asp-controller="Review" asp-action="ViewReviews" asp-route-portal="@portalRoute">التقييمات</a>
+                            <a class="@NavLinkClass("Notification")" asp-controller="Notification" asp-action="GetNotifications" asp-route-portal="@portalRoute">الإشعارات</a>
+                        }
+                    </div>
+                }
+
+                <div class="app-shell-actions">
+                    @if (isAuthPage)
                     {
-                        <a class="@NavLinkClass("Patients", "Profile")" asp-controller="Patients" asp-action="Profile" asp-route-portal="@portalRoute">الرئيسية</a>
-                        <a class="@NavLinkClass("Case", "MyCases")" asp-controller="Case" asp-action="MyCases" asp-route-portal="@portalRoute">حالاتي</a>
-                        <a class="@NavLinkClass("Session")" asp-controller="Session" asp-action="SessionList" asp-route-portal="@portalRoute">الجلسات</a>
-                        <a class="@NavLinkClass("Review")" asp-controller="Review" asp-action="ViewReviews" asp-route-portal="@portalRoute">التقييمات</a>
-                        <a class="@NavLinkClass("Notification")" asp-controller="Notification" asp-action="GetNotifications" asp-route-portal="@portalRoute">الإشعارات</a>
+                        <a class="ghost-action compact-action" asp-controller="Auth" asp-action="Login">دخول</a>
+                        <a class="primary-action compact-action" asp-controller="Auth" asp-action="Register">حساب جديد</a>
                     }
                     else
                     {
-                        <a class="@NavLinkClass("Home", "Index")" asp-controller="Home" asp-action="Index" asp-route-portal="@portalRoute">الرئيسية</a>
-                        <a class="@NavLinkClass("Offer", "BrowseCases")" asp-controller="Offer" asp-action="BrowseCases" asp-route-portal="@portalRoute">تصفح الحالات</a>
-                        <a class="@NavLinkClass("Offer", "MyOffers")" asp-controller="Offer" asp-action="MyOffers" asp-route-portal="@portalRoute">عروضي</a>
-                        <a class="@NavLinkClass("Match", "MatchDetails")" asp-controller="Match" asp-action="MatchDetails" asp-route-portal="@portalRoute">المطابقات</a>
-                        <a class="@NavLinkClass("Session")" asp-controller="Session" asp-action="SessionList" asp-route-portal="@portalRoute">الجلسات</a>
-                        <a class="@NavLinkClass("Review")" asp-controller="Review" asp-action="ViewReviews" asp-route-portal="@portalRoute">التقييمات</a>
-                        <a class="@NavLinkClass("Notification")" asp-controller="Notification" asp-action="GetNotifications" asp-route-portal="@portalRoute">الإشعارات</a>
+                        <a class="ghost-action compact-action" asp-controller="Auth" asp-action="Logout">خروج</a>
                     }
-                </div>
-
-                <div class="app-shell-actions">
-                    <a class="ghost-action compact-action" asp-controller="Auth" asp-action="Login">دخول</a>
-                    <a class="primary-action compact-action" asp-controller="Auth" asp-action="Register">حساب جديد</a>
                 </div>
             </div>
         </div>

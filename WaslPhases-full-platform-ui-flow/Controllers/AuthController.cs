@@ -35,6 +35,7 @@ public class AuthController : Controller
 
     public IActionResult Logout()
     {
+        HttpContext.Session.Clear();
         return RedirectToAction(nameof(Login));
     }
 
@@ -127,6 +128,10 @@ public class AuthController : Controller
             ModelState.AddModelError(string.Empty, result.Error ?? "فشل تسجيل الدخول.");
             return View(nameof(Login));
         }
+
+        HttpContext.Session.SetInt32("UserId", result.Profile.Id);
+        HttpContext.Session.SetInt32("UserRole", result.Profile.Role);
+        HttpContext.Session.SetString("UserName", result.Profile.FullName);
 
         return result.Profile.Role == 1
             ? Redirect("/patient")

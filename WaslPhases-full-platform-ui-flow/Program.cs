@@ -15,6 +15,12 @@ namespace phase_1
 
             // Add services to the container.
             builder.Services.AddControllersWithViews();
+            builder.Services.AddSession(options =>
+            {
+                options.IdleTimeout = TimeSpan.FromHours(8);
+                options.Cookie.HttpOnly = true;
+                options.Cookie.IsEssential = true;
+            });
 
             builder.Services.AddDbContext<AppDbContext>(options =>
                 options.UseSqlServer(
@@ -43,6 +49,26 @@ namespace phase_1
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseRouting();
+            app.UseSession();
+
+            app.Use(async (context, next) =>
+            {
+                var path = context.Request.Path;
+                var isAuthPath = path.StartsWithSegments("/Auth", StringComparison.OrdinalIgnoreCase)
+                    || path.StartsWithSegments("/api/auth", StringComparison.OrdinalIgnoreCase);
+                var isApiPath = path.StartsWithSegments("/api", StringComparison.OrdinalIgnoreCase);
+                var isFrameworkPath = path.StartsWithSegments("/_framework", StringComparison.OrdinalIgnoreCase);
+                var isErrorPath = path.StartsWithSegments("/Home/Error", StringComparison.OrdinalIgnoreCase);
+                var isLoggedIn = context.Session.GetInt32("UserId").HasValue;
+
+                if (!isLoggedIn && !isAuthPath && !isApiPath && !isFrameworkPath && !isErrorPath)
+                {
+                    context.Response.Redirect("/Auth/Register");
+                    return;
+                }
+
+                await next();
+            });
 
             app.UseMiddleware<JwtMiddleware>();
             app.UseAuthorization();
