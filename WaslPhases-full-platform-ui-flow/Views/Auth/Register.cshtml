@@ -1,5 +1,7 @@
 ﻿@{
     ViewData["Title"] = "إنشاء حساب";
+    var selectedRole = ViewData.ModelState.TryGetValue("Role", out var roleState) ? roleState.AttemptedValue : string.Empty;
+    var selectedFacultyId = ViewData.ModelState.TryGetValue("FacultyId", out var facultyState) ? facultyState.AttemptedValue : string.Empty;
 }
 
 <section class="auth-page">
@@ -18,40 +20,47 @@
 
         <form class="form-panel" action="/Auth/RegisterForm" method="post">
             @Html.AntiForgeryToken()
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div asp-validation-summary="ModelOnly" class="validation-summary-errors"></div>
 
             <label class="field-group">
                 <span>الاسم بالكامل</span>
-                <input class="form-control modern-input" name="FullName" placeholder="اسم المستخدم" required />
+                @Html.TextBox("FullName", null, new { @class = "form-control modern-input", placeholder = "اسم المستخدم" })
+                @Html.ValidationMessage("FullName", null, new { @class = "validation-message" })
             </label>
 
             <label class="field-group">
                 <span>رقم الهاتف</span>
-                <input class="form-control modern-input" name="Phone" inputmode="tel" placeholder="01012345678" required />
+                @Html.TextBox("Phone", null, new { @class = "form-control modern-input", inputmode = "tel", placeholder = "01012345678" })
+                @Html.ValidationMessage("Phone", null, new { @class = "validation-message" })
             </label>
 
             <label class="field-group">
                 <span>نوع الحساب</span>
-                <select class="form-select modern-input" name="Role" required>
+                <select class="form-select modern-input" name="Role">
                     <option value="">اختر نوع الحساب</option>
-                    <option value="1">مريض / ولي أمر</option>
-                    <option value="2">طالب</option>
+                    <option value="1" selected="@(selectedRole == "1")">مريض / ولي أمر</option>
+                    <option value="2" selected="@(selectedRole == "2")">طالب</option>
                 </select>
+                @Html.ValidationMessage("Role", null, new { @class = "validation-message" })
             </label>
 
             <label class="field-group">
                 <span>البريد الإلكتروني</span>
-                <input class="form-control modern-input" name="Email" type="email" placeholder="البريد الإلكتروني اختياري" />
+                @Html.TextBox("Email", null, new { @class = "form-control modern-input", type = "email", placeholder = "البريد الإلكتروني اختياري" })
+                @Html.ValidationMessage("Email", null, new { @class = "validation-message" })
             </label>
 
             <label class="field-group">
                 <span>كلمة المرور</span>
-                <input class="form-control modern-input" name="Password" type="password" placeholder="مثال: كلمة مرور قوية" required />
+                <input class="form-control modern-input" name="Password" type="password" placeholder="مثال: كلمة مرور قوية" />
+                @Html.ValidationMessage("Password", null, new { @class = "validation-message" })
+                <span class="field-hint">المتطلبات: 8 أحرف على الأقل، ولا تزيد عن 128 حرف.</span>
             </label>
 
             <label class="field-group">
                 <span>تأكيد كلمة المرور</span>
-                <input class="form-control modern-input" name="ConfirmPassword" type="password" placeholder="أعد كتابة كلمة المرور" required />
+                <input class="form-control modern-input" name="ConfirmPassword" type="password" placeholder="أعد كتابة كلمة المرور" />
+                @Html.ValidationMessage("ConfirmPassword", null, new { @class = "validation-message" })
             </label>
 
             <div class="student-fields" id="student-fields" hidden>
@@ -59,34 +68,40 @@
                     <span>الكلية</span>
                     <select class="form-select modern-input" name="FacultyId" id="faculty-id">
                         <option value="">اختر الكلية</option>
-                        <option value="1">جامعة القاهرة - كلية طب الأسنان</option>
-                        <option value="2">جامعة الإسكندرية - كلية طب الأسنان</option>
+                        <option value="1" selected="@(selectedFacultyId == "1")">جامعة القاهرة - كلية طب الأسنان</option>
+                        <option value="2" selected="@(selectedFacultyId == "2")">جامعة الإسكندرية - كلية طب الأسنان</option>
                     </select>
+                    @Html.ValidationMessage("FacultyId", null, new { @class = "validation-message" })
                 </label>
 
                 <label class="field-group">
                     <span>السنة الدراسية</span>
-                    <input class="form-control modern-input" name="AcademicYear" id="academic-year" type="number" min="1" max="10" placeholder="4" />
+                    @Html.TextBox("AcademicYear", null, new { @class = "form-control modern-input", id = "academic-year", type = "number", min = "1", max = "10", placeholder = "4" })
+                    @Html.ValidationMessage("AcademicYear", null, new { @class = "validation-message" })
                 </label>
 
                 <label class="field-group">
                     <span>كود الطالب</span>
-                    <input class="form-control modern-input" name="StudentCode" id="student-code" placeholder="مثال: طالب-1001" />
+                    @Html.TextBox("StudentCode", null, new { @class = "form-control modern-input", id = "student-code", placeholder = "مثال: طالب-1001" })
+                    @Html.ValidationMessage("StudentCode", null, new { @class = "validation-message" })
                 </label>
 
                 <label class="field-group">
                     <span>اسم العيادة</span>
-                    <input class="form-control modern-input" name="ClinicName" placeholder="العيادة الرئيسية" />
+                    @Html.TextBox("ClinicName", null, new { @class = "form-control modern-input", placeholder = "العيادة الرئيسية" })
+                    @Html.ValidationMessage("ClinicName", null, new { @class = "validation-message" })
                 </label>
 
                 <label class="field-group">
                     <span>اسم المشرف</span>
-                    <input class="form-control modern-input" name="SupervisorName" placeholder="د. اسم المشرف" />
+                    @Html.TextBox("SupervisorName", null, new { @class = "form-control modern-input", placeholder = "د. اسم المشرف" })
+                    @Html.ValidationMessage("SupervisorName", null, new { @class = "validation-message" })
                 </label>
 
                 <label class="field-group">
                     <span>عدد الحالات المطلوبة</span>
-                    <input class="form-control modern-input" name="RequiredCasesCount" type="number" min="0" max="100" placeholder="0" />
+                    @Html.TextBox("RequiredCasesCount", null, new { @class = "form-control modern-input", type = "number", min = "0", max = "100", placeholder = "0" })
+                    @Html.ValidationMessage("RequiredCasesCount", null, new { @class = "validation-message" })
                 </label>
             </div>
 
@@ -126,3 +141,7 @@
         syncStudentFields();
     })();
 </script>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

@@ -94,6 +94,12 @@ public class AuthController : Controller
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> RegisterForm(RegisterDTO dto)
     {
+        if (!Request.Form.TryGetValue("Role", out var submittedRole) || string.IsNullOrWhiteSpace(submittedRole))
+        {
+            ModelState.Remove(nameof(RegisterDTO.Role));
+            ModelState.AddModelError(nameof(RegisterDTO.Role), "اختر نوع الحساب.");
+        }
+
         if (dto.Role == 0 && Request.Form.TryGetValue("Role", out var roleValue))
         {
             var roleText = roleValue.ToString();
@@ -103,13 +109,13 @@ public class AuthController : Controller
         }
 
         if (!ModelState.IsValid)
-            return View(nameof(Register));
+            return View(nameof(Register), dto);
 
         var result = await _authService.RegisterAsync(dto, GetIpAddress());
         if (!result.Success)
         {
-            ModelState.AddModelError(string.Empty, result.Error ?? "فشل إنشاء الحساب.");
-            return View(nameof(Register));
+            ModelState.AddModelError(string.Empty, GetArabicRegisterError(result.Error));
+            return View(nameof(Register), dto);
         }
 
         return Redirect($"/Auth/VerifyOTP?phone={Uri.EscapeDataString(dto.Phone)}&purpose=1");
@@ -294,5 +300,16 @@ public class AuthController : Controller
     {
         var configuredCode = _configuration["Auth:FixedOtpCode"];
         return string.IsNullOrWhiteSpace(configuredCode) ? "123456" : configuredCode.Trim();
+    }
+
+    private static string GetArabicRegisterError(string? error)
+    {
+        return error switch
+        {
+            "Invalid user role." => "اختر نوع حساب صحيح.",
+            "Phone number is already registered." => "رقم الهاتف مسجل بالفعل.",
+            "Email is already registered." => "البريد الإلكتروني مسجل بالفعل.",
+            _ => error ?? "فشل إنشاء الحساب."
+        };
     }
 }

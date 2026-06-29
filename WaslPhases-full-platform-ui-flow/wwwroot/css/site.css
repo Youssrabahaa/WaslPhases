@@ -626,6 +626,13 @@ a {
   box-shadow: 0 0 0 0.2rem rgba(22, 160, 133, 0.13);
 }
 
+.modern-input.input-validation-error,
+.form-select.modern-input.input-validation-error {
+  border-color: rgba(232, 93, 117, 0.72);
+  background: rgba(255, 248, 250, 0.92);
+  box-shadow: 0 0 0 0.16rem rgba(232, 93, 117, 0.1);
+}
+
 .modern-textarea {
   min-height: 8rem;
   resize: vertical;
@@ -637,6 +644,32 @@ a {
   color: #b4233a;
   font-size: 0.88rem;
   font-weight: 800;
+}
+
+.validation-summary-valid,
+.field-validation-valid {
+  display: none;
+}
+
+.validation-message {
+  display: block;
+  min-height: 1.15rem;
+  margin-top: -0.1rem;
+  padding-inline: 0.2rem;
+}
+
+.field-hint {
+  display: block;
+  width: fit-content;
+  max-width: 100%;
+  padding: 0.48rem 0.7rem;
+  border: 1px solid rgba(47, 128, 237, 0.16);
+  border-radius: 12px;
+  color: #245c9c;
+  background: rgba(232, 243, 255, 0.62);
+  font-size: 0.82rem;
+  font-weight: 800;
+  line-height: 1.55;
 }
 
 .validation-summary-errors,
