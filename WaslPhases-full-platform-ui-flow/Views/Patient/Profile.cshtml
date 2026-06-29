@@ -1,13 +1,22 @@
+﻿@model phase_1.DTOs.ProfileDTO
+
 @{
     ViewData["Title"] = "ملف المريض";
+    var patient = Model.PatientProfile;
+    var email = string.IsNullOrWhiteSpace(Model.Email) ? "غير مضاف" : Model.Email;
+    var birthDate = patient?.BirthDate?.ToString("dd MMMM yyyy", new System.Globalization.CultureInfo("ar-EG")) ?? "غير مضاف";
+    var gender = string.IsNullOrWhiteSpace(patient?.Gender) ? "غير مضاف" : patient!.Gender;
+    var notes = string.IsNullOrWhiteSpace(patient?.Notes) ? "لا توجد ملاحظات مسجلة حتى الآن." : patient!.Notes;
+    var verifiedText = Model.IsPhoneVerified ? "تم تأكيد رقم الهاتف" : "بانتظار تأكيد رقم الهاتف";
+    var lastLogin = Model.LastLoginAt?.ToString("dd MMMM yyyy", new System.Globalization.CultureInfo("ar-EG")) ?? "أول دخول";
 }
 
 <section class="health-page">
     <div class="health-hero">
         <div>
-            <span class="health-kicker">وحدة المرضى</span>
-            <h1 class="health-title">منى أحمد عبدالرحمن</h1>
-            <p class="health-subtitle">عرض منظم لبيانات المريض وتفضيلات الرعاية مع وصول سريع إلى الحالات النشطة والإجراءات المرتبطة بها.</p>
+            <span class="health-kicker">بوابة المريض</span>
+            <h1 class="health-title">@Model.FullName</h1>
+            <p class="health-subtitle">بيانات حسابك محفوظة من التسجيل، ويمكنك مراجعة رقم الهاتف والبريد وبيانات ملف المريض من هنا.</p>
         </div>
         <div class="hero-actions">
             <a class="primary-action" asp-controller="Patients" asp-action="EditProfile">تعديل الملف</a>
@@ -17,19 +26,19 @@
 
     <div class="metric-strip">
         <article class="mini-kpi">
-            <span class="mini-kpi-label">الحالات النشطة</span>
-            <strong>03</strong>
-            <span class="mini-kpi-meta">حالة واحدة تحتاج إلى مراجعة</span>
+            <span class="mini-kpi-label">حالة الحساب</span>
+            <strong>@(Model.Status == 1 ? "نشط" : "غير نشط")</strong>
+            <span class="mini-kpi-meta">@verifiedText</span>
         </article>
         <article class="mini-kpi">
-            <span class="mini-kpi-label">الخدمة المفضلة</span>
-            <strong>زيارة منزلية</strong>
-            <span class="mini-kpi-meta">الاثنين، الأربعاء، السبت</span>
+            <span class="mini-kpi-label">نوع الحساب</span>
+            <strong>مريض</strong>
+            <span class="mini-kpi-meta">تم إنشاؤه في @Model.CreatedAt.ToString("dd MMMM yyyy", new System.Globalization.CultureInfo("ar-EG"))</span>
         </article>
         <article class="mini-kpi">
-            <span class="mini-kpi-label">معدل الاستجابة</span>
-            <strong>94%</strong>
-            <span class="mini-kpi-meta">غالبًا يتم الرد خلال ساعتين</span>
+            <span class="mini-kpi-label">آخر دخول</span>
+            <strong>@lastLogin</strong>
+            <span class="mini-kpi-meta">يعتمد على آخر تسجيل دخول ناجح</span>
         </article>
     </div>
 
@@ -38,86 +47,51 @@
             <article class="health-panel">
                 <div class="panel-heading">
                     <div>
-                        <h2>نظرة عامة على الملف</h2>
-                        <p>البيانات الأساسية للمريض ووسائل التواصل الرئيسية.</p>
+                        <h2>بيانات الحساب</h2>
+                        <p>هذه البيانات مأخوذة من الحساب الذي سجلت به.</p>
                     </div>
                 </div>
 
                 <div class="info-grid">
                     <div class="info-block">
+                        <span>الاسم بالكامل</span>
+                        <strong>@Model.FullName</strong>
+                    </div>
+                    <div class="info-block">
                         <span>رقم الهاتف</span>
-                        <strong>01010000001</strong>
+                        <strong>@Model.Phone</strong>
                     </div>
                     <div class="info-block">
                         <span>البريد الإلكتروني</span>
-                        <strong>غير مضاف</strong>
+                        <strong>@email</strong>
                     </div>
                     <div class="info-block">
+                        <span>تأكيد الهاتف</span>
+                        <strong>@verifiedText</strong>
+                    </div>
+                </div>
+            </article>
+
+            <article class="health-panel">
+                <div class="panel-heading">
+                    <div>
+                        <h2>بيانات المريض</h2>
+                        <p>بيانات الملف المرتبطة بحساب المريض.</p>
+                    </div>
+                </div>
+
+                <div class="info-grid">
+                    <div class="info-block">
                         <span>تاريخ الميلاد</span>
-                        <strong>12 مايو 2019</strong>
+                        <strong>@birthDate</strong>
                     </div>
                     <div class="info-block">
                         <span>النوع</span>
-                        <strong>أنثى</strong>
-                    </div>
-                </div>
-            </article>
-
-            <article class="health-panel">
-                <div class="panel-heading">
-                    <div>
-                        <h2>تفضيلات الرعاية</h2>
-                        <p>ملخص سريع للتفضيلات التي تساعد الفريق في التنسيق والمتابعة.</p>
+                        <strong>@gender</strong>
                     </div>
                 </div>
 
-                <div class="tag-row">
-                    <span class="soft-tag soft-tag-teal">زيارات منزلية</span>
-                    <span class="soft-tag soft-tag-amber">وجود ولي الأمر</span>
-                    <span class="soft-tag soft-tag-rose">مواعيد مسائية</span>
-                    <span class="soft-tag soft-tag-blue">القاهرة - مدينة نصر</span>
-                </div>
-
-                <p class="body-copy">
-                    تفضل الأسرة علاجًا تحت إشراف مع ملاحظات متابعة واضحة بعد كل جلسة، كما تفضل التنسيق عبر الهاتف مع تذكير قصير قبل المواعيد.
-                </p>
-            </article>
-
-            <article class="health-panel">
-                <div class="panel-heading">
-                    <div>
-                        <h2>أحدث نشاط للحالات</h2>
-                        <p>آخر اللمسات التي حدثت في رحلة المريض داخل النظام.</p>
-                    </div>
-                    <a class="text-link" asp-controller="Case" asp-action="MyCases">عرض الكل</a>
-                </div>
-
-                <div class="timeline-list">
-                    <div class="timeline-item">
-                        <span class="timeline-dot timeline-blue"></span>
-                        <div>
-                            <strong>تم إرسال حالة متابعة جديدة</strong>
-                            <p>تم إنشاء مراجعة في طب أسنان الأطفال لطفل عمره 6 سنوات.</p>
-                        </div>
-                        <span class="timeline-time">اليوم</span>
-                    </div>
-                    <div class="timeline-item">
-                        <span class="timeline-dot timeline-teal"></span>
-                        <div>
-                            <strong>تم ترشيح الحالة لطالب</strong>
-                            <p>أضيفت الحالة إلى قائمة المرشحين لزيارة منزلية تحت إشراف الأسبوع القادم.</p>
-                        </div>
-                        <span class="timeline-time">أمس</span>
-                    </div>
-                    <div class="timeline-item">
-                        <span class="timeline-dot timeline-amber"></span>
-                        <div>
-                            <strong>تم إرسال تذكير</strong>
-                            <p>استلمت الأسرة تذكيرًا هاتفيًا بموعد الجلسة المقترح.</p>
-                        </div>
-                        <span class="timeline-time">منذ يومين</span>
-                    </div>
-                </div>
+                <p class="body-copy mt-3">@notes</p>
             </article>
         </section>
 
@@ -125,47 +99,18 @@
             <article class="health-panel side-accent">
                 <div class="panel-heading">
                     <div>
-                        <h2>ملخص المريض</h2>
-                        <p>مرجع سريع لأهم المعلومات.</p>
+                        <h2>اختصارات</h2>
+                        <p>إجراءات مرتبطة بحسابك الحالي.</p>
                     </div>
                 </div>
-
-                <dl class="stacked-list">
-                    <div>
-                        <dt>ولي الأمر الأساسي</dt>
-                        <dd>أحمد عبدالرحمن</dd>
-                    </div>
-                    <div>
-                        <dt>وسيلة التواصل المفضلة</dt>
-                        <dd>مكالمة هاتفية</dd>
-                    </div>
-                    <div>
-                        <dt>سجل الخدمات</dt>
-                        <dd>3 زيارات مكتملة</dd>
-                    </div>
-                    <div>
-                        <dt>آخر تحديث</dt>
-                        <dd>28 أبريل 2026</dd>
-                    </div>
-                </dl>
-            </article>
-
-            <article class="health-panel">
-                <div class="panel-heading">
-                    <div>
-                        <h2>أفضل الإجراءات التالية</h2>
-                        <p>مساحة مناسبة للإجراءات الأساسية المرتبطة بالمريض.</p>
-                    </div>
-                </div>
-
                 <div class="action-list">
                     <a class="action-tile" asp-controller="Case" asp-action="CreateCase">
                         <strong>إنشاء حالة جديدة</strong>
-                        <span>ابدأ طلب علاج جديد تحت إشراف مباشر.</span>
+                        <span>ابدأ طلب علاج جديد مرتبط بحسابك.</span>
                     </a>
                     <a class="action-tile" asp-controller="Patients" asp-action="EditProfile">
                         <strong>تحديث بيانات الملف</strong>
-                        <span>حدّث بيانات التواصل والتفضيلات الخاصة بالمريض.</span>
+                        <span>راجع بيانات التواصل والبيانات الشخصية.</span>
                     </a>
                 </div>
             </article>
