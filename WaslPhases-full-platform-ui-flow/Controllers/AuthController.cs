@@ -309,6 +309,7 @@ public class AuthController : Controller
             "Invalid user role." => "اختر نوع حساب صحيح.",
             "Phone number is already registered." => "رقم الهاتف مسجل بالفعل.",
             "Email is already registered." => "البريد الإلكتروني مسجل بالفعل.",
+            "Student code is already registered." => "كود الطالب مستخدم بالفعل.",
             _ => error ?? "فشل إنشاء الحساب."
         };
     }
