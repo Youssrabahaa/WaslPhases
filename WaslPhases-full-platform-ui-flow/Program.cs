@@ -26,6 +26,9 @@ namespace phase_1
                 options.UseSqlServer(
                     builder.Configuration.GetConnectionString("DefaultConnection")));
 
+
+            builder.Services.AddAuthorization();
+
             builder.Services.AddScoped<IUserRepository, UserRepository>();
             builder.Services.AddScoped<ITokenService, TokenService>();
             builder.Services.AddScoped<IOTPService, OTPService>();
@@ -33,6 +36,11 @@ namespace phase_1
             builder.Services.AddScoped<IUserManager, UserManager>();
             builder.Services.AddScoped<IRoleManager, RoleManager>();
             builder.Services.AddScoped<ISignInManager, SignInManager>();
+            builder.Services.AddScoped<IReportService, ReportService>();
+            builder.Services.AddScoped<IReportRepository, ReportRepository>();
+            builder.Services.AddScoped<IReviewService, ReviewService>();
+            builder.Services.AddScoped<IReviewRepository, ReviewRepository>();
+
 
             var app = builder.Build();
 
@@ -71,6 +79,8 @@ namespace phase_1
             });
 
             app.UseMiddleware<JwtMiddleware>();
+
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.MapStaticAssets();
@@ -79,11 +89,13 @@ namespace phase_1
                 pattern: "patient/{controller=Patients}/{action=Profile}/{id?}",
                 defaults: new { portal = "patient" })
                 .WithStaticAssets();
+
             app.MapControllerRoute(
                 name: "student-portal",
                 pattern: "student/{controller=Student}/{action=Profile}/{id?}",
                 defaults: new { portal = "student" })
                 .WithStaticAssets();
+
             app.MapControllerRoute(
                 name: "default",
                 pattern: "{controller=Auth}/{action=Register}/{id?}")
