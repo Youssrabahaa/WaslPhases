@@ -1,108 +1,151 @@
+@model phase_1.BLL.DTOs.MatchDetailsDTO
 @{
     ViewData["Title"] = "تفاصيل المطابقة";
     var portalRoute = ViewContext.RouteData.Values["portal"]?.ToString();
+
+    var statusClass = Model.Status == 1 ? "status-inprogress"
+                    : Model.Status == 2 ? "status-completed"
+                    : "status-rejected";
+    var statusText = Model.Status == 1 ? "نشطة"
+                    : Model.Status == 2 ? "مكتملة"
+                    : "ملغية";
 }
 
 <section class="health-page">
+
+    <!-- Hero-->
     <div class="health-hero">
         <div>
             <span class="health-kicker">من العرض إلى المطابقة</span>
-            <h1 class="health-title">مطابقة رقم 1 جاهزة للمتابعة.</h1>
-            <p class="health-subtitle">هذه الصفحة تمثل لحظة تحويل العرض المقبول إلى مطابقة مع بيانات المريض والطالب والجلسات القادمة.</p>
+            <h1 class="health-title">مطابقة رقم @Model.MatchId</h1>
+            <p class="health-subtitle">@Model.CaseTitle — تفاصيل المريض والطالب والجلسات والعرض المقبول.</p>
         </div>
         <div class="hero-actions">
-            <a class="primary-action" asp-controller="Session" asp-action="SessionList" asp-route-portal="@portalRoute">إدارة الجلسات</a>
-            <a class="ghost-action" asp-controller="Report" asp-action="AddReport" asp-route-portal="@portalRoute">إضافة تقرير</a>
+            <a class="primary-action"
+               asp-controller="Session"
+               asp-action="SessionList"
+               asp-route-matchId="@Model.MatchId"
+               asp-route-portal="@portalRoute">
+                إدارة الجلسات
+            </a>
+            <a class="ghost-action"
+               asp-controller="Report"
+               asp-action="AddReport"
+               asp-route-portal="@portalRoute">
+                إضافة تقرير
+            </a>
+
+            @if (Model.Status == 1)
+            {
+                <form asp-action="Cancel"
+                      asp-controller="Match"
+                      asp-route-portal="@portalRoute"
+                      method="post"
+                      style="display:inline;"
+                      onsubmit="return confirm('هل أنت متأكد من إلغاء المطابقة؟ سيُعاد فتح الحالة للعروض.')">
+                    @Html.AntiForgeryToken()
+                    <input type="hidden" name="id" value="@Model.MatchId" />
+                    <input type="hidden" name="dto.UserId" value="0" />
+                    <button type="submit" class="danger-action">إلغاء المطابقة</button>
+                </form>
+            }
         </div>
     </div>
 
+    @if (TempData["Success"] != null)
+    {
+        <div class="app-toast"><span class="app-toast-dot"></span>@TempData["Success"]</div>
+    }
+    @if (TempData["Error"] != null)
+    {
+        <div class="alert-soft-danger">@TempData["Error"]</div>
+    }
+
+   
     <div class="metric-strip">
         <article class="mini-kpi">
             <span class="mini-kpi-label">حالة المطابقة</span>
-            <strong>نشطة</strong>
-            <span class="mini-kpi-meta">تم قبول العرض</span>
+            <strong><span class="status-badge @statusClass">@statusText</span></strong>
+            <span class="mini-kpi-meta">
+                @(Model.AcceptedAt.HasValue ? $"قُبل {Model.AcceptedAt.Value:dd MMM yyyy}" : "")
+            </span>
         </article>
         <article class="mini-kpi">
             <span class="mini-kpi-label">الجلسات</span>
-            <strong>2 / 3</strong>
-            <span class="mini-kpi-meta">جلسة واحدة متبقية</span>
+            <strong>@Model.CompletedSessions / @(Model.SessionsCount ?? 0)</strong>
+            <span class="mini-kpi-meta">@Model.RemainingSessions جلسة متبقية</span>
         </article>
         <article class="mini-kpi">
-            <span class="mini-kpi-label">التواصل</span>
-            <strong>هاتف</strong>
-            <span class="mini-kpi-meta">التواصل عبر الهاتف فقط</span>
+            <span class="mini-kpi-label">السعر المتفق</span>
+            <strong>@(Model.AgreedPrice?.ToString("N0") ?? "—") ج.م</strong>
+            <span class="mini-kpi-meta">@(Model.SessionsCount ?? 0) جلسة</span>
         </article>
         <article class="mini-kpi">
-            <span class="mini-kpi-label">آخر تحديث</span>
-            <strong>اليوم</strong>
-            <span class="mini-kpi-meta">تم تأكيد الموعد</span>
+            <span class="mini-kpi-label">التصنيف</span>
+            <strong>@Model.TreatmentCategory</strong>
+            <span class="mini-kpi-meta">@Model.Governorate — @Model.City</span>
         </article>
     </div>
 
     <div class="content-grid">
         <section class="content-main">
+
+      
             <article class="health-panel">
                 <div class="panel-heading">
                     <div>
                         <h2>أطراف المطابقة</h2>
                         <p>ملخص واضح للمريض، الطالب، الحالة، والعرض المقبول.</p>
                     </div>
-                    <span class="status-badge status-inprogress">قيد التنفيذ</span>
+                    <span class="status-badge @statusClass">@statusText</span>
                 </div>
                 <div class="info-grid">
                     <div class="info-block">
                         <span>المريض</span>
-                        <strong>منى أحمد عبدالرحمن</strong>
+                        <strong>@Model.PatientName</strong>
+                        <small class="case-meta">@Model.PatientPhone</small>
                     </div>
                     <div class="info-block">
                         <span>الطالب</span>
-                        <strong>أحمد خالد منصور</strong>
+                        <strong>@Model.StudentName</strong>
+                        <small class="case-meta">@Model.StudentPhone</small>
                     </div>
                     <div class="info-block">
-                        <span>الحالة</span>
-                        <strong>علاج تحفظي لضروس متضررة</strong>
+                        <span>الحالة الطبية</span>
+                        <strong>@Model.CaseTitle</strong>
+                    </div>
+                    <div class="info-block">
+                        <span>الموقع</span>
+                        <strong>@Model.Governorate — @Model.City — @Model.Area</strong>
                     </div>
                     <div class="info-block">
                         <span>العرض المقبول</span>
-                        <strong>220 ج.م / جلستان</strong>
+                        <strong>@(Model.AgreedPrice?.ToString("N0") ?? "—") ج.م / @(Model.SessionsCount ?? 0) جلسة</strong>
                     </div>
+                    @if (!string.IsNullOrEmpty(Model.CaseDescription))
+                    {
+                        <div class="info-block">
+                            <span>وصف الحالة</span>
+                            <strong>@Model.CaseDescription</strong>
+                        </div>
+                    }
                 </div>
             </article>
 
-            <article class="health-panel">
-                <div class="panel-heading">
-                    <div>
-                        <h2>رحلة المطابقة</h2>
-                        <p>خط زمني يوضح الانتقال من العرض إلى المطابقة ثم الجلسات.</p>
-                    </div>
-                </div>
-                <div class="timeline-list">
-                    <div class="timeline-item">
-                        <span class="timeline-dot"></span>
+
+            @if (!string.IsNullOrEmpty(Model.OfferMessage))
+            {
+                <article class="health-panel">
+                    <div class="panel-heading">
                         <div>
-                            <strong>تم قبول العرض</strong>
-                            <p>المريض وافق على السعر وعدد الجلسات المقترح.</p>
+                            <h2>رسالة العرض</h2>
+                            <p>ما كتبه الطالب عند تقديم عرضه.</p>
                         </div>
-                        <span class="timeline-time">28 أبريل</span>
                     </div>
-                    <div class="timeline-item">
-                        <span class="timeline-dot timeline-blue"></span>
-                        <div>
-                            <strong>تم إنشاء الجلسة الأولى</strong>
-                            <p>تم تحديد الموعد داخل العيادة وإرسال إشعار للطرفين.</p>
-                        </div>
-                        <span class="timeline-time">29 أبريل</span>
-                    </div>
-                    <div class="timeline-item">
-                        <span class="timeline-dot timeline-amber"></span>
-                        <div>
-                            <strong>بانتظار تقرير الجلسة</strong>
-                            <p>بعد نهاية الجلسة يجب إضافة تقرير مختصر للحالة.</p>
-                        </div>
-                        <span class="timeline-time">قادم</span>
-                    </div>
-                </div>
-            </article>
+                    <p class="body-copy">@Model.OfferMessage</p>
+                </article>
+            }
+
         </section>
 
         <aside class="content-side">
@@ -114,16 +157,24 @@
                     </div>
                 </div>
                 <div class="action-list">
-                    <a class="action-tile" asp-controller="Session" asp-action="SessionDetails" asp-route-id="1" asp-route-portal="@portalRoute">
-                        <strong>فتح الجلسة الحالية</strong>
-                        <span>راجع حالة الجلسة ومكانها وملاحظاتها.</span>
+                    <a class="action-tile"
+                       asp-controller="Session"
+                       asp-action="SessionList"
+                       asp-route-matchId="@Model.MatchId"
+                       asp-route-portal="@portalRoute">
+                        <strong>📅 فتح الجلسات</strong>
+                        <span>راجع قائمة الجلسات المرتبطة بهذه المطابقة.</span>
                     </a>
-                    <a class="action-tile" asp-controller="Review" asp-action="AddReview" asp-route-portal="@portalRoute">
-                        <strong>إضافة تقييم</strong>
+                    <a class="action-tile"
+                       asp-controller="Review"
+                       asp-action="AddReview"
+                       asp-route-portal="@portalRoute">
+                        <strong>⭐ إضافة تقييم</strong>
                         <span>بعد اكتمال الجلسات يمكن تسجيل تقييم.</span>
                     </a>
                 </div>
             </article>
+
             <article class="health-panel">
                 <div class="panel-heading">
                     <div>
@@ -134,30 +185,40 @@
                 <div class="summary-strip">
                     <div class="summary-tile">
                         <span>الفئة</span>
-                        <strong>طب الأسنان الترميمي</strong>
+                        <strong>@Model.TreatmentCategory</strong>
                     </div>
                     <div class="summary-tile">
                         <span>الموقع</span>
-                        <strong>الرياض</strong>
+                        <strong>@Model.Governorate - @Model.City - @Model.Area</strong>
                     </div>
                     <div class="summary-tile">
-                        <span>السعر المتفق عليه</span>
-                        <strong class="text-primary">300 ريال</strong>
+                        <span>السعر</span>
+                        <strong>@(Model.AgreedPrice?.ToString("N0") ?? "—") ج.م</strong>
                     </div>
                     <div class="summary-tile">
                         <span>الجلسات</span>
-                        <strong>1</strong>
+                        <strong>@(Model.SessionsCount ?? 0)</strong>
                     </div>
                 </div>
 
-                <div class="info-block mt-4">
-                    <span>رسالة العرض</span>
-                    <strong>لدي خبرة في الحشوات المركبة. الإجراء بسيط وخال من الآلام.</strong>
-                </div>
+                @if (!string.IsNullOrEmpty(Model.OfferMessage))
+                {
+                    <div class="info-block mt-4">
+                        <span>رسالة العرض</span>
+                        <p>@Model.OfferMessage</p>
+                    </div>
+                }
 
                 <div class="form-actions mt-4">
-                    <a class="primary-action" asp-controller="Session" asp-action="SessionList" asp-route-portal="@portalRoute">عرض الجلسات</a>
-                    <a class="ghost-action" asp-controller="Offer" asp-action="OfferDetails" asp-route-portal="@portalRoute">تفاصيل العرض</a>
+                    <a class="primary-action"
+                       asp-controller="Session"
+                       asp-action="SessionList"
+                       asp-route-matchId="@Model.MatchId"
+                       asp-route-portal="@portalRoute">عرض الجلسات</a>
+                    <a class="ghost-action"
+                       asp-controller="Offer"
+                       asp-action="OfferDetails"
+                       asp-route-portal="@portalRoute">تفاصيل العرض</a>
                 </div>
             </article>
         </aside>

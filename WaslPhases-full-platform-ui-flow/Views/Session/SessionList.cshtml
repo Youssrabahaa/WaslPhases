@@ -1,6 +1,9 @@
+@using phase_1.BLL.DTOs
+@model List<SessionDTO>
 @{
     ViewData["Title"] = "قائمة الجلسات";
-    var portalRoute = ViewContext.RouteData.Values["portal"]?.ToString();
+    var portalRoute = ViewContext.RouteData.Values["portal"]?.ToString() ?? "student";
+    var matchId = ViewBag.MatchId ?? 0;
 }
 
 <section class="health-page">
@@ -11,118 +14,96 @@
             <p class="health-subtitle">قائمة الجلسات تعرض المواعيد، الحالات، وإجراءات البدء أو المتابعة مع حالة عدم وجود جلسات.</p>
         </div>
         <div class="hero-actions">
-            <a class="primary-action" asp-controller="Match" asp-action="MatchDetails" asp-route-portal="@portalRoute">تفاصيل المطابقة</a>
-            <!-- أزرار تنقل إضافية -->
-            <a class="primary-action" asp-controller="Session" asp-action="AddSession" asp-route-portal="@portalRoute" style="background-color: #10b981;">إضافة جلسة</a>
-            <a class="ghost-action" asp-controller="Session" asp-action="EditSession" asp-route-portal="@portalRoute">تعديل جلسة</a>
+            <a class="primary-action" asp-controller="Match" asp-action="MatchDetails" asp-route-portal="@portalRoute" asp-route-id="@matchId">تفاصيل المطابقة</a>
+            <a class="primary-action" asp-controller="Session" asp-action="AddSession" asp-route-portal="@portalRoute" asp-route-matchId="@matchId" style="background-color: #10b981;">إضافة جلسة</a>
+            <a class="ghost-action" asp-controller="Home" asp-action="Index" asp-route-portal="@portalRoute">الرئيسية</a>
         </div>
     </div>
 
-    <div class="offer-list">
-        <article class="session-card">
-            <div>
-                <div class="case-card-top">
-                    <span class="status-badge status-inprogress">جلسة قيد التنفيذ</span>
-                    <span class="case-meta">الجلسة 1</span>
-                    <span class="case-meta">غرفة C-12</span>
-                </div>
-                <h3>جلسة تقييم أولية لعلاج تحفظي</h3>
-                <p>بدأت الجلسة، ويجب إضافة تقرير مختصر عند الانتهاء.</p>
-                <div class="row-actions mt-3">
-                    <a class="primary-action compact-action" asp-controller="Session" asp-action="SessionDetails" asp-route-id="1" asp-route-portal="@portalRoute">تفاصيل الجلسة</a>
-                    <button type="button" class="ghost-action compact-action">إنهاء الجلسة</button>
-                </div>
-            </div>
-            <div class="card-side">
-                <strong>اليوم 5:00 م</strong>
-                <span class="case-meta">داخل العيادة</span>
-            </div>
-        </article>
+    @if (TempData["SuccessMessage"] != null)
+    {
+        <div class="alert alert-success">@TempData["SuccessMessage"]</div>
+    }
+    @if (TempData["ErrorMessage"] != null)
+    {
+        <div class="alert alert-danger">@TempData["ErrorMessage"]</div>
+    }
 
-        <article class="session-card">
-            <div>
-                <div class="case-card-top">
-                    <span class="status-badge status-completed">جلسة مكتملة</span>
-                    <span class="case-meta">الجلسة 0</span>
-                    <span class="case-meta">تم التقرير</span>
-                </div>
-                <h3>جلسة فحص وتحضير</h3>
-                <p>تمت الجلسة وإضافة التقرير الطبي المطلوب.</p>
-                <div class="row-actions mt-3">
-                    <a class="ghost-action compact-action" asp-controller="Session" asp-action="SessionDetails" asp-route-id="2" asp-route-portal="@portalRoute">عرض التفاصيل</a>
-                    <a class="ghost-action compact-action" asp-controller="Report" asp-action="ViewReport" asp-route-id="1" asp-route-portal="@portalRoute">عرض التقرير</a>
-                </div>
-            </div>
-            <div class="card-side">
-                <strong>أمس 4:30 م</strong>
-                <span class="case-meta">داخل العيادة</span>
-            </div>
-        </article>
-    </div>
+    @if (Model != null && Model.Any())
+    {
+        <div class="offer-list">
+            @foreach (var session in Model)
+            {
+                <article class="session-card">
+                    <div>
+                        <div class="case-card-top">
+                            @{
+                                var statusClass = session.Status == 1 ? "status-scheduled" :
+                                session.Status == 2 ? "status-inprogress" :
+                                session.Status == 3 ? "status-completed" :
+                                "status-cancelled";
+                            }
+                            <span class="status-badge @statusClass">@session.StatusText</span>
+                            <span class="case-meta">الجلسة @session.Number</span>
+                            @if (!string.IsNullOrEmpty(session.ClinicRoom))
+                            {
+                                <span class="case-meta">غرفة @session.ClinicRoom</span>
+                            }
+                        </div>
+                        <h3>جلسة @session.Number</h3>
+                        <p>@(!string.IsNullOrEmpty(session.LocationText) ? session.LocationText : "العيادة")</p>
+                        <div class="row-actions mt-3">
+                            <a class="primary-action compact-action" asp-controller="Session" asp-action="SessionDetails" asp-route-id="@session.Id" asp-route-portal="@portalRoute">تفاصيل الجلسة</a>
 
-    <section class="state-grid">
-        <article class="empty-state-card">
-            <span class="empty-state-icon">0</span>
-            <h3>لا توجد جلسات</h3>
-            <p>لا توجد جلسات مرتبطة بهذه المطابقة بعد. عند قبول العرض وتحديد موعد ستظهر هنا.</p>
-        </article>
-        @await Html.PartialAsync("_Loader")
-        <article class="empty-state-card">
-            <span class="empty-state-icon">✓</span>
-            <h3>جلسة مكتملة</h3>
-            <p>حالة جاهزة للجلسات المكتملة، مع ربط مباشر للتقرير والتقييم.</p>
-        </article>
-    </section>
+                            @if (session.Status == 1) // Scheduled
+                            {
+                                <form asp-action="Start" asp-controller="Session" method="post" style="display:inline;">
+                                    @Html.AntiForgeryToken()
+                                    <input type="hidden" name="id" value="@session.Id" />
+                                    <button type="submit" class="primary-action compact-action" style="background-color: #f59e0b;">بدء الجلسة</button>
+                                </form>
+                            }
+                            else if (session.Status == 2) // In Progress
+                            {
+                                <form asp-action="Finish" asp-controller="Session" method="post" style="display:inline;">
+                                    @Html.AntiForgeryToken()
+                                    <input type="hidden" name="id" value="@session.Id" />
+                                    <button type="submit" class="primary-action compact-action" style="background-color: #10b981;">إنهاء الجلسة</button>
+                                </form>
+                            }
 
-    <section class="health-panel">
-        <div class="panel-heading">
-            <h2>الجدول الزمني للجلسات</h2>
+                            @if (session.Status != 3) // Not Completed
+                            {
+                                <a class="ghost-action compact-action" asp-controller="Session" asp-action="Cancel" asp-route-id="@session.Id" asp-route-portal="@portalRoute">إلغاء</a>
+                            }
+                        </div>
+                    </div>
+                    <div class="card-side">
+                        <strong>@session.StartAt.ToString("dd/MM/yyyy h:mm tt")</strong>
+                        <span class="case-meta">
+                            @(session.Status == 1 ? "مجدولة" :
+                                session.Status == 2 ? "قيد التنفيذ" :
+                                session.Status == 3 ? "مكتملة" : "ملغية")
+                        </span>
+                    </div>
+                </article>
+            }
         </div>
-
-        <div class="timeline-list">
-            <article class="timeline-entry">
-                <span class="timeline-line">
-                    <span class="timeline-icon">◷</span>
-                </span>
-                <div class="timeline-card">
-                    <span class="timeline-status soft-tag-blue">مجدولة</span>
-                    <h3>الاستشارة الأولية</h3>
-                    <time>الثلاثاء، 28 أبريل 2026 الساعة 05:00 مساء</time>
-                    <div class="row-actions">
-                        <a class="ghost-action compact-action" asp-controller="Session" asp-action="SessionDetails" asp-route-id="1" asp-route-portal="@portalRoute">إعادة جدولة</a>
-                        <button class="ghost-action compact-action" type="button">إلغاء</button>
+    }
+    else
+    {
+        <section class="state-grid">
+            <article class="empty-state-card">
+                <span class="empty-state-icon">📅</span>
+                <h3>لا توجد جلسات</h3>
+                <p>لا توجد جلسات مرتبطة بهذه المطابقة بعد. عند قبول العرض وتحديد موعد ستظهر هنا.</p>
+                @if (matchId > 0)
+                {
+                    <div class="mt-3">
+                        <a class="primary-action" asp-controller="Session" asp-action="AddSession" asp-route-portal="@portalRoute" asp-route-matchId="@matchId">إضافة جلسة جديدة</a>
                     </div>
-                </div>
+                }
             </article>
-
-            <article class="timeline-entry">
-                <span class="timeline-line">
-                    <span class="timeline-icon">◷</span>
-                </span>
-                <div class="timeline-card">
-                    <span class="timeline-status soft-tag-blue">مجدولة</span>
-                    <h3>إجراء الحشو</h3>
-                    <time>الثلاثاء، 5 مايو 2026 الساعة 05:00 مساء</time>
-                    <div class="row-actions">
-                        <a class="ghost-action compact-action" asp-controller="Session" asp-action="SessionDetails" asp-route-id="2" asp-route-portal="@portalRoute">إعادة جدولة</a>
-                        <button class="ghost-action compact-action" type="button">إلغاء</button>
-                    </div>
-                </div>
-            </article>
-
-            <article class="timeline-entry">
-                <span class="timeline-line">
-                    <span class="timeline-icon green">✓</span>
-                </span>
-                <div class="timeline-card">
-                    <span class="timeline-status soft-tag-teal">مكتملة</span>
-                    <h3>تنظيف الأسنان</h3>
-                    <time>15 أبريل 2026 الساعة 12:00 مساء</time>
-                    <div class="row-actions">
-                        <a class="ghost-action compact-action" asp-controller="Report" asp-action="ViewReport" asp-route-portal="@portalRoute">عرض التقرير</a>
-                    </div>
-                </div>
-            </article>
-        </div>
-    </section>
+        </section>
+    }
 </section>

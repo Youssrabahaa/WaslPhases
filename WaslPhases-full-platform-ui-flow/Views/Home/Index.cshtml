@@ -1,5 +1,6 @@
 @{
     ViewData["Title"] = "الرئيسية";
+    var portalRoute = ViewContext.RouteData.Values["portal"]?.ToString() ?? "student";
 }
 
 <section class="health-page">
@@ -49,10 +50,16 @@
             <h2>مسار الطالب</h2>
             <p>الملف الشخصي، تعديل البيانات، تصفح الحالات، إنشاء عرض، ومتابعة العروض.</p>
         </a>
-        <a class="module-card" asp-controller="Match" asp-action="MatchDetails">
+        <a class="module-card" asp-controller="Match" asp-action="MatchDetails" asp-route-id="1" asp-route-portal="@portalRoute">
             <span class="module-icon">م</span>
             <h2>المطابقة والمتابعة</h2>
             <p>تحويل العرض إلى مطابقة، متابعة الجلسات، التقارير، وخطوات المتابعة.</p>
+        </a>
+        <!-- إضافة رابط مباشر للجلسات مع matchId تجريبي -->
+        <a class="module-card" asp-controller="Session" asp-action="SessionList" asp-route-matchId="1" asp-route-portal="@portalRoute" style="border-color: #10b981;">
+            <span class="module-icon">ج</span>
+            <h2>الجلسات</h2>
+            <p>عرض وإدارة جلسات العلاج للمطابقات النشطة.</p>
         </a>
     </section>
 

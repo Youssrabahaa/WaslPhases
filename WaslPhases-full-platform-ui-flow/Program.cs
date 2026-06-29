@@ -1,4 +1,7 @@
 using Microsoft.EntityFrameworkCore;
+using phase_1.BLL.Services;
+using phase_1.DAL.Repositories.Interfaces;
+using phase_1.DAL.Repositories;
 using phase_1.Data;
 using phase_1.Middleware;
 using phase_1.Repositories;
@@ -27,6 +30,16 @@ namespace phase_1
             builder.Services.AddScoped<IUserManager, UserManager>();
             builder.Services.AddScoped<IRoleManager, RoleManager>();
             builder.Services.AddScoped<ISignInManager, SignInManager>();
+            builder.Services.AddScoped<ISessionRepository, SessionRepository>();
+            builder.Services.AddScoped<ISessionService, SessionService>();
+            builder.Services.AddScoped<IMatchRepository, MatchRepository>();
+            builder.Services.AddScoped<IMatchService, MatchService>();
+            builder.Services.AddScoped<INoShowStrikeRepository, NoShowStrikeRepository>();
+            builder.Services.AddScoped<INoShowStrikeService, NoShowStrikeService>();
+            builder.Services.AddScoped<IOfferRepository, OfferRepository>();
+            builder.Services.AddScoped<IReminderRepository, ReminderRepository>();
+            builder.Services.AddScoped<IReminderService, ReminderService>();
+            builder.Services.AddControllersWithViews();
 
             var app = builder.Build();
 

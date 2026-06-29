@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
-using phase_1.Models;
+using phase_1.DAL.Models;
 
 namespace phase_1.Controllers
 {

@@ -1,3 +1,5 @@
+@using phase_1.BLL.DTOs
+@model SessionDetailsDTO
 @{
     ViewData["Title"] = "تفاصيل الجلسة";
     var portalRoute = ViewContext.RouteData.Values["portal"]?.ToString();
@@ -7,13 +9,26 @@
     <div class="health-hero compact-hero">
         <div>
             <span class="health-kicker">تفاصيل الجلسة</span>
-            <h1 class="health-title">جلسة رقم 1</h1>
-            <p class="health-subtitle">تفاصيل الجلسة، حالتها، ومكانها مع إجراءات البدء والإنهاء.</p>
+            <h1 class="health-title">جلسة رقم @Model.Number</h1>
+            <p class="health-subtitle">@Model.StatusText</p>
         </div>
         <div class="hero-actions">
-            <a class="ghost-action" asp-controller="Session" asp-action="SessionList" asp-route-portal="@portalRoute">كل الجلسات</a>
+            <a class="ghost-action"
+               asp-controller="Session"
+               asp-action="SessionList"
+               asp-route-matchId="@Model.MatchId"
+               asp-route-portal="@portalRoute">كل الجلسات</a>
         </div>
     </div>
+
+    @if (TempData["SuccessMessage"] != null)
+    {
+        <div class="app-toast"><span class="app-toast-dot"></span>@TempData["SuccessMessage"]</div>
+    }
+    @if (TempData["ErrorMessage"] != null)
+    {
+        <div class="alert-soft-danger">@TempData["ErrorMessage"]</div>
+    }
 
     <div class="content-grid">
         <section class="content-main">
@@ -23,40 +38,40 @@
                         <h2>بيانات الجلسة</h2>
                         <p>تفاصيل عملية تساعد على متابعة موعد الجلسة ومكانها.</p>
                     </div>
-                    <span class="status-badge status-inprogress">جلسة قيد التنفيذ</span>
+                    <span class="status-badge">@Model.StatusText</span>
                 </div>
                 <div class="info-grid">
                     <div class="info-block">
                         <span>الموعد</span>
-                        <strong>29 أبريل 2026 - 5:00 م</strong>
+                        <strong>@Model.StartAt.ToString("dd/MM/yyyy hh:mm tt")</strong>
                     </div>
                     <div class="info-block">
                         <span>المكان</span>
-                        <strong>عيادة قصر العيني</strong>
+                        <strong>@Model.LocationText</strong>
                     </div>
                     <div class="info-block">
                         <span>الغرفة</span>
-                        <strong>غرفة 12</strong>
+                        <strong>@Model.ClinicRoom</strong>
                     </div>
                     <div class="info-block">
-                        <span>المشرف</span>
-                        <strong>د. هالة سمير</strong>
+                        <span>المريض</span>
+                        <strong>@Model.PatientName</strong>
+                    </div>
+                    <div class="info-block">
+                        <span>الطالب</span>
+                        <strong>@Model.StudentName</strong>
+                    </div>
+                    <div class="info-block">
+                        <span>الحالة</span>
+                        <strong>@Model.CaseTitle</strong>
                     </div>
                 </div>
-            </article>
-
-            <article class="health-panel">
-                <div class="panel-heading">
-                    <div>
-                        <h2>ملاحظات الجلسة</h2>
-                        <p>مساحة تجهيز للتقرير النهائي بعد انتهاء الجلسة.</p>
-                    </div>
-                </div>
-                <p class="body-copy">تم بدء الجلسة، والتقييم الأولي يشير إلى احتياج المريض لجلسة متابعة بعد أسبوع مع تعليمات وقائية قصيرة.</p>
             </article>
         </section>
 
         <aside class="content-side">
+
+            <!-- حالة التنفيذ-->
             <article class="health-panel side-accent">
                 <div class="panel-heading">
                     <div>
@@ -65,14 +80,68 @@
                     </div>
                 </div>
                 <div class="form-actions">
-                    <button type="button" class="primary-action loading-button">
-                        <span class="button-label">بدء الجلسة</span>
-                        <span class="button-loader"></span>
-                    </button>
-                    <button type="button" class="ghost-action">إنهاء الجلسة</button>
+                    @if (Model.CanStart)
+                    {
+                        <form asp-controller="Session" asp-action="Start" method="post" style="display:inline;">
+                            @Html.AntiForgeryToken()
+                            <input type="hidden" name="id" value="@Model.Id" />
+                            <button type="submit" class="primary-action">بدء الجلسة</button>
+                        </form>
+                    }
+                    @if (Model.CanFinish)
+                    {
+                        <form asp-controller="Session" asp-action="Finish" method="post" style="display:inline;">
+                            @Html.AntiForgeryToken()
+                            <input type="hidden" name="id" value="@Model.Id" />
+                            <button type="submit" class="ghost-action">إنهاء الجلسة</button>
+                        </form>
+                    }
                     <a class="soft-action" asp-controller="Report" asp-action="AddReport" asp-route-portal="@portalRoute">إضافة تقرير</a>
                 </div>
             </article>
+
+            <!-- عدم الحضور-->
+            <article class="health-panel">
+                <div class="panel-heading">
+                    <div>
+                        <h2>عدم الحضور</h2>
+                        <p>تسجيل غياب المريض أو الطالب.</p>
+                    </div>
+                </div>
+
+                <p>عدد مرات غياب المريض: <strong>@Model.PatientStrikeCount</strong></p>
+                <p>عدد مرات غياب الطالب: <strong>@Model.StudentStrikeCount</strong></p>
+
+                @if (Model.NoShowStrike == null)
+                {
+                    <!-- زر تسجيل غياب المريض-->
+                    <div class="form-actions mt-3">
+                        <form asp-controller="NoShowStrike" asp-action="Create" method="post" style="display:inline;">
+                            @Html.AntiForgeryToken()
+                            <input type="hidden" name="SessionId" value="@Model.Id" />
+                            <input type="hidden" name="ReportedByUserId" value="@Model.StudentUserId" />
+                            <input type="hidden" name="AbsentUserId" value="@Model.PatientUserId" />
+                            <button type="submit" class="ghost-action">تسجيل غياب المريض</button>
+                        </form>
+
+                        <!-- زر تسجيل غياب الطالب-->
+                        <form asp-controller="NoShowStrike" asp-action="Create" method="post" style="display:inline;">
+                            @Html.AntiForgeryToken()
+                            <input type="hidden" name="SessionId" value="@Model.Id" />
+                            <input type="hidden" name="ReportedByUserId" value="@Model.PatientUserId" />
+                            <input type="hidden" name="AbsentUserId" value="@Model.StudentUserId" />
+                            <button type="submit" class="ghost-action">تسجيل غياب الطالب</button>
+                        </form>
+                    </div>
+                }
+                else
+                {
+                    <div class="alert-soft-danger mt-3">
+                        <strong>@Model.NoShowStrike.WhoMissed</strong> لم يحضر هذه الجلسة.
+                    </div>
+                }
+            </article>
+
         </aside>
     </div>
 </section>
