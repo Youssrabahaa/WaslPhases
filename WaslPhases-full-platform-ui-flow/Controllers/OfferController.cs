@@ -16,13 +16,14 @@ public class OfferController : Controller
     [HttpGet]
     public IActionResult CreateOffer(int caseId)
     {
-        var model = new CreateOfferDTO { CaseId = caseId };
+        var model = new CreateOfferDTO { CaseId = caseId, StudentUserId = 3 };
         return View(model);
     }
 
     [HttpPost]
     public async Task<IActionResult> CreateOffer(CreateOfferDTO model)
     {
+        model.StudentUserId = 3; 
         if (!ModelState.IsValid)
         {
             return View(model);
@@ -32,10 +33,16 @@ public class OfferController : Controller
         return RedirectToAction(nameof(MyOffers));
     }
 
-    public async Task<IActionResult> MyOffers(int studentId = 1)
+    public async Task<IActionResult> MyOffers(int studentId = 3)
     {
         var offers = await _offerService.GetOffersByStudentAsync(studentId);
         return View(offers);
+    }
+
+    public IActionResult BrowseCases([FromServices] phase_1.Data.AppDbContext db)
+    {
+        var cases = db.Cases.ToList();
+        return View(cases);
     }
 
     public async Task<IActionResult> OfferDetails(int id)

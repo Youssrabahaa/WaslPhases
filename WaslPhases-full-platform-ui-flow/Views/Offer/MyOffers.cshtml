@@ -1,3 +1,4 @@
+@model IEnumerable<phase_1.BLL.DTOs.OfferDTO>
 @{
     ViewData["Title"] = "عروضي";
 }
@@ -15,42 +16,53 @@
     </div>
 
     <div class="offer-list">
-        <article class="offer-card">
-            <div>
-                <div class="offer-card-top">
-                    <span class="status-badge status-open">مقبول</span>
-                    <span class="case-meta">عرض رقم 1024</span>
-                </div>
-                <h3>علاج تحفظي لضروس متضررة</h3>
-                <p>تم قبول العرض وتحويله إلى Match. الخطوة التالية تحديد الجلسة الأولى.</p>
-                <div class="row-actions mt-3">
-                    <a class="primary-action compact-action" asp-controller="Match" asp-action="MatchDetails" asp-route-id="1">تفاصيل المطابقة</a>
-                    <a class="ghost-action compact-action" asp-controller="Offer" asp-action="OfferDetails" asp-route-id="1">تفاصيل العرض</a>
-                </div>
-            </div>
-            <div class="card-side">
-                <strong>220 ج.م</strong>
-                <span class="case-meta">جلستان</span>
-            </div>
-        </article>
-
-        <article class="offer-card">
-            <div>
-                <div class="offer-card-top">
-                    <span class="status-badge status-pending">قيد المراجعة</span>
-                    <span class="case-meta">عرض رقم 1025</span>
-                </div>
-                <h3>متابعة لطفل يعاني من تسوسات متعددة</h3>
-                <p>العرض ينتظر رد المريض. يمكن تعديل الرسالة أو السعر قبل اتخاذ القرار.</p>
-                <div class="row-actions mt-3">
-                    <a class="ghost-action compact-action" asp-controller="Offer" asp-action="OfferDetails" asp-route-id="2">تفاصيل العرض</a>
-                </div>
-            </div>
-            <div class="card-side">
-                <strong>250 ج.م</strong>
-                <span class="case-meta">3 جلسات</span>
-            </div>
-        </article>
+        @if (Model != null && Model.Any())
+        {
+            @foreach (var offer in Model)
+            {
+                <article class="offer-card">
+                    <div>
+                        <div class="offer-card-top">
+                            @if (offer.Status == 1)
+                            {
+                                <span class="status-badge status-pending">قيد المراجعة</span>
+                            }
+                            else if (offer.Status == 2)
+                            {
+                                <span class="status-badge status-open">مقبول</span>
+                            }
+                            else
+                            {
+                                <span class="status-badge" style="background-color:#e0e0e0;color:#555;">مرفوض</span>
+                            }
+                            <span class="case-meta">عرض رقم @offer.Id</span>
+                        </div>
+                        <h3>عرض للحالة رقم @offer.CaseId</h3>
+                        <p>@offer.Message</p>
+                        <div class="row-actions mt-3">
+                            @if (offer.Status == 2)
+                            {
+                                <a class="primary-action compact-action" asp-controller="Match" asp-action="MatchDetails" asp-route-id="@offer.Id">تفاصيل المطابقة</a>
+                            }
+                            <a class="ghost-action compact-action" asp-controller="Offer" asp-action="OfferDetails" asp-route-id="@offer.Id">تفاصيل العرض</a>
+                        </div>
+                    </div>
+                    <div class="card-side">
+                        <strong>@offer.ProposedPrice ج.م</strong>
+                        <span class="case-meta">@offer.EstimatedSessionsCount جلسات</span>
+                    </div>
+                </article>
+            }
+        }
+        else
+        {
+            <article class="empty-state-card" style="grid-column: 1 / -1; text-align: center; padding: 40px;">
+                <span class="empty-state-icon" style="font-size: 3rem; color: #ccc;">0</span>
+                <h3>لا يوجد عروض</h3>
+                <p>لم تقم بتقديم أي عروض حتى الآن.</p>
+                <a class="ghost-action" asp-controller="Offer" asp-action="BrowseCases">تصفح الحالات</a>
+            </article>
+        }
     </div>
 
     <section class="state-grid">

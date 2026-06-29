@@ -16,7 +16,10 @@
 
     <div class="content-grid">
         <section class="content-main">
-            <form class="health-panel form-panel">
+@model phase_1.BLL.DTOs.CreateOfferDTO
+
+            <form class="health-panel form-panel" asp-controller="Offer" asp-action="CreateOffer" method="post">
+                <input type="hidden" asp-for="CaseId" />
                 <div class="panel-heading">
                     <div>
                         <h2>تفاصيل العرض</h2>
@@ -24,31 +27,32 @@
                     </div>
                 </div>
 
+                <div asp-validation-summary="All" class="text-danger" style="color: red; padding: 10px; font-weight: bold;"></div>
+
                 <div class="form-grid">
                     <label class="field-group">
                         <span>السعر المقترح</span>
-                        <input class="form-control modern-input" name="proposedPrice" inputmode="decimal" placeholder="220" />
+                        <input class="form-control modern-input" asp-for="ProposedPrice" inputmode="decimal" placeholder="220" />
                     </label>
                     <label class="field-group">
                         <span>عدد الجلسات المتوقع</span>
-                        <input class="form-control modern-input" name="estimatedSessionsCount" inputmode="numeric" placeholder="2" />
+                        <input class="form-control modern-input" asp-for="EstimatedSessionsCount" inputmode="numeric" placeholder="2" />
                     </label>
                     <label class="field-group field-span-2">
                         <span>رسالة للمريض</span>
-                        <textarea class="form-control modern-input modern-textarea" name="message" rows="6" placeholder="اشرح خطتك المختصرة، سبب السعر، وما يحتاجه المريض قبل الجلسة."></textarea>
+                        <textarea class="form-control modern-input modern-textarea" asp-for="Message" rows="6" placeholder="اشرح خطتك المختصرة، سبب السعر، وما يحتاجه المريض قبل الجلسة."></textarea>
                     </label>
                 </div>
 
                 <div class="alert-soft-success">
-                    مثال لحالة جاهزية: الطالب موثق ويمكنه تقديم عروض على الحالات المفتوحة.
+                    هذا العرض سيتم تقديمه باسم الطالب الحالي. تأكد من دقة المعلومات.
                 </div>
 
                 <div class="form-actions">
-                    <a class="primary-action loading-button" asp-controller="Offer" asp-action="MyOffers">
+                    <button type="submit" class="primary-action loading-button" style="border:none; cursor:pointer;">
                         <span class="button-label">إرسال العرض</span>
-                        <span class="button-loader"></span>
-                    </a>
-                    <a class="ghost-action" asp-controller="Offer" asp-action="BrowseCases">حفظ كمسودة</a>
+                    </button>
+                    <a class="ghost-action" asp-controller="Offer" asp-action="BrowseCases">إلغاء</a>
                 </div>
             </form>
         </section>

@@ -1,3 +1,4 @@
+@model phase_1.BLL.DTOs.OfferDetailsDTO
 @{
     ViewData["Title"] = "تفاصيل العرض";
 }
@@ -6,7 +7,7 @@
     <div class="health-hero compact-hero">
         <div>
             <span class="health-kicker">Offer Details</span>
-            <h1 class="health-title">تفاصيل العرض رقم 1</h1>
+            <h1 class="health-title">تفاصيل العرض رقم @Model.Id</h1>
             <p class="health-subtitle">عرض شامل لبيانات العرض، الحالة، ورسالة الطالب قبل قرار المريض.</p>
         </div>
         <div class="hero-actions">
@@ -22,24 +23,37 @@
                         <h2>ملخص العرض</h2>
                         <p>ملخص سريع للسعر، عدد الجلسات، وحالة رد المريض.</p>
                     </div>
-                    <span class="status-badge status-pending">قيد المراجعة</span>
+                    @if (Model.Status == 1)
+                    {
+                        <span class="status-badge status-pending">قيد المراجعة</span>
+                    }
+                    else if (Model.Status == 2)
+                    {
+                        <span class="status-badge status-open">مقبول</span>
+                    }
+                    else
+                    {
+                        <span class="status-badge" style="background-color:#e0e0e0;color:#555;">مرفوض</span>
+                    }
                 </div>
                 <div class="info-grid">
                     <div class="info-block">
                         <span>السعر المقترح</span>
-                        <strong>250 ج.م</strong>
+                        <strong>@(Model.ProposedPrice?.ToString() ?? "غير محدد") ج.م</strong>
                     </div>
                     <div class="info-block">
                         <span>عدد الجلسات</span>
-                        <strong>3 جلسات</strong>
+                        <strong>@(Model.EstimatedSessionsCount?.ToString() ?? "غير محدد") جلسات</strong>
                     </div>
                     <div class="info-block">
                         <span>تاريخ الإرسال</span>
-                        <strong>28 أبريل 2026</strong>
+                        <strong>@Model.CreatedAt.ToString("dd MMMM yyyy")</strong>
                     </div>
                     <div class="info-block">
                         <span>الحالة</span>
-                        <strong>بانتظار رد المريض</strong>
+                        <strong>
+                            @(Model.Status == 1 ? "بانتظار رد المريض" : (Model.Status == 2 ? "تم قبول العرض" : "تم رفض العرض"))
+                        </strong>
                     </div>
                 </div>
             </article>
@@ -51,7 +65,7 @@
                         <p>النص الذي يراه المريض قبل قبول العرض.</p>
                     </div>
                 </div>
-                <p class="body-copy">أقترح البدء بتقييم داخل العيادة ثم جلستين علاجيتين حسب نتيجة الفحص. سيتم توضيح الخطة للمريض قبل أي إجراء.</p>
+                <p class="body-copy">@(string.IsNullOrEmpty(Model.Message) ? "لا توجد رسالة مرفقة من الطالب." : Model.Message)</p>
             </article>
         </section>
 
@@ -60,16 +74,35 @@
                 <div class="panel-heading">
                     <div>
                         <h2>قرار العرض</h2>
-                        <p>أزرار جاهزة لمسار Match.</p>
+                        <p>أزرار جاهزة لمسار المطابقة أو الرفض.</p>
                     </div>
                 </div>
-                <div class="form-actions">
-                    <a class="primary-action loading-button" asp-controller="Match" asp-action="MatchDetails">
-                        <span class="button-label">قبول العرض</span>
-                        <span class="button-loader"></span>
-                    </a>
-                    <a class="danger-action" asp-controller="Offer" asp-action="MyOffers">رفض العرض</a>
-                </div>
+                
+                @if (Model.Status == 1)
+                {
+                    <div class="form-actions" style="flex-direction: column;">
+                        <form asp-controller="Offer" asp-action="AcceptOffer" asp-route-id="@Model.Id" method="post" style="width:100%;">
+                            <button type="submit" class="primary-action loading-button" style="width:100%; justify-content:center;">
+                                <span class="button-label">قبول العرض</span>
+                            </button>
+                        </form>
+                        
+                        <form asp-controller="Offer" asp-action="RejectOffer" asp-route-id="@Model.Id" method="post" style="width:100%;">
+                            <button type="submit" class="danger-action" style="width:100%; justify-content:center; border:none; margin-top:10px;">
+                                رفض العرض
+                            </button>
+                        </form>
+                    </div>
+                }
+                else if (Model.Status == 2)
+                {
+                    <div class="alert-soft-success">تم قبول هذا العرض! يمكنك الآن متابعة تفاصيل المطابقة.</div>
+                    <a class="primary-action" asp-controller="Match" asp-action="MatchDetails" asp-route-id="@Model.Id">الانتقال للمطابقة</a>
+                }
+                else
+                {
+                    <div style="padding:15px; background:#ffebeb; color:#d32f2f; border-radius:8px;">تم رفض هذا العرض مسبقاً.</div>
+                }
             </article>
         </aside>
     </div>
