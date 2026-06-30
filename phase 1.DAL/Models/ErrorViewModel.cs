@@ -1,4 +1,4 @@
-namespace phase_1.Models
+namespace phase_1.DAL.Models
 {
     public class ErrorViewModel
     {

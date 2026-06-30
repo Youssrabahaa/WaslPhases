@@ -1,9 +1,10 @@
 using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations;
 
-namespace phase_1.Models;
+namespace phase_1.DAL.Models
+{
 
-[Index(nameof(UniversityId), nameof(Name), IsUnique = true)]
+    [Index(nameof(UniversityId), nameof(Name), IsUnique = true)]
 public class Faculty
 {
     [Key]
@@ -26,4 +27,5 @@ public class Faculty
     public University University { get; set; } = default!;
 
     public List<StudentProfile> StudentProfiles { get; set; } = new();
+}
 }

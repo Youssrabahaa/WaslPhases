@@ -1,4 +1,4 @@
-using phase_1.Models;
+using phase_1.DAL.Models;
 
 namespace phase_1.SeedData;
 
@@ -15,7 +15,7 @@ public static class CaseSeed
             Title = "Follow-up for a child with multiple dental caries",
             Description = "The family is looking for a supervised dental student to help with examination, preventive guidance, and a treatment plan for a 6-year-old child.",
             Urgency = 2,
-            Status = 1,
+            Status = 2,   // ? Matched (???? 1 = Open)
             EstimatedPriceMin = 180.00m,
             EstimatedPriceMax = 250.00m,
             NeedsSupervisorApproval = true,
@@ -33,7 +33,7 @@ public static class CaseSeed
             Title = "Restorative dental treatment for damaged molars",
             Description = "The patient needs an in-clinic supervised student for assessment and restoration planning for painful posterior teeth.",
             Urgency = 3,
-            Status = 1,
+            Status = 1,   // Open
             EstimatedPriceMin = 220.00m,
             EstimatedPriceMax = 320.00m,
             NeedsSupervisorApproval = true,

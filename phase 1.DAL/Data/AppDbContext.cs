@@ -1,5 +1,5 @@
 using Microsoft.EntityFrameworkCore;
-using phase_1.Models;
+using phase_1.DAL.Models;
 using phase_1.SeedData;
 
 namespace phase_1.Data
@@ -29,6 +29,8 @@ namespace phase_1.Data
         public DbSet<Review> Reviews { get; set; } = null!;
         public DbSet<NoShowStrike> NoShowStrikes { get; set; } = null!;
         public DbSet<Report> Reports { get; set; } = null!;
+        public DbSet<Conversation> Conversations { get; set; } = null!;
+        public DbSet<Message> Messages { get; set; } = null!;
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

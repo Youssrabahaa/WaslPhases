@@ -1,7 +1,7 @@
-using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations;
+using Microsoft.EntityFrameworkCore;
 
-namespace phase_1.Models;
+namespace phase_1.DAL.Models;
 
 [Index(nameof(Phone), IsUnique = true)]
 public class ApplicationUser
@@ -54,6 +54,8 @@ public class ApplicationUser
     public List<Match> PatientMatches { get; set; } = new();
     public List<Match> StudentMatches { get; set; } = new();
     // Messages/chat removed; phone-call flow used instead.
+    public List<Message> MessagesSent { get; set; } = new();
+    public List<Message> MessagesReceived { get; set; } = new();
     public List<Review> ReviewsWritten { get; set; } = new();
     public List<Review> ReviewsReceived { get; set; } = new();
     public ICollection<Report> ReportsMade { get; set; } = new List<Report>();

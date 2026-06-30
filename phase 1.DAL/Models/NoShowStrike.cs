@@ -1,9 +1,9 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using Microsoft.EntityFrameworkCore;
+namespace phase_1.DAL.Models
+{
 
-namespace phase_1.Models;
-
-[Index(nameof(UserId), nameof(CreatedAt))]
+    [Index(nameof(UserId), nameof(CreatedAt))]
 [Index(nameof(SessionId), nameof(UserId), IsUnique = true)]
 public class NoShowStrike
 {
@@ -30,4 +30,5 @@ public class NoShowStrike
     public ApplicationUser User { get; set; } = default!;
 
     public Session Session { get; set; } = default!;
+}
 }

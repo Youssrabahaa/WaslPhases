@@ -1,8 +1,9 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace phase_1.Models;
+namespace phase_1.DAL.Models
+{
 
-public class Notification
+    public class Notification
 {
     [Key]
     public int Id { get; set; }
@@ -21,4 +22,5 @@ public class Notification
     public bool IsRead { get; set; }
 
     public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
+}
 }

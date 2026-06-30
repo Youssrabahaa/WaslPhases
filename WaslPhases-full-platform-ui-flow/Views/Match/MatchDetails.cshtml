@@ -12,7 +12,14 @@
 }
 
 <section class="health-page">
-
+    <a class="action-tile"
+       asp-controller="Conversation"
+       asp-action="Chat"
+       asp-route-matchId="@Model.MatchId"
+       asp-route-portal="@portalRoute">
+        <strong>💬 المحادثة</strong>
+        <span>تواصل مع الطرف الآخر.</span>
+    </a>
     <!-- Hero-->
     <div class="health-hero">
         <div>

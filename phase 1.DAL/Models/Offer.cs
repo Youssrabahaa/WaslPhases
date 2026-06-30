@@ -2,7 +2,7 @@ using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace phase_1.Models;
+namespace phase_1.DAL.Models { 
 
 [Index(nameof(CaseId), nameof(StudentUserId), IsUnique = true)]
 public class Offer
@@ -37,4 +37,5 @@ public class Offer
     public ApplicationUser StudentUser { get; set; } = default!;
 
     public Match? Match { get; set; }
+}
 }

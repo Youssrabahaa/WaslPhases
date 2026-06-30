@@ -1,33 +1,35 @@
 using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations;
 
-namespace phase_1.Models;
-
-[Index(nameof(SessionId), nameof(ScheduledAt))]
-public class Reminder
+namespace phase_1.DAL.Models
 {
-    [Key]
-    public int Id { get; set; }
 
-    [Required]
-    public int SessionId { get; set; }
+    [Index(nameof(SessionId), nameof(ScheduledAt))]
+    public class Reminder
+    {
+        [Key]
+        public int Id { get; set; }
 
-    [Required]
-    public int Channel { get; set; } = 1;
+        [Required]
+        public int SessionId { get; set; }
 
-    [Required]
-    public DateTime ScheduledAt { get; set; }
+        [Required]
+        public int Channel { get; set; } = 1;
 
-    public DateTime? SentAt { get; set; }
+        [Required]
+        public DateTime ScheduledAt { get; set; }
 
-    [Required]
-    public int Status { get; set; } = 1;
+        public DateTime? SentAt { get; set; }
 
-    [MaxLength(120)]
-    public string? ProviderMessageId { get; set; }
+        [Required]
+        public int Status { get; set; } = 1;
 
-    [Required]
-    public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
+        [MaxLength(120)]
+        public string? ProviderMessageId { get; set; }
 
-    public Session Session { get; set; } = default!;
+        [Required]
+        public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
+
+        public Session Session { get; set; } = default!;
+    }
 }

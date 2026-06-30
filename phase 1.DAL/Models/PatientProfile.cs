@@ -1,21 +1,23 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace phase_1.Models;
-
-public class PatientProfile
+namespace phase_1.DAL.Models
 {
-    [Key]
-    public int UserId { get; set; }
 
-    [Column(TypeName = "date")]
-    public DateTime? BirthDate { get; set; }
+    public class PatientProfile
+    {
+        [Key]
+        public int UserId { get; set; }
 
-    [MaxLength(20)]
-    public string? Gender { get; set; }
+        [Column(TypeName = "date")]
+        public DateTime? BirthDate { get; set; }
 
-    [MaxLength(500)]
-    public string? Notes { get; set; }
+        [MaxLength(20)]
+        public string? Gender { get; set; }
 
-    public ApplicationUser User { get; set; } = default!;
+        [MaxLength(500)]
+        public string? Notes { get; set; }
+
+        public ApplicationUser User { get; set; } = default!;
+    }
 }

@@ -1,5 +1,5 @@
 using Microsoft.EntityFrameworkCore;
-using phase_1.Models;
+using phase_1.DAL.Models;
 
 namespace phase_1.SeedData;
 
@@ -15,5 +15,13 @@ public static class ModelBuilderSeedExtensions
         modelBuilder.Entity<ServiceType>().HasData(ReferenceSeed.ServiceTypes);
         modelBuilder.Entity<TreatmentCategory>().HasData(ReferenceSeed.TreatmentCategories);
         modelBuilder.Entity<Case>().HasData(CaseSeed.Data);
+
+        // ? Match seed
+        modelBuilder.Entity<Offer>().HasData(MatchSeed.Offers);
+        modelBuilder.Entity<Match>().HasData(MatchSeed.Matches);
+        //modelBuilder.Entity<Conversation>().HasData(MatchSeed.Conversations);
+
+        // ? Case 1 status ? Matched (2) ??? ????? match
+        // EF seed ?? ????? ??? existing data — ??? Case status ????? manually ?? ??? Offer seed
     }
 }

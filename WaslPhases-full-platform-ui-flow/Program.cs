@@ -39,6 +39,9 @@ namespace phase_1
             builder.Services.AddScoped<IOfferRepository, OfferRepository>();
             builder.Services.AddScoped<IReminderRepository, ReminderRepository>();
             builder.Services.AddScoped<IReminderService, ReminderService>();
+            builder.Services.AddScoped<IConversationRepository, ConversationRepository>();
+            builder.Services.AddScoped<IMessageRepository, MessageRepository>();
+            builder.Services.AddScoped<IConversationService, ConversationService>();
             builder.Services.AddControllersWithViews();
 
             var app = builder.Build();

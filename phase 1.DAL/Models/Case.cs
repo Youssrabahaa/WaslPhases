@@ -1,9 +1,10 @@
 using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations;
 
-namespace phase_1.Models;
+namespace phase_1.DAL.Models
+{
 
-[Index(nameof(Status), nameof(Governorate), nameof(City), nameof(ServiceTypeId), nameof(CreatedAt))]
+    [Index(nameof(Status), nameof(Governorate), nameof(City), nameof(ServiceTypeId), nameof(CreatedAt))]
 public class Case
 {
     [Key]
@@ -55,4 +56,5 @@ public class Case
     public TreatmentCategory TreatmentCategory { get; set; } = default!;
     public List<Offer> Offers { get; set; } = new();
     public List<Match> Matches { get; set; } = new();
+}
 }

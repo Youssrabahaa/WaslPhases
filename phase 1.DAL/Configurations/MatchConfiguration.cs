@@ -1,6 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using phase_1.Models;
+using phase_1.DAL.Models;
 
 namespace phase_1.Configurations;
 
@@ -8,7 +8,6 @@ public class MatchConfiguration : IEntityTypeConfiguration<Match>
 {
     public void Configure(EntityTypeBuilder<Match> builder)
     {
-        // Model attributes already specify status/createdAt constraints.
 
         builder
             .HasOne(x => x.Case)

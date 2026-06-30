@@ -22,7 +22,7 @@ namespace phase_1.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("phase_1.Models.ApplicationUser", b =>
+            modelBuilder.Entity("phase_1.DAL.Models.ApplicationUser", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -150,7 +150,7 @@ namespace phase_1.Migrations
                         });
                 });
 
-            modelBuilder.Entity("phase_1.Models.Case", b =>
+            modelBuilder.Entity("phase_1.DAL.Models.Case", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -239,7 +239,7 @@ namespace phase_1.Migrations
                             NeedsSupervisorApproval = true,
                             PatientUserId = 1,
                             ServiceTypeId = 1,
-                            Status = 1,
+                            Status = 2,
                             Title = "Follow-up for a child with multiple dental caries",
                             TreatmentCategoryId = 1,
                             Urgency = 2
@@ -264,7 +264,37 @@ namespace phase_1.Migrations
                         });
                 });
 
-            modelBuilder.Entity("phase_1.Models.Faculty", b =>
+            modelBuilder.Entity("phase_1.DAL.Models.Conversation", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("CreatedAt")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("datetime2")
+                        .HasDefaultValueSql("GETUTCDATE()");
+
+                    b.Property<bool>("IsClosed")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime?>("LastMessageAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("MatchId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("MatchId")
+                        .IsUnique();
+
+                    b.ToTable("Conversations");
+                });
+
+            modelBuilder.Entity("phase_1.DAL.Models.Faculty", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -316,7 +346,7 @@ namespace phase_1.Migrations
                         });
                 });
 
-            modelBuilder.Entity("phase_1.Models.Match", b =>
+            modelBuilder.Entity("phase_1.DAL.Models.Match", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -365,9 +395,65 @@ namespace phase_1.Migrations
                     b.HasIndex("StudentUserId");
 
                     b.ToTable("Matches");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            AcceptedAt = new DateTime(2026, 4, 11, 12, 0, 0, 0, DateTimeKind.Utc),
+                            CaseId = 1,
+                            CreatedAt = new DateTime(2026, 4, 11, 12, 0, 0, 0, DateTimeKind.Utc),
+                            OfferId = 1,
+                            PatientUserId = 1,
+                            PhoneContactOnly = true,
+                            Status = 1,
+                            StudentUserId = 3
+                        });
                 });
 
-            modelBuilder.Entity("phase_1.Models.NoShowStrike", b =>
+            modelBuilder.Entity("phase_1.DAL.Models.Message", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Content")
+                        .IsRequired()
+                        .HasMaxLength(2000)
+                        .HasColumnType("nvarchar(2000)");
+
+                    b.Property<int>("ConversationId")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("IsRead")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime?>("ReadAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("ReceiverUserId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("SenderUserId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("SentAt")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ConversationId");
+
+                    b.HasIndex("ReceiverUserId");
+
+                    b.HasIndex("SenderUserId");
+
+                    b.ToTable("Messages");
+                });
+
+            modelBuilder.Entity("phase_1.DAL.Models.NoShowStrike", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -407,7 +493,7 @@ namespace phase_1.Migrations
                     b.ToTable("NoShowStrikes");
                 });
 
-            modelBuilder.Entity("phase_1.Models.Offer", b =>
+            modelBuilder.Entity("phase_1.DAL.Models.Offer", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -448,9 +534,23 @@ namespace phase_1.Migrations
                     b.HasIndex("StudentUserId", "Status", "CreatedAt");
 
                     b.ToTable("Offers");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            CaseId = 1,
+                            CreatedAt = new DateTime(2026, 4, 10, 10, 0, 0, 0, DateTimeKind.Utc),
+                            DecidedAt = new DateTime(2026, 4, 11, 12, 0, 0, 0, DateTimeKind.Utc),
+                            EstimatedSessionsCount = 3,
+                            Message = "أقترح البدء بتقييم داخل العيادة ثم جلستين علاجيتين حسب نتيجة الفحص.",
+                            ProposedPrice = 220.00m,
+                            Status = 2,
+                            StudentUserId = 3
+                        });
                 });
 
-            modelBuilder.Entity("phase_1.Models.OtpCode", b =>
+            modelBuilder.Entity("phase_1.DAL.Models.OtpCode", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -504,7 +604,7 @@ namespace phase_1.Migrations
                     b.ToTable("OtpCodes");
                 });
 
-            modelBuilder.Entity("phase_1.Models.PatientProfile", b =>
+            modelBuilder.Entity("phase_1.DAL.Models.PatientProfile", b =>
                 {
                     b.Property<int>("UserId")
                         .HasColumnType("int");
@@ -541,7 +641,7 @@ namespace phase_1.Migrations
                         });
                 });
 
-            modelBuilder.Entity("phase_1.Models.RefreshToken", b =>
+            modelBuilder.Entity("phase_1.DAL.Models.RefreshToken", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -592,7 +692,7 @@ namespace phase_1.Migrations
                     b.ToTable("RefreshTokens");
                 });
 
-            modelBuilder.Entity("phase_1.Models.Reminder", b =>
+            modelBuilder.Entity("phase_1.DAL.Models.Reminder", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -629,7 +729,7 @@ namespace phase_1.Migrations
                     b.ToTable("Reminders");
                 });
 
-            modelBuilder.Entity("phase_1.Models.Report", b =>
+            modelBuilder.Entity("phase_1.DAL.Models.Report", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -681,7 +781,7 @@ namespace phase_1.Migrations
                     b.ToTable("Reports");
                 });
 
-            modelBuilder.Entity("phase_1.Models.Review", b =>
+            modelBuilder.Entity("phase_1.DAL.Models.Review", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -723,7 +823,7 @@ namespace phase_1.Migrations
                         });
                 });
 
-            modelBuilder.Entity("phase_1.Models.ServiceType", b =>
+            modelBuilder.Entity("phase_1.DAL.Models.ServiceType", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -767,7 +867,7 @@ namespace phase_1.Migrations
                         });
                 });
 
-            modelBuilder.Entity("phase_1.Models.Session", b =>
+            modelBuilder.Entity("phase_1.DAL.Models.Session", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -828,7 +928,7 @@ namespace phase_1.Migrations
                     b.ToTable("Sessions");
                 });
 
-            modelBuilder.Entity("phase_1.Models.StudentProfile", b =>
+            modelBuilder.Entity("phase_1.DAL.Models.StudentProfile", b =>
                 {
                     b.Property<int>("UserId")
                         .HasColumnType("int");
@@ -904,7 +1004,7 @@ namespace phase_1.Migrations
                         });
                 });
 
-            modelBuilder.Entity("phase_1.Models.TreatmentCategory", b =>
+            modelBuilder.Entity("phase_1.DAL.Models.TreatmentCategory", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -955,7 +1055,7 @@ namespace phase_1.Migrations
                         });
                 });
 
-            modelBuilder.Entity("phase_1.Models.University", b =>
+            modelBuilder.Entity("phase_1.DAL.Models.University", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -1000,21 +1100,21 @@ namespace phase_1.Migrations
                         });
                 });
 
-            modelBuilder.Entity("phase_1.Models.Case", b =>
+            modelBuilder.Entity("phase_1.DAL.Models.Case", b =>
                 {
-                    b.HasOne("phase_1.Models.ApplicationUser", "PatientUser")
+                    b.HasOne("phase_1.DAL.Models.ApplicationUser", "PatientUser")
                         .WithMany("CasesPosted")
                         .HasForeignKey("PatientUserId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.HasOne("phase_1.Models.ServiceType", "ServiceType")
+                    b.HasOne("phase_1.DAL.Models.ServiceType", "ServiceType")
                         .WithMany("Cases")
                         .HasForeignKey("ServiceTypeId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.HasOne("phase_1.Models.TreatmentCategory", "TreatmentCategory")
+                    b.HasOne("phase_1.DAL.Models.TreatmentCategory", "TreatmentCategory")
                         .WithMany("Cases")
                         .HasForeignKey("TreatmentCategoryId")
                         .OnDelete(DeleteBehavior.Restrict)
@@ -1027,9 +1127,20 @@ namespace phase_1.Migrations
                     b.Navigation("TreatmentCategory");
                 });
 
-            modelBuilder.Entity("phase_1.Models.Faculty", b =>
+            modelBuilder.Entity("phase_1.DAL.Models.Conversation", b =>
                 {
-                    b.HasOne("phase_1.Models.University", "University")
+                    b.HasOne("phase_1.DAL.Models.Match", "Match")
+                        .WithOne("Conversation")
+                        .HasForeignKey("phase_1.DAL.Models.Conversation", "MatchId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Match");
+                });
+
+            modelBuilder.Entity("phase_1.DAL.Models.Faculty", b =>
+                {
+                    b.HasOne("phase_1.DAL.Models.University", "University")
                         .WithMany("Faculties")
                         .HasForeignKey("UniversityId")
                         .OnDelete(DeleteBehavior.Restrict)
@@ -1038,27 +1149,27 @@ namespace phase_1.Migrations
                     b.Navigation("University");
                 });
 
-            modelBuilder.Entity("phase_1.Models.Match", b =>
+            modelBuilder.Entity("phase_1.DAL.Models.Match", b =>
                 {
-                    b.HasOne("phase_1.Models.Case", "Case")
+                    b.HasOne("phase_1.DAL.Models.Case", "Case")
                         .WithMany("Matches")
                         .HasForeignKey("CaseId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.HasOne("phase_1.Models.Offer", "Offer")
+                    b.HasOne("phase_1.DAL.Models.Offer", "Offer")
                         .WithOne("Match")
-                        .HasForeignKey("phase_1.Models.Match", "OfferId")
+                        .HasForeignKey("phase_1.DAL.Models.Match", "OfferId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.HasOne("phase_1.Models.ApplicationUser", "PatientUser")
+                    b.HasOne("phase_1.DAL.Models.ApplicationUser", "PatientUser")
                         .WithMany("PatientMatches")
                         .HasForeignKey("PatientUserId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.HasOne("phase_1.Models.ApplicationUser", "StudentUser")
+                    b.HasOne("phase_1.DAL.Models.ApplicationUser", "StudentUser")
                         .WithMany("StudentMatches")
                         .HasForeignKey("StudentUserId")
                         .OnDelete(DeleteBehavior.Restrict)
@@ -1073,15 +1184,42 @@ namespace phase_1.Migrations
                     b.Navigation("StudentUser");
                 });
 
-            modelBuilder.Entity("phase_1.Models.NoShowStrike", b =>
+            modelBuilder.Entity("phase_1.DAL.Models.Message", b =>
                 {
-                    b.HasOne("phase_1.Models.Session", "Session")
-                        .WithOne("NoShowStrike")
-                        .HasForeignKey("phase_1.Models.NoShowStrike", "SessionId")
+                    b.HasOne("phase_1.DAL.Models.Conversation", "Conversation")
+                        .WithMany("Messages")
+                        .HasForeignKey("ConversationId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("phase_1.Models.ApplicationUser", "User")
+                    b.HasOne("phase_1.DAL.Models.ApplicationUser", "ReceiverUser")
+                        .WithMany("MessagesReceived")
+                        .HasForeignKey("ReceiverUserId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("phase_1.DAL.Models.ApplicationUser", "SenderUser")
+                        .WithMany("MessagesSent")
+                        .HasForeignKey("SenderUserId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Conversation");
+
+                    b.Navigation("ReceiverUser");
+
+                    b.Navigation("SenderUser");
+                });
+
+            modelBuilder.Entity("phase_1.DAL.Models.NoShowStrike", b =>
+                {
+                    b.HasOne("phase_1.DAL.Models.Session", "Session")
+                        .WithOne("NoShowStrike")
+                        .HasForeignKey("phase_1.DAL.Models.NoShowStrike", "SessionId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("phase_1.DAL.Models.ApplicationUser", "User")
                         .WithMany("NoShowStrikes")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Restrict)
@@ -1092,15 +1230,15 @@ namespace phase_1.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("phase_1.Models.Offer", b =>
+            modelBuilder.Entity("phase_1.DAL.Models.Offer", b =>
                 {
-                    b.HasOne("phase_1.Models.Case", "Case")
+                    b.HasOne("phase_1.DAL.Models.Case", "Case")
                         .WithMany("Offers")
                         .HasForeignKey("CaseId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("phase_1.Models.ApplicationUser", "StudentUser")
+                    b.HasOne("phase_1.DAL.Models.ApplicationUser", "StudentUser")
                         .WithMany("OffersMade")
                         .HasForeignKey("StudentUserId")
                         .OnDelete(DeleteBehavior.Restrict)
@@ -1111,9 +1249,9 @@ namespace phase_1.Migrations
                     b.Navigation("StudentUser");
                 });
 
-            modelBuilder.Entity("phase_1.Models.OtpCode", b =>
+            modelBuilder.Entity("phase_1.DAL.Models.OtpCode", b =>
                 {
-                    b.HasOne("phase_1.Models.ApplicationUser", "User")
+                    b.HasOne("phase_1.DAL.Models.ApplicationUser", "User")
                         .WithMany("OtpCodes")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.SetNull);
@@ -1121,20 +1259,20 @@ namespace phase_1.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("phase_1.Models.PatientProfile", b =>
+            modelBuilder.Entity("phase_1.DAL.Models.PatientProfile", b =>
                 {
-                    b.HasOne("phase_1.Models.ApplicationUser", "User")
+                    b.HasOne("phase_1.DAL.Models.ApplicationUser", "User")
                         .WithOne("PatientProfile")
-                        .HasForeignKey("phase_1.Models.PatientProfile", "UserId")
+                        .HasForeignKey("phase_1.DAL.Models.PatientProfile", "UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("phase_1.Models.RefreshToken", b =>
+            modelBuilder.Entity("phase_1.DAL.Models.RefreshToken", b =>
                 {
-                    b.HasOne("phase_1.Models.ApplicationUser", "User")
+                    b.HasOne("phase_1.DAL.Models.ApplicationUser", "User")
                         .WithMany("RefreshTokens")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -1143,9 +1281,9 @@ namespace phase_1.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("phase_1.Models.Reminder", b =>
+            modelBuilder.Entity("phase_1.DAL.Models.Reminder", b =>
                 {
-                    b.HasOne("phase_1.Models.Session", "Session")
+                    b.HasOne("phase_1.DAL.Models.Session", "Session")
                         .WithMany("Reminders")
                         .HasForeignKey("SessionId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -1154,20 +1292,20 @@ namespace phase_1.Migrations
                     b.Navigation("Session");
                 });
 
-            modelBuilder.Entity("phase_1.Models.Report", b =>
+            modelBuilder.Entity("phase_1.DAL.Models.Report", b =>
                 {
-                    b.HasOne("phase_1.Models.ApplicationUser", "HandledByAdmin")
+                    b.HasOne("phase_1.DAL.Models.ApplicationUser", "HandledByAdmin")
                         .WithMany("ReportsHandled")
                         .HasForeignKey("HandledByAdminId")
                         .OnDelete(DeleteBehavior.Restrict);
 
-                    b.HasOne("phase_1.Models.ApplicationUser", "Reported")
+                    b.HasOne("phase_1.DAL.Models.ApplicationUser", "Reported")
                         .WithMany("ReportsReceived")
                         .HasForeignKey("ReportedId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.HasOne("phase_1.Models.ApplicationUser", "Reporter")
+                    b.HasOne("phase_1.DAL.Models.ApplicationUser", "Reporter")
                         .WithMany("ReportsMade")
                         .HasForeignKey("ReporterId")
                         .OnDelete(DeleteBehavior.Restrict)
@@ -1180,21 +1318,21 @@ namespace phase_1.Migrations
                     b.Navigation("Reporter");
                 });
 
-            modelBuilder.Entity("phase_1.Models.Review", b =>
+            modelBuilder.Entity("phase_1.DAL.Models.Review", b =>
                 {
-                    b.HasOne("phase_1.Models.Match", "Match")
+                    b.HasOne("phase_1.DAL.Models.Match", "Match")
                         .WithMany("Reviews")
                         .HasForeignKey("MatchId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("phase_1.Models.ApplicationUser", "ReviewedUser")
+                    b.HasOne("phase_1.DAL.Models.ApplicationUser", "ReviewedUser")
                         .WithMany("ReviewsReceived")
                         .HasForeignKey("ReviewedUserId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.HasOne("phase_1.Models.ApplicationUser", "ReviewerUser")
+                    b.HasOne("phase_1.DAL.Models.ApplicationUser", "ReviewerUser")
                         .WithMany("ReviewsWritten")
                         .HasForeignKey("ReviewerUserId")
                         .OnDelete(DeleteBehavior.Restrict)
@@ -1207,20 +1345,20 @@ namespace phase_1.Migrations
                     b.Navigation("ReviewerUser");
                 });
 
-            modelBuilder.Entity("phase_1.Models.Session", b =>
+            modelBuilder.Entity("phase_1.DAL.Models.Session", b =>
                 {
-                    b.HasOne("phase_1.Models.ApplicationUser", "CancelledByUser")
+                    b.HasOne("phase_1.DAL.Models.ApplicationUser", "CancelledByUser")
                         .WithMany("SessionsCancelled")
                         .HasForeignKey("CancelledByUserId")
                         .OnDelete(DeleteBehavior.Restrict);
 
-                    b.HasOne("phase_1.Models.Match", "Match")
+                    b.HasOne("phase_1.DAL.Models.Match", "Match")
                         .WithMany("Sessions")
                         .HasForeignKey("MatchId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("phase_1.Models.ApplicationUser", "SupervisorUser")
+                    b.HasOne("phase_1.DAL.Models.ApplicationUser", "SupervisorUser")
                         .WithMany("SessionsSupervised")
                         .HasForeignKey("SupervisorUserId")
                         .OnDelete(DeleteBehavior.Restrict);
@@ -1232,17 +1370,17 @@ namespace phase_1.Migrations
                     b.Navigation("SupervisorUser");
                 });
 
-            modelBuilder.Entity("phase_1.Models.StudentProfile", b =>
+            modelBuilder.Entity("phase_1.DAL.Models.StudentProfile", b =>
                 {
-                    b.HasOne("phase_1.Models.Faculty", "Faculty")
+                    b.HasOne("phase_1.DAL.Models.Faculty", "Faculty")
                         .WithMany("StudentProfiles")
                         .HasForeignKey("FacultyId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.HasOne("phase_1.Models.ApplicationUser", "User")
+                    b.HasOne("phase_1.DAL.Models.ApplicationUser", "User")
                         .WithOne("StudentProfile")
-                        .HasForeignKey("phase_1.Models.StudentProfile", "UserId")
+                        .HasForeignKey("phase_1.DAL.Models.StudentProfile", "UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -1251,9 +1389,13 @@ namespace phase_1.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("phase_1.Models.ApplicationUser", b =>
+            modelBuilder.Entity("phase_1.DAL.Models.ApplicationUser", b =>
                 {
                     b.Navigation("CasesPosted");
+
+                    b.Navigation("MessagesReceived");
+
+                    b.Navigation("MessagesSent");
 
                     b.Navigation("NoShowStrikes");
 
@@ -1286,48 +1428,55 @@ namespace phase_1.Migrations
                     b.Navigation("StudentProfile");
                 });
 
-            modelBuilder.Entity("phase_1.Models.Case", b =>
+            modelBuilder.Entity("phase_1.DAL.Models.Case", b =>
                 {
                     b.Navigation("Matches");
 
                     b.Navigation("Offers");
                 });
 
-            modelBuilder.Entity("phase_1.Models.Faculty", b =>
+            modelBuilder.Entity("phase_1.DAL.Models.Conversation", b =>
+                {
+                    b.Navigation("Messages");
+                });
+
+            modelBuilder.Entity("phase_1.DAL.Models.Faculty", b =>
                 {
                     b.Navigation("StudentProfiles");
                 });
 
-            modelBuilder.Entity("phase_1.Models.Match", b =>
+            modelBuilder.Entity("phase_1.DAL.Models.Match", b =>
                 {
+                    b.Navigation("Conversation");
+
                     b.Navigation("Reviews");
 
                     b.Navigation("Sessions");
                 });
 
-            modelBuilder.Entity("phase_1.Models.Offer", b =>
+            modelBuilder.Entity("phase_1.DAL.Models.Offer", b =>
                 {
                     b.Navigation("Match");
                 });
 
-            modelBuilder.Entity("phase_1.Models.ServiceType", b =>
+            modelBuilder.Entity("phase_1.DAL.Models.ServiceType", b =>
                 {
                     b.Navigation("Cases");
                 });
 
-            modelBuilder.Entity("phase_1.Models.Session", b =>
+            modelBuilder.Entity("phase_1.DAL.Models.Session", b =>
                 {
                     b.Navigation("NoShowStrike");
 
                     b.Navigation("Reminders");
                 });
 
-            modelBuilder.Entity("phase_1.Models.TreatmentCategory", b =>
+            modelBuilder.Entity("phase_1.DAL.Models.TreatmentCategory", b =>
                 {
                     b.Navigation("Cases");
                 });
 
-            modelBuilder.Entity("phase_1.Models.University", b =>
+            modelBuilder.Entity("phase_1.DAL.Models.University", b =>
                 {
                     b.Navigation("Faculties");
                 });

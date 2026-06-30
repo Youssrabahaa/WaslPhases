@@ -2,7 +2,7 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Text.Json;
 using Microsoft.Extensions.Configuration;
-using phase_1.Models;
+using phase_1.DAL.Models;
 
 namespace phase_1.Services;
 

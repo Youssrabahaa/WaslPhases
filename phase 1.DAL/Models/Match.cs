@@ -2,9 +2,10 @@ using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace phase_1.Models;
+namespace phase_1.DAL.Models
+{
 
-[Index(nameof(OfferId), IsUnique = true)]
+    [Index(nameof(OfferId), IsUnique = true)]
 public class Match
 {
     [Key]
@@ -41,7 +42,9 @@ public class Match
     public ApplicationUser StudentUser { get; set; } = default!;
 
     // Conversation removed — use phone calls. If true, contact via phone only.
+    public Conversation? Conversation { get; set; }
     public bool PhoneContactOnly { get; set; } = true;
     public List<Session> Sessions { get; set; } = new List<Session>();
     public List<Review> Reviews { get; set; } = new List<Review>();
+}
 }

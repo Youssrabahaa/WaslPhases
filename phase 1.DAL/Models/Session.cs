@@ -2,55 +2,57 @@ using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace phase_1.Models;
-
-[Index(nameof(MatchId), nameof(Number), IsUnique = true)]
-[Index(nameof(MatchId), nameof(StartAt))]
-public class Session
+namespace phase_1.DAL.Models
 {
-    [Key]
-    public int Id { get; set; }
 
-    [Required]
-    public int MatchId { get; set; }
+    [Index(nameof(MatchId), nameof(Number), IsUnique = true)]
+    [Index(nameof(MatchId), nameof(StartAt))]
+    public class Session
+    {
+        [Key]
+        public int Id { get; set; }
 
-    [Required]
-    public int Number { get; set; } = 1;
+        [Required]
+        public int MatchId { get; set; }
 
-    [Required]
-    public DateTime StartAt { get; set; }
+        [Required]
+        public int Number { get; set; } = 1;
 
-    [Required]
-    public DateTime EndAt { get; set; }
+        [Required]
+        public DateTime StartAt { get; set; }
 
-    [MaxLength(300)]
-    public string? LocationText { get; set; }
+        [Required]
+        public DateTime EndAt { get; set; }
 
-    [MaxLength(150)]
-    public string? ClinicRoom { get; set; }
+        [MaxLength(300)]
+        public string? LocationText { get; set; }
 
-    public int? SupervisorUserId { get; set; }
+        [MaxLength(150)]
+        public string? ClinicRoom { get; set; }
 
-    [Required]
-    public int Status { get; set; } = 1;
+        public int? SupervisorUserId { get; set; }
 
-    public int? CancelledByUserId { get; set; }
+        [Required]
+        public int Status { get; set; } = 1;
 
-    [MaxLength(400)]
-    public string? CancelReason { get; set; }
+        public int? CancelledByUserId { get; set; }
 
-    [Required]
-    public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
+        [MaxLength(400)]
+        public string? CancelReason { get; set; }
 
-    [Required]
-    public DateTime UpdatedAt { get; set; } = DateTime.UtcNow;
+        [Required]
+        public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
 
-    public Match Match { get; set; } = default!;
+        [Required]
+        public DateTime UpdatedAt { get; set; } = DateTime.UtcNow;
 
-    public ApplicationUser? SupervisorUser { get; set; }
+        public Match Match { get; set; } = default!;
 
-    public ApplicationUser? CancelledByUser { get; set; }
+        public ApplicationUser? SupervisorUser { get; set; }
 
-    public List<Reminder> Reminders { get; set; } = new List<Reminder>();
-    public NoShowStrike? NoShowStrike { get; set; }
+        public ApplicationUser? CancelledByUser { get; set; }
+
+        public List<Reminder> Reminders { get; set; } = new List<Reminder>();
+        public NoShowStrike? NoShowStrike { get; set; }
+    }
 }

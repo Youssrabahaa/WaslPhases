@@ -1,6 +1,6 @@
 using Microsoft.Extensions.Configuration;
+using phase_1.DAL.Models;
 using phase_1.DTOs;
-using phase_1.Models;
 using phase_1.Services.Identity;
 
 namespace phase_1.Services;

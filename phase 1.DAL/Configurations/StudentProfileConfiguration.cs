@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using phase_1.Models;
+using phase_1.DAL.Models;
+
 
 namespace phase_1.Configurations;
 

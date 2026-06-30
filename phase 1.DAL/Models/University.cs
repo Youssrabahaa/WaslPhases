@@ -1,22 +1,24 @@
 using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations;
 
-namespace phase_1.Models;
-
-[Index(nameof(Name), IsUnique = true)]
-public class University
+namespace phase_1.DAL.Models
 {
-    [Key]
-    public int Id { get; set; }
 
-    [Required, MaxLength(150)]
-    public string Name { get; set; } = default!;
+    [Index(nameof(Name), IsUnique = true)]
+    public class University
+    {
+        [Key]
+        public int Id { get; set; }
 
-    [Required, MaxLength(100)]
-    public string Governorate { get; set; } = default!;
+        [Required, MaxLength(150)]
+        public string Name { get; set; } = default!;
 
-    [Required]
-    public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
+        [Required, MaxLength(100)]
+        public string Governorate { get; set; } = default!;
 
-    public List<Faculty> Faculties { get; set; } = new();
+        [Required]
+        public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
+
+        public List<Faculty> Faculties { get; set; } = new();
+    }
 }
