@@ -18,6 +18,8 @@ public interface IUserManager
 
     Task<bool> EmailExistsAsync(string email);
 
+    Task<bool> StudentCodeExistsAsync(string studentCode);
+
     Task CreateAsync(ApplicationUser user);
 
     Task UpdateAsync(ApplicationUser user);

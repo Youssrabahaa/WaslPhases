@@ -47,6 +47,14 @@ public class AuthService : IAuthService
         if (email is not null && await _userManager.EmailExistsAsync(email))
             return (false, "Email is already registered.", null);
 
+        var studentCode = dto.StudentCode?.Trim();
+        if (_roleManager.IsStudent(dto.Role) &&
+            studentCode is not null &&
+            await _userManager.StudentCodeExistsAsync(studentCode))
+        {
+            return (false, "Student code is already registered.", null);
+        }
+
         var user = new ApplicationUser
         {
             Phone = phone,
@@ -77,7 +85,7 @@ public class AuthService : IAuthService
                 FacultyId = dto.FacultyId!.Value,
                 AcademicYear = dto.AcademicYear!.Value,
                 ClinicName = dto.ClinicName?.Trim(),
-                StudentCode = dto.StudentCode?.Trim(),
+                StudentCode = studentCode,
                 SupervisorName = dto.SupervisorName?.Trim(),
                 RequiredCasesCount = dto.RequiredCasesCount ?? 0,
                 CompletedCasesCount = 0,

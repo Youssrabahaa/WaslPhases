@@ -31,6 +31,8 @@ public class UserManager : IUserManager
 
     public Task<bool> EmailExistsAsync(string email) => _userRepository.EmailExistsAsync(email);
 
+    public Task<bool> StudentCodeExistsAsync(string studentCode) => _userRepository.StudentCodeExistsAsync(studentCode);
+
     public async Task CreateAsync(ApplicationUser user)
     {
         await _userRepository.AddAsync(user);

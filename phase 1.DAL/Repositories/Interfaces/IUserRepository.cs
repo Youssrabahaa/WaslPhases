@@ -18,6 +18,8 @@ public interface IUserRepository
 
     Task<bool> EmailExistsAsync(string email);
 
+    Task<bool> StudentCodeExistsAsync(string studentCode);
+
     Task AddAsync(ApplicationUser user);
 
     void Update(ApplicationUser user);

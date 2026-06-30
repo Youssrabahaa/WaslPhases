@@ -1,4 +1,4 @@
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using phase_1.DTOs;
 using phase_1.Services;
 
@@ -35,6 +35,7 @@ public class AuthController : Controller
 
     public IActionResult Logout()
     {
+        HttpContext.Session.Clear();
         return RedirectToAction(nameof(Login));
     }
 
@@ -73,10 +74,32 @@ public class AuthController : Controller
         return Redirect($"/Auth/VerifyOTP?phone={Uri.EscapeDataString(phone ?? string.Empty)}&purpose={purpose}");
     }
 
+    [HttpGet("/api/auth/forgot-password")]
+    [HttpGet("/api/auth/forget-password")]
+    [HttpGet("/api/auth/forgotpassword")]
+    [HttpGet("/api/auth/forgetpassword")]
+    [HttpGet("/Auth/ForgetPassword")]
+    public IActionResult ForgotPasswordPageRedirect()
+    {
+        return Redirect("/Auth/ForgotPassword");
+    }
+
+    [HttpGet("/api/auth/reset-password")]
+    public IActionResult ResetPasswordPageRedirect(string? phone = null)
+    {
+        return Redirect($"/Auth/ResetPassword?phone={Uri.EscapeDataString(phone ?? string.Empty)}");
+    }
+
     [HttpPost("/Auth/RegisterForm")]
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> RegisterForm(RegisterDTO dto)
     {
+        if (!Request.Form.TryGetValue("Role", out var submittedRole) || string.IsNullOrWhiteSpace(submittedRole))
+        {
+            ModelState.Remove(nameof(RegisterDTO.Role));
+            ModelState.AddModelError(nameof(RegisterDTO.Role), "اختر نوع الحساب.");
+        }
+
         if (dto.Role == 0 && Request.Form.TryGetValue("Role", out var roleValue))
         {
             var roleText = roleValue.ToString();
@@ -86,13 +109,13 @@ public class AuthController : Controller
         }
 
         if (!ModelState.IsValid)
-            return View(nameof(Register));
+            return View(nameof(Register), dto);
 
         var result = await _authService.RegisterAsync(dto, GetIpAddress());
         if (!result.Success)
         {
-            ModelState.AddModelError(string.Empty, result.Error ?? "فشل إنشاء الحساب.");
-            return View(nameof(Register));
+            ModelState.AddModelError(string.Empty, GetArabicRegisterError(result.Error));
+            return View(nameof(Register), dto);
         }
 
         return Redirect($"/Auth/VerifyOTP?phone={Uri.EscapeDataString(dto.Phone)}&purpose=1");
@@ -111,6 +134,10 @@ public class AuthController : Controller
             ModelState.AddModelError(string.Empty, result.Error ?? "فشل تسجيل الدخول.");
             return View(nameof(Login));
         }
+
+        HttpContext.Session.SetInt32("UserId", result.Profile.Id);
+        HttpContext.Session.SetInt32("UserRole", result.Profile.Role);
+        HttpContext.Session.SetString("UserName", result.Profile.FullName);
 
         return result.Profile.Role == 1
             ? Redirect("/patient")
@@ -273,5 +300,17 @@ public class AuthController : Controller
     {
         var configuredCode = _configuration["Auth:FixedOtpCode"];
         return string.IsNullOrWhiteSpace(configuredCode) ? "123456" : configuredCode.Trim();
+    }
+
+    private static string GetArabicRegisterError(string? error)
+    {
+        return error switch
+        {
+            "Invalid user role." => "اختر نوع حساب صحيح.",
+            "Phone number is already registered." => "رقم الهاتف مسجل بالفعل.",
+            "Email is already registered." => "البريد الإلكتروني مسجل بالفعل.",
+            "Student code is already registered." => "كود الطالب مستخدم بالفعل.",
+            _ => error ?? "فشل إنشاء الحساب."
+        };
     }
 }

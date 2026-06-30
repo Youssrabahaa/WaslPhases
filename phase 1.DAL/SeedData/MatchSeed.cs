@@ -1,6 +1,5 @@
 ﻿using phase_1.DAL.Models;
 using Microsoft.EntityFrameworkCore;
-using phase_1.DAL.Models;
  
 namespace phase_1.SeedData;
 

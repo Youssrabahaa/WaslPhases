@@ -61,6 +61,11 @@ public class UserRepository : IUserRepository
         return _context.Users.AnyAsync(x => x.Email == email);
     }
 
+    public Task<bool> StudentCodeExistsAsync(string studentCode)
+    {
+        return _context.StudentProfiles.AnyAsync(x => x.StudentCode == studentCode);
+    }
+
     public async Task AddAsync(ApplicationUser user)
     {
         await _context.Users.AddAsync(user);
