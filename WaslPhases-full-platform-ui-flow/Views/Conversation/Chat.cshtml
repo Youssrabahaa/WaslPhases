@@ -1,0 +1,52 @@
+@model phase_1.BLL.DTOs.ConversationDTO
+@{
+    ViewData["Title"] = "المحادثة";
+    var portalRoute = ViewContext.RouteData.Values["portal"]?.ToString();
+}
+
+<section class="health-page">
+    <div class="health-hero compact-hero">
+        <div>
+            <span class="health-kicker">المحادثة</span>
+            <h1 class="health-title">محادثة المطابقة @Model.MatchId</h1>
+            <p class="health-subtitle">@Model.PatientName مع @Model.StudentName</p>
+        </div>
+        <div class="hero-actions">
+            <a class="ghost-action"
+               asp-controller="Match"
+               asp-action="MatchDetails"
+               asp-route-id="@Model.MatchId"
+               asp-route-portal="@portalRoute">تفاصيل المطابقة</a>
+        </div>
+    </div>
+
+    <article class="health-panel">
+        @if (Model.Messages.Any())
+        {
+            <div class="offer-list">
+                @foreach (var message in Model.Messages)
+                {
+                    <div class="info-block">
+                        <span>@message.SenderName - @message.SentAt.ToString("dd/MM/yyyy hh:mm tt")</span>
+                        <strong>@message.Content</strong>
+                    </div>
+                }
+            </div>
+        }
+        else
+        {
+            <p class="body-copy">لا توجد رسائل بعد.</p>
+        }
+    </article>
+
+    <article class="health-panel">
+        <form asp-controller="Conversation" asp-action="Send" method="post">
+            @Html.AntiForgeryToken()
+            <input type="hidden" name="MatchId" value="@Model.MatchId" />
+            <textarea name="Content" rows="4" class="form-control" placeholder="اكتب رسالتك"></textarea>
+            <div class="form-actions mt-3">
+                <button type="submit" class="primary-action">إرسال</button>
+            </div>
+        </form>
+    </article>
+</section>

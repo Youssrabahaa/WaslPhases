@@ -13,6 +13,21 @@ public class MatchController : Controller
         _matchService = matchService;
     }
 
+    public async Task<IActionResult> Index()
+    {
+        var userId = HttpContext.Session.GetInt32("UserId");
+        var userRole = HttpContext.Session.GetInt32("UserRole");
+
+        if (!userId.HasValue)
+            return RedirectToAction("Login", "Auth");
+
+        var matches = userRole == 1
+            ? await _matchService.GetPatientMatchesAsync(userId.Value)
+            : await _matchService.GetStudentMatchesAsync(userId.Value);
+
+        return View(matches);
+    }
+
     public async Task<IActionResult> PatientMatches(int patientId)
     {
         var matches = await _matchService.GetPatientMatchesAsync(patientId);
@@ -45,7 +60,7 @@ public class MatchController : Controller
         if (!result)
         {
             TempData["Error"] = "????? ???? ??? ?????.";
-            return RedirectToAction("Details", "Case", new { id = caseId });
+            return RedirectToAction("CaseDetails", "Case", new { id = caseId });
         }
 
         TempData["Success"] = "?? ???? ????? ?????.";

@@ -1,0 +1,56 @@
+@model IEnumerable<phase_1.BLL.DTOs.MatchDTO>
+@{
+    ViewData["Title"] = "المطابقات";
+    var portalRoute = ViewContext.RouteData.Values["portal"]?.ToString();
+}
+
+<section class="health-page">
+    <div class="health-hero compact-hero">
+        <div>
+            <span class="health-kicker">المطابقات</span>
+            <h1 class="health-title">كل المطابقات المرتبطة بحسابك</h1>
+            <p class="health-subtitle">افتح تفاصيل المطابقة لإدارة الجلسات والتواصل والتقارير.</p>
+        </div>
+    </div>
+
+    @if (Model != null && Model.Any())
+    {
+        <div class="offer-list">
+            @foreach (var match in Model)
+            {
+                <article class="session-card">
+                    <div>
+                        <div class="case-card-top">
+                            <span class="status-badge">مطابقة @match.MatchId</span>
+                            <span class="case-meta">حالة @match.CaseId</span>
+                        </div>
+                        <h3>@match.CaseTitle</h3>
+                        <p>@(match.AcceptedAt.HasValue ? $"تم القبول {match.AcceptedAt.Value:dd/MM/yyyy}" : "مطابقة قيد المتابعة")</p>
+                        <div class="row-actions mt-3">
+                            <a class="primary-action compact-action"
+                               asp-controller="Match"
+                               asp-action="MatchDetails"
+                               asp-route-id="@match.MatchId"
+                               asp-route-portal="@portalRoute">تفاصيل المطابقة</a>
+                            <a class="ghost-action compact-action"
+                               asp-controller="Session"
+                               asp-action="SessionList"
+                               asp-route-matchId="@match.MatchId"
+                               asp-route-portal="@portalRoute">الجلسات</a>
+                        </div>
+                    </div>
+                </article>
+            }
+        </div>
+    }
+    else
+    {
+        <section class="state-grid">
+            <article class="empty-state-card">
+                <span class="empty-state-icon">--</span>
+                <h3>لا توجد مطابقات</h3>
+                <p>عند قبول عرض أو إنشاء مطابقة ستظهر هنا.</p>
+            </article>
+        </section>
+    }
+</section>

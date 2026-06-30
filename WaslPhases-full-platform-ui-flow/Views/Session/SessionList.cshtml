@@ -74,7 +74,12 @@
 
                             @if (session.Status != 3) // Not Completed
                             {
-                                <a class="ghost-action compact-action" asp-controller="Session" asp-action="Cancel" asp-route-id="@session.Id" asp-route-portal="@portalRoute">إلغاء</a>
+                                <form asp-action="Cancel" asp-controller="Session" method="post" style="display:inline;">
+                                    @Html.AntiForgeryToken()
+                                    <input type="hidden" name="id" value="@session.Id" />
+                                    <input type="hidden" name="matchId" value="@session.MatchId" />
+                                    <button type="submit" class="ghost-action compact-action">إلغاء</button>
+                                </form>
                             }
                         </div>
                     </div>

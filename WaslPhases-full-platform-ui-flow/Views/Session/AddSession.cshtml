@@ -1,6 +1,7 @@
 ﻿@{
     ViewData["Title"] = "إضافة جلسة جديدة";
     var portalRoute = ViewContext.RouteData.Values["portal"]?.ToString();
+    var matchId = ViewBag.MatchId ?? 0;
 }
 
 <section class="health-page">
@@ -11,7 +12,7 @@
             <p class="health-subtitle">أدخل بيانات الجلسة الجديدة لتحديد موعدها ومكانها ومشرفها.</p>
         </div>
         <div class="hero-actions">
-            <a class="ghost-action" asp-controller="Session" asp-action="SessionList" asp-route-portal="@portalRoute">كل الجلسات</a>
+            <a class="ghost-action" asp-controller="Session" asp-action="SessionList" asp-route-matchId="@matchId" asp-route-portal="@portalRoute">كل الجلسات</a>
         </div>
     </div>
 
@@ -24,23 +25,25 @@
                         <p>املأ الحقول المطلوبة لإضافة جلسة جديدة إلى الجدول.</p>
                     </div>
                 </div>
-                <form method="post" action="#">
+                <form id="add-session-form" asp-controller="Session" asp-action="AddSession" method="post">
+                    @Html.AntiForgeryToken()
+                    <input type="hidden" name="MatchId" value="@matchId" />
                     <div class="info-grid" style="grid-template-columns: 1fr 1fr;">
                         <div class="info-block" style="display: flex; flex-direction: column; align-items: start;">
                             <span>الموعد</span>
-                            <input type="datetime-local" value="2026-05-01T17:00" style="width: 100%; padding: 8px 12px; border: 1px solid #d1d5db; border-radius: 8px; font-family: inherit;" />
+                            <input name="StartAt" type="datetime-local" style="width: 100%; padding: 8px 12px; border: 1px solid #d1d5db; border-radius: 8px; font-family: inherit;" />
+                        </div>
+                        <div class="info-block" style="display: flex; flex-direction: column; align-items: start;">
+                            <span>نهاية الجلسة</span>
+                            <input name="EndAt" type="datetime-local" style="width: 100%; padding: 8px 12px; border: 1px solid #d1d5db; border-radius: 8px; font-family: inherit;" />
                         </div>
                         <div class="info-block" style="display: flex; flex-direction: column; align-items: start;">
                             <span>المكان</span>
-                            <input type="text" value="عيادة قصر العيني" style="width: 100%; padding: 8px 12px; border: 1px solid #d1d5db; border-radius: 8px; font-family: inherit;" />
+                            <input name="LocationText" type="text" style="width: 100%; padding: 8px 12px; border: 1px solid #d1d5db; border-radius: 8px; font-family: inherit;" />
                         </div>
                         <div class="info-block" style="display: flex; flex-direction: column; align-items: start;">
                             <span>الغرفة</span>
-                            <input type="text" value="غرفة 14" style="width: 100%; padding: 8px 12px; border: 1px solid #d1d5db; border-radius: 8px; font-family: inherit;" />
-                        </div>
-                        <div class="info-block" style="display: flex; flex-direction: column; align-items: start;">
-                            <span>المشرف</span>
-                            <input type="text" value="د. هالة سمير" style="width: 100%; padding: 8px 12px; border: 1px solid #d1d5db; border-radius: 8px; font-family: inherit;" />
+                            <input name="ClinicRoom" type="text" style="width: 100%; padding: 8px 12px; border: 1px solid #d1d5db; border-radius: 8px; font-family: inherit;" />
                         </div>
                     </div>
                 </form>
@@ -66,8 +69,8 @@
                     </div>
                 </div>
                 <div class="form-actions">
-                    <button type="submit" class="primary-action">إضافة الجلسة</button>
-                    <a class="ghost-action" asp-controller="Session" asp-action="SessionList" asp-route-portal="@portalRoute">إلغاء</a>
+                    <button type="submit" form="add-session-form" class="primary-action">إضافة الجلسة</button>
+                    <a class="ghost-action" asp-controller="Session" asp-action="SessionList" asp-route-matchId="@matchId" asp-route-portal="@portalRoute">إلغاء</a>
                 </div>
             </article>
         </aside>
