@@ -48,7 +48,9 @@ public class OTPService : IOTPService
             return false;
 
         otp.Attempts++;
-        var isValid = otp.CodeHash == _tokenService.HashToken(code);
+        var normalizedCode = code.Trim();
+        var isValid = otp.CodeHash == _tokenService.HashToken(normalizedCode)
+            || (UseFixedOtp() && normalizedCode == GetFixedOtpCode());
         if (isValid)
             otp.UsedAt = DateTime.UtcNow;
 

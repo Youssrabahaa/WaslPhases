@@ -59,7 +59,6 @@ public class ApplicationUser
     public List<Review> ReviewsReceived { get; set; } = new();
     public ICollection<Report> ReportsMade { get; set; } = new List<Report>();
     public ICollection<Report> ReportsReceived { get; set; } = new List<Report>();
-    public ICollection<Report> ReportsHandled { get; set; } = new List<Report>();
     public List<NoShowStrike> NoShowStrikes { get; set; } = new();
     public List<Session> SessionsSupervised { get; set; } = new();
     public List<Session> SessionsCancelled { get; set; } = new();

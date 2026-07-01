@@ -12,12 +12,12 @@ public class ReportConfiguration : IEntityTypeConfiguration<Report>
                .HasMaxLength(2000);
 
         builder.HasOne(r => r.ReporterUser)
-               .WithMany()
+               .WithMany(u => u.ReportsMade)
                .HasForeignKey(r => r.ReporterUserId)
                .OnDelete(DeleteBehavior.Restrict);
 
         builder.HasOne(r => r.ReportedUser)
-               .WithMany()
+               .WithMany(u => u.ReportsReceived)
                .HasForeignKey(r => r.ReportedUserId)
                .OnDelete(DeleteBehavior.Restrict);
 
