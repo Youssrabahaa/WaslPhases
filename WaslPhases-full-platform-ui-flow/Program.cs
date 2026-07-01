@@ -5,6 +5,7 @@ using phase_1.DAL.Repositories;
 using phase_1.Data;
 using phase_1.Middleware;
 using phase_1.Repositories;
+using phase_1.BLL.Hubs;
 using phase_1.Services;
 using phase_1.Services.Identity;
 
@@ -18,6 +19,7 @@ namespace phase_1
 
             // Add services to the container.
             builder.Services.AddControllersWithViews();
+            builder.Services.AddSignalR();
             builder.Services.AddSession(options =>
             {
                 options.IdleTimeout = TimeSpan.FromHours(8);
@@ -43,11 +45,19 @@ namespace phase_1
             builder.Services.AddScoped<INoShowStrikeRepository, NoShowStrikeRepository>();
             builder.Services.AddScoped<INoShowStrikeService, NoShowStrikeService>();
             builder.Services.AddScoped<IOfferRepository, OfferRepository>();
+            builder.Services.AddScoped<IOfferRepository, OfferRepository>();
+            builder.Services.AddScoped<IOfferService, OfferService>();
+            builder.Services.AddScoped<IReviewRepository, ReviewRepository>();
+            builder.Services.AddScoped<IReviewService, ReviewService>();
+            builder.Services.AddScoped<IReportRepository, ReportRepository>();
+            builder.Services.AddScoped<IReportService, ReportService>();
             builder.Services.AddScoped<IReminderRepository, ReminderRepository>();
             builder.Services.AddScoped<IReminderService, ReminderService>();
             builder.Services.AddScoped<IConversationRepository, ConversationRepository>();
             builder.Services.AddScoped<IMessageRepository, MessageRepository>();
             builder.Services.AddScoped<IConversationService, ConversationService>();
+            builder.Services.AddScoped<ICaseRepository, CaseRepository>();
+            builder.Services.AddScoped<ICaseService, CaseService>();
             builder.Services.AddControllersWithViews();
 
             var app = builder.Build();
@@ -90,6 +100,7 @@ namespace phase_1
             app.UseAuthorization();
 
             app.MapStaticAssets();
+            app.MapHub<ChatHub>("/chatHub");
             app.MapControllerRoute(
                 name: "patient-portal",
                 pattern: "patient/{controller=Patients}/{action=Profile}/{id?}",
@@ -104,6 +115,7 @@ namespace phase_1
                 name: "default",
                 pattern: "{controller=Auth}/{action=Register}/{id?}")
                 .WithStaticAssets();
+            
 
             app.Run();
         }

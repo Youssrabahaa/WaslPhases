@@ -1,111 +1,101 @@
+@model List<phase_1.BLL.DTOs.CaseListDTO>
 @{
     ViewData["Title"] = "حالاتي";
+    var portalRoute = ViewContext.RouteData.Values["portal"]?.ToString();
 }
 
 <section class="health-page">
     <div class="health-hero">
         <div>
-            <span class="health-kicker">وحدة الحالات</span>
+            <span class="health-kicker">بوابة المريض</span>
             <h1 class="health-title">حالاتي</h1>
-            <p class="health-subtitle">قائمة حالات موجهة للمريض مع فلاتر عملية، وشارات حالة واضحة، ومعاينات مبسطة للحالات المختلفة.</p>
+            <p class="health-subtitle">قائمة الحالات التي نشرتها وحالة كل منها.</p>
         </div>
         <div class="hero-actions">
-            <a class="primary-action" asp-controller="Case" asp-action="CreateCase">إنشاء حالة</a>
-            <a class="ghost-action" asp-controller="Patients" asp-action="Profile">ملف المريض</a>
+            <a class="primary-action"
+               asp-controller="Case"
+               asp-action="CreateCase"
+               asp-route-portal="@portalRoute">+ نشر حالة جديدة</a>
         </div>
     </div>
 
-    <div class="filter-row">
-        <span class="filter-pill active">كل الحالات</span>
-        <span class="filter-pill">مفتوحة</span>
-        <span class="filter-pill">قيد التنفيذ</span>
-        <span class="filter-pill">مكتملة</span>
-        <span class="filter-pill">مؤرشفة</span>
-    </div>
+    @if (TempData["Success"] != null)
+    {
+        <div class="app-toast"><span class="app-toast-dot"></span>@TempData["Success"]</div>
+    }
+    @if (TempData["Error"] != null)
+    {
+        <div class="alert-soft-danger">@TempData["Error"]</div>
+    }
 
-    <section class="health-panel">
-        <div class="panel-heading">
-            <div>
-                <h2>قائمة الحالات</h2>
-                <p>محتوى تجريبي حاليًا وجاهز للربط بالبيانات الفعلية لاحقًا.</p>
-            </div>
+    @if (Model != null && Model.Any())
+    {
+        <div class="offer-list">
+            @foreach (var c in Model)
+            {
+                <article class="session-card">
+                    <div>
+                        <div class="case-card-top">
+                            @{
+                                var cls = c.Status == 1 ? "status-inprogress"
+                                : c.Status == 2 ? "status-completed"
+                                : "status-rejected";
+                            }
+                            <span class="status-badge @cls">@c.StatusText</span>
+                            <span class="case-meta">@c.TreatmentCategoryName</span>
+                        </div>
+                        <h3>@c.Title</h3>
+                        <p class="case-meta">@c.Governorate — @c.City · @c.OffersCount عرض</p>
+                        <div class="row-actions mt-3">
+                            <a class="primary-action compact-action"
+                               asp-controller="Case"
+                               asp-action="CaseDetails"
+                               asp-route-id="@c.Id"
+                               asp-route-portal="@portalRoute">التفاصيل</a>
+
+                            @if (c.Status == 1)
+                            {
+                                <a class="ghost-action compact-action"
+                                   asp-controller="Case"
+                                   asp-action="EditCase"
+                                   asp-route-id="@c.Id"
+                                   asp-route-portal="@portalRoute">تعديل</a>
+
+                                <form asp-controller="Case"
+                                      asp-action="CloseCase"
+                                      asp-route-portal="@portalRoute"
+                                      method="post"
+                                      style="display:inline;"
+                                      onsubmit="return confirm('هل تريد إغلاق هذه الحالة؟')">
+                                    @Html.AntiForgeryToken()
+                                    <input type="hidden" name="id" value="@c.Id" />
+                                    <button type="submit" class="danger-action compact-action">إغلاق</button>
+                                </form>
+                            }
+                        </div>
+                    </div>
+                    <div class="card-side">
+                        <strong>@c.ServiceTypeName</strong>
+                        <span class="case-meta">@c.CreatedAt.ToString("dd MMM yyyy")</span>
+                    </div>
+                </article>
+            }
         </div>
-
-        <div class="case-list">
-            <article class="case-list-item">
-                <div class="case-list-main">
-                    <div class="case-list-top">
-                        <span class="status-badge status-open">مفتوحة</span>
-                        <span class="case-meta">زيارة منزلية</span>
-                        <span class="case-meta">تم إنشاؤها اليوم</span>
-                    </div>
-                    <h3>متابعة لطفل يعاني من تسوسات متعددة بالأسنان</h3>
-                    <p>الأسرة تطلب دعمًا منزليًا بإشراف مع خطة وقائية واضحة وملاحظات متابعة قصيرة بعد كل زيارة.</p>
-                </div>
-                <div class="case-list-side">
-                    <strong>180 - 250 ج.م</strong>
-                    <span>القاهرة، مدينة نصر</span>
-                    <div class="row-actions">
-                        <a class="table-link" asp-controller="Case" asp-action="CaseDetails">التفاصيل</a>
-                        <a class="table-link" asp-controller="Case" asp-action="EditCase">تعديل</a>
-                    </div>
+    }
+    else
+    {
+        <section class="state-grid">
+            <article class="empty-state-card">
+                <span class="empty-state-icon">📋</span>
+                <h3>لا توجد حالات بعد</h3>
+                <p>انشر حالتك الأولى وستصلك عروض من طلاب الأسنان.</p>
+                <div class="mt-3">
+                    <a class="primary-action"
+                       asp-controller="Case"
+                       asp-action="CreateCase"
+                       asp-route-portal="@portalRoute">نشر حالة جديدة</a>
                 </div>
             </article>
-
-            <article class="case-list-item">
-                <div class="case-list-main">
-                    <div class="case-list-top">
-                        <span class="status-badge status-progress">قيد التنفيذ</span>
-                        <span class="case-meta">جلسة داخل العيادة</span>
-                        <span class="case-meta">تم تحديثها أمس</span>
-                    </div>
-                    <h3>علاج تحفظي لضروس متضررة</h3>
-                    <p>تم قبول التقييم من قبل أحد الطلاب، وننتظر تأكيد الموعد القادم داخل العيادة.</p>
-                </div>
-                <div class="case-list-side">
-                    <strong>220 - 320 ج.م</strong>
-                    <span>القاهرة، المعادي</span>
-                    <div class="row-actions">
-                        <a class="table-link" asp-controller="Case" asp-action="CaseDetails">التفاصيل</a>
-                        <a class="table-link" asp-controller="Case" asp-action="EditCase">تعديل</a>
-                    </div>
-                </div>
-            </article>
-
-            <article class="case-list-item">
-                <div class="case-list-main">
-                    <div class="case-list-top">
-                        <span class="status-badge status-draft">مسودة</span>
-                        <span class="case-meta">متابعة أونلاين</span>
-                        <span class="case-meta">تم حفظها منذ 3 أيام</span>
-                    </div>
-                    <h3>متابعة عن بُعد بعد استشارة جراحة فم</h3>
-                    <p>مراجعة مختصرة للأعراض والأدوية قبل الزيارة الحضورية التالية.</p>
-                </div>
-                <div class="case-list-side">
-                    <strong>120 - 150 ج.م</strong>
-                    <span>عن بُعد</span>
-                    <div class="row-actions">
-                        <a class="table-link" asp-controller="Case" asp-action="CaseDetails">التفاصيل</a>
-                        <a class="table-link" asp-controller="Case" asp-action="EditCase">تعديل</a>
-                    </div>
-                </div>
-            </article>
-        </div>
-    </section>
-
-    <section class="state-showcase">
-        <div class="panel-heading">
-            <div>
-                <h2>معاينات الحالات</h2>
-                <p>حالات واجهة مطلوبة لشاشة قائمة الحالات.</p>
-            </div>
-        </div>
-
-        <div class="state-grid">
-            @await Html.PartialAsync("_EmptyCasesState")
-            @await Html.PartialAsync("_LoadingState")
-            @await Html.PartialAsync("_ErrorState")
-        </div>
-    </section>
+        </section>
+    }
 </section>

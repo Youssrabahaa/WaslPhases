@@ -15,7 +15,17 @@
         </div>
         <div class="hero-actions">
             <a class="primary-action" asp-controller="Match" asp-action="MatchDetails" asp-route-portal="@portalRoute" asp-route-id="@matchId">تفاصيل المطابقة</a>
-            <a class="primary-action" asp-controller="Session" asp-action="AddSession" asp-route-portal="@portalRoute" asp-route-matchId="@matchId" style="background-color: #10b981;">إضافة جلسة</a>
+            @if (Context.Session.GetString("Role") == "1")
+            {
+                <a class="primary-action"
+                   asp-controller="Session"
+                   asp-action="AddSession"
+                   asp-route-portal="@portalRoute"
+                   asp-route-matchId="@matchId"
+                   style="background-color: #10b981;">
+                    إضافة جلسة
+                </a>
+            }
             <a class="ghost-action" asp-controller="Home" asp-action="Index" asp-route-portal="@portalRoute">الرئيسية</a>
         </div>
     </div>

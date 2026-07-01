@@ -2,7 +2,7 @@
 using phase_1.BLL.DTOs;
 using phase_1.BLL.Services;
 
-namespace phase_1.Controllers;
+namespace phase_1.BLL.Controllers;
 
 public class SessionController : Controller
 {
@@ -17,7 +17,7 @@ public class SessionController : Controller
     {
         if (matchId <= 0)
         {
-            TempData["ErrorMessage"] = "معرف المطابقة غير صحيح.";
+            TempData["ErrorMessage"] = "لا توجد مطابقات بعد";
             return View(new List<SessionDTO>());
         }
 

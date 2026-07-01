@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using phase_1.Services;
 
-namespace phase_1.Controllers;
+namespace phase_1.BLL.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]

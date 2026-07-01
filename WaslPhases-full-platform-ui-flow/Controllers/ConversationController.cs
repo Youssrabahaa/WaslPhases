@@ -1,47 +1,45 @@
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using phase_1.BLL.DTOs;
 using phase_1.BLL.Services;
 
-namespace phase_1.Controllers;
-
-public class ConversationController : Controller
+namespace phase_1.Controllers
 {
-    private readonly IConversationService _conversationService;
-
-    public ConversationController(IConversationService conversationService)
+    public class ConversationController : Controller
     {
-        _conversationService = conversationService;
-    }
+        private readonly IConversationService _conversationService;
 
-    public async Task<IActionResult> Chat(int matchId)
-    {
-        var userId = HttpContext.Session.GetInt32("UserId");
-        if (!userId.HasValue)
-            return RedirectToAction("Login", "Auth");
+        public ConversationController(IConversationService conversationService)
+        {
+            _conversationService = conversationService;
+        }
 
-        if (matchId <= 0)
-            return RedirectToAction("Index", "Match");
+        public async Task<IActionResult> Chat(int matchId)
+        {
+            var currentUserId = HttpContext.Session.GetInt32("UserId") ?? 0;
+            // int currentUserId = 3;
 
-        var conversation = await _conversationService.GetByMatchIdAsync(matchId, userId.Value);
-        if (conversation == null)
-            return NotFound();
+            var conversation = await _conversationService.GetByMatchIdAsync(matchId, currentUserId);
 
-        return View(conversation);
-    }
+            if (conversation == null)
+                return NotFound();
+                //return Content($"Conversation not found for matchId={matchId}, userId={currentUserId}");//test
+            return View(conversation);
+        }
 
-    [HttpPost]
-    [ValidateAntiForgeryToken]
-    public async Task<IActionResult> Send(SendMessageDTO dto)
-    {
-        var userId = HttpContext.Session.GetInt32("UserId");
-        if (!userId.HasValue)
-            return RedirectToAction("Login", "Auth");
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Send(SendMessageDTO dto)
+        {
+            if (string.IsNullOrWhiteSpace(dto.Content))
+                return BadRequest(new { message = "??????? ?????." });
 
-        dto.SenderUserId = userId.Value;
+            var result = await _conversationService.SendMessageAsync(dto);
 
-        if (!string.IsNullOrWhiteSpace(dto.Content))
-            await _conversationService.SendMessageAsync(dto);
+            if (!result)
+                return BadRequest(new { message = "????? ????? ???????." });
 
-        return RedirectToAction(nameof(Chat), new { matchId = dto.MatchId });
+            return Ok();
+        }
     }
 }

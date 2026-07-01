@@ -40,7 +40,6 @@ public class MatchController : Controller
         return View(matches);
     }
 
-    // ? ?? ??? action ?????? ???? ??? View ?????? ????
     public async Task<IActionResult> MatchDetails(int id)
     {
         var match = await _matchService.GetMatchByIdAsync(id);
@@ -87,7 +86,9 @@ public class MatchController : Controller
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> Cancel(int id, CancelMatchDto dto)
     {
-        var result = await _matchService.CancelMatchAsync(id, dto.UserId);
+        var userId = HttpContext.Session.GetInt32("UserId") ?? 0;
+        var result = await _matchService.CancelMatchAsync(id, userId);
+        //var result = await _matchService.CancelMatchAsync(id, dto.UserId);
 
         if (!result)
         {
