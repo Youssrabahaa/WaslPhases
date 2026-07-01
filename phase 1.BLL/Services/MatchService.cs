@@ -75,14 +75,14 @@ namespace phase_1.BLL.Services
 
             await _matchRepository.SaveChangesAsync();
 
-            
-            //var conversation = new Conversation
-            //{
-            //    MatchId = match.Id,
-            //    CreatedAt = DateTime.UtcNow
-            //};
 
-            //await _matchRepository.AddConversationAsync(conversation);
+            var conversation = new Conversation
+            {
+                MatchId = match.Id,
+                CreatedAt = DateTime.UtcNow
+            };
+
+            await _matchRepository.AddConversationAsync(conversation);
             await _matchRepository.SaveChangesAsync();
 
             return true;

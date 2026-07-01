@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using phase_1.BLL.DTOs;
+﻿using phase_1.BLL.DTOs;
 
 namespace phase_1.BLL.Services
 {
@@ -13,7 +8,7 @@ namespace phase_1.BLL.Services
         Task<OfferDetailsDTO?> GetOfferDetailsAsync(int id);
         Task<IEnumerable<OfferDTO>> GetOffersForCaseAsync(int caseId);
         Task<IEnumerable<OfferDTO>> GetOffersByStudentAsync(int studentId);
-        Task<bool> AcceptOfferAsync(int offerId);
+        // ✅ AcceptOffer محذوف — اتحول لـ MatchService.AcceptOfferAsync حسب الـ business rules
         Task<bool> RejectOfferAsync(int offerId);
     }
 }

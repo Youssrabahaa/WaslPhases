@@ -4,7 +4,6 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace phase_1.DAL.Models
 {
-
     [Index(nameof(Status), nameof(CreatedAt))]
     public class Report
     {
@@ -12,36 +11,35 @@ namespace phase_1.DAL.Models
         public int Id { get; set; }
 
         [Required]
-        public int ReporterId { get; set; }
+        public int SessionId { get; set; }
+
+        [ForeignKey(nameof(SessionId))]
+        public Session Session { get; set; } = null!;
 
         [Required]
-        public int ReportedId { get; set; }
+        public int ReporterUserId { get; set; }
+
+        [ForeignKey(nameof(ReporterUserId))]
+        public ApplicationUser ReporterUser { get; set; } = null!;
 
         [Required]
-        public int TargetType { get; set; }
+        public int ReportedUserId { get; set; }
+
+        [ForeignKey(nameof(ReportedUserId))]
+        public ApplicationUser ReportedUser { get; set; } = null!;
 
         [Required]
-        public int TargetId { get; set; }
-
-        [Required, MaxLength(500)]
-        public string Reason { get; set; } = default!;
+        public int Type { get; set; }   // 1=Misconduct, 2=NoShow, 3=Other
 
         [Required]
-        public int Status { get; set; } = 1;
-
-        public int? HandledByAdminId { get; set; }
+        [MaxLength(2000)]
+        public string Description { get; set; } = null!;
 
         [Required]
+        public int Status { get; set; } = 1;   // 1=Open, 2=Resolved, 3=Rejected
+
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
 
         public DateTime? ResolvedAt { get; set; }
-
-        [ForeignKey(nameof(ReporterId))]
-        public ApplicationUser Reporter { get; set; } = default!;
-
-        [ForeignKey(nameof(ReportedId))]
-        public ApplicationUser Reported { get; set; } = default!;
-
-        public ApplicationUser? HandledByAdmin { get; set; }
     }
 }

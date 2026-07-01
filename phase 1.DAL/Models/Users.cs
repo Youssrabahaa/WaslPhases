@@ -53,7 +53,6 @@ public class ApplicationUser
     public List<Offer> OffersMade { get; set; } = new();
     public List<Match> PatientMatches { get; set; } = new();
     public List<Match> StudentMatches { get; set; } = new();
-    // Messages/chat removed; phone-call flow used instead.
     public List<Message> MessagesSent { get; set; } = new();
     public List<Message> MessagesReceived { get; set; } = new();
     public List<Review> ReviewsWritten { get; set; } = new();

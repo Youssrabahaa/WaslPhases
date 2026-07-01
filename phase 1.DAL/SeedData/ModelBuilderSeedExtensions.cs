@@ -16,12 +16,9 @@ public static class ModelBuilderSeedExtensions
         modelBuilder.Entity<TreatmentCategory>().HasData(ReferenceSeed.TreatmentCategories);
         modelBuilder.Entity<Case>().HasData(CaseSeed.Data);
 
-        // ? Match seed
         modelBuilder.Entity<Offer>().HasData(MatchSeed.Offers);
         modelBuilder.Entity<Match>().HasData(MatchSeed.Matches);
-        //modelBuilder.Entity<Conversation>().HasData(MatchSeed.Conversations);
+        modelBuilder.Entity<Conversation>().HasData(MatchSeed.Conversations);
 
-        // ? Case 1 status ? Matched (2) ??? ????? match
-        // EF seed ?? ????? ??? existing data — ??? Case status ????? manually ?? ??? Offer seed
     }
 }

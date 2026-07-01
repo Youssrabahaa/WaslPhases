@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using phase_1.DAL.Models;
 using phase_1.DAL.Repositories.Interfaces;
 using phase_1.Data;
@@ -28,9 +23,9 @@ namespace phase_1.DAL.Repositories
 
         public async Task<Offer?> GetByIdAsync(int id)
         {
-            // Eager loading example
             return await _context.Offers
                 .Include(o => o.Case)
+                    .ThenInclude(c => c.PatientUser)
                 .Include(o => o.StudentUser)
                 .FirstOrDefaultAsync(o => o.Id == id);
         }
@@ -51,11 +46,7 @@ namespace phase_1.DAL.Repositories
                 .ToListAsync();
         }
 
-        public async Task UpdateAsync(Offer offer)
-        {
-            _context.Offers.Update(offer);
-            await _context.SaveChangesAsync();
-        }
+    
         public async Task<List<Offer>> GetCaseOffersAsync(int caseId)
         {
             return await _context.Offers
@@ -63,9 +54,20 @@ namespace phase_1.DAL.Repositories
                 .ToListAsync();
         }
 
+        public async Task UpdateAsync(Offer offer)
+        {
+            _context.Offers.Update(offer);
+            await _context.SaveChangesAsync();
+        }
+
         public async Task DeleteAsync(Offer offer)
         {
             _context.Offers.Remove(offer);
+            await _context.SaveChangesAsync();
+        }
+
+        public async Task SaveChangesAsync()
+        {
             await _context.SaveChangesAsync();
         }
     }

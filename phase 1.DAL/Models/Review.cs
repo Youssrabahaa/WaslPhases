@@ -3,7 +3,6 @@ using Microsoft.EntityFrameworkCore;
 
 namespace phase_1.DAL.Models
 {
-
     [Index(nameof(MatchId), nameof(ReviewerUserId), nameof(ReviewedUserId), IsUnique = true)]
     public class Review
     {
@@ -12,26 +11,23 @@ namespace phase_1.DAL.Models
 
         [Required]
         public int MatchId { get; set; }
+        public Match Match { get; set; } = null!;
 
         [Required]
         public int ReviewerUserId { get; set; }
+        public ApplicationUser ReviewerUser { get; set; } = null!;
 
         [Required]
         public int ReviewedUserId { get; set; }
+        public ApplicationUser ReviewedUser { get; set; } = null!;
 
+        [Required]
         [Range(1, 5)]
         public int Rating { get; set; }
 
-        [MaxLength(2000)]
+        [MaxLength(1000)]
         public string? Comment { get; set; }
 
-        [Required]
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
-
-        public Match Match { get; set; } = default!;
-
-        public ApplicationUser ReviewerUser { get; set; } = default!;
-
-        public ApplicationUser ReviewedUser { get; set; } = default!;
     }
 }
