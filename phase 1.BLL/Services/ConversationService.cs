@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.SignalR;
 using phase_1.BLL.DTOs;
+using phase_1.BLL.Hubs;
 using phase_1.DAL.Models;
 using phase_1.DAL.Repositories.Interfaces;
 
@@ -11,13 +13,16 @@ namespace phase_1.BLL.Services
     {
         private readonly IConversationRepository _conversationRepository;
         private readonly IMessageRepository _messageRepository;
+        private readonly IHubContext<ChatHub> _hubContext;
 
         public ConversationService(
             IConversationRepository conversationRepository,
-            IMessageRepository messageRepository)
+            IMessageRepository messageRepository,
+            IHubContext<ChatHub> hubContext)
         {
             _conversationRepository = conversationRepository;
             _messageRepository = messageRepository;
+            _hubContext = hubContext;
         }
 
         public async Task<ConversationDTO?> GetByMatchIdAsync(int matchId, int currentUserId)
@@ -79,6 +84,21 @@ namespace phase_1.BLL.Services
             conversation.LastMessageAt = message.SentAt;
 
             await _messageRepository.SaveChangesAsync();
+
+            var senderName = dto.SenderUserId == patientId
+                ? conversation.Match.PatientUser.FullName
+                : conversation.Match.StudentUser.FullName;
+
+            await _hubContext.Clients
+                .Group($"match-{dto.MatchId}")
+                .SendAsync("ReceiveMessage", new
+                {
+                    id = message.Id,
+                    senderUserId = message.SenderUserId,
+                    senderName = senderName,
+                    content = message.Content,
+                    sentAt = message.SentAt.ToString("hh:mm tt")
+                });
 
             return true;
         }

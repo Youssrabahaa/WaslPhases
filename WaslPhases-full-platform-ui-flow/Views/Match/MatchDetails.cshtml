@@ -35,6 +35,13 @@
                asp-route-portal="@portalRoute">
                 إدارة الجلسات
             </a>
+            <a class="primary-action"
+               asp-controller="Conversation"
+               asp-action="Chat"
+               asp-route-matchId="@Model.MatchId"
+               asp-route-portal="@portalRoute">
+                💬 المحادثة
+            </a>
             <a class="ghost-action"
                asp-controller="Report"
                asp-action="AddReport"

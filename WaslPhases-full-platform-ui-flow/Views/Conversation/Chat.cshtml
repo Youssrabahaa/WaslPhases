@@ -1,0 +1,185 @@
+﻿@model phase_1.BLL.DTOs.ConversationDTO
+@{
+    ViewData["Title"] = "المحادثة";
+    var portalRoute = ViewContext.RouteData.Values["portal"]?.ToString();
+}
+
+<section class="health-page">
+    <div class="health-hero compact-hero">
+        <div>
+            <span class="health-kicker">المحادثة</span>
+            <h1 class="health-title">@Model.PatientName — @Model.StudentName</h1>
+        </div>
+        <div class="hero-actions">
+            <a class="ghost-action"
+               asp-controller="Match"
+               asp-action="MatchDetails"
+               asp-route-id="@Model.MatchId"
+               asp-route-portal="@portalRoute">← المطابقة</a>
+        </div>
+    </div>
+
+    <div id="alert-box"></div>
+
+    <article class="health-panel" style="padding: 0;">
+        <div id="chat-box" style="
+            height: 460px;
+            overflow-y: auto;
+            padding: 1.25rem;
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;">
+
+            @if (!Model.Messages.Any())
+            {
+                <div id="empty-state" style="margin:auto; text-align:center; color: var(--muted);">
+                    <p>لا توجد رسائل بعد. ابدأ المحادثة!</p>
+                </div>
+            }
+
+            @foreach (var msg in Model.Messages)
+            {
+                <div class="chat-row" style="display:flex; justify-content: @(msg.IsOwn ? "flex-end" : "flex-start");">
+                    <div style="
+                        max-width: 68%;
+                        padding: 0.72rem 1rem;
+                        border-radius: @(msg.IsOwn ? "18px 18px 4px 18px" : "18px 18px 18px 4px");
+                        background: @(msg.IsOwn ? "linear-gradient(135deg, var(--teal), var(--blue))" : "rgba(255,255,255,0.9)");
+                        color: @(msg.IsOwn ? "#fff" : "var(--ink)");
+                        border: @(msg.IsOwn ? "none" : "1px solid var(--line)");
+                        box-shadow: var(--shadow-soft);">
+                        @if (!msg.IsOwn)
+                        {
+                            <small style="display:block; font-weight:800; margin-bottom:0.3rem; color:var(--teal-dark);">
+                                @msg.SenderName
+                            </small>
+                        }
+                        <p style="margin:0; line-height:1.6;">@msg.Content</p>
+                        <small style="
+                            display:block;
+                            margin-top:0.3rem;
+                            font-size:0.75rem;
+                            opacity:0.7;
+                            text-align: @(msg.IsOwn ? "left" : "right");">
+                            @msg.SentAt.ToString("hh:mm tt")
+                        </small>
+                    </div>
+                </div>
+            }
+        </div>
+
+        <div style="
+            padding: 1rem 1.25rem;
+            border-top: 1px solid var(--line);
+            background: rgba(255,255,255,0.95);">
+            <form id="send-form" style="display:flex; gap:0.75rem; align-items:center;">
+                @Html.AntiForgeryToken()
+                <input type="hidden" id="MatchId" value="@Model.MatchId" />
+                <input type="hidden" id="SenderUserId" value="@Model.CurrentUserId" />
+                <input type="text"
+                       id="Content"
+                       class="modern-input"
+                       placeholder="اكتب رسالتك..."
+                       autocomplete="off"
+                       style="flex:1;"
+                       required />
+                <button type="submit" class="primary-action">إرسال</button>
+            </form>
+        </div>
+    </article>
+</section>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/microsoft-signalr/8.0.0/signalr.min.js"></script>
+<script>
+    (function () {
+        const matchId       = document.getElementById('MatchId').value;
+        const currentUserId = parseInt(document.getElementById('SenderUserId').value);
+        const chatBox       = document.getElementById('chat-box');
+        const emptyState    = document.getElementById('empty-state');
+        const sendForm      = document.getElementById('send-form');
+        const contentInput  = document.getElementById('Content');
+        const alertBox      = document.getElementById('alert-box');
+        const tokenInput    = document.querySelector('input[name="__RequestVerificationToken"]');
+
+        function scrollToBottom() {
+            chatBox.scrollTop = chatBox.scrollHeight;
+        }
+        scrollToBottom();
+
+        function appendMessage(msg, isOwn) {
+            if (emptyState) emptyState.remove();
+
+            const row = document.createElement('div');
+            row.style.display = 'flex';
+            row.style.justifyContent = isOwn ? 'flex-end' : 'flex-start';
+
+            const bubble = document.createElement('div');
+            bubble.style.maxWidth = '68%';
+            bubble.style.padding = '0.72rem 1rem';
+            bubble.style.borderRadius = isOwn ? '18px 18px 4px 18px' : '18px 18px 18px 4px';
+            bubble.style.background = isOwn
+                ? 'linear-gradient(135deg, var(--teal), var(--blue))'
+                : 'rgba(255,255,255,0.9)';
+            bubble.style.color = isOwn ? '#fff' : 'var(--ink)';
+            bubble.style.border = isOwn ? 'none' : '1px solid var(--line)';
+            bubble.style.boxShadow = 'var(--shadow-soft)';
+
+            let inner = '';
+            if (!isOwn) {
+                inner += `<small style="display:block;font-weight:800;margin-bottom:0.3rem;color:var(--teal-dark);">${msg.senderName}</small>`;
+            }
+            inner += `<p style="margin:0;line-height:1.6;">${msg.content}</p>`;
+            inner += `<small style="display:block;margin-top:0.3rem;font-size:0.75rem;opacity:0.7;text-align:${isOwn ? 'left' : 'right'};">${msg.sentAt}</small>`;
+
+            bubble.innerHTML = inner;
+            row.appendChild(bubble);
+            chatBox.appendChild(row);
+            scrollToBottom();
+        }
+
+        // ─── SignalR Connection ───
+        const connection = new signalR.HubConnectionBuilder()
+            .withUrl("/chatHub")
+            .withAutomaticReconnect()
+            .build();
+
+        connection.on("ReceiveMessage", function (msg) {
+            const isOwn = msg.senderUserId === currentUserId;
+            appendMessage(msg, isOwn);
+        });
+
+        connection.start()
+            .then(() => connection.invoke("JoinMatch", parseInt(matchId)))
+            .catch(err => console.error(err));
+
+        // ─── Send message via AJAX ───
+        sendForm.addEventListener('submit', function (e) {
+            e.preventDefault();
+
+            const content = contentInput.value.trim();
+            if (!content) return;
+
+            fetch('/Conversation/Send', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                    'RequestVerificationToken': tokenInput.value
+                },
+                body: new URLSearchParams({
+                    MatchId: matchId,
+                    SenderUserId: currentUserId,
+                    Content: content,
+                    __RequestVerificationToken: tokenInput.value
+                })
+            })
+            .then(res => {
+                if (!res.ok) throw new Error('فشل الإرسال');
+                contentInput.value = '';
+                alertBox.innerHTML = '';
+            })
+            .catch(err => {
+                alertBox.innerHTML = `<div class="alert-soft-danger">${err.message}</div>`;
+            });
+        });
+    })();
+</script>

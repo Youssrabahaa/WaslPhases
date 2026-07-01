@@ -38,14 +38,13 @@ public static class MatchSeed
         }
     };
 
-    // ─── Conversation ────────────────────────────────
-    //public static readonly Conversation[] Conversations =
-    //{
-    //    new()
-    //    {
-    //        Id        = 1,
-    //        MatchId   = 1,
-    //        CreatedAt = new DateTime(2026, 4, 11, 12, 0, 0, DateTimeKind.Utc)
-    //    }
-    //};
+    public static readonly Conversation[] Conversations =
+    {
+        new()
+        {
+            Id        = 1,
+            MatchId   = 1,
+            CreatedAt = new DateTime(2026, 4, 11, 12, 0, 0, DateTimeKind.Utc)
+        }
+    };
 }

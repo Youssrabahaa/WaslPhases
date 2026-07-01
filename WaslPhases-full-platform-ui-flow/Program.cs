@@ -7,6 +7,7 @@ using phase_1.Middleware;
 using phase_1.Repositories;
 using phase_1.Services;
 using phase_1.Services.Identity;
+using phase_1.BLL.Hubs;
 
 namespace phase_1
 {
@@ -18,6 +19,10 @@ namespace phase_1
 
             // Add services to the container.
             builder.Services.AddControllersWithViews();
+            builder.Services.AddSignalR();
+            builder.Services.AddScoped<IConversationRepository, ConversationRepository>();
+            builder.Services.AddScoped<IMessageRepository, MessageRepository>();
+            builder.Services.AddScoped<IConversationService, ConversationService>();
 
             builder.Services.AddDbContext<AppDbContext>(options =>
                 options.UseSqlServer(
@@ -64,6 +69,7 @@ namespace phase_1
             app.UseAuthorization();
 
             app.MapStaticAssets();
+            app.MapHub<ChatHub>("/chatHub");
             app.MapControllerRoute(
                 name: "patient-portal",
                 pattern: "patient/{controller=Patients}/{action=Profile}/{id?}",
