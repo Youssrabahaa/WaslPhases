@@ -1,4 +1,6 @@
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.EntityFrameworkCore;
+using phase_1.Authentication;
 using phase_1.Data;
 using phase_1.Middleware;
 using phase_1.Repositories;
@@ -20,12 +22,24 @@ namespace phase_1
                 options.IdleTimeout = TimeSpan.FromHours(8);
                 options.Cookie.HttpOnly = true;
                 options.Cookie.IsEssential = true;
+                options.Cookie.SameSite = SameSiteMode.Lax;
+                options.Cookie.SecurePolicy = CookieSecurePolicy.Always;
             });
 
             builder.Services.AddDbContext<AppDbContext>(options =>
                 options.UseSqlServer(
                     builder.Configuration.GetConnectionString("DefaultConnection")));
 
+
+            builder.Services
+                .AddAuthentication(options =>
+                {
+                    options.DefaultAuthenticateScheme = JwtAuthenticationHandler.SchemeName;
+                    options.DefaultChallengeScheme = JwtAuthenticationHandler.SchemeName;
+                })
+                .AddScheme<AuthenticationSchemeOptions, JwtAuthenticationHandler>(
+                    JwtAuthenticationHandler.SchemeName,
+                    _ => { });
 
             builder.Services.AddAuthorization();
 
@@ -36,6 +50,8 @@ namespace phase_1
             builder.Services.AddScoped<IUserManager, UserManager>();
             builder.Services.AddScoped<IRoleManager, RoleManager>();
             builder.Services.AddScoped<ISignInManager, SignInManager>();
+            builder.Services.AddScoped<IDashboardRepository, DashboardRepository>();
+            builder.Services.AddScoped<IDashboardService, DashboardService>();
             builder.Services.AddScoped<IReportService, ReportService>();
             builder.Services.AddScoped<IReportRepository, ReportRepository>();
             builder.Services.AddScoped<IReviewService, ReviewService>();
@@ -77,8 +93,6 @@ namespace phase_1
 
                 await next();
             });
-
-            app.UseMiddleware<JwtMiddleware>();
 
             app.UseAuthentication();
             app.UseAuthorization();

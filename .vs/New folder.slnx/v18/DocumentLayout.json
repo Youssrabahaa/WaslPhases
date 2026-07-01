@@ -1,7 +1,36 @@
 {
   "Version": 1,
   "WorkspaceRootPath": "D:\\2-Rowad\\TEC\\Phase 3\\New folder\\",
-  "Documents": [],
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|D:\\2-Rowad\\TEC\\Phase 3\\New folder\\WaslPhases-full-platform-ui-flow\\.gitignore||{3B902123-F8A7-4915-9F01-361F908088D0}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:WaslPhases-full-platform-ui-flow\\.gitignore||{3B902123-F8A7-4915-9F01-361F908088D0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|D:\\2-Rowad\\TEC\\Phase 3\\New folder\\WaslPhases-full-platform-ui-flow\\appsettings.Development.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:WaslPhases-full-platform-ui-flow\\appsettings.Development.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|D:\\2-Rowad\\TEC\\Phase 3\\New folder\\WaslPhases-full-platform-ui-flow\\Program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:WaslPhases-full-platform-ui-flow\\Program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|D:\\2-Rowad\\TEC\\Phase 3\\New folder\\WaslPhases-full-platform-ui-flow\\Controllers\\AccountController.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:WaslPhases-full-platform-ui-flow\\Controllers\\AccountController.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|D:\\2-Rowad\\TEC\\Phase 3\\New folder\\WaslPhases-full-platform-ui-flow\\Authentication\\JwtAuthenticationHandler.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:WaslPhases-full-platform-ui-flow\\Authentication\\JwtAuthenticationHandler.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|D:\\2-Rowad\\TEC\\Phase 3\\New folder\\phase 1.csproj.user||{FA3CD31E-987B-443A-9B81-186104E8DAC1}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:phase 1.csproj.user||{FA3CD31E-987B-443A-9B81-186104E8DAC1}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|D:\\2-Rowad\\TEC\\Phase 3\\New folder\\phase 1.BLL\\DTOs\\AuthResponseDTO.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:phase 1.BLL\\DTOs\\AuthResponseDTO.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
   "DocumentGroupContainers": [
     {
       "Orientation": 0,
@@ -9,11 +38,11 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": -1,
+          "SelectedChildIndex": 4,
           "Children": [
             {
               "$type": "Bookmark",
-              "Name": "ST:0:0:{1c4feeaa-4718-4aa9-859d-94ce25d182ba}"
+              "Name": "ST:128:0:{1fc202d4-d401-403c-9834-5b218574bb67}"
             },
             {
               "$type": "Bookmark",
@@ -26,6 +55,101 @@
             {
               "$type": "Bookmark",
               "Name": "ST:128:0:{116d2292-e37d-41cd-a077-ebacac4c8cc4}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": ".gitignore",
+              "DocumentMoniker": "D:\\2-Rowad\\TEC\\Phase 3\\New folder\\WaslPhases-full-platform-ui-flow\\.gitignore",
+              "RelativeDocumentMoniker": "WaslPhases-full-platform-ui-flow\\.gitignore",
+              "ToolTip": "D:\\2-Rowad\\TEC\\Phase 3\\New folder\\WaslPhases-full-platform-ui-flow\\.gitignore",
+              "RelativeToolTip": "WaslPhases-full-platform-ui-flow\\.gitignore",
+              "ViewState": "AgIAABQAAAAAMzMzMzMbwAAAAAAAAAAAAAAAAA==",
+              "Icon": "00000000-0000-0000-0000-000000000000.000000|iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAG/SURBVDhPrZRNTgIxFMerDIaEhHgU97JxwUKGGaNeQJdyCY0XUBDWGhg4AB\u002BuvQk7OQCRFTP1fXWmMxUMCT94ee177eu/LVQdFK31kTSJ0WgEIa0SMJ2A6QTHcF9iicQqlYpa/6zv2\u002B2HD5nuEkWR/l4udRzHZBtjGzFor1YrPR6P9WKx0MNhpN96vTuZThyLJ1AJLK/iJFFxjBanBsXIozqkWq2qev1c1Wq19063e0ZBwBNP4JaQ6WRC/i8ajQb5wWBAvnxyghpOqQPkC8L5IEEQKjgxaqOTFsCd65tb6nmlkur1\u002BxwXCgX58KfT7QptwvCK52wrSLcJvtUKOABkQ6HFXwbGsmMRBkchzpjNphLZDSrEn5G1qnsp\u002BPEtheloXouRnXDTTjhb5tXmeyg0IgzuliHp\u002By0OANbiOCDXp1IYo3mMUxBT8/mMA/8QhGH6ZzC4Zwi5ZqoQB9M3h62I/\u002B/SAQpniBmtPvdQyGeYUdgyX8pl05eIBSxmTzQYEYbc42AuJQWLGJNQEcrJG4A4BTHneSW2sqfKOyybkxXMPbAvrx3IsyLzkPJFmUcWYtDntjG6lIvnp8cvKXNIlPoFvstpJRlQPIAAAAAASUVORK5CYII=",
+              "WhenOpened": "2026-07-01T21:36:01.019Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "appsettings.Development.json",
+              "DocumentMoniker": "D:\\2-Rowad\\TEC\\Phase 3\\New folder\\WaslPhases-full-platform-ui-flow\\appsettings.Development.json",
+              "RelativeDocumentMoniker": "WaslPhases-full-platform-ui-flow\\appsettings.Development.json",
+              "ToolTip": "D:\\2-Rowad\\TEC\\Phase 3\\New folder\\WaslPhases-full-platform-ui-flow\\appsettings.Development.json",
+              "RelativeToolTip": "WaslPhases-full-platform-ui-flow\\appsettings.Development.json",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
+              "WhenOpened": "2026-07-01T21:35:59.825Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{1c4feeaa-4718-4aa9-859d-94ce25d182ba}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "Program.cs",
+              "DocumentMoniker": "D:\\2-Rowad\\TEC\\Phase 3\\New folder\\WaslPhases-full-platform-ui-flow\\Program.cs",
+              "RelativeDocumentMoniker": "WaslPhases-full-platform-ui-flow\\Program.cs",
+              "ToolTip": "D:\\2-Rowad\\TEC\\Phase 3\\New folder\\WaslPhases-full-platform-ui-flow\\Program.cs",
+              "RelativeToolTip": "WaslPhases-full-platform-ui-flow\\Program.cs",
+              "ViewState": "AgIAAFcAAAAAAAAAAAAAAGEAAAAgAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-07-01T21:30:44.135Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "AccountController.cs",
+              "DocumentMoniker": "D:\\2-Rowad\\TEC\\Phase 3\\New folder\\WaslPhases-full-platform-ui-flow\\Controllers\\AccountController.cs",
+              "RelativeDocumentMoniker": "WaslPhases-full-platform-ui-flow\\Controllers\\AccountController.cs",
+              "ToolTip": "D:\\2-Rowad\\TEC\\Phase 3\\New folder\\WaslPhases-full-platform-ui-flow\\Controllers\\AccountController.cs",
+              "RelativeToolTip": "WaslPhases-full-platform-ui-flow\\Controllers\\AccountController.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-07-01T21:30:36.464Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "JwtAuthenticationHandler.cs",
+              "DocumentMoniker": "D:\\2-Rowad\\TEC\\Phase 3\\New folder\\WaslPhases-full-platform-ui-flow\\Authentication\\JwtAuthenticationHandler.cs",
+              "RelativeDocumentMoniker": "WaslPhases-full-platform-ui-flow\\Authentication\\JwtAuthenticationHandler.cs",
+              "ToolTip": "D:\\2-Rowad\\TEC\\Phase 3\\New folder\\WaslPhases-full-platform-ui-flow\\Authentication\\JwtAuthenticationHandler.cs",
+              "RelativeToolTip": "WaslPhases-full-platform-ui-flow\\Authentication\\JwtAuthenticationHandler.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-07-01T21:30:07.064Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "phase 1.csproj.user",
+              "DocumentMoniker": "D:\\2-Rowad\\TEC\\Phase 3\\New folder\\phase 1.csproj.user",
+              "RelativeDocumentMoniker": "phase 1.csproj.user",
+              "ToolTip": "D:\\2-Rowad\\TEC\\Phase 3\\New folder\\phase 1.csproj.user",
+              "RelativeToolTip": "phase 1.csproj.user",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003464|",
+              "WhenOpened": "2026-07-01T21:29:22.597Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "AuthResponseDTO.cs",
+              "DocumentMoniker": "D:\\2-Rowad\\TEC\\Phase 3\\New folder\\phase 1.BLL\\DTOs\\AuthResponseDTO.cs",
+              "RelativeDocumentMoniker": "phase 1.BLL\\DTOs\\AuthResponseDTO.cs",
+              "ToolTip": "D:\\2-Rowad\\TEC\\Phase 3\\New folder\\phase 1.BLL\\DTOs\\AuthResponseDTO.cs",
+              "RelativeToolTip": "phase 1.BLL\\DTOs\\AuthResponseDTO.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAoAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-07-01T21:29:10.97Z",
+              "EditorCaption": ""
             }
           ]
         }

@@ -28,6 +28,7 @@ public class TokenService : ITokenService
             ["name"] = user.FullName,
             ["phone"] = user.Phone,
             ["role"] = user.Role,
+            ["role_name"] = GetRoleName(user.Role),
             ["exp"] = expiresAt,
             ["iat"] = DateTimeOffset.UtcNow.ToUnixTimeSeconds(),
             ["jti"] = Guid.NewGuid().ToString("N")
@@ -116,6 +117,17 @@ public class TokenService : ITokenService
     private int GetAccessTokenMinutes()
     {
         return int.TryParse(_configuration["Auth:AccessTokenMinutes"], out var minutes) ? minutes : 15;
+    }
+
+    private static string? GetRoleName(int role)
+    {
+        return role switch
+        {
+            1 => "Patient",
+            2 => "Student",
+            3 => "Admin",
+            _ => null
+        };
     }
 
     private static string Sign(string value, string secret)

@@ -2,6 +2,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using phase_1.Data;
 using phase_1.Models;
+using System.Security.Cryptography;
 
 namespace phase_1.Services;
 
@@ -22,7 +23,7 @@ public class OTPService : IOTPService
     {
         var code = UseFixedOtp()
             ? GetFixedOtpCode()
-            : Random.Shared.Next(100000, 999999).ToString();
+            : RandomNumberGenerator.GetInt32(100000, 1000000).ToString();
 
         _context.OtpCodes.Add(new OtpCode
         {

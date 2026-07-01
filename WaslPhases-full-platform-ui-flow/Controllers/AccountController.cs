@@ -1,9 +1,12 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 using phase_1.Services;
 
 namespace phase_1.Controllers;
 
 [ApiController]
+[Authorize]
 [Route("api/[controller]")]
 public class AccountController : ControllerBase
 {
@@ -27,6 +30,7 @@ public class AccountController : ControllerBase
 
     private int? GetCurrentUserId()
     {
-        return HttpContext.Items.TryGetValue("UserId", out var value) && value is int userId ? userId : null;
+        var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+        return int.TryParse(userId, out var id) ? id : null;
     }
 }

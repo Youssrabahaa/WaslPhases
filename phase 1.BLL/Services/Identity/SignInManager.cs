@@ -20,6 +20,12 @@ public class SignInManager : ISignInManager
         if (user.LockedUntil.HasValue && user.LockedUntil > DateTime.UtcNow)
             return (false, "Account is temporarily locked.", null);
 
+        if (user.Status != 1)
+            return (false, "Account is inactive.", null);
+
+        if (!user.IsPhoneVerified)
+            return (false, "Phone number is not verified.", null);
+
         if (!_userManager.CheckPassword(user, password))
         {
             user.FailedLoginAttempts++;

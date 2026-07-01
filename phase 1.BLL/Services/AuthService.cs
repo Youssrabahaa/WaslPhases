@@ -112,6 +112,12 @@ public class AuthService : IAuthService
         if (storedToken is null || !storedToken.IsActive)
             return (false, "Invalid refresh token.", null, null, null);
 
+        if (user.Status != 1)
+            return (false, "Account is inactive.", null, null, null);
+
+        if (!user.IsPhoneVerified)
+            return (false, "Phone number is not verified.", null, null, null);
+
         var tokenResult = await CreateTokenPairAsync(user, rememberMe: false, ipAddress);
         storedToken.RevokedAt = DateTime.UtcNow;
         storedToken.RevokedByIp = ipAddress;
