@@ -8,6 +8,10 @@ public static class SeedIds
         public const int PatientYoussef = 2;
         public const int StudentAhmed = 3;
         public const int StudentSalma = 4;
+        public const int PatientNadine = 5;
+        public const int PatientKarim = 6;
+        public const int StudentOmar = 7;
+        public const int StudentLaila = 8;
     }
 
     public static class Universities
@@ -40,5 +44,9 @@ public static class SeedIds
     {
         public const int ChildSpeechCase = 1;
         public const int AdultRehabCase = 2;
+        public const int OrthoCase = 3;
+        public const int CleaningCase = 4;
+        public const int RootCanalCase = 5;
+        public const int BracesFollowUpCase = 6;
     }
 }

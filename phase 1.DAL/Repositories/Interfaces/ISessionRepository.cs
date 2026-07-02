@@ -13,6 +13,8 @@ namespace phase_1.DAL.Repositories.Interfaces
 
         Task<Session?> GetByIdAsync(int id);
 
+        Task<int> GetNextNumberAsync(int matchId);
+
         Task AddAsync(Session session);
 
         void Update(Session session);

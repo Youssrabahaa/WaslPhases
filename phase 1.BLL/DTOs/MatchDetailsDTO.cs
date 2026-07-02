@@ -10,9 +10,11 @@ namespace phase_1.BLL.DTOs
     {
         public string PatientName { get; set; } = string.Empty;
         public string PatientPhone { get; set; } = string.Empty;
+        public int PatientUserId { get; set; }
 
         public string StudentName { get; set; } = string.Empty;
         public string StudentPhone { get; set; } = string.Empty;
+        public int StudentUserId { get; set; }
 
         public string CaseDescription { get; set; } = string.Empty;
 
@@ -27,6 +29,8 @@ namespace phase_1.BLL.DTOs
         public int? SessionsCount { get; set; }
 
         public string? OfferMessage { get; set; }
+
+        public int OfferId { get; set; }
 
         public int CompletedSessions { get; set; }
 

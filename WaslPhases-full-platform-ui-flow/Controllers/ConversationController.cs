@@ -17,13 +17,14 @@ namespace phase_1.Controllers
         public async Task<IActionResult> Chat(int matchId)
         {
             var currentUserId = HttpContext.Session.GetInt32("UserId") ?? 0;
-            // int currentUserId = 3;
+            if (currentUserId <= 0)
+                return RedirectToAction("Login", "Auth");
 
             var conversation = await _conversationService.GetByMatchIdAsync(matchId, currentUserId);
 
             if (conversation == null)
                 return NotFound();
-                //return Content($"Conversation not found for matchId={matchId}, userId={currentUserId}");//test
+
             return View(conversation);
         }
 
@@ -31,13 +32,19 @@ namespace phase_1.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Send(SendMessageDTO dto)
         {
+            var currentUserId = HttpContext.Session.GetInt32("UserId") ?? 0;
+            if (currentUserId <= 0)
+                return Unauthorized(new { message = "يجب تسجيل الدخول." });
+
             if (string.IsNullOrWhiteSpace(dto.Content))
-                return BadRequest(new { message = "??????? ?????." });
+                return BadRequest(new { message = "اكتب رسالة أولا." });
+
+            dto.SenderUserId = currentUserId;
 
             var result = await _conversationService.SendMessageAsync(dto);
 
             if (!result)
-                return BadRequest(new { message = "????? ????? ???????." });
+                return BadRequest(new { message = "تعذر إرسال الرسالة." });
 
             return Ok();
         }

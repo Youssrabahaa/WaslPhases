@@ -15,6 +15,9 @@ public class CaseController : Controller
 
     public async Task<IActionResult> MyCases()
     {
+        if (!IsPatient())
+            return RedirectToAction("BrowseCases", "Offer", new { portal = "student" });
+
         var patientId = HttpContext.Session.GetInt32("UserId") ?? 0;
         var cases = await _caseService.GetPatientCasesAsync(patientId);
         return View(cases);
@@ -27,11 +30,23 @@ public class CaseController : Controller
         if (c == null)
             return NotFound();
 
+        var role = HttpContext.Session.GetInt32("UserRole") ?? 0;
+        var userId = HttpContext.Session.GetInt32("UserId") ?? 0;
+
+        if (role == 1 && c.PatientUserId != userId)
+            return Forbid();
+
+        if (role == 2 && c.Status != 1)
+            return Forbid();
+
         return View(c);
     }
 
     public IActionResult CreateCase()
     {
+        if (!IsPatient())
+            return RedirectToAction("BrowseCases", "Offer", new { portal = "student" });
+
         var patientId = HttpContext.Session.GetInt32("UserId") ?? 0;
         var dto = new CreateCaseDTO { PatientUserId = patientId };
         return View(dto);
@@ -41,6 +56,9 @@ public class CaseController : Controller
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> CreateCase(CreateCaseDTO dto)
     {
+        if (!IsPatient())
+            return RedirectToAction("BrowseCases", "Offer", new { portal = "student" });
+
         dto.PatientUserId = HttpContext.Session.GetInt32("UserId") ?? 0;
 
         if (!ModelState.IsValid)
@@ -54,10 +72,17 @@ public class CaseController : Controller
 
     public async Task<IActionResult> EditCase(int id)
     {
+        if (!IsPatient())
+            return RedirectToAction("BrowseCases", "Offer", new { portal = "student" });
+
         var c = await _caseService.GetByIdAsync(id);
 
         if (c == null)
             return NotFound();
+
+        var patientId = HttpContext.Session.GetInt32("UserId") ?? 0;
+        if (c.PatientUserId != patientId)
+            return Forbid();
 
         var dto = new UpdateCaseDTO
         {
@@ -82,8 +107,19 @@ public class CaseController : Controller
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> EditCase(UpdateCaseDTO dto)
     {
+        if (!IsPatient())
+            return RedirectToAction("BrowseCases", "Offer", new { portal = "student" });
+
         if (!ModelState.IsValid)
             return View(dto);
+
+        var c = await _caseService.GetByIdAsync(dto.Id);
+        var patientId = HttpContext.Session.GetInt32("UserId") ?? 0;
+        if (c == null)
+            return NotFound();
+
+        if (c.PatientUserId != patientId)
+            return Forbid();
 
         var result = await _caseService.UpdateAsync(dto);
 
@@ -101,6 +137,9 @@ public class CaseController : Controller
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> CloseCase(int id)
     {
+        if (!IsPatient())
+            return RedirectToAction("BrowseCases", "Offer", new { portal = "student" });
+
         var patientId = HttpContext.Session.GetInt32("UserId") ?? 0;
         var result = await _caseService.CloseAsync(id, patientId);
 
@@ -111,4 +150,6 @@ public class CaseController : Controller
 
         return RedirectToAction(nameof(MyCases));
     }
+
+    private bool IsPatient() => HttpContext.Session.GetInt32("UserRole") == 1;
 }

@@ -1,5 +1,9 @@
 ﻿@{
-    var portalRoute = ViewContext.RouteData.Values["portal"]?.ToString();
+    var sessionRole = Context.Session.GetInt32("UserRole");
+    var portalRoute = sessionRole == 1 ? "patient"
+        : sessionRole == 2 ? "student"
+        : ViewContext.RouteData.Values["portal"]?.ToString();
+    var isPatient = sessionRole == 1 || string.Equals(portalRoute, "patient", StringComparison.OrdinalIgnoreCase);
 }
 
 <footer class="app-footer">
@@ -11,9 +15,16 @@
             </div>
 
             <div class="footer-links">
-                <a asp-controller="Offer" asp-action="BrowseCases" asp-route-portal="@portalRoute">الحالات</a>
+                @if (isPatient)
+                {
+                    <a asp-controller="Case" asp-action="MyCases" asp-route-portal="@portalRoute">حالاتي</a>
+                }
+                else
+                {
+                    <a asp-controller="Offer" asp-action="BrowseCases" asp-route-portal="@portalRoute">الحالات</a>
+                }
                 <a asp-controller="Session" asp-action="SessionList" asp-route-portal="@portalRoute">الجلسات</a>
-                <a asp-controller="Report" asp-action="AddReport" asp-route-portal="@portalRoute">إضافة تقرير</a>
+                <a asp-controller="Review" asp-action="ViewReviews" asp-route-portal="@portalRoute">التقييمات</a>
                 <a asp-controller="Auth" asp-action="Logout">تسجيل الخروج</a>
             </div>
         </div>

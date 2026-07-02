@@ -17,6 +17,5 @@ namespace phase_1.BLL.DTOs
         public string? LocationText { get; set; }
 
         public string? ClinicRoom { get; set; }
-        public int Number { get; internal set; }
     }
 }

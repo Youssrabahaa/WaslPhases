@@ -1,0 +1,108 @@
+@model phase_1.BLL.DTOs.OfferDetailsDTO
+@{
+    ViewData["Title"] = "تفاصيل العرض";
+    var portalRoute = ViewContext.RouteData.Values["portal"]?.ToString() ?? "student";
+    var sessionRole = Context.Session.GetInt32("UserRole") ?? 0;
+    var isPatient = sessionRole == 1;
+    var statusText = Model.Status == 1 ? "قيد المراجعة" : Model.Status == 2 ? "مقبول" : "مرفوض";
+    var statusClass = Model.Status == 1 ? "status-pending" : Model.Status == 2 ? "status-open" : "status-rejected";
+}
+
+<section class="health-page">
+    <div class="health-hero compact-hero">
+        <div>
+            <span class="health-kicker">تفاصيل العرض</span>
+            <h1 class="health-title">عرض رقم @Model.Id</h1>
+            <p class="health-subtitle">@(Model.CaseTitle ?? $"حالة رقم {Model.CaseId}")</p>
+        </div>
+        <div class="hero-actions">
+            <a class="ghost-action" asp-controller="Offer" asp-action="MyOffers" asp-route-portal="@portalRoute">العودة للعروض</a>
+        </div>
+    </div>
+
+    <div class="content-grid">
+        <section class="content-main">
+            <article class="health-panel">
+                <div class="panel-heading">
+                    <div>
+                        <h2>ملخص العرض</h2>
+                        <p>السعر وعدد الجلسات وحالة رد المريض.</p>
+                    </div>
+                    <span class="status-badge @statusClass">@statusText</span>
+                </div>
+                <div class="info-grid">
+                    <div class="info-block">
+                        <span>السعر المقترح</span>
+                        <strong>@(Model.ProposedPrice?.ToString("N0") ?? "-") ج.م</strong>
+                    </div>
+                    <div class="info-block">
+                        <span>عدد الجلسات</span>
+                        <strong>@(Model.EstimatedSessionsCount?.ToString() ?? "-")</strong>
+                    </div>
+                    <div class="info-block">
+                        <span>تاريخ الإرسال</span>
+                        <strong>@Model.CreatedAt.ToString("dd/MM/yyyy")</strong>
+                    </div>
+                    <div class="info-block">
+                        <span>الطالب</span>
+                        <strong>@(Model.StudentName ?? $"طالب رقم {Model.StudentUserId}")</strong>
+                    </div>
+                </div>
+            </article>
+
+            <article class="health-panel">
+                <div class="panel-heading">
+                    <div>
+                        <h2>رسالة الطالب</h2>
+                        <p>النص الذي يراه المريض قبل قبول العرض.</p>
+                    </div>
+                </div>
+                <p class="body-copy">@(string.IsNullOrWhiteSpace(Model.Message) ? "لم يتم إضافة رسالة لهذا العرض." : Model.Message)</p>
+            </article>
+        </section>
+
+        <aside class="content-side">
+            <article class="health-panel side-accent">
+                <div class="panel-heading">
+                    <div>
+                        <h2>إجراءات</h2>
+                        <p>المسار التالي حسب حالة العرض.</p>
+                    </div>
+                </div>
+                <div class="form-actions">
+                    @if (Model.MatchId.HasValue)
+                    {
+                        <a class="primary-action"
+                           asp-controller="Match"
+                           asp-action="MatchDetails"
+                           asp-route-id="@Model.MatchId.Value"
+                           asp-route-portal="@portalRoute">فتح المطابقة</a>
+                        <a class="ghost-action"
+                           asp-controller="Session"
+                           asp-action="SessionList"
+                           asp-route-matchId="@Model.MatchId.Value"
+                           asp-route-portal="@portalRoute">الجلسات</a>
+                    }
+                    else if (isPatient && Model.Status == 1)
+                    {
+                        <form asp-controller="Offer" asp-action="AcceptOffer" asp-route-portal="@portalRoute" method="post" style="display:inline;">
+                            @Html.AntiForgeryToken()
+                            <input type="hidden" name="offerId" value="@Model.Id" />
+                            <input type="hidden" name="caseId" value="@Model.CaseId" />
+                            <button type="submit" class="primary-action">قبول العرض</button>
+                        </form>
+                        <form asp-controller="Offer" asp-action="RejectOffer" asp-route-portal="@portalRoute" method="post" style="display:inline;">
+                            @Html.AntiForgeryToken()
+                            <input type="hidden" name="id" value="@Model.Id" />
+                            <button type="submit" class="danger-action">رفض العرض</button>
+                        </form>
+                    }
+                    else
+                    {
+                        <a class="ghost-action" asp-controller="Offer" asp-action="MyOffers" asp-route-portal="@portalRoute">متابعة العروض</a>
+                    }
+                </div>
+            </article>
+        </aside>
+    </div>
+</section>

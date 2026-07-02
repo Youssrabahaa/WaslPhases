@@ -1,8 +1,11 @@
 @model phase_1.BLL.DTOs.CaseDetailsDTO
 @{
     ViewData["Title"] = "تفاصيل الحالة";
-    var portalRoute = ViewContext.RouteData.Values["portal"]?.ToString();
-    var isPatient = string.Equals(portalRoute, "patient", StringComparison.OrdinalIgnoreCase);
+    var sessionRole = Context.Session.GetInt32("UserRole");
+    var portalRoute = sessionRole == 1 ? "patient" : "student";
+    var isPatient = sessionRole == 1;
+    var backController = isPatient ? "Case" : "Offer";
+    var backAction = isPatient ? "MyCases" : "BrowseCases";
     var statusClass = Model.Status == 1 ? "status-inprogress"
                     : Model.Status == 2 ? "status-completed"
                     : "status-rejected";
@@ -18,6 +21,11 @@
         <div class="hero-actions">
             @if (isPatient && Model.Status == 1)
             {
+                <a class="primary-action"
+                   asp-controller="Offer"
+                   asp-action="CaseOffers"
+                   asp-route-caseId="@Model.Id"
+                   asp-route-portal="@portalRoute">العروض (@Model.OffersCount)</a>
                 <a class="ghost-action"
                    asp-controller="Case"
                    asp-action="EditCase"
@@ -33,8 +41,8 @@
                    asp-route-portal="@portalRoute">تقديم عرض</a>
             }
             <a class="ghost-action"
-               asp-controller="Case"
-               asp-action="MyCases"
+               asp-controller="@backController"
+               asp-action="@backAction"
                asp-route-portal="@portalRoute">← العودة</a>
         </div>
     </div>
@@ -139,6 +147,14 @@
                     }
                     @if (isPatient && Model.Status == 1)
                     {
+                        <a class="action-tile"
+                           asp-controller="Offer"
+                           asp-action="CaseOffers"
+                           asp-route-caseId="@Model.Id"
+                           asp-route-portal="@portalRoute">
+                            <strong>عروض الطلاب</strong>
+                            <span>راجع العروض واقبل العرض المناسب.</span>
+                        </a>
                         <a class="action-tile"
                            asp-controller="Case"
                            asp-action="EditCase"

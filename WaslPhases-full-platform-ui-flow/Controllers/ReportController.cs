@@ -7,16 +7,28 @@ namespace phase_1.Controllers
     public class ReportController : Controller
     {
         private readonly IReportService _reportService;
+        private readonly ISessionService _sessionService;
 
-        public ReportController(IReportService reportService)
+        public ReportController(IReportService reportService, ISessionService sessionService)
         {
             _reportService = reportService;
+            _sessionService = sessionService;
         }
 
-        public IActionResult AddReport(int sessionId)
+        public async Task<IActionResult> AddReport(int sessionId)
         {
+            var session = await _sessionService.GetDetailsAsync(sessionId);
+            var userId = HttpContext.Session.GetInt32("UserId") ?? 0;
+            if (session == null)
+                return NotFound();
+
+            if (session.PatientUserId != userId && session.StudentUserId != userId)
+                return Forbid();
+
             ViewBag.SessionId = sessionId;
-            return View();
+            ViewBag.ReportedUserId = userId == session.PatientUserId ? session.StudentUserId : session.PatientUserId;
+            ViewBag.ReportedUserName = userId == session.PatientUserId ? session.StudentName : session.PatientName;
+            return View("AddReportDynamic", new CreateReportDTO { SessionId = sessionId });
         }
 
         [HttpPost]
@@ -24,11 +36,23 @@ namespace phase_1.Controllers
         public async Task<IActionResult> AddReport(CreateReportDTO dto)
         {
             var reporterUserId = HttpContext.Session.GetInt32("UserId") ?? 0;
+            var session = await _sessionService.GetDetailsAsync(dto.SessionId);
+            if (session == null)
+                return NotFound();
+
+            if (session.PatientUserId != reporterUserId && session.StudentUserId != reporterUserId)
+                return Forbid();
+
+            dto.ReportedUserId = reporterUserId == session.PatientUserId
+                ? session.StudentUserId
+                : session.PatientUserId;
 
             if (!ModelState.IsValid)
             {
                 ViewBag.SessionId = dto.SessionId;
-                return View(dto);
+                ViewBag.ReportedUserId = dto.ReportedUserId;
+                ViewBag.ReportedUserName = reporterUserId == session.PatientUserId ? session.StudentName : session.PatientName;
+                return View("AddReportDynamic", dto);
             }
 
             try

@@ -1,0 +1,81 @@
+@model IEnumerable<phase_1.BLL.DTOs.OfferDTO>
+@{
+    ViewData["Title"] = "عروضي";
+    var portalRoute = ViewContext.RouteData.Values["portal"]?.ToString() ?? "student";
+
+    static string StatusClass(int status) => status == 1 ? "status-pending"
+        : status == 2 ? "status-open"
+        : "status-rejected";
+
+    static string StatusText(int status) => status == 1 ? "قيد المراجعة"
+        : status == 2 ? "مقبول"
+        : "مرفوض";
+}
+
+<section class="health-page">
+    <div class="health-hero">
+        <div>
+            <span class="health-kicker">عروضي</span>
+            <h1 class="health-title">تابع عروضك من أول إرسال لحد القبول.</h1>
+            <p class="health-subtitle">العروض المقبولة تفتح المطابقة الفعلية، ومنها تقدر تشوف الجلسات والشات.</p>
+        </div>
+        <div class="hero-actions">
+            <a class="primary-action" asp-controller="Offer" asp-action="BrowseCases" asp-route-portal="@portalRoute">تصفح حالات جديدة</a>
+            <a class="ghost-action" asp-controller="Match" asp-action="Index" asp-route-portal="@portalRoute">المطابقات</a>
+        </div>
+    </div>
+
+    @if (Model != null && Model.Any())
+    {
+        <div class="offer-list">
+            @foreach (var offer in Model)
+            {
+                <article class="offer-card">
+                    <div>
+                        <div class="offer-card-top">
+                            <span class="status-badge @StatusClass(offer.Status)">@StatusText(offer.Status)</span>
+                            <span class="case-meta">عرض رقم @offer.Id</span>
+                        </div>
+                        <h3>@(offer.CaseTitle ?? $"حالة رقم {offer.CaseId}")</h3>
+                        <p>@(string.IsNullOrWhiteSpace(offer.Message) ? "لم تضف رسالة لهذا العرض." : offer.Message)</p>
+                        <div class="row-actions mt-3">
+                            @if (offer.MatchId.HasValue)
+                            {
+                                <a class="primary-action compact-action"
+                                   asp-controller="Match"
+                                   asp-action="MatchDetails"
+                                   asp-route-id="@offer.MatchId.Value"
+                                   asp-route-portal="@portalRoute">تفاصيل المطابقة</a>
+                                <a class="ghost-action compact-action"
+                                   asp-controller="Session"
+                                   asp-action="SessionList"
+                                   asp-route-matchId="@offer.MatchId.Value"
+                                   asp-route-portal="@portalRoute">الجلسات</a>
+                            }
+                            <a class="ghost-action compact-action"
+                               asp-controller="Offer"
+                               asp-action="OfferDetails"
+                               asp-route-id="@offer.Id"
+                               asp-route-portal="@portalRoute">تفاصيل العرض</a>
+                        </div>
+                    </div>
+                    <div class="card-side">
+                        <strong>@(offer.ProposedPrice?.ToString("N0") ?? "-") ج.م</strong>
+                        <span class="case-meta">@(offer.EstimatedSessionsCount?.ToString() ?? "-") جلسات</span>
+                    </div>
+                </article>
+            }
+        </div>
+    }
+    else
+    {
+        <section class="state-grid">
+            <article class="empty-state-card">
+                <span class="empty-state-icon">0</span>
+                <h3>لا توجد عروض</h3>
+                <p>لم تقدم أي عروض بعد. ابدأ بتصفح الحالات واختر حالة مناسبة لتخصصك.</p>
+                <a class="ghost-action" asp-controller="Offer" asp-action="BrowseCases" asp-route-portal="@portalRoute">تصفح الحالات</a>
+            </article>
+        </section>
+    }
+</section>

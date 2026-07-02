@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using phase_1.BLL.DTOs;
 using phase_1.DAL.Models;
+using phase_1.DAL.Repositories;
 using phase_1.DAL.Repositories.Interfaces;
 
 namespace phase_1.BLL.Services
@@ -11,15 +12,18 @@ namespace phase_1.BLL.Services
     public class SessionService : ISessionService
     {
         private readonly ISessionRepository _sessionRepository;
+        private readonly IMatchRepository _matchRepository;
         private readonly INoShowStrikeService _noShowStrikeService;
         private readonly IReminderService _reminderService;
 
         public SessionService(
             ISessionRepository sessionRepository,
+            IMatchRepository matchRepository,
             INoShowStrikeService noShowStrikeService,
             IReminderService reminderService)
         {
             _sessionRepository = sessionRepository;
+            _matchRepository = matchRepository;
             _noShowStrikeService = noShowStrikeService;
             _reminderService = reminderService;
         }
@@ -90,11 +94,17 @@ namespace phase_1.BLL.Services
 
         public async Task<bool> CreateAsync(CreateSessionDTO dto)
         {
+            if (dto.MatchId <= 0 || dto.StartAt == default || dto.EndAt == default || dto.EndAt <= dto.StartAt)
+                return false;
+
+            var match = await _matchRepository.GetByIdAsync(dto.MatchId);
+            if (match == null || match.Status != 1)
+                return false;
+
             var session = new Session
             {
                 MatchId = dto.MatchId,
-                // ✅ إصلاح: Number كان ناقص
-                Number = dto.Number,
+                Number = await _sessionRepository.GetNextNumberAsync(dto.MatchId),
                 StartAt = dto.StartAt,
                 EndAt = dto.EndAt,
                 LocationText = dto.LocationText,

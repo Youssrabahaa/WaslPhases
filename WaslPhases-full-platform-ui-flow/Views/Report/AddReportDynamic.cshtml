@@ -1,0 +1,50 @@
+@model phase_1.BLL.DTOs.CreateReportDTO
+@{
+    ViewData["Title"] = "إضافة تقرير";
+    var portalRoute = ViewContext.RouteData.Values["portal"]?.ToString();
+    var reportedUserId = ViewBag.ReportedUserId ?? 0;
+    var reportedUserName = ViewBag.ReportedUserName as string ?? "الطرف الآخر";
+}
+
+<section class="health-page">
+    <div class="health-hero compact-hero">
+        <div>
+            <span class="health-kicker">تقرير جلسة</span>
+            <h1 class="health-title">تسجيل تقرير عن @reportedUserName</h1>
+            <p class="health-subtitle">التقرير مرتبط بهذه الجلسة فقط، ويصل للإدارة للمراجعة.</p>
+        </div>
+        <div class="hero-actions">
+            <a class="ghost-action" asp-controller="Session" asp-action="SessionDetails" asp-route-id="@Model.SessionId" asp-route-portal="@portalRoute">تفاصيل الجلسة</a>
+        </div>
+    </div>
+
+    <div class="content-grid">
+        <section class="content-main">
+            <form class="health-panel form-panel" asp-controller="Report" asp-action="AddReport" asp-route-portal="@portalRoute" method="post">
+                @Html.AntiForgeryToken()
+                <input type="hidden" asp-for="SessionId" />
+                <input type="hidden" asp-for="ReportedUserId" value="@reportedUserId" />
+
+                <div class="form-grid">
+                    <label class="field-group">
+                        <span>نوع التقرير</span>
+                        <select class="form-select modern-input" asp-for="Type">
+                            <option value="1">سلوك غير مناسب</option>
+                            <option value="2">عدم حضور</option>
+                            <option value="3">ملاحظة أخرى</option>
+                        </select>
+                    </label>
+                    <label class="field-group field-span-2">
+                        <span>وصف التقرير</span>
+                        <textarea class="form-control modern-input modern-textarea" asp-for="Description" rows="7" required></textarea>
+                    </label>
+                </div>
+
+                <div class="form-actions">
+                    <button type="submit" class="primary-action">إرسال التقرير</button>
+                    <a class="ghost-action" asp-controller="Session" asp-action="SessionDetails" asp-route-id="@Model.SessionId" asp-route-portal="@portalRoute">إلغاء</a>
+                </div>
+            </form>
+        </section>
+    </div>
+</section>

@@ -27,6 +27,7 @@ namespace phase_1.DAL.Repositories
                 .Include(o => o.Case)
                     .ThenInclude(c => c.PatientUser)
                 .Include(o => o.StudentUser)
+                .Include(o => o.Match)
                 .FirstOrDefaultAsync(o => o.Id == id);
         }
 
@@ -42,6 +43,7 @@ namespace phase_1.DAL.Repositories
         {
             return await _context.Offers
                 .Include(o => o.Case)
+                .Include(o => o.Match)
                 .Where(o => o.StudentUserId == studentId)
                 .ToListAsync();
         }

@@ -36,10 +36,11 @@
                 إدارة الجلسات
             </a>
             <a class="ghost-action"
-               asp-controller="Report"
-               asp-action="AddReport"
+               asp-controller="Session"
+               asp-action="SessionList"
+               asp-route-matchId="@Model.MatchId"
                asp-route-portal="@portalRoute">
-                إضافة تقرير
+                التقارير من الجلسات
             </a>
 
             @if (Model.Status == 1)
@@ -175,6 +176,7 @@
                     <a class="action-tile"
                        asp-controller="Review"
                        asp-action="AddReview"
+                       asp-route-matchId="@Model.MatchId"
                        asp-route-portal="@portalRoute">
                         <strong>⭐ إضافة تقييم</strong>
                         <span>بعد اكتمال الجلسات يمكن تسجيل تقييم.</span>
@@ -225,6 +227,7 @@
                     <a class="ghost-action"
                        asp-controller="Offer"
                        asp-action="OfferDetails"
+                       asp-route-id="@Model.OfferId"
                        asp-route-portal="@portalRoute">تفاصيل العرض</a>
                 </div>
             </article>

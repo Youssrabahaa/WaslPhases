@@ -45,6 +45,16 @@ namespace phase_1.DAL.Repositories
                 .FirstOrDefaultAsync(x => x.Id == id);
         }
 
+        public async Task<int> GetNextNumberAsync(int matchId)
+        {
+            var lastNumber = await _context.Sessions
+                .Where(x => x.MatchId == matchId)
+                .Select(x => (int?)x.Number)
+                .MaxAsync();
+
+            return (lastNumber ?? 0) + 1;
+        }
+
         public async Task AddAsync(Session session)
         {
             await _context.Sessions.AddAsync(session);

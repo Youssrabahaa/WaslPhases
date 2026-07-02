@@ -52,7 +52,9 @@ namespace phase_1.BLL.Services
             {
                 Id = offer.Id,
                 CaseId = offer.CaseId,
+                PatientUserId = offer.Case.PatientUserId,
                 CaseTitle = offer.Case?.Title,
+                MatchId = offer.Match?.Id,
                 StudentUserId = offer.StudentUserId,
                 StudentName = offer.StudentUser?.FullName,
                 Message = offer.Message,
@@ -72,7 +74,10 @@ namespace phase_1.BLL.Services
             {
                 Id = o.Id,
                 CaseId = o.CaseId,
+                CaseTitle = o.Case?.Title,
                 StudentUserId = o.StudentUserId,
+                StudentName = o.StudentUser?.FullName,
+                MatchId = o.Match?.Id,
                 Message = o.Message,
                 ProposedPrice = o.ProposedPrice,
                 EstimatedSessionsCount = o.EstimatedSessionsCount,

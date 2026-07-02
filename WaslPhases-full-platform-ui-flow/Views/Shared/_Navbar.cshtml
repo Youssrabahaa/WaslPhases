@@ -4,6 +4,7 @@
     var currentPortal = ViewContext.RouteData.Values["portal"]?.ToString()
         ?? ViewData["Portal"]?.ToString()
         ?? string.Empty;
+    var sessionRole = Context.Session.GetInt32("UserRole");
     var isAuthPage = string.Equals(currentController, "Auth", StringComparison.OrdinalIgnoreCase);
 
     string NavLinkClass(string controller, string? action = null)
@@ -13,7 +14,8 @@
         return controllerMatches && actionMatches ? "nav-pill active" : "nav-pill";
     }
 
-    var isPatientArea = string.Equals(currentPortal, "patient", StringComparison.OrdinalIgnoreCase)
+    var isPatientArea = sessionRole == 1
+        || (sessionRole is null && string.Equals(currentPortal, "patient", StringComparison.OrdinalIgnoreCase))
         || (string.IsNullOrEmpty(currentPortal)
             && (string.Equals(currentController, "Patients", StringComparison.OrdinalIgnoreCase)
                 || (string.Equals(currentController, "Case", StringComparison.OrdinalIgnoreCase)

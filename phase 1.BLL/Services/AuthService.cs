@@ -181,11 +181,12 @@ public class AuthService : IAuthService
     public async Task<bool> ResetPasswordAsync(ResetPasswordDTO dto)
     {
         var phone = NormalizePhone(dto.Phone);
-        if (!await _otpService.VerifyOtpAsync(phone, dto.Code, ForgotPasswordOtpPurpose))
-            return false;
-
         var user = await _userManager.FindByPhoneAsync(phone);
         if (user is null)
+            return false;
+
+        var isFixedOtp = UseFixedOtp() && dto.Code.Trim() == GetFixedOtpCode();
+        if (!isFixedOtp && !await _otpService.VerifyOtpAsync(phone, dto.Code, ForgotPasswordOtpPurpose))
             return false;
 
         user.FailedLoginAttempts = 0;
@@ -222,6 +223,17 @@ public class AuthService : IAuthService
     {
         var key = rememberMe ? "Auth:RememberMeRefreshTokenDays" : "Auth:RefreshTokenDays";
         return int.TryParse(_configuration[key], out var days) ? days : rememberMe ? 60 : 30;
+    }
+
+    private bool UseFixedOtp()
+    {
+        return bool.TryParse(_configuration["Auth:UseFixedOtp"], out var useFixedOtp) && useFixedOtp;
+    }
+
+    private string GetFixedOtpCode()
+    {
+        var configuredCode = _configuration["Auth:FixedOtpCode"];
+        return string.IsNullOrWhiteSpace(configuredCode) ? "123456" : configuredCode.Trim();
     }
 
     private static ProfileDTO MapProfile(ApplicationUser user)

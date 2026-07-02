@@ -19,6 +19,12 @@ public static class ModelBuilderSeedExtensions
         modelBuilder.Entity<Offer>().HasData(MatchSeed.Offers);
         modelBuilder.Entity<Match>().HasData(MatchSeed.Matches);
         modelBuilder.Entity<Conversation>().HasData(MatchSeed.Conversations);
-
+        modelBuilder.Entity<Session>().HasData(WorkflowSeed.Sessions);
+        modelBuilder.Entity<Reminder>().HasData(WorkflowSeed.Reminders);
+        modelBuilder.Entity<Message>().HasData(WorkflowSeed.Messages);
+        modelBuilder.Entity<Report>().HasData(WorkflowSeed.Reports);
+        modelBuilder.Entity<Review>().HasData(WorkflowSeed.Reviews);
+        modelBuilder.Entity<NoShowStrike>().HasData(WorkflowSeed.NoShowStrikes);
+        modelBuilder.Entity<Notification>().HasData(WorkflowSeed.Notifications);
     }
 }

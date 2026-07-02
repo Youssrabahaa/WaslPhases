@@ -3,6 +3,7 @@
 @{
     ViewData["Title"] = "تفاصيل الجلسة";
     var portalRoute = ViewContext.RouteData.Values["portal"]?.ToString();
+    var userRole = Context.Session.GetInt32("UserRole") ?? 0;
 }
 
 <section class="health-page">
@@ -80,7 +81,7 @@
                     </div>
                 </div>
                 <div class="form-actions">
-                    @if (Model.CanStart)
+                    @if (Model.CanStart && userRole == 2)
                     {
                         <form asp-controller="Session" asp-action="Start" method="post" style="display:inline;">
                             @Html.AntiForgeryToken()
@@ -88,7 +89,15 @@
                             <button type="submit" class="primary-action">بدء الجلسة</button>
                         </form>
                     }
-                    @if (Model.CanFinish)
+                    @if (Model.Status == 2)
+                    {
+                        <a class="primary-action"
+                           asp-controller="Conversation"
+                           asp-action="Chat"
+                           asp-route-matchId="@Model.MatchId"
+                           asp-route-portal="@portalRoute">فتح الشات</a>
+                    }
+                    @if (Model.CanFinish && userRole == 2)
                     {
                         <form asp-controller="Session" asp-action="Finish" method="post" style="display:inline;">
                             @Html.AntiForgeryToken()
@@ -96,7 +105,7 @@
                             <button type="submit" class="ghost-action">إنهاء الجلسة</button>
                         </form>
                     }
-                    <a class="soft-action" asp-controller="Report" asp-action="AddReport" asp-route-portal="@portalRoute">إضافة تقرير</a>
+                    <a class="soft-action" asp-controller="Report" asp-action="AddReport" asp-route-sessionId="@Model.Id" asp-route-portal="@portalRoute">إضافة تقرير</a>
                 </div>
             </article>
 
@@ -116,6 +125,8 @@
                 {
                     <!-- زر تسجيل غياب المريض-->
                     <div class="form-actions mt-3">
+                        @if (userRole == 2)
+                        {
                         <form asp-controller="NoShowStrike" asp-action="Create" method="post" style="display:inline;">
                             @Html.AntiForgeryToken()
                             <input type="hidden" name="SessionId" value="@Model.Id" />
@@ -123,8 +134,11 @@
                             <input type="hidden" name="AbsentUserId" value="@Model.PatientUserId" />
                             <button type="submit" class="ghost-action">تسجيل غياب المريض</button>
                         </form>
+                        }
 
                         <!-- زر تسجيل غياب الطالب-->
+                        @if (userRole == 1)
+                        {
                         <form asp-controller="NoShowStrike" asp-action="Create" method="post" style="display:inline;">
                             @Html.AntiForgeryToken()
                             <input type="hidden" name="SessionId" value="@Model.Id" />
@@ -132,6 +146,7 @@
                             <input type="hidden" name="AbsentUserId" value="@Model.StudentUserId" />
                             <button type="submit" class="ghost-action">تسجيل غياب الطالب</button>
                         </form>
+                        }
                     </div>
                 }
                 else

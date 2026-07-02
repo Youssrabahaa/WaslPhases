@@ -105,9 +105,11 @@ namespace phase_1.BLL.Services
 
                 PatientName = match.PatientUser.FullName,
                 PatientPhone = match.PatientUser.Phone,
+                PatientUserId = match.PatientUserId,
 
                 StudentName = match.StudentUser.FullName,
                 StudentPhone = match.StudentUser.Phone,
+                StudentUserId = match.StudentUserId,
 
                 CaseDescription = match.Case.Description,
                 TreatmentCategory = match.Case.TreatmentCategory.Name,
@@ -119,6 +121,7 @@ namespace phase_1.BLL.Services
                 AgreedPrice = match.Offer.ProposedPrice,
                 SessionsCount = match.Offer.EstimatedSessionsCount,
                 OfferMessage = match.Offer.Message,
+                OfferId = match.OfferId,
 
                 CompletedSessions =
                     match.Sessions.Count(x => x.Status == 3),

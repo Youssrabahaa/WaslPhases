@@ -61,6 +61,62 @@ public static class UserSeed
             IsEmailVerified = true,
             CreatedAt = new DateTime(2026, 1, 20, 13, 0, 0, DateTimeKind.Utc),
             LastLoginAt = new DateTime(2026, 4, 16, 9, 10, 0, DateTimeKind.Utc)
+        },
+        new()
+        {
+            Id = SeedIds.Users.PatientNadine,
+            Phone = "01010000005",
+            FullName = "Nadine Samir Fathy",
+            Email = "nadine.samir@example.com",
+            PasswordHash = "seed-password-hash",
+            Role = 1,
+            Status = 1,
+            IsPhoneVerified = true,
+            IsEmailVerified = true,
+            CreatedAt = new DateTime(2026, 2, 2, 10, 0, 0, DateTimeKind.Utc),
+            LastLoginAt = new DateTime(2026, 6, 28, 16, 0, 0, DateTimeKind.Utc)
+        },
+        new()
+        {
+            Id = SeedIds.Users.PatientKarim,
+            Phone = "01010000006",
+            FullName = "Karim Hany Mostafa",
+            Email = "karim.hany@example.com",
+            PasswordHash = "seed-password-hash",
+            Role = 1,
+            Status = 1,
+            IsPhoneVerified = true,
+            IsEmailVerified = true,
+            CreatedAt = new DateTime(2026, 2, 4, 10, 30, 0, DateTimeKind.Utc),
+            LastLoginAt = new DateTime(2026, 6, 29, 18, 0, 0, DateTimeKind.Utc)
+        },
+        new()
+        {
+            Id = SeedIds.Users.StudentOmar,
+            Phone = "01010000007",
+            FullName = "Omar Nabil Farouk",
+            Email = "omar.nabil@example.com",
+            PasswordHash = "seed-password-hash",
+            Role = 2,
+            Status = 1,
+            IsPhoneVerified = true,
+            IsEmailVerified = true,
+            CreatedAt = new DateTime(2026, 2, 8, 9, 0, 0, DateTimeKind.Utc),
+            LastLoginAt = new DateTime(2026, 6, 30, 11, 0, 0, DateTimeKind.Utc)
+        },
+        new()
+        {
+            Id = SeedIds.Users.StudentLaila,
+            Phone = "01010000008",
+            FullName = "Laila Ashraf Amin",
+            Email = "laila.ashraf@example.com",
+            PasswordHash = "seed-password-hash",
+            Role = 2,
+            Status = 1,
+            IsPhoneVerified = true,
+            IsEmailVerified = true,
+            CreatedAt = new DateTime(2026, 2, 10, 12, 0, 0, DateTimeKind.Utc),
+            LastLoginAt = new DateTime(2026, 6, 30, 12, 30, 0, DateTimeKind.Utc)
         }
     };
 }

@@ -1,0 +1,77 @@
+@model List<phase_1.BLL.DTOs.CaseListDTO>
+@{
+    ViewData["Title"] = "تصفح الحالات";
+    var portalRoute = ViewContext.RouteData.Values["portal"]?.ToString() ?? "student";
+}
+
+<section class="health-page">
+    <div class="health-hero">
+        <div>
+            <span class="health-kicker">بوابة الطالب</span>
+            <h1 class="health-title">الحالات المتاحة لتقديم عرض.</h1>
+            <p class="health-subtitle">تظهر هنا الحالات المفتوحة فقط. عند قبول المريض لعرضك يتم إنشاء مطابقة ومحادثة تلقائيا.</p>
+        </div>
+        <div class="hero-actions">
+            <a class="primary-action" asp-controller="Offer" asp-action="MyOffers" asp-route-portal="@portalRoute">عروضي</a>
+            <a class="ghost-action" asp-controller="Match" asp-action="Index" asp-route-portal="@portalRoute">مطابقاتي</a>
+        </div>
+    </div>
+
+    @if (TempData["Success"] != null)
+    {
+        <div class="app-toast"><span class="app-toast-dot"></span>@TempData["Success"]</div>
+    }
+    @if (TempData["Error"] != null)
+    {
+        <div class="alert-soft-danger">@TempData["Error"]</div>
+    }
+
+    @if (Model != null && Model.Any())
+    {
+        <div class="offer-list">
+            @foreach (var c in Model)
+            {
+                <article class="case-card">
+                    <div>
+                        <div class="case-card-top">
+                            <span class="status-badge status-open">@c.StatusText</span>
+                            <span class="case-meta">@c.TreatmentCategoryName</span>
+                            <span class="case-meta">@c.Governorate - @c.City</span>
+                        </div>
+                        <h3>@c.Title</h3>
+                        <p class="case-meta">@c.ServiceTypeName · @c.OffersCount عرض</p>
+                        <div class="row-actions mt-3">
+                            <a class="primary-action compact-action"
+                               asp-controller="Offer"
+                               asp-action="CreateOffer"
+                               asp-route-caseId="@c.Id"
+                               asp-route-portal="@portalRoute">تقديم عرض</a>
+                            <a class="ghost-action compact-action"
+                               asp-controller="Case"
+                               asp-action="CaseDetails"
+                               asp-route-id="@c.Id"
+                               asp-route-portal="@portalRoute">تفاصيل الحالة</a>
+                        </div>
+                    </div>
+                    <div class="card-side">
+                        <strong>@(c.Urgency == 1 ? "أولوية منخفضة" : c.Urgency == 2 ? "أولوية متوسطة" : "أولوية عالية")</strong>
+                        <span class="case-meta">@c.CreatedAt.ToString("dd MMM yyyy")</span>
+                    </div>
+                </article>
+            }
+        </div>
+    }
+    else
+    {
+        <section class="state-grid">
+            <article class="empty-state-card">
+                <span class="empty-state-icon">0</span>
+                <h3>لا توجد حالات متاحة</h3>
+                <p>لا توجد حالات مفتوحة حاليا. راجع الصفحة لاحقا أو تابع عروضك ومطابقاتك الحالية.</p>
+                <div class="mt-3">
+                    <a class="ghost-action" asp-controller="Offer" asp-action="MyOffers" asp-route-portal="@portalRoute">عروضي</a>
+                </div>
+            </article>
+        </section>
+    }
+</section>

@@ -10,7 +10,10 @@ namespace phase_1.BLL.DTOs
     {
         public int Id { get; set; }
         public int CaseId { get; set; }
+        public string? CaseTitle { get; set; }
         public int StudentUserId { get; set; }
+        public string? StudentName { get; set; }
+        public int? MatchId { get; set; }
         public string? Message { get; set; }
         public decimal? ProposedPrice { get; set; }
         public int? EstimatedSessionsCount { get; set; }

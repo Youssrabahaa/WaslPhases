@@ -16,6 +16,9 @@ namespace phase_1
         public static void Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
+            builder.Logging.ClearProviders();
+            builder.Logging.AddConsole();
+            builder.Logging.AddDebug();
 
             // Add services to the container.
             builder.Services.AddControllersWithViews();
@@ -86,11 +89,46 @@ namespace phase_1
                 var isFrameworkPath = path.StartsWithSegments("/_framework", StringComparison.OrdinalIgnoreCase);
                 var isErrorPath = path.StartsWithSegments("/Home/Error", StringComparison.OrdinalIgnoreCase);
                 var isLoggedIn = context.Session.GetInt32("UserId").HasValue;
+                var role = context.Session.GetInt32("UserRole");
 
                 if (!isLoggedIn && !isAuthPath && !isApiPath && !isFrameworkPath && !isErrorPath)
                 {
                     context.Response.Redirect("/Auth/Register");
                     return;
+                }
+
+                if (isLoggedIn && !isAuthPath && !isApiPath && !isFrameworkPath && !isErrorPath)
+                {
+                    if (role == 1 && path.StartsWithSegments("/student", StringComparison.OrdinalIgnoreCase))
+                    {
+                        context.Response.Redirect("/patient");
+                        return;
+                    }
+
+                    if (role == 2 && path.StartsWithSegments("/patient", StringComparison.OrdinalIgnoreCase))
+                    {
+                        context.Response.Redirect("/student");
+                        return;
+                    }
+
+                    if (role == 1 && path.StartsWithSegments("/Offer", StringComparison.OrdinalIgnoreCase))
+                    {
+                        var action = context.Request.RouteValues["action"]?.ToString();
+                        if (!string.Equals(action, "OfferDetails", StringComparison.OrdinalIgnoreCase)
+                            && !string.Equals(action, "AcceptOffer", StringComparison.OrdinalIgnoreCase)
+                            && !string.Equals(action, "RejectOffer", StringComparison.OrdinalIgnoreCase))
+                        {
+                            context.Response.Redirect("/patient/Case/MyCases");
+                            return;
+                        }
+                    }
+
+                    if (role == 2 && path.StartsWithSegments("/Case", StringComparison.OrdinalIgnoreCase)
+                        && !path.StartsWithSegments("/Case/CaseDetails", StringComparison.OrdinalIgnoreCase))
+                    {
+                        context.Response.Redirect("/student/Offer/BrowseCases");
+                        return;
+                    }
                 }
 
                 await next();

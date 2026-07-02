@@ -53,6 +53,15 @@
                                asp-route-id="@c.Id"
                                asp-route-portal="@portalRoute">التفاصيل</a>
 
+                            @if (c.OffersCount > 0 && c.Status == 1)
+                            {
+                                <a class="ghost-action compact-action"
+                                   asp-controller="Offer"
+                                   asp-action="CaseOffers"
+                                   asp-route-caseId="@c.Id"
+                                   asp-route-portal="@portalRoute">العروض</a>
+                            }
+
                             @if (c.Status == 1)
                             {
                                 <a class="ghost-action compact-action"

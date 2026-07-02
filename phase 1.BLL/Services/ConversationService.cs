@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.SignalR;
 using phase_1.BLL.DTOs;
 using phase_1.BLL.Hubs;
 using phase_1.DAL.Models;
+using phase_1.DAL.Repositories;
 using phase_1.DAL.Repositories.Interfaces;
 
 namespace phase_1.BLL.Services
@@ -13,15 +14,18 @@ namespace phase_1.BLL.Services
     {
         private readonly IConversationRepository _conversationRepository;
         private readonly IMessageRepository _messageRepository;
+        private readonly IMatchRepository _matchRepository;
         private readonly IHubContext<ChatHub> _hubContext;
 
         public ConversationService(
             IConversationRepository conversationRepository,
             IMessageRepository messageRepository,
+            IMatchRepository matchRepository,
             IHubContext<ChatHub> hubContext)
         {
             _conversationRepository = conversationRepository;
             _messageRepository = messageRepository;
+            _matchRepository = matchRepository;
             _hubContext = hubContext;
         }
 
@@ -30,6 +34,26 @@ namespace phase_1.BLL.Services
             var conversation = await _conversationRepository.GetByMatchIdAsync(matchId);
 
             if (conversation == null)
+            {
+                var match = await _matchRepository.GetByIdAsync(matchId);
+                if (match == null || !IsParticipant(match, currentUserId))
+                    return null;
+
+                conversation = new Conversation
+                {
+                    MatchId = match.Id,
+                    CreatedAt = DateTime.UtcNow
+                };
+
+                await _conversationRepository.AddAsync(conversation);
+                await _conversationRepository.SaveChangesAsync();
+
+                conversation = await _conversationRepository.GetByMatchIdAsync(matchId);
+                if (conversation == null)
+                    return null;
+            }
+
+            if (!IsParticipant(conversation.Match, currentUserId))
                 return null;
 
             return new ConversationDTO
@@ -101,6 +125,11 @@ namespace phase_1.BLL.Services
                 });
 
             return true;
+        }
+
+        private static bool IsParticipant(Match match, int userId)
+        {
+            return userId > 0 && (match.PatientUserId == userId || match.StudentUserId == userId);
         }
     }
 }

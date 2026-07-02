@@ -43,14 +43,18 @@ public class OTPService : IOTPService
 
     public async Task<bool> VerifyOtpAsync(string phone, string code, int purpose)
     {
+        var normalizedCode = code.Trim();
+        var fixedOtpIsValid = UseFixedOtp() && normalizedCode == GetFixedOtpCode();
         var otp = await GetActiveOtpAsync(phone, purpose);
-        if (otp is null || otp.Attempts >= otp.MaxAttempts)
-            return false;
+        if (otp is null)
+            return fixedOtpIsValid;
+
+        if (otp.Attempts >= otp.MaxAttempts)
+            return fixedOtpIsValid;
 
         otp.Attempts++;
-        var normalizedCode = code.Trim();
         var isValid = otp.CodeHash == _tokenService.HashToken(normalizedCode)
-            || (UseFixedOtp() && normalizedCode == GetFixedOtpCode());
+            || fixedOtpIsValid;
         if (isValid)
             otp.UsedAt = DateTime.UtcNow;
 

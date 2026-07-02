@@ -1,6 +1,14 @@
+﻿@{
+    var sessionRole = Context.Session.GetInt32("UserRole");
+    var cardController = sessionRole == 1 ? "Case" : "Offer";
+    var cardAction = sessionRole == 1 ? "MyCases" : "BrowseCases";
+    var portalRoute = sessionRole == 1 ? "patient" : sessionRole == 2 ? "student" : null;
+}
 <article class="feature-card">
     <span class="feature-icon">+</span>
-    <h3>مكوّن بطاقة موحد</h3>
-    <p>استخدم نفس البنية لعرض حالة، عرض، جلسة، إشعار، أو خطوة داخل رحلة المستخدم.</p>
-    <a class="text-link" asp-controller="Offer" asp-action="BrowseCases">عرض مثال عملي</a>
+    <h3>Ù…ÙƒÙˆÙ‘Ù† Ø¨Ø·Ø§Ù‚Ø© Ù…ÙˆØ­Ø¯</h3>
+    <p>Ø§Ø³ØªØ®Ø¯Ù… Ù†ÙØ³ Ø§Ù„Ø¨Ù†ÙŠØ© Ù„Ø¹Ø±Ø¶ Ø­Ø§Ù„Ø©ØŒ Ø¹Ø±Ø¶ØŒ Ø¬Ù„Ø³Ø©ØŒ Ø¥Ø´Ø¹Ø§Ø±ØŒ Ø£Ùˆ Ø®Ø·ÙˆØ© Ø¯Ø§Ø®Ù„ Ø±Ø­Ù„Ø© Ø§Ù„Ù…Ø³ØªØ®Ø¯Ù….</p>
+    <a class="text-link" asp-controller="@cardController" asp-action="@cardAction" asp-route-portal="@portalRoute">عرض مثال عملي</a>
 </article>
+
+
