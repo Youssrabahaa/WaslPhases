@@ -1,7 +1,8 @@
-﻿@{
+﻿@model phase_1.BLL.DTOs.CreateSessionDTO
+@{
     ViewData["Title"] = "إضافة جلسة جديدة";
     var portalRoute = ViewContext.RouteData.Values["portal"]?.ToString();
-    var matchId = ViewBag.MatchId ?? 0;
+    var matchId = Model.MatchId;
 }
 
 <section class="health-page">
@@ -9,10 +10,14 @@
         <div>
             <span class="health-kicker">إضافة جلسة</span>
             <h1 class="health-title">إضافة جلسة جديدة</h1>
-            <p class="health-subtitle">أدخل بيانات الجلسة الجديدة لتحديد موعدها ومكانها ومشرفها.</p>
+            <p class="health-subtitle">أدخل بيانات الجلسة لتحديد موعدها ومكانها.</p>
         </div>
         <div class="hero-actions">
-            <a class="ghost-action" asp-controller="Session" asp-action="SessionList" asp-route-matchId="@matchId" asp-route-portal="@portalRoute">كل الجلسات</a>
+            <a class="ghost-action"
+               asp-controller="Session"
+               asp-action="SessionList"
+               asp-route-matchId="@matchId"
+               asp-route-portal="@portalRoute">← كل الجلسات</a>
         </div>
     </div>
 
@@ -22,41 +27,72 @@
                 <div class="panel-heading">
                     <div>
                         <h2>بيانات الجلسة الجديدة</h2>
-                        <p>املأ الحقول المطلوبة لإضافة جلسة جديدة إلى الجدول.</p>
+                        <p>املأ الحقول المطلوبة لإضافة جلسة جديدة.</p>
                     </div>
                 </div>
-                <form id="add-session-form" asp-controller="Session" asp-action="AddSession" method="post">
+
+                <form id="add-session-form"
+                      asp-controller="Session"
+                      asp-action="AddSession"
+                      asp-route-portal="@portalRoute"
+                      method="post">
                     @Html.AntiForgeryToken()
-                    <input type="hidden" name="MatchId" value="@matchId" />
+
+                    <!-- ✅ hidden fields مطلوبة-->
+                    <input type="hidden" asp-for="MatchId" />
+
                     <div class="info-grid" style="grid-template-columns: 1fr 1fr;">
-                        <div class="info-block" style="display: flex; flex-direction: column; align-items: start;">
-                            <span>الموعد</span>
-                            <input name="StartAt" type="datetime-local" style="width: 100%; padding: 8px 12px; border: 1px solid #d1d5db; border-radius: 8px; font-family: inherit;" />
+
+                        <!-- ✅ Number field مضاف-->
+                        <div class="info-block" style="display:flex; flex-direction:column; align-items:start;">
+                            <label asp-for="Number">رقم الجلسة</label>
+                            <input asp-for="Number"
+                                   type="number"
+                                   min="1"
+                                   class="modern-input"
+                                   style="width:100%;"
+                                   placeholder="1" />
+                            <span asp-validation-for="Number" class="text-danger"></span>
                         </div>
-                        <div class="info-block" style="display: flex; flex-direction: column; align-items: start;">
-                            <span>نهاية الجلسة</span>
-                            <input name="EndAt" type="datetime-local" style="width: 100%; padding: 8px 12px; border: 1px solid #d1d5db; border-radius: 8px; font-family: inherit;" />
+
+                        <div class="info-block" style="display:flex; flex-direction:column; align-items:start;">
+                            <label asp-for="StartAt">موعد البداية</label>
+                            <input asp-for="StartAt"
+                                   type="datetime-local"
+                                   class="modern-input"
+                                   style="width:100%;" />
+                            <span asp-validation-for="StartAt" class="text-danger"></span>
                         </div>
-                        <div class="info-block" style="display: flex; flex-direction: column; align-items: start;">
-                            <span>المكان</span>
-                            <input name="LocationText" type="text" style="width: 100%; padding: 8px 12px; border: 1px solid #d1d5db; border-radius: 8px; font-family: inherit;" />
+
+                        <div class="info-block" style="display:flex; flex-direction:column; align-items:start;">
+                            <label asp-for="EndAt">موعد النهاية</label>
+                            <input asp-for="EndAt"
+                                   type="datetime-local"
+                                   class="modern-input"
+                                   style="width:100%;" />
+                            <span asp-validation-for="EndAt" class="text-danger"></span>
                         </div>
-                        <div class="info-block" style="display: flex; flex-direction: column; align-items: start;">
-                            <span>الغرفة</span>
-                            <input name="ClinicRoom" type="text" style="width: 100%; padding: 8px 12px; border: 1px solid #d1d5db; border-radius: 8px; font-family: inherit;" />
+
+                        <div class="info-block" style="display:flex; flex-direction:column; align-items:start;">
+                            <label asp-for="LocationText">المكان</label>
+                            <input asp-for="LocationText"
+                                   type="text"
+                                   class="modern-input"
+                                   style="width:100%;"
+                                   placeholder="عيادة كلية الأسنان" />
                         </div>
+
+                        <div class="info-block" style="display:flex; flex-direction:column; align-items:start;">
+                            <label asp-for="ClinicRoom">رقم الغرفة</label>
+                            <input asp-for="ClinicRoom"
+                                   type="text"
+                                   class="modern-input"
+                                   style="width:100%;"
+                                   placeholder="غرفة 3" />
+                        </div>
+
                     </div>
                 </form>
-            </article>
-
-            <article class="health-panel">
-                <div class="panel-heading">
-                    <div>
-                        <h2>ملاحظات أولية</h2>
-                        <p>أضف أي ملاحظات أو تعليمات خاصة بالجلسة.</p>
-                    </div>
-                </div>
-                <textarea rows="4" style="width: 100%; padding: 12px; border: 1px solid #d1d5db; border-radius: 8px; font-family: inherit; font-size: 1rem;">سيتم التركيز على التقييم الأولي وتحضير خطة العلاج.</textarea>
             </article>
         </section>
 
@@ -70,9 +106,14 @@
                 </div>
                 <div class="form-actions">
                     <button type="submit" form="add-session-form" class="primary-action">إضافة الجلسة</button>
-                    <a class="ghost-action" asp-controller="Session" asp-action="SessionList" asp-route-matchId="@matchId" asp-route-portal="@portalRoute">إلغاء</a>
+                    <a class="ghost-action"
+                       asp-controller="Session"
+                       asp-action="SessionList"
+                       asp-route-matchId="@matchId"
+                       asp-route-portal="@portalRoute">إلغاء</a>
                 </div>
             </article>
         </aside>
     </div>
 </section>
+

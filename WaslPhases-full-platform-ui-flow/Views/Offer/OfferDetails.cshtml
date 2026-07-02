@@ -3,10 +3,16 @@
     ViewData["Title"] = "تفاصيل العرض";
     var portalRoute = ViewContext.RouteData.Values["portal"]?.ToString();
 
+    // ✅ UI Auth
+    var uid = Context.Session.GetInt32("UserId") ?? 0;
+    var role = Context.Session.GetInt32("UserRole") ?? 0;
+    var isPatient = role == 1;
+    var isStudent = role == 2;
+    var ownsOffer = uid == Model.StudentUserId;
+
     var statusText = Model.Status == 1 ? "قيد المراجعة"
                     : Model.Status == 2 ? "مقبول"
-                    : Model.Status == 3 ? "مرفوض"
-                    : "ملغي";
+                    : Model.Status == 3 ? "مرفوض" : "ملغي";
     var statusClass = Model.Status == 1 ? "status-pending"
                     : Model.Status == 2 ? "status-completed"
                     : "status-rejected";
@@ -42,7 +48,6 @@
                 <div class="panel-heading">
                     <div>
                         <h2>ملخص العرض</h2>
-                        <p>ملخص سريع للسعر، عدد الجلسات، وحالة رد المريض.</p>
                     </div>
                     <span class="status-badge @statusClass">@statusText</span>
                 </div>
@@ -67,13 +72,6 @@
                         <span>تاريخ الإرسال</span>
                         <strong>@Model.CreatedAt.ToString("dd MMM yyyy")</strong>
                     </div>
-                    @if (Model.DecidedAt.HasValue)
-                    {
-                        <div class="info-block">
-                            <span>تاريخ القرار</span>
-                            <strong>@Model.DecidedAt.Value.ToString("dd MMM yyyy")</strong>
-                        </div>
-                    }
                 </div>
             </article>
 
@@ -81,10 +79,7 @@
             {
                 <article class="health-panel">
                     <div class="panel-heading">
-                        <div>
-                            <h2>رسالة الطالب</h2>
-                            <p>النص الذي يراه المريض قبل قبول العرض.</p>
-                        </div>
+                        <div><h2>رسالة الطالب</h2></div>
                     </div>
                     <p class="body-copy">@Model.Message</p>
                 </article>
@@ -92,8 +87,8 @@
         </section>
 
         <aside class="content-side">
-            @*  زر Accept يظهر فقط للمريض لو الـ Offer لا يزال Pending *@
-            @if (Model.Status == 1)
+            @* ✅ قبول/رفض: المريض فقط + Pending فقط *@
+            @if (isPatient && Model.Status == 1)
             {
                 <article class="health-panel side-accent">
                     <div class="panel-heading">
@@ -103,7 +98,6 @@
                         </div>
                     </div>
                     <div class="form-actions">
-                        @*  Accept عبر POST → MatchService.AcceptOfferAsync *@
                         <form asp-controller="Match"
                               asp-action="AcceptOffer"
                               asp-route-portal="@portalRoute"
@@ -127,15 +121,15 @@
                     </div>
                 </article>
             }
-            else
+
+            @* ✅ حالة العرض بعد القرار *@
+            @if (Model.Status != 1)
             {
                 <article class="health-panel">
                     <div class="panel-heading">
                         <div><h2>حالة العرض</h2></div>
                     </div>
-                    <p class="case-meta">
-                        العرض @statusText — لا يمكن تغيير القرار.
-                    </p>
+                    <p class="case-meta">العرض @statusText — لا يمكن تغيير القرار.</p>
                     @if (Model.Status == 2)
                     {
                         <a class="primary-action mt-3"
@@ -143,6 +137,17 @@
                            asp-action="Index"
                            asp-route-portal="@portalRoute">عرض المطابقة</a>
                     }
+                </article>
+            }
+
+            @* ✅ الطالب يشوف حالة عرضه بس مش يقبل أو يرفض *@
+            @if (isStudent && ownsOffer)
+            {
+                <article class="health-panel">
+                    <div class="panel-heading">
+                        <div><h2>عرضك</h2></div>
+                    </div>
+                    <p class="case-meta">حالة عرضك: <strong>@statusText</strong></p>
                 </article>
             }
         </aside>

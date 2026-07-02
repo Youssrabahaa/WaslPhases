@@ -65,7 +65,7 @@ namespace phase_1.BLL.Services
 
         public async Task<List<ReviewDTO>> GetReviewsForUserAsync(int userId)
         {
-            var reviews = await _reviewRepository.GetByReviewedUserIdAsync(userId);
+            var reviews = await _reviewRepository.GetByUserInvolvedAsync(userId);
 
             return reviews.Select(r => new ReviewDTO
             {

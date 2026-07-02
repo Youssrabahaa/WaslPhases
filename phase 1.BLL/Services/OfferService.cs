@@ -15,10 +15,13 @@ namespace phase_1.BLL.Services
 
         public async Task<OfferDTO> CreateOfferAsync(CreateOfferDTO dto)
         {
-            //  تحقق إن الطالب مش عنده offer موجود على نفس الحالة
-            var existing = await _offerRepository.GetByStudentAndCaseAsync(dto.StudentUserId, dto.CaseId);
+            // ✅ إصلاح: تحقق من Pending فقط (Status=1)
+            // لو الطالب عنده offer مرفوض أو ملغي يقدر يعمل عرض جديد
+            var existing = await _offerRepository.GetByStudentAndCaseAsync(
+                dto.StudentUserId, dto.CaseId, pendingOnly: true);
+
             if (existing != null)
-                throw new InvalidOperationException("لقد قدمت عرضًا على هذه الحالة مسبقًا.");
+                throw new InvalidOperationException("لديك عرض قيد المراجعة على هذه الحالة بالفعل.");
 
             var offer = new Offer
             {
@@ -120,10 +123,11 @@ namespace phase_1.BLL.Services
             return true;
         }
 
-        //  implementation — بترجع الـ offer الموجود لو الطالب سبق وقدم على نفس الحالة
+        // ✅ إصلاح: بترجع Pending فقط عشان الطالب يقدر يعمل عرض جديد بعد الرفض
         public async Task<OfferDTO?> GetExistingOfferAsync(int studentId, int caseId)
         {
-            var offer = await _offerRepository.GetByStudentAndCaseAsync(studentId, caseId);
+            var offer = await _offerRepository.GetByStudentAndCaseAsync(
+                studentId, caseId, pendingOnly: true);
 
             if (offer == null)
                 return null;

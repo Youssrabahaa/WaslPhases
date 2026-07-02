@@ -13,15 +13,18 @@ namespace phase_1.BLL.Services
         private readonly ISessionRepository _sessionRepository;
         private readonly INoShowStrikeService _noShowStrikeService;
         private readonly IReminderService _reminderService;
+        private readonly IMatchService _matchService;
 
         public SessionService(
             ISessionRepository sessionRepository,
             INoShowStrikeService noShowStrikeService,
-            IReminderService reminderService)
+            IReminderService reminderService,
+            IMatchService matchService)
         {
             _sessionRepository = sessionRepository;
             _noShowStrikeService = noShowStrikeService;
             _reminderService = reminderService;
+            _matchService = matchService;
         }
 
         public async Task<List<SessionDTO>> GetByMatchAsync(int matchId)
@@ -174,6 +177,9 @@ namespace phase_1.BLL.Services
 
             _sessionRepository.Update(session);
             await _sessionRepository.SaveChangesAsync();
+
+            // ✅ إصلاح: بعد انتهاء آخر جلسة، تتحول المطابقة تلقائيًا لمكتملة
+            await _matchService.CompleteMatchAsync(session.MatchId);
 
             return true;
         }

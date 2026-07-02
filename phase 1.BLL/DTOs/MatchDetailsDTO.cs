@@ -8,6 +8,8 @@ namespace phase_1.BLL.DTOs
 {
     public class MatchDetailsDTO : MatchDTO
     {
+        public int PatientUserId { get; set; }
+        public int StudentUserId { get; set; }
         public string PatientName { get; set; } = string.Empty;
         public string PatientPhone { get; set; } = string.Empty;
 

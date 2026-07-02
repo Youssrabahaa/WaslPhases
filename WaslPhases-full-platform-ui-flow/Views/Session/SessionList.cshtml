@@ -3,40 +3,46 @@
 @{
     ViewData["Title"] = "قائمة الجلسات";
     var portalRoute = ViewContext.RouteData.Values["portal"]?.ToString() ?? "student";
-    var matchId = ViewBag.MatchId ?? 0;
+    var matchId = ViewBag.MatchId as int? ?? 0;
+
+    //  إصلاح: Role متحفظ كـ int في Session مش string
+    var userRole = Context.Session.GetInt32("UserRole") ?? 0;
+    var isStudent = userRole == 2;
 }
 
 <section class="health-page">
-    <div class="health-hero">
+    <div class="health-hero compact-hero">
         <div>
             <span class="health-kicker">الجلسات</span>
-            <h1 class="health-title">إدارة الجلسات بوضوح من البداية للنهاية.</h1>
-            <p class="health-subtitle">قائمة الجلسات تعرض المواعيد، الحالات، وإجراءات البدء أو المتابعة مع حالة عدم وجود جلسات.</p>
+            <h1 class="health-title">إدارة الجلسات</h1>
+            <p class="health-subtitle">قائمة الجلسات المرتبطة بالمطابقة — بدء، إنهاء، أو إلغاء.</p>
         </div>
         <div class="hero-actions">
-            <a class="primary-action" asp-controller="Match" asp-action="MatchDetails" asp-route-portal="@portalRoute" asp-route-id="@matchId">تفاصيل المطابقة</a>
-            @if (Context.Session.GetString("Role") == "1")
+            <a class="ghost-action"
+               asp-controller="Match"
+               asp-action="MatchDetails"
+               asp-route-id="@matchId"
+               asp-route-portal="@portalRoute">← تفاصيل المطابقة</a>
+
+            @*  إصلاح: يظهر للطالب فقط (Role=2) *@
+            @if (isStudent && matchId > 0)
             {
                 <a class="primary-action"
                    asp-controller="Session"
                    asp-action="AddSession"
-                   asp-route-portal="@portalRoute"
                    asp-route-matchId="@matchId"
-                   style="background-color: #10b981;">
-                    إضافة جلسة
-                </a>
+                   asp-route-portal="@portalRoute">+ إضافة جلسة</a>
             }
-            <a class="ghost-action" asp-controller="Home" asp-action="Index" asp-route-portal="@portalRoute">الرئيسية</a>
         </div>
     </div>
 
     @if (TempData["SuccessMessage"] != null)
     {
-        <div class="alert alert-success">@TempData["SuccessMessage"]</div>
+        <div class="app-toast"><span class="app-toast-dot"></span>@TempData["SuccessMessage"]</div>
     }
     @if (TempData["ErrorMessage"] != null)
     {
-        <div class="alert alert-danger">@TempData["ErrorMessage"]</div>
+        <div class="alert-soft-danger">@TempData["ErrorMessage"]</div>
     }
 
     @if (Model != null && Model.Any())
@@ -44,62 +50,72 @@
         <div class="offer-list">
             @foreach (var session in Model)
             {
+                
+                    var statusClass = session.Status == 1 ? "status-inprogress"
+                                    : session.Status == 2 ? "status-inprogress"
+                                    : session.Status == 3 ? "status-completed"
+                                    : "status-rejected";
+                
                 <article class="session-card">
                     <div>
                         <div class="case-card-top">
-                            @{
-                                var statusClass = session.Status == 1 ? "status-scheduled" :
-                                session.Status == 2 ? "status-inprogress" :
-                                session.Status == 3 ? "status-completed" :
-                                "status-cancelled";
-                            }
                             <span class="status-badge @statusClass">@session.StatusText</span>
-                            <span class="case-meta">الجلسة @session.Number</span>
+                            <span class="case-meta">جلسة @session.Number</span>
                             @if (!string.IsNullOrEmpty(session.ClinicRoom))
                             {
                                 <span class="case-meta">غرفة @session.ClinicRoom</span>
                             }
                         </div>
-                        <h3>جلسة @session.Number</h3>
-                        <p>@(!string.IsNullOrEmpty(session.LocationText) ? session.LocationText : "العيادة")</p>
+                        <h3>جلسة رقم @session.Number</h3>
+                        <p class="case-meta">
+                            @(!string.IsNullOrEmpty(session.LocationText) ? session.LocationText : "العيادة")
+                        </p>
                         <div class="row-actions mt-3">
-                            <a class="primary-action compact-action" asp-controller="Session" asp-action="SessionDetails" asp-route-id="@session.Id" asp-route-portal="@portalRoute">تفاصيل الجلسة</a>
+                            <a class="primary-action compact-action"
+                               asp-controller="Session"
+                               asp-action="SessionDetails"
+                               asp-route-id="@session.Id"
+                               asp-route-portal="@portalRoute">تفاصيل</a>
 
-                            @if (session.Status == 1) // Scheduled
+                            @if (session.Status == 1)
                             {
-                                <form asp-action="Start" asp-controller="Session" method="post" style="display:inline;">
+                                <form asp-action="Start" asp-controller="Session"
+                                      asp-route-portal="@portalRoute"
+                                      method="post" style="display:inline;">
                                     @Html.AntiForgeryToken()
                                     <input type="hidden" name="id" value="@session.Id" />
-                                    <button type="submit" class="primary-action compact-action" style="background-color: #f59e0b;">بدء الجلسة</button>
+                                    <button type="submit" class="ghost-action compact-action">بدء</button>
                                 </form>
                             }
-                            else if (session.Status == 2) // In Progress
+                            else if (session.Status == 2)
                             {
-                                <form asp-action="Finish" asp-controller="Session" method="post" style="display:inline;">
+                                <form asp-action="Finish" asp-controller="Session"
+                                      asp-route-portal="@portalRoute"
+                                      method="post" style="display:inline;">
                                     @Html.AntiForgeryToken()
                                     <input type="hidden" name="id" value="@session.Id" />
-                                    <button type="submit" class="primary-action compact-action" style="background-color: #10b981;">إنهاء الجلسة</button>
+                                    <button type="submit" class="ghost-action compact-action">إنهاء</button>
                                 </form>
                             }
 
-                            @if (session.Status != 3) // Not Completed
+                            @if (session.Status != 3)
                             {
-                                <form asp-action="Cancel" asp-controller="Session" method="post" style="display:inline;">
+                                <form asp-action="Cancel" asp-controller="Session"
+                                      asp-route-portal="@portalRoute"
+                                      method="post" style="display:inline;"
+                                      onsubmit="return confirm('هل تريد إلغاء هذه الجلسة؟')">
                                     @Html.AntiForgeryToken()
                                     <input type="hidden" name="id" value="@session.Id" />
                                     <input type="hidden" name="matchId" value="@session.MatchId" />
-                                    <button type="submit" class="ghost-action compact-action">إلغاء</button>
+                                    <button type="submit" class="danger-action compact-action">إلغاء</button>
                                 </form>
                             }
                         </div>
                     </div>
                     <div class="card-side">
-                        <strong>@session.StartAt.ToString("dd/MM/yyyy h:mm tt")</strong>
-                        <span class="case-meta">
-                            @(session.Status == 1 ? "مجدولة" :
-                                session.Status == 2 ? "قيد التنفيذ" :
-                                session.Status == 3 ? "مكتملة" : "ملغية")
-                        </span>
+                        <strong>@session.StartAt.ToString("dd/MM/yyyy")</strong>
+                        <span class="case-meta">@session.StartAt.ToString("hh:mm tt")</span>
+                        <span class="case-meta">@session.StatusText</span>
                     </div>
                 </article>
             }
@@ -111,11 +127,15 @@
             <article class="empty-state-card">
                 <span class="empty-state-icon">📅</span>
                 <h3>لا توجد جلسات</h3>
-                <p>لا توجد جلسات مرتبطة بهذه المطابقة بعد. عند قبول العرض وتحديد موعد ستظهر هنا.</p>
-                @if (matchId > 0)
+                <p>لا توجد جلسات مرتبطة بهذه المطابقة بعد.</p>
+                @if (isStudent && matchId > 0)
                 {
                     <div class="mt-3">
-                        <a class="primary-action" asp-controller="Session" asp-action="AddSession" asp-route-portal="@portalRoute" asp-route-matchId="@matchId">إضافة جلسة جديدة</a>
+                        <a class="primary-action"
+                           asp-controller="Session"
+                           asp-action="AddSession"
+                           asp-route-matchId="@matchId"
+                           asp-route-portal="@portalRoute">إضافة جلسة جديدة</a>
                     </div>
                 }
             </article>

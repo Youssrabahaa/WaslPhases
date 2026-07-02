@@ -30,6 +30,7 @@ namespace phase_1.Data
         public DbSet<NoShowStrike> NoShowStrikes { get; set; } = null!;
         public DbSet<Report> Reports { get; set; } = null!;
         public DbSet<Conversation> Conversations { get; set; } = null!;
+        public DbSet<Notification> Notifications { get; set; } = null!;
         public DbSet<Message> Messages { get; set; } = null!;
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

@@ -1,82 +1,117 @@
+@model List<phase_1.BLL.DTOs.ReviewDTO>
 @{
-    ViewData["Title"] = "عرض التقييمات";
+    ViewData["Title"] = "التقييمات";
     var portalRoute = ViewContext.RouteData.Values["portal"]?.ToString();
+    var uid = Context.Session.GetInt32("UserId") ?? 0;
+    var role = Context.Session.GetInt32("UserRole") ?? 0;
+
+    var avg = Model.Any() ? Model.Average(r => r.Rating) : 0.0;
+    var stars = (int)Math.Round(avg);
 }
 
 <section class="health-page">
     <div class="health-hero">
         <div>
             <span class="health-kicker">التقييمات</span>
-            <h1 class="health-title">تقييمات تساعد الفريق يشوف جودة التجربة.</h1>
-            <p class="health-subtitle">صفحة تعرض التقييمات، متوسط النجوم، وتعليقات مختصرة من تجارب سابقة.</p>
-        </div>
-        <div class="hero-actions">
-            <a class="primary-action" asp-controller="Review" asp-action="AddReview" asp-route-portal="@portalRoute">كتابة تقييم</a>
+            <h1 class="health-title">تقييماتك من المطابقات المكتملة</h1>
+            <p class="health-subtitle">كل تقييم مرتبط بمطابقة حقيقية بين مريض وطالب.</p>
         </div>
     </div>
 
+    @if (TempData["Success"] != null)
+    {
+        <div class="app-toast"><span class="app-toast-dot"></span>@TempData["Success"]</div>
+    }
+    @if (TempData["Error"] != null)
+    {
+        <div class="alert-soft-danger">@TempData["Error"]</div>
+    }
+
+    @* KPI Strip *@
     <div class="metric-strip">
         <article class="mini-kpi">
             <span class="mini-kpi-label">متوسط التقييم</span>
-            <strong>4.8</strong>
+            <strong>@avg.ToString("F1")</strong>
             <span class="mini-kpi-meta">من 5</span>
         </article>
         <article class="mini-kpi">
             <span class="mini-kpi-label">عدد التقييمات</span>
-            <strong>36</strong>
-            <span class="mini-kpi-meta">آخر 30 يوم</span>
+            <strong>@Model.Count</strong>
+            <span class="mini-kpi-meta">إجمالي</span>
         </article>
         <article class="mini-kpi">
-            <span class="mini-kpi-label">رضا المرضى</span>
-            <strong>94%</strong>
-            <span class="mini-kpi-meta">تعليقات إيجابية</span>
+            <span class="mini-kpi-label">التقييم الأخير</span>
+            <strong>
+                @(Model.Any()
+                    ? Model.OrderByDescending(r => r.CreatedAt).First().Rating + " ★"
+                    : "—")
+            </strong>
         </article>
         <article class="mini-kpi">
-            <span class="mini-kpi-label">الاستجابة</span>
-            <strong>سريعة</strong>
-            <span class="mini-kpi-meta">أقل من ساعتين</span>
+            <span class="mini-kpi-label">المتوسط</span>
+            <strong>
+                @for (int i = 1; i <= 5; i++)
+                {
+                    <span style="color: @(i <= stars ? "#f59e0b" : "#d1d5db")">★</span>
+                }
+            </strong>
         </article>
     </div>
 
-    <div class="review-grid">
-        <article class="review-card">
-            <div class="rating-row">
-                <span class="star">★</span>
-                <span class="star">★</span>
-                <span class="star">★</span>
-                <span class="star">★</span>
-                <span class="star">★</span>
-            </div>
-            <h3>تجربة منظمة وواضحة</h3>
-            <p>الطالب شرح الخطة قبل الجلسة، والتقرير كان مفهوما بعد الانتهاء.</p>
-            <span class="case-meta">منى أحمد - مريض</span>
-        </article>
-
-        <article class="review-card">
-            <div class="rating-row">
-                <span class="star">★</span>
-                <span class="star">★</span>
-                <span class="star">★</span>
-                <span class="star">★</span>
-            </div>
-            <h3>متابعة جيدة</h3>
-            <p>التذكيرات ساعدت على الالتزام بالموعد، لكن نحتاج تفاصيل أكثر قبل الحضور.</p>
-            <span class="case-meta">يوسف محمد - مريض</span>
-        </article>
-
-        <article class="review-card">
-            <div class="rating-row">
-                <span class="star">★</span>
-                <span class="star">★</span>
-                <span class="star">★</span>
-                <span class="star">★</span>
-                <span class="star">★</span>
-            </div>
-            <h3>حالات مناسبة للتدريب</h3>
-            <p>تصفح الحالات والعروض واضح، وسهل متابعة حالة كل عرض بعد إرساله.</p>
-            <span class="case-meta">أحمد خالد - طالب</span>
-        </article>
-
-        @await Html.PartialAsync("_EmptyState")
-    </div>
+    @if (Model.Any())
+    {
+        <div class="review-grid">
+            @foreach (var r in Model.OrderByDescending(x => x.CreatedAt))
+            {
+                <article class="review-card">
+                    <div class="rating-row">
+                        @for (int i = 1; i <= 5; i++)
+                        {
+                            <span class="star" style="color: @(i <= r.Rating ? "#f59e0b" : "#d1d5db")">★</span>
+                        }
+                    </div>
+                    @if (!string.IsNullOrEmpty(r.Comment))
+                    {
+                        <p>@r.Comment</p>
+                    }
+                    <div class="info-grid mt-2" style="font-size:0.85rem;">
+                        <div class="info-block">
+                            <span>من</span>
+                            <strong>@r.ReviewerName</strong>
+                        </div>
+                        <div class="info-block">
+                            <span>إلى</span>
+                            <strong>@r.ReviewedName</strong>
+                        </div>
+                        <div class="info-block">
+                            <span>التاريخ</span>
+                            <strong>@r.CreatedAt.ToString("dd MMM yyyy")</strong>
+                        </div>
+                        <div class="info-block">
+                            <span>المطابقة</span>
+                            <a class="ghost-action compact-action"
+                               asp-controller="Match"
+                               asp-action="MatchDetails"
+                               asp-route-id="@r.MatchId"
+                               asp-route-portal="@portalRoute">مطابقة #@r.MatchId</a>
+                        </div>
+                    </div>
+                </article>
+            }
+        </div>
+    }
+    else
+    {
+        <section class="state-grid">
+            <article class="empty-state-card">
+                <span class="empty-state-icon">⭐</span>
+                <h3>لا توجد تقييمات بعد</h3>
+                <p>التقييمات تظهر هنا بعد اكتمال المطابقات.</p>
+                <a class="ghost-action mt-3"
+                   asp-controller="Match"
+                   asp-action="Index"
+                   asp-route-portal="@portalRoute">مطابقاتي</a>
+            </article>
+        </section>
+    }
 </section>

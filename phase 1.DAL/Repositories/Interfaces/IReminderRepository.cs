@@ -13,6 +13,8 @@ namespace phase_1.DAL.Repositories.Interfaces
 
         Task<Reminder?> GetByIdAsync(int id);
 
+        Task<List<Reminder>> GetDueRemindersAsync(DateTime now);
+
         Task AddAsync(Reminder reminder);
 
         void Update(Reminder reminder);

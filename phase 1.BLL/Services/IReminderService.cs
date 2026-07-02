@@ -13,6 +13,8 @@ namespace phase_1.BLL.Services
 
         Task<bool> MarkAsSentAsync(int reminderId);
 
+        Task ProcessDueRemindersAsync();
+
         Task UpdateSessionRemindersAsync(Session session, DateTime oldStartAt);
 
         Task DeletePendingRemindersAsync(int sessionId);

@@ -2,7 +2,7 @@
 using phase_1.BLL.DTOs;
 using phase_1.BLL.Services;
 
-namespace phase_1.PL.Controllers
+namespace phase_1.Controllers
 {
     public class ReviewController : Controller
     {
@@ -20,10 +20,15 @@ namespace phase_1.PL.Controllers
             return View(reviews);
         }
 
-        public IActionResult AddReview(int matchId)
+        public IActionResult AddReview(int matchId, int revieweeUserId)
         {
-            ViewBag.MatchId = matchId;
-            return View();
+            var dto = new CreateReviewDTO
+            {
+                MatchId = matchId,
+                RevieweeUserId = revieweeUserId,
+                Rating = 5
+            };
+            return View(dto);
         }
 
         [HttpPost]
@@ -33,10 +38,7 @@ namespace phase_1.PL.Controllers
             var reviewerUserId = HttpContext.Session.GetInt32("UserId") ?? 0;
 
             if (!ModelState.IsValid)
-            {
-                ViewBag.MatchId = dto.MatchId;
                 return View(dto);
-            }
 
             try
             {

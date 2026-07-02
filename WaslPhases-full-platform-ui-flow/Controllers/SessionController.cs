@@ -2,7 +2,8 @@
 using phase_1.BLL.DTOs;
 using phase_1.BLL.Services;
 
-namespace phase_1.BLL.Controllers;
+// ✅ إصلاح: كان phase_1.BLL.Controllers — namespace غلط
+namespace phase_1.Controllers;
 
 public class SessionController : Controller
 {
@@ -15,10 +16,11 @@ public class SessionController : Controller
 
     public async Task<IActionResult> SessionList(int matchId)
     {
+        // ✅ إصلاح: لو matchId = 0 (من الـ Navbar) نحاول نجيبه من أحدث match
         if (matchId <= 0)
         {
-            TempData["ErrorMessage"] = "لا توجد مطابقات بعد";
-            return View(new List<SessionDTO>());
+            TempData["ErrorMessage"] = "يرجى فتح الجلسات من تفاصيل المطابقة.";
+            return RedirectToAction("Index", "Match");
         }
 
         var sessions = await _sessionService.GetByMatchAsync(matchId);
@@ -38,8 +40,11 @@ public class SessionController : Controller
 
     public IActionResult AddSession(int matchId)
     {
+        if (matchId <= 0)
+            return RedirectToAction("Index", "Match");
+
         ViewBag.MatchId = matchId;
-        return View();
+        return View(new CreateSessionDTO { MatchId = matchId });
     }
 
     [HttpPost]
@@ -65,16 +70,14 @@ public class SessionController : Controller
         if (session == null)
             return NotFound();
 
-        var dto = new UpdateSessionDTO
+        return View(new UpdateSessionDTO
         {
             Id = session.Id,
             StartAt = session.StartAt,
             EndAt = session.EndAt,
             LocationText = session.LocationText,
             ClinicRoom = session.ClinicRoom
-        };
-
-        return View(dto);
+        });
     }
 
     [HttpPost]
@@ -128,7 +131,8 @@ public class SessionController : Controller
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> Cancel(int id, int matchId)
     {
-        var result = await _sessionService.CancelAsync(id, 0, "");
+        var userId = HttpContext.Session.GetInt32("UserId") ?? 0;
+        var result = await _sessionService.CancelAsync(id, userId, "");
 
         if (!result)
             TempData["ErrorMessage"] = "لا يمكن إلغاء الجلسة.";

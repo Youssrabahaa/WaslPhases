@@ -10,11 +10,15 @@ namespace phase_1.BLL.Services
 {
     public class ReminderService : IReminderService
     {
-        private readonly IReminderRepository _repository;
+        private const int ReminderNotificationType = 6;
 
-        public ReminderService(IReminderRepository repository)
+        private readonly IReminderRepository _repository;
+        private readonly INotificationService _notificationService;
+
+        public ReminderService(IReminderRepository repository, INotificationService notificationService)
         {
             _repository = repository;
+            _notificationService = notificationService;
         }
 
         public async Task<List<ReminderDTO>> GetBySessionAsync(int sessionId)
@@ -66,6 +70,47 @@ namespace phase_1.BLL.Services
             await _repository.SaveChangesAsync();
 
             return true;
+        }
+
+        public async Task ProcessDueRemindersAsync()
+        {
+            // ScheduledAt/StartAt are stored as raw local wall-clock values (from a
+            // datetime-local input, never converted to UTC), so "due" must be checked
+            // against local time too, not DateTime.UtcNow.
+            var dueReminders = await _repository.GetDueRemindersAsync(DateTime.Now);
+
+            foreach (var reminder in dueReminders)
+            {
+                var session = reminder.Session;
+                var match = session?.Match;
+
+                if (session is not null && match is not null)
+                {
+                    var isDayBefore = (session.StartAt - reminder.ScheduledAt).TotalHours >= 6;
+                    var message = isDayBefore
+                        ? $"تذكير: لديك جلسة غدًا الساعة {session.StartAt:hh:mm tt}."
+                        : $"تذكير: لديك جلسة بعد ساعتين الساعة {session.StartAt:hh:mm tt}.";
+
+                    await _notificationService.SendAsync(
+                        match.PatientUserId,
+                        "تذكير بالجلسة",
+                        message,
+                        type: ReminderNotificationType, referenceId: session.Id, referenceType: "Session");
+
+                    await _notificationService.SendAsync(
+                        match.StudentUserId,
+                        "تذكير بالجلسة",
+                        message,
+                        type: ReminderNotificationType, referenceId: session.Id, referenceType: "Session");
+                }
+
+                reminder.Status = 2;
+                reminder.SentAt = DateTime.UtcNow;
+                _repository.Update(reminder);
+            }
+
+            if (dueReminders.Count > 0)
+                await _repository.SaveChangesAsync();
         }
 
         public async Task UpdateSessionRemindersAsync(Session session, DateTime oldStartAt)

@@ -53,11 +53,18 @@ namespace phase_1.DAL.Repositories
                 .ToListAsync();
         }
 
-        // ✅ implementation جديد — بيتحقق إن الطالب مش عنده offer على نفس الحالة
-        public async Task<Offer?> GetByStudentAndCaseAsync(int studentId, int caseId)
+        // ✅ إصلاح: pendingOnly=true → يتحقق من Status=1 فقط
+        // الطالب يقدر يعمل عرض جديد لو عنده offer مرفوض أو ملغي
+        public async Task<Offer?> GetByStudentAndCaseAsync(
+            int studentId, int caseId, bool pendingOnly = false)
         {
-            return await _context.Offers
-                .FirstOrDefaultAsync(o => o.StudentUserId == studentId && o.CaseId == caseId);
+            var query = _context.Offers
+                .Where(o => o.StudentUserId == studentId && o.CaseId == caseId);
+
+            if (pendingOnly)
+                query = query.Where(o => o.Status == 1);
+
+            return await query.FirstOrDefaultAsync();
         }
 
         public async Task UpdateAsync(Offer offer)

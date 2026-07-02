@@ -197,6 +197,7 @@ public class AuthController : Controller
             return View(nameof(ResetPassword));
         }
 
+        TempData["AuthMessage"] = "تم تغيير كلمة المرور بنجاح. يمكنك تسجيل الدخول الآن.";
         return Redirect("/Auth/Login");
     }
 

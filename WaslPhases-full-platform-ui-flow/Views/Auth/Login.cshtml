@@ -1,5 +1,6 @@
 ﻿@{
     ViewData["Title"] = "تسجيل الدخول";
+    var authMessage = TempData["AuthMessage"]?.ToString();
 }
 
 <section class="auth-page">
@@ -15,6 +16,11 @@
         <span class="health-kicker">دخول</span>
         <h2>تسجيل الدخول</h2>
         <p>اكتب رقم الهاتف المسجل وكلمة المرور.</p>
+
+        @if (!string.IsNullOrWhiteSpace(authMessage))
+        {
+            <div class="alert-soft-info">@authMessage</div>
+        }
 
         <form class="form-panel" action="/Auth/LoginForm" method="post">
             @Html.AntiForgeryToken()

@@ -6,6 +6,7 @@ namespace phase_1.DAL.Repositories.Interfaces
     {
         Task<Review?> GetByIdAsync(int id);
         Task<List<Review>> GetByReviewedUserIdAsync(int reviewedUserId);
+        Task<List<Review>> GetByUserInvolvedAsync(int userId);
         Task<List<Review>> GetByMatchIdAsync(int matchId);
         Task<bool> ExistsForMatchAndReviewerAsync(int matchId, int reviewerUserId);
         Task AddAsync(Review review);

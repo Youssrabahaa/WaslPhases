@@ -15,10 +15,8 @@ public static class ModelBuilderSeedExtensions
         modelBuilder.Entity<ServiceType>().HasData(ReferenceSeed.ServiceTypes);
         modelBuilder.Entity<TreatmentCategory>().HasData(ReferenceSeed.TreatmentCategories);
         modelBuilder.Entity<Case>().HasData(CaseSeed.Data);
-
         modelBuilder.Entity<Offer>().HasData(MatchSeed.Offers);
         modelBuilder.Entity<Match>().HasData(MatchSeed.Matches);
-        modelBuilder.Entity<Conversation>().HasData(MatchSeed.Conversations);
 
     }
 }

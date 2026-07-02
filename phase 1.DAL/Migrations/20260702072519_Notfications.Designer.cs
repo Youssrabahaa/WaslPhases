@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using phase_1.Data;
 
@@ -11,9 +12,11 @@ using phase_1.Data;
 namespace phase_1.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260702072519_Notfications")]
+    partial class Notfications
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -292,6 +295,15 @@ namespace phase_1.Migrations
                         .IsUnique();
 
                     b.ToTable("Conversations");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            CreatedAt = new DateTime(2026, 4, 11, 12, 0, 0, 0, DateTimeKind.Utc),
+                            IsClosed = false,
+                            MatchId = 1
+                        });
                 });
 
             modelBuilder.Entity("phase_1.DAL.Models.Faculty", b =>

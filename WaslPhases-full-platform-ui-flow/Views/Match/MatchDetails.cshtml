@@ -9,18 +9,21 @@
     var statusText = Model.Status == 1 ? "نشطة"
                     : Model.Status == 2 ? "مكتملة"
                     : "ملغية";
+
+    // ✅ UI Auth
+    var uid = Context.Session.GetInt32("UserId") ?? 0;
+    var role = Context.Session.GetInt32("UserRole") ?? 0;
+    var isPatient = role == 1;
+    var isStudent = role == 2;
+    var isAdmin = role == 3;
+    var isParticipant = uid == Model.PatientUserId || uid == Model.StudentUserId;
+    var backAction = isPatient ? "PatientMatches" : "StudentMatches";
+    var revieweeUserId = uid == Model.PatientUserId ? Model.StudentUserId : Model.PatientUserId;
 }
 
 <section class="health-page">
-    <a class="action-tile"
-       asp-controller="Conversation"
-       asp-action="Chat"
-       asp-route-matchId="@Model.MatchId"
-       asp-route-portal="@portalRoute">
-        <strong>💬 المحادثة</strong>
-        <span>تواصل مع الطرف الآخر.</span>
-    </a>
-    <!-- Hero-->
+
+    <!-- Hero -->
     <div class="health-hero">
         <div>
             <span class="health-kicker">من العرض إلى المطابقة</span>
@@ -28,21 +31,38 @@
             <p class="health-subtitle">@Model.CaseTitle — تفاصيل المريض والطالب والجلسات والعرض المقبول.</p>
         </div>
         <div class="hero-actions">
-            <a class="primary-action"
+
+            @* ✅ المحادثة: المريض والطالب المشاركان فقط *@
+            @if (isParticipant)
+            {
+                <a class="primary-action"
+                   asp-controller="Conversation"
+                   asp-action="Chat"
+                   asp-route-matchId="@Model.MatchId"
+                   asp-route-portal="@portalRoute">
+                    💬 المحادثة
+                </a>
+            }
+
+            @* ✅ الجلسات: الكل يشوف *@
+            <a class="ghost-action"
                asp-controller="Session"
                asp-action="SessionList"
                asp-route-matchId="@Model.MatchId"
                asp-route-portal="@portalRoute">
                 إدارة الجلسات
             </a>
+
+            @* ✅ العودة حسب الـ Role *@
             <a class="ghost-action"
-               asp-controller="Report"
-               asp-action="AddReport"
+               asp-controller="Match"
+               asp-action="@backAction"
                asp-route-portal="@portalRoute">
-                إضافة تقرير
+                ← المطابقات
             </a>
 
-            @if (Model.Status == 1)
+            @* ✅ إلغاء: أي طرف مشارك فقط + Active فقط *@
+            @if (isParticipant && Model.Status == 1)
             {
                 <form asp-action="Cancel"
                       asp-controller="Match"
@@ -52,7 +72,6 @@
                       onsubmit="return confirm('هل أنت متأكد من إلغاء المطابقة؟ سيُعاد فتح الحالة للعروض.')">
                     @Html.AntiForgeryToken()
                     <input type="hidden" name="id" value="@Model.MatchId" />
-                    <input type="hidden" name="dto.UserId" value="0" />
                     <button type="submit" class="danger-action">إلغاء المطابقة</button>
                 </form>
             }
@@ -68,7 +87,7 @@
         <div class="alert-soft-danger">@TempData["Error"]</div>
     }
 
-   
+    <!-- KPI Strip -->
     <div class="metric-strip">
         <article class="mini-kpi">
             <span class="mini-kpi-label">حالة المطابقة</span>
@@ -85,7 +104,6 @@
         <article class="mini-kpi">
             <span class="mini-kpi-label">السعر المتفق</span>
             <strong>@(Model.AgreedPrice?.ToString("N0") ?? "—") ج.م</strong>
-            <span class="mini-kpi-meta">@(Model.SessionsCount ?? 0) جلسة</span>
         </article>
         <article class="mini-kpi">
             <span class="mini-kpi-label">التصنيف</span>
@@ -94,10 +112,11 @@
         </article>
     </div>
 
+    <!-- Content Grid -->
     <div class="content-grid">
         <section class="content-main">
 
-      
+            <!-- أطراف المطابقة -->
             <article class="health-panel">
                 <div class="panel-heading">
                     <div>
@@ -139,15 +158,11 @@
                 </div>
             </article>
 
-
             @if (!string.IsNullOrEmpty(Model.OfferMessage))
             {
                 <article class="health-panel">
                     <div class="panel-heading">
-                        <div>
-                            <h2>رسالة العرض</h2>
-                            <p>ما كتبه الطالب عند تقديم عرضه.</p>
-                        </div>
+                        <div><h2>رسالة العرض</h2></div>
                     </div>
                     <p class="body-copy">@Model.OfferMessage</p>
                 </article>
@@ -158,12 +173,24 @@
         <aside class="content-side">
             <article class="health-panel side-accent">
                 <div class="panel-heading">
-                    <div>
-                        <h2>إجراءات سريعة</h2>
-                        <p>أهم العمليات المرتبطة بالمطابقة.</p>
-                    </div>
+                    <div><h2>إجراءات سريعة</h2></div>
                 </div>
                 <div class="action-list">
+
+                    @* ✅ المحادثة: المشاركان فقط *@
+                    @if (isParticipant)
+                    {
+                        <a class="action-tile"
+                           asp-controller="Conversation"
+                           asp-action="Chat"
+                           asp-route-matchId="@Model.MatchId"
+                           asp-route-portal="@portalRoute">
+                            <strong>💬 المحادثة</strong>
+                            <span>تواصل مع الطرف الآخر فورًا.</span>
+                        </a>
+                    }
+
+                    @* ✅ الجلسات: الكل *@
                     <a class="action-tile"
                        asp-controller="Session"
                        asp-action="SessionList"
@@ -172,22 +199,27 @@
                         <strong>📅 فتح الجلسات</strong>
                         <span>راجع قائمة الجلسات المرتبطة بهذه المطابقة.</span>
                     </a>
-                    <a class="action-tile"
-                       asp-controller="Review"
-                       asp-action="AddReview"
-                       asp-route-portal="@portalRoute">
-                        <strong>⭐ إضافة تقييم</strong>
-                        <span>بعد اكتمال الجلسات يمكن تسجيل تقييم.</span>
-                    </a>
+
+                    @* ✅ التقييم: بعد Completed فقط + مشاركان *@
+                    @if (isParticipant && Model.Status == 2)
+                    {
+                        <a class="action-tile"
+                           asp-controller="Review"
+                           asp-action="AddReview"
+                           asp-route-matchId="@Model.MatchId"
+                           asp-route-revieweeUserId="@revieweeUserId"
+                           asp-route-portal="@portalRoute">
+                            <strong>⭐ إضافة تقييم</strong>
+                            <span>قيّم تجربتك بعد اكتمال العلاج.</span>
+                        </a>
+                    }
+
                 </div>
             </article>
 
             <article class="health-panel">
                 <div class="panel-heading">
-                    <div>
-                        <h2>ملخص العرض</h2>
-                        <p>بيانات سريعة عن الاتفاق الحالي.</p>
-                    </div>
+                    <div><h2>ملخص العرض</h2></div>
                 </div>
                 <div class="summary-strip">
                     <div class="summary-tile">
@@ -196,7 +228,7 @@
                     </div>
                     <div class="summary-tile">
                         <span>الموقع</span>
-                        <strong>@Model.Governorate - @Model.City - @Model.Area</strong>
+                        <strong>@Model.Governorate - @Model.City</strong>
                     </div>
                     <div class="summary-tile">
                         <span>السعر</span>
@@ -207,25 +239,12 @@
                         <strong>@(Model.SessionsCount ?? 0)</strong>
                     </div>
                 </div>
-
-                @if (!string.IsNullOrEmpty(Model.OfferMessage))
-                {
-                    <div class="info-block mt-4">
-                        <span>رسالة العرض</span>
-                        <p>@Model.OfferMessage</p>
-                    </div>
-                }
-
                 <div class="form-actions mt-4">
                     <a class="primary-action"
                        asp-controller="Session"
                        asp-action="SessionList"
                        asp-route-matchId="@Model.MatchId"
                        asp-route-portal="@portalRoute">عرض الجلسات</a>
-                    <a class="ghost-action"
-                       asp-controller="Offer"
-                       asp-action="OfferDetails"
-                       asp-route-portal="@portalRoute">تفاصيل العرض</a>
                 </div>
             </article>
         </aside>

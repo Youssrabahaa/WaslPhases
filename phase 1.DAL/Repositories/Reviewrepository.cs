@@ -31,6 +31,16 @@ namespace phase_1.DAL.Repositories
                 .ToListAsync();
         }
 
+        public async Task<List<Review>> GetByUserInvolvedAsync(int userId)
+        {
+            return await _context.Reviews
+                .Include(r => r.ReviewerUser)
+                .Include(r => r.ReviewedUser)
+                .Where(r => r.ReviewerUserId == userId || r.ReviewedUserId == userId)
+                .OrderByDescending(r => r.CreatedAt)
+                .ToListAsync();
+        }
+
         public async Task<List<Review>> GetByMatchIdAsync(int matchId)
         {
             return await _context.Reviews

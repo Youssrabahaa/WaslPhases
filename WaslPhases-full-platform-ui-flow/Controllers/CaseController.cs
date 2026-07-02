@@ -7,10 +7,12 @@ namespace phase_1.Controllers;
 public class CaseController : Controller
 {
     private readonly ICaseService _caseService;
+    private readonly ICaseAiAssistService _caseAiAssistService;
 
-    public CaseController(ICaseService caseService)
+    public CaseController(ICaseService caseService, ICaseAiAssistService caseAiAssistService)
     {
         _caseService = caseService;
+        _caseAiAssistService = caseAiAssistService;
     }
 
     public async Task<IActionResult> MyCases()
@@ -45,6 +47,20 @@ public class CaseController : Controller
         await _caseService.CreateAsync(dto);
         TempData["Success"] = "تم نشر الحالة بنجاح.";
         return RedirectToAction(nameof(MyCases));
+    }
+
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    public async Task<IActionResult> SuggestCaseTitle(string description)
+    {
+        if (string.IsNullOrWhiteSpace(description))
+            return BadRequest(new { message = "من فضلك اكتب وصف الحالة أولاً." });
+
+        var title = await _caseAiAssistService.SuggestTitleAsync(description);
+        if (string.IsNullOrWhiteSpace(title))
+            return StatusCode(502, new { message = "تعذر الحصول على اقتراح حاليًا، حاول مرة أخرى." });
+
+        return Ok(new { title });
     }
 
     public async Task<IActionResult> EditCase(int id)

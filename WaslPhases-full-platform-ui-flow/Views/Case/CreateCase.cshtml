@@ -29,15 +29,40 @@
 
                     <div class="form-group">
                         <label asp-for="Title">عنوان الحالة</label>
-                        <input asp-for="Title" class="modern-input" placeholder="مثال: علاج تسوس أسنان لطفل" />
+                        <input asp-for="Title" id="Title" class="modern-input" placeholder="مثال: علاج تسوس أسنان لطفل" />
                         <span asp-validation-for="Title" class="text-danger"></span>
                     </div>
 
                     <div class="form-group">
                         <label asp-for="Description">وصف الحالة</label>
-                        <textarea asp-for="Description" class="modern-input" rows="4"
-                                  placeholder="اشرح حالتك بتفصيل..."></textarea>
+                        <textarea asp-for="Description" id="Description" class="modern-input" rows="4"
+                                  placeholder="اشرح حالتك بتفصيل... إيه اللي حاسس بيه؟"></textarea>
                         <span asp-validation-for="Description" class="text-danger"></span>
+                    </div>
+
+                    <div class="ai-assist-card">
+                        <div class="ai-assist-header">
+                            <span class="ai-assist-avatar">🤖</span>
+                            <div>
+                                <strong>مساعد وصل الذكي</strong>
+                                <p>اكتبي وصف حالتك فوق، وهو هيقترحلك اسم مناسب للحالة تحطيه في العنوان.</p>
+                            </div>
+                        </div>
+
+                        <button type="button" id="suggest-title-btn" class="ai-assist-btn">
+                            <span class="ai-assist-btn-icon">🪄</span>
+                            <span id="suggest-title-btn-label">اقترح اسم الحالة</span>
+                        </button>
+
+                        <div id="suggest-title-status" class="ai-assist-status"></div>
+
+                        <div id="suggest-title-result" class="ai-assist-result" style="display:none;">
+                            <span class="ai-assist-bubble-icon">🤖</span>
+                            <div class="ai-assist-bubble">
+                                <span id="suggest-title-text"></span>
+                                <small>✅ اتحط في خانة عنوان الحالة، وتقدري تعدليه قبل النشر.</small>
+                            </div>
+                        </div>
                     </div>
 
                     <div class="info-grid">
@@ -120,3 +145,59 @@
         </section>
     </div>
 </section>
+
+@section Scripts {
+    <script>
+        document.getElementById('suggest-title-btn').addEventListener('click', async function () {
+            var description = document.getElementById('Description').value.trim();
+            var statusEl = document.getElementById('suggest-title-status');
+            var resultEl = document.getElementById('suggest-title-result');
+            var textEl = document.getElementById('suggest-title-text');
+            var labelEl = document.getElementById('suggest-title-btn-label');
+            var btn = this;
+
+            statusEl.classList.remove('is-error');
+            resultEl.style.display = 'none';
+
+            if (!description) {
+                statusEl.textContent = 'اكتبي وصف الحالة الأول.';
+                statusEl.classList.add('is-error');
+                return;
+            }
+
+            btn.disabled = true;
+            labelEl.textContent = 'بيفكر...';
+            btn.insertAdjacentHTML('afterbegin', '<span class="ai-assist-spinner" id="suggest-title-spinner"></span>');
+            statusEl.textContent = '';
+
+            try {
+                var token = document.querySelector('input[name="__RequestVerificationToken"]').value;
+                var response = await fetch('@Url.Action("SuggestCaseTitle", "Case")', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                    body: new URLSearchParams({ description: description, __RequestVerificationToken: token })
+                });
+
+                var data = await response.json();
+
+                if (!response.ok) {
+                    statusEl.textContent = data.message || 'تعذر الحصول على اقتراح.';
+                    statusEl.classList.add('is-error');
+                    return;
+                }
+
+                document.getElementById('Title').value = data.title;
+                textEl.textContent = data.title;
+                resultEl.style.display = 'flex';
+            } catch (e) {
+                statusEl.textContent = 'حدث خطأ أثناء الاتصال، حاول مرة أخرى.';
+                statusEl.classList.add('is-error');
+            } finally {
+                btn.disabled = false;
+                labelEl.textContent = 'اقترح اسم الحالة';
+                var spinner = document.getElementById('suggest-title-spinner');
+                if (spinner) spinner.remove();
+            }
+        });
+    </script>
+}

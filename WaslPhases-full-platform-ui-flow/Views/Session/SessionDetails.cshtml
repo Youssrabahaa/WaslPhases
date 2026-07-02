@@ -3,6 +3,12 @@
 @{
     ViewData["Title"] = "تفاصيل الجلسة";
     var portalRoute = ViewContext.RouteData.Values["portal"]?.ToString();
+
+    // ✅ UI Auth
+    var uid = Context.Session.GetInt32("UserId") ?? 0;
+    var role = Context.Session.GetInt32("UserRole") ?? 0;
+    var isStudent = role == 2;
+    var isParticipant = uid == Model.PatientUserId || uid == Model.StudentUserId;
 }
 
 <section class="health-page">
@@ -17,7 +23,17 @@
                asp-controller="Session"
                asp-action="SessionList"
                asp-route-matchId="@Model.MatchId"
-               asp-route-portal="@portalRoute">كل الجلسات</a>
+               asp-route-portal="@portalRoute">← كل الجلسات</a>
+
+            @* ✅ تعديل الجلسة: الطالب فقط + Scheduled فقط *@
+            @if (isStudent && isParticipant && Model.Status == 1)
+            {
+                <a class="ghost-action"
+                   asp-controller="Session"
+                   asp-action="EditSession"
+                   asp-route-id="@Model.Id"
+                   asp-route-portal="@portalRoute">تعديل</a>
+            }
         </div>
     </div>
 
@@ -47,11 +63,11 @@
                     </div>
                     <div class="info-block">
                         <span>المكان</span>
-                        <strong>@Model.LocationText</strong>
+                        <strong>@(Model.LocationText ?? "—")</strong>
                     </div>
                     <div class="info-block">
                         <span>الغرفة</span>
-                        <strong>@Model.ClinicRoom</strong>
+                        <strong>@(Model.ClinicRoom ?? "—")</strong>
                     </div>
                     <div class="info-block">
                         <span>المريض</span>
@@ -71,76 +87,118 @@
 
         <aside class="content-side">
 
-            <!-- حالة التنفيذ-->
-            <article class="health-panel side-accent">
-                <div class="panel-heading">
-                    <div>
-                        <h2>حالة التنفيذ</h2>
-                        <p>أزرار دورة تنفيذ الجلسة.</p>
+            @* ✅ حالة التنفيذ: الطالب المشارك فقط يبدأ وينهي *@
+            @if (isParticipant)
+            {
+                <article class="health-panel side-accent">
+                    <div class="panel-heading">
+                        <div>
+                            <h2>حالة التنفيذ</h2>
+                            <p>أزرار دورة تنفيذ الجلسة.</p>
+                        </div>
                     </div>
-                </div>
-                <div class="form-actions">
-                    @if (Model.CanStart)
-                    {
-                        <form asp-controller="Session" asp-action="Start" method="post" style="display:inline;">
-                            @Html.AntiForgeryToken()
-                            <input type="hidden" name="id" value="@Model.Id" />
-                            <button type="submit" class="primary-action">بدء الجلسة</button>
-                        </form>
-                    }
-                    @if (Model.CanFinish)
-                    {
-                        <form asp-controller="Session" asp-action="Finish" method="post" style="display:inline;">
-                            @Html.AntiForgeryToken()
-                            <input type="hidden" name="id" value="@Model.Id" />
-                            <button type="submit" class="ghost-action">إنهاء الجلسة</button>
-                        </form>
-                    }
-                    <a class="soft-action" asp-controller="Report" asp-action="AddReport" asp-route-portal="@portalRoute">إضافة تقرير</a>
-                </div>
-            </article>
+                    <div class="form-actions">
 
-            <!-- عدم الحضور-->
-            <article class="health-panel">
-                <div class="panel-heading">
-                    <div>
-                        <h2>عدم الحضور</h2>
-                        <p>تسجيل غياب المريض أو الطالب.</p>
+                        @* بدء الجلسة: الطالب فقط *@
+                        @if (isStudent && Model.CanStart)
+                        {
+                            <form asp-controller="Session" asp-action="Start"
+                                  asp-route-portal="@portalRoute"
+                                  method="post" style="display:inline;">
+                                @Html.AntiForgeryToken()
+                                <input type="hidden" name="id" value="@Model.Id" />
+                                <button type="submit" class="primary-action">بدء الجلسة</button>
+                            </form>
+                        }
+
+                        @* إنهاء الجلسة: الطالب فقط *@
+                        @if (isStudent && Model.CanFinish)
+                        {
+                            <form asp-controller="Session" asp-action="Finish"
+                                  asp-route-portal="@portalRoute"
+                                  method="post" style="display:inline;">
+                                @Html.AntiForgeryToken()
+                                <input type="hidden" name="id" value="@Model.Id" />
+                                <button type="submit" class="ghost-action">إنهاء الجلسة</button>
+                            </form>
+                        }
+
+                        @* إلغاء الجلسة: أي مشارك — ما عدا Completed *@
+                        @if (Model.Status != 3)
+                        {
+                            <form asp-controller="Session" asp-action="Cancel"
+                                  asp-route-portal="@portalRoute"
+                                  method="post" style="display:inline;"
+                                  onsubmit="return confirm('هل تريد إلغاء هذه الجلسة؟')">
+                                @Html.AntiForgeryToken()
+                                <input type="hidden" name="id" value="@Model.Id" />
+                                <input type="hidden" name="matchId" value="@Model.MatchId" />
+                                <button type="submit" class="danger-action">إلغاء الجلسة</button>
+                            </form>
+                        }
+
                     </div>
-                </div>
+                </article>
+            }
 
-                <p>عدد مرات غياب المريض: <strong>@Model.PatientStrikeCount</strong></p>
-                <p>عدد مرات غياب الطالب: <strong>@Model.StudentStrikeCount</strong></p>
+            @* ✅ عدم الحضور: أي مشارك — زر يبعت بنفسه كـ ReportedBy *@
+            @if (isParticipant && Model.NoShowStrike == null && Model.Status != 3)
+            {
+                <article class="health-panel">
+                    <div class="panel-heading">
+                        <div>
+                            <h2>عدم الحضور</h2>
+                            <p>تسجيل غياب المريض أو الطالب.</p>
+                        </div>
+                    </div>
 
-                @if (Model.NoShowStrike == null)
-                {
-                    <!-- زر تسجيل غياب المريض-->
+                    <p>غياب المريض: <strong>@Model.PatientStrikeCount</strong> مرة</p>
+                    <p>غياب الطالب: <strong>@Model.StudentStrikeCount</strong> مرة</p>
+
                     <div class="form-actions mt-3">
-                        <form asp-controller="NoShowStrike" asp-action="Create" method="post" style="display:inline;">
-                            @Html.AntiForgeryToken()
-                            <input type="hidden" name="SessionId" value="@Model.Id" />
-                            <input type="hidden" name="ReportedByUserId" value="@Model.StudentUserId" />
-                            <input type="hidden" name="AbsentUserId" value="@Model.PatientUserId" />
-                            <button type="submit" class="ghost-action">تسجيل غياب المريض</button>
-                        </form>
+                        @* ✅ لو طالب: يسجل غياب المريض *@
+                        @if (isStudent)
+                        {
+                            <form asp-controller="NoShowStrike" asp-action="Create"
+                                  asp-route-portal="@portalRoute"
+                                  method="post" style="display:inline;">
+                                @Html.AntiForgeryToken()
+                                <input type="hidden" name="SessionId" value="@Model.Id" />
+                                <input type="hidden" name="ReportedByUserId" value="@uid" />
+                                <input type="hidden" name="AbsentUserId" value="@Model.PatientUserId" />
+                                <button type="submit" class="ghost-action">تسجيل غياب المريض</button>
+                            </form>
+                        }
 
-                        <!-- زر تسجيل غياب الطالب-->
-                        <form asp-controller="NoShowStrike" asp-action="Create" method="post" style="display:inline;">
-                            @Html.AntiForgeryToken()
-                            <input type="hidden" name="SessionId" value="@Model.Id" />
-                            <input type="hidden" name="ReportedByUserId" value="@Model.PatientUserId" />
-                            <input type="hidden" name="AbsentUserId" value="@Model.StudentUserId" />
-                            <button type="submit" class="ghost-action">تسجيل غياب الطالب</button>
-                        </form>
+                        @* ✅ لو مريض: يسجل غياب الطالب *@
+                        @if (!isStudent)
+                        {
+                            <form asp-controller="NoShowStrike" asp-action="Create"
+                                  asp-route-portal="@portalRoute"
+                                  method="post" style="display:inline;">
+                                @Html.AntiForgeryToken()
+                                <input type="hidden" name="SessionId" value="@Model.Id" />
+                                <input type="hidden" name="ReportedByUserId" value="@uid" />
+                                <input type="hidden" name="AbsentUserId" value="@Model.StudentUserId" />
+                                <button type="submit" class="ghost-action">تسجيل غياب الطالب</button>
+                            </form>
+                        }
                     </div>
-                }
-                else
-                {
+                </article>
+            }
+            else if (Model.NoShowStrike != null)
+            {
+                <article class="health-panel">
+                    <div class="panel-heading">
+                        <div><h2>عدم الحضور</h2></div>
+                    </div>
+                    <p>غياب المريض: <strong>@Model.PatientStrikeCount</strong> مرة</p>
+                    <p>غياب الطالب: <strong>@Model.StudentStrikeCount</strong> مرة</p>
                     <div class="alert-soft-danger mt-3">
                         <strong>@Model.NoShowStrike.WhoMissed</strong> لم يحضر هذه الجلسة.
                     </div>
-                }
-            </article>
+                </article>
+            }
 
         </aside>
     </div>

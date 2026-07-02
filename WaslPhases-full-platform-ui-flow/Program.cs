@@ -5,6 +5,7 @@ using phase_1.DAL.Repositories;
 using phase_1.Data;
 using phase_1.Middleware;
 using phase_1.Repositories;
+using phase_1.BLL.BackgroundJobs;
 using phase_1.BLL.Hubs;
 using phase_1.Services;
 using phase_1.Services.Identity;
@@ -58,6 +59,11 @@ namespace phase_1
             builder.Services.AddScoped<IConversationService, ConversationService>();
             builder.Services.AddScoped<ICaseRepository, CaseRepository>();
             builder.Services.AddScoped<ICaseService, CaseService>();
+            builder.Services.AddScoped<INotificationRepository, NotificationRepository>();
+            builder.Services.AddScoped<INotificationService, NotificationService>();
+            builder.Services.AddHostedService<ReminderDispatcherHostedService>();
+            builder.Services.AddHttpClient<ICaseAiAssistService, GeminiCaseAssistService>();
+
             builder.Services.AddControllersWithViews();
 
             var app = builder.Build();
@@ -101,6 +107,7 @@ namespace phase_1
 
             app.MapStaticAssets();
             app.MapHub<ChatHub>("/chatHub");
+            app.MapHub<NotificationHub>("/notificationHub");
             app.MapControllerRoute(
                 name: "patient-portal",
                 pattern: "patient/{controller=Patients}/{action=Profile}/{id?}",

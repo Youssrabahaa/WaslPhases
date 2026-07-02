@@ -1,7 +1,8 @@
 @model IEnumerable<phase_1.BLL.DTOs.MatchDTO>
 @{
-    ViewData["Title"] = "المطابقات";
+    ViewData["Title"] = "مطابقاتي";
     var portalRoute = ViewContext.RouteData.Values["portal"]?.ToString();
+    var role = Context.Session.GetInt32("UserRole") ?? 0;
 }
 
 <section class="health-page">
@@ -13,31 +14,68 @@
         </div>
     </div>
 
+    @if (TempData["Success"] != null)
+    {
+        <div class="app-toast"><span class="app-toast-dot"></span>@TempData["Success"]</div>
+    }
+    @if (TempData["Error"] != null)
+    {
+        <div class="alert-soft-danger">@TempData["Error"]</div>
+    }
+
     @if (Model != null && Model.Any())
     {
         <div class="offer-list">
             @foreach (var match in Model)
             {
+                
+                    var cls = match.Status == 1 ? "status-inprogress"
+                            : match.Status == 2 ? "status-completed"
+                            : "status-rejected";
+                    var txt = match.Status == 1 ? "نشطة"
+                            : match.Status == 2 ? "مكتملة"
+                            : "ملغية";
+                
                 <article class="session-card">
                     <div>
                         <div class="case-card-top">
-                            <span class="status-badge">مطابقة @match.MatchId</span>
-                            <span class="case-meta">حالة @match.CaseId</span>
+                            <span class="status-badge @cls">@txt</span>
+                            <span class="case-meta">مطابقة #@match.MatchId</span>
                         </div>
                         <h3>@match.CaseTitle</h3>
-                        <p>@(match.AcceptedAt.HasValue ? $"تم القبول {match.AcceptedAt.Value:dd/MM/yyyy}" : "مطابقة قيد المتابعة")</p>
+                        <p class="case-meta">
+                            @(match.AcceptedAt.HasValue
+                                ? $"تم القبول {match.AcceptedAt.Value:dd/MM/yyyy}"
+                                : "قيد المتابعة")
+                        </p>
                         <div class="row-actions mt-3">
+
+                            @* تفاصيل المطابقة: الكل *@
                             <a class="primary-action compact-action"
                                asp-controller="Match"
                                asp-action="MatchDetails"
                                asp-route-id="@match.MatchId"
                                asp-route-portal="@portalRoute">تفاصيل المطابقة</a>
+
+                            @* الجلسات: الكل *@
                             <a class="ghost-action compact-action"
                                asp-controller="Session"
                                asp-action="SessionList"
                                asp-route-matchId="@match.MatchId"
                                asp-route-portal="@portalRoute">الجلسات</a>
+
+                            @* المحادثة: الكل (Service يتحقق من الـ ownership) *@
+                            <a class="ghost-action compact-action"
+                               asp-controller="Conversation"
+                               asp-action="Chat"
+                               asp-route-matchId="@match.MatchId"
+                               asp-route-portal="@portalRoute">💬 المحادثة</a>
+
                         </div>
+                    </div>
+                    <div class="card-side">
+                        <span class="status-badge @cls">@txt</span>
+                        <span class="case-meta">حالة #@match.CaseId</span>
                     </div>
                 </article>
             }
@@ -47,9 +85,9 @@
     {
         <section class="state-grid">
             <article class="empty-state-card">
-                <span class="empty-state-icon">--</span>
+                <span class="empty-state-icon">🤝</span>
                 <h3>لا توجد مطابقات</h3>
-                <p>عند قبول عرض أو إنشاء مطابقة ستظهر هنا.</p>
+                <p>عند قبول عرض ستظهر المطابقة هنا.</p>
             </article>
         </section>
     }

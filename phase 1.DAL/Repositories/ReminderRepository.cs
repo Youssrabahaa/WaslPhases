@@ -33,6 +33,16 @@ namespace phase_1.DAL.Repositories
                 .FirstOrDefaultAsync(x => x.Id == id);
         }
 
+        public async Task<List<Reminder>> GetDueRemindersAsync(DateTime now)
+        {
+            return await _context.Reminders
+                .Include(x => x.Session)
+                    .ThenInclude(s => s.Match)
+                .Where(x => x.Status == 1 && x.ScheduledAt <= now)
+                .OrderBy(x => x.ScheduledAt)
+                .ToListAsync();
+        }
+
         public async Task AddAsync(Reminder reminder)
         {
             await _context.Reminders.AddAsync(reminder);

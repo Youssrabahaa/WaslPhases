@@ -2,7 +2,14 @@
 @{
     ViewData["Title"] = "تفاصيل الحالة";
     var portalRoute = ViewContext.RouteData.Values["portal"]?.ToString();
-    var isPatient   = string.Equals(portalRoute, "patient", StringComparison.OrdinalIgnoreCase);
+
+    // ✅ UI Auth
+    var uid      = Context.Session.GetInt32("UserId") ?? 0;
+    var role     = Context.Session.GetInt32("UserRole") ?? 0;
+    var isPatient = role == 1;
+    var isStudent = role == 2;
+    var ownsCase  = uid == Model.PatientUserId;
+
     var statusClass = Model.Status == 1 ? "status-inprogress"
                     : Model.Status == 2 ? "status-completed"
                     : "status-rejected";
@@ -16,7 +23,8 @@
             <p class="health-subtitle">@Model.TreatmentCategoryName — @Model.Governorate</p>
         </div>
         <div class="hero-actions">
-            @if (isPatient && Model.Status == 1)
+            @* ✅ تعديل: المريض صاحب الحالة + Open فقط *@
+            @if (isPatient && ownsCase && Model.Status == 1)
             {
                 <a class="ghost-action"
                    asp-controller="Case"
@@ -24,7 +32,9 @@
                    asp-route-id="@Model.Id"
                    asp-route-portal="@portalRoute">تعديل</a>
             }
-            @if (!isPatient && Model.Status == 1)
+
+            @* ✅ تقديم عرض: الطالب فقط + Open فقط *@
+            @if (isStudent && Model.Status == 1)
             {
                 <a class="primary-action"
                    asp-controller="Offer"
@@ -32,6 +42,7 @@
                    asp-route-caseId="@Model.Id"
                    asp-route-portal="@portalRoute">تقديم عرض</a>
             }
+
             <a class="ghost-action"
                asp-controller="Case"
                asp-action="MyCases"
@@ -71,9 +82,7 @@
         <section class="content-main">
             <article class="health-panel">
                 <div class="panel-heading">
-                    <div>
-                        <h2>بيانات الحالة</h2>
-                    </div>
+                    <div><h2>بيانات الحالة</h2></div>
                     <span class="status-badge @statusClass">@Model.StatusText</span>
                 </div>
                 <div class="info-grid">
@@ -114,8 +123,8 @@
                 <p class="body-copy">@Model.Description</p>
             </article>
 
-            @* ✅ عرض العروض للمريض مع زر قبول لكل واحدة *@
-            @if (isPatient && Model.Offers.Any())
+            @* ✅ العروض: المريض صاحب الحالة فقط يشوف ويقبل *@
+            @if (isPatient && ownsCase && Model.Offers.Any())
             {
                 <article class="health-panel">
                     <div class="panel-heading">
@@ -128,17 +137,15 @@
                         @foreach (var offer in Model.Offers)
                         {
                             
-                                var offerStatusText  = offer.Status == 1 ? "قيد المراجعة"
-                                                     : offer.Status == 2 ? "مقبول"
-                                                     : "مرفوض";
-                                var offerStatusClass = offer.Status == 1 ? "status-pending"
-                                                     : offer.Status == 2 ? "status-open"
-                                                     : "status-rejected";
+                                var oText  = offer.Status == 1 ? "قيد المراجعة"
+                                           : offer.Status == 2 ? "مقبول" : "مرفوض";
+                                var oCls   = offer.Status == 1 ? "status-pending"
+                                           : offer.Status == 2 ? "status-open" : "status-rejected";
                             
                             <article class="session-card">
                                 <div>
                                     <div class="case-card-top">
-                                        <span class="status-badge @offerStatusClass">@offerStatusText</span>
+                                        <span class="status-badge @oCls">@oText</span>
                                     </div>
                                     <h4>@offer.StudentName</h4>
                                     <p class="case-meta">
@@ -150,15 +157,14 @@
                                         <p class="body-copy mt-2">@offer.Message</p>
                                     }
 
+                                    @* ✅ قبول/رفض: المريض صاحب الحالة + Pending + Case Open *@
                                     @if (offer.Status == 1 && Model.Status == 1)
                                     {
                                         <div class="row-actions mt-3">
-                                            @* ✅ قبول العرض → MatchService.AcceptOfferAsync *@
                                             <form asp-controller="Match"
                                                   asp-action="AcceptOffer"
                                                   asp-route-portal="@portalRoute"
-                                                  method="post"
-                                                  style="display:inline;"
+                                                  method="post" style="display:inline;"
                                                   onsubmit="return confirm('هل تريد قبول هذا العرض؟')">
                                                 @Html.AntiForgeryToken()
                                                 <input type="hidden" name="offerId" value="@offer.Id" />
@@ -169,8 +175,7 @@
                                             <form asp-controller="Offer"
                                                   asp-action="RejectOffer"
                                                   asp-route-portal="@portalRoute"
-                                                  method="post"
-                                                  style="display:inline;">
+                                                  method="post" style="display:inline;">
                                                 @Html.AntiForgeryToken()
                                                 <input type="hidden" name="id" value="@offer.Id" />
                                                 <button type="submit" class="danger-action compact-action">رفض</button>
@@ -195,7 +200,8 @@
                     <div><h2>إجراءات</h2></div>
                 </div>
                 <div class="action-list">
-                    @if (!isPatient && Model.Status == 1)
+                    @* ✅ تقديم عرض: الطالب فقط *@
+                    @if (isStudent && Model.Status == 1)
                     {
                         <a class="action-tile"
                            asp-controller="Offer"
@@ -206,7 +212,8 @@
                             <span>أرسل عرضك لهذه الحالة.</span>
                         </a>
                     }
-                    @if (isPatient && Model.Status == 1)
+                    @* ✅ تعديل: المريض صاحب الحالة فقط *@
+                    @if (isPatient && ownsCase && Model.Status == 1)
                     {
                         <a class="action-tile"
                            asp-controller="Case"
@@ -222,3 +229,4 @@
         </aside>
     </div>
 </section>
+

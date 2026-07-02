@@ -10,7 +10,6 @@ namespace phase_1.BLL.Services
         Task<IEnumerable<OfferDTO>> GetOffersByStudentAsync(int studentId);
         Task<bool> RejectOfferAsync(int offerId);
 
-        //  method جديدة — بترجع الـ offer الموجود لو الطالب عنده offer على نفس الحالة
         Task<OfferDTO?> GetExistingOfferAsync(int studentId, int caseId);
     }
 }
