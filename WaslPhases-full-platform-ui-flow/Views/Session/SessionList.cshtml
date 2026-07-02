@@ -51,12 +51,10 @@
         <div class="offer-list">
             @foreach (var session in Model)
             {
-                @{
-                    var statusClass = session.Status == 1 ? "status-scheduled" :
-                                     session.Status == 2 ? "status-inprogress" :
-                                     session.Status == 3 ? "status-completed" :
-                                     "status-cancelled";
-                }
+                var statusClass = session.Status == 1 ? "status-scheduled" :
+                                 session.Status == 2 ? "status-inprogress" :
+                                 session.Status == 3 ? "status-completed" :
+                                 "status-cancelled";
                 <article class="session-card">
                     <div>
                         <div class="case-card-top">

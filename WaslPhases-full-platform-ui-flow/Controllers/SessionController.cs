@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc;
 using phase_1.BLL.DTOs;
 using phase_1.BLL.Services;
 
@@ -117,7 +117,7 @@ public class SessionController : Controller
         }
 
         TempData["SuccessMessage"] = "تم إضافة الجلسة بنجاح.";
-        return RedirectToAction(nameof(SessionList), new { matchId = dto.MatchId });
+        return RedirectToAction(nameof(SessionList), new { matchId = dto.MatchId, portal = "patient" });
     }
 
     public async Task<IActionResult> EditSession(int id)
@@ -167,7 +167,7 @@ public class SessionController : Controller
         }
 
         TempData["SuccessMessage"] = "تم تعديل الجلسة بنجاح.";
-        return RedirectToAction(nameof(SessionDetails), new { id = dto.Id });
+        return RedirectToAction(nameof(SessionDetails), new { id = dto.Id, portal = "patient" });
     }
 
     [HttpPost]
@@ -182,7 +182,7 @@ public class SessionController : Controller
         if (currentUserId != session.StudentUserId)
         {
             TempData["ErrorMessage"] = "بدء الجلسة متاح للطالب المرتبط بالمطابقة فقط.";
-            return RedirectToAction(nameof(SessionDetails), new { id });
+            return RedirectToAction(nameof(SessionDetails), new { id, portal = "student" });
         }
 
         var result = await _sessionService.StartAsync(id);
@@ -190,11 +190,11 @@ public class SessionController : Controller
         if (!result)
         {
             TempData["ErrorMessage"] = "لا يمكن بدء الجلسة.";
-            return RedirectToAction(nameof(SessionDetails), new { id });
+            return RedirectToAction(nameof(SessionDetails), new { id, portal = "student" });
         }
 
         TempData["SuccessMessage"] = "تم بدء الجلسة. يمكنك متابعة التواصل في الشات.";
-        return RedirectToAction("Chat", "Conversation", new { matchId = session.MatchId });
+        return RedirectToAction("Chat", "Conversation", new { matchId = session.MatchId, portal = "student" });
     }
 
     [HttpPost]
@@ -209,7 +209,7 @@ public class SessionController : Controller
         if (currentUserId != session.StudentUserId)
         {
             TempData["ErrorMessage"] = "إنهاء الجلسة متاح للطالب المرتبط بالمطابقة فقط.";
-            return RedirectToAction(nameof(SessionDetails), new { id });
+            return RedirectToAction(nameof(SessionDetails), new { id, portal = "student" });
         }
 
         var result = await _sessionService.FinishAsync(id);
@@ -219,7 +219,7 @@ public class SessionController : Controller
         else
             TempData["SuccessMessage"] = "تم إنهاء الجلسة بنجاح.";
 
-        return RedirectToAction(nameof(SessionDetails), new { id });
+        return RedirectToAction(nameof(SessionDetails), new { id, portal = "student" });
     }
 
     [HttpPost]
@@ -241,6 +241,6 @@ public class SessionController : Controller
         else
             TempData["SuccessMessage"] = "تم إلغاء الجلسة.";
 
-        return RedirectToAction(nameof(SessionList), new { matchId });
+        return RedirectToAction(nameof(SessionList), new { matchId, portal = "patient" });
     }
 }

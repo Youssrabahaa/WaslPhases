@@ -1,82 +1,69 @@
+@model List<phase_1.BLL.DTOs.ReviewDTO>
 @{
     ViewData["Title"] = "عرض التقييمات";
     var portalRoute = ViewContext.RouteData.Values["portal"]?.ToString();
+    var averageRating = ViewBag.AverageRating as string ?? "0.0";
+    var reviewsCount = ViewBag.ReviewsCount ?? 0;
+    var positivePercentage = ViewBag.PositivePercentage ?? 100;
 }
 
 <section class="health-page">
     <div class="health-hero">
         <div>
-            <span class="health-kicker">التقييمات</span>
-            <h1 class="health-title">تقييمات تساعد الفريق يشوف جودة التجربة.</h1>
-            <p class="health-subtitle">صفحة تعرض التقييمات، متوسط النجوم، وتعليقات مختصرة من تجارب سابقة.</p>
-        </div>
-        <div class="hero-actions">
-            <a class="primary-action" asp-controller="Review" asp-action="AddReview" asp-route-portal="@portalRoute">كتابة تقييم</a>
+            <span class="health-kicker">بوابة التقييمات والآراء</span>
+            <h1 class="health-title">تقييمات الأعضاء والشركاء في المنصة</h1>
+            <p class="health-subtitle">آراء حقيقية تساعدنا في رفع مستوى الالتزام والاحترافية الطبية.</p>
         </div>
     </div>
 
     <div class="metric-strip">
         <article class="mini-kpi">
             <span class="mini-kpi-label">متوسط التقييم</span>
-            <strong>4.8</strong>
-            <span class="mini-kpi-meta">من 5</span>
+            <strong>⭐ @averageRating</strong>
+            <span class="mini-kpi-meta">من 5 نقاط</span>
         </article>
         <article class="mini-kpi">
-            <span class="mini-kpi-label">عدد التقييمات</span>
-            <strong>36</strong>
-            <span class="mini-kpi-meta">آخر 30 يوم</span>
+            <span class="mini-kpi-label">إجمالي التقييمات</span>
+            <strong>@reviewsCount</strong>
+            <span class="mini-kpi-meta">تقييمات مسجلة</span>
         </article>
         <article class="mini-kpi">
-            <span class="mini-kpi-label">رضا المرضى</span>
-            <strong>94%</strong>
-            <span class="mini-kpi-meta">تعليقات إيجابية</span>
-        </article>
-        <article class="mini-kpi">
-            <span class="mini-kpi-label">الاستجابة</span>
-            <strong>سريعة</strong>
-            <span class="mini-kpi-meta">أقل من ساعتين</span>
+            <span class="mini-kpi-label">نسبة الرضا والالتزام</span>
+            <strong>%@positivePercentage</strong>
+            <span class="mini-kpi-meta">تقييمات إيجابية (4+)</span>
         </article>
     </div>
 
     <div class="review-grid">
-        <article class="review-card">
-            <div class="rating-row">
-                <span class="star">★</span>
-                <span class="star">★</span>
-                <span class="star">★</span>
-                <span class="star">★</span>
-                <span class="star">★</span>
+        @if (Model != null && Model.Any())
+        {
+            @foreach (var review in Model)
+            {
+                <article class="review-card">
+                    <div class="rating-row">
+                        @for (int i = 1; i <= 5; i++)
+                        {
+                            if (i <= review.Rating)
+                            {
+                                <span class="star" style="color: #f59e0b;">★</span>
+                            }
+                            else
+                            {
+                                <span class="star" style="color: #d1d5db;">★</span>
+                            }
+                        }
+                    </div>
+                    <h3>مكتوبة لـ: @review.ReviewedName</h3>
+                    <p>@(string.IsNullOrWhiteSpace(review.Comment) ? "بدون تعليق مكتوب." : review.Comment)</p>
+                    <span class="case-meta">بواسطة: @review.ReviewerName — @review.CreatedAt.ToString("dd/MM/yyyy")</span>
+                </article>
+            }
+        }
+        else
+        {
+            <div style="grid-column: 1 / -1;">
+                @await Html.PartialAsync("_EmptyState")
             </div>
-            <h3>تجربة منظمة وواضحة</h3>
-            <p>الطالب شرح الخطة قبل الجلسة، والتقرير كان مفهوما بعد الانتهاء.</p>
-            <span class="case-meta">منى أحمد - مريض</span>
-        </article>
-
-        <article class="review-card">
-            <div class="rating-row">
-                <span class="star">★</span>
-                <span class="star">★</span>
-                <span class="star">★</span>
-                <span class="star">★</span>
-            </div>
-            <h3>متابعة جيدة</h3>
-            <p>التذكيرات ساعدت على الالتزام بالموعد، لكن نحتاج تفاصيل أكثر قبل الحضور.</p>
-            <span class="case-meta">يوسف محمد - مريض</span>
-        </article>
-
-        <article class="review-card">
-            <div class="rating-row">
-                <span class="star">★</span>
-                <span class="star">★</span>
-                <span class="star">★</span>
-                <span class="star">★</span>
-                <span class="star">★</span>
-            </div>
-            <h3>حالات مناسبة للتدريب</h3>
-            <p>تصفح الحالات والعروض واضح، وسهل متابعة حالة كل عرض بعد إرساله.</p>
-            <span class="case-meta">أحمد خالد - طالب</span>
-        </article>
-
-        @await Html.PartialAsync("_EmptyState")
+        }
     </div>
 </section>

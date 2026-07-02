@@ -1,48 +1,57 @@
+@model phase_1.BLL.DTOs.CreateReviewDTO
 @{
     ViewData["Title"] = "إضافة تقييم";
     var portalRoute = ViewContext.RouteData.Values["portal"]?.ToString();
+    var matchTitle = ViewBag.MatchTitle as string ?? "المطابقة";
+    var revieweeName = ViewBag.RevieweeName as string ?? "الطرف الآخر";
 }
 
 <section class="health-page">
     <div class="health-hero compact-hero">
         <div>
-            <span class="health-kicker">إضافة تقييم</span>
-            <h1 class="health-title">سجل تقييم واضح بعد اكتمال الخدمة.</h1>
-            <p class="health-subtitle">واجهة بسيطة لاختيار النجوم وكتابة تعليق مختصر بعد نهاية الخدمة.</p>
+            <span class="health-kicker">إضافة تقييم جديد</span>
+            <h1 class="health-title">تقييم الخدمة لـ @revieweeName</h1>
+            <p class="health-subtitle">عن حالة: @matchTitle</p>
         </div>
         <div class="hero-actions">
-            <a class="ghost-action" asp-controller="Review" asp-action="ViewReviews" asp-route-portal="@portalRoute">عرض التقييمات</a>
+            <a class="ghost-action" asp-controller="Match" asp-action="MatchDetails" asp-route-id="@Model.MatchId" asp-route-portal="@portalRoute">← المطابقة</a>
         </div>
     </div>
 
+    @if (TempData["Error"] != null)
+    {
+        <div class="alert alert-danger">@TempData["Error"]</div>
+    }
+
     <div class="content-grid">
         <section class="content-main">
-            <form class="health-panel form-panel">
+            <form asp-controller="Review" asp-action="AddReview" asp-route-portal="@portalRoute" method="post" class="health-panel form-panel">
+                @Html.AntiForgeryToken()
+                <input type="hidden" asp-for="MatchId" />
+                <input type="hidden" asp-for="RevieweeUserId" />
+
                 <label class="field-group">
-                    <span>التقييم</span>
-                    <select class="form-select modern-input" name="rating">
-                        <option value="5">5 نجوم - ممتاز</option>
-                        <option value="4">4 نجوم - جيد جدا</option>
-                        <option value="3">3 نجوم - جيد</option>
-                        <option value="2">2 نجوم - يحتاج تحسين</option>
-                        <option value="1">1 نجمة - تجربة ضعيفة</option>
+                    <span>التقييم بالنجوم</span>
+                    <select class="form-select modern-input" asp-for="Rating" required>
+                        <option value="5">⭐⭐⭐⭐⭐ (5) ممتاز جداً</option>
+                        <option value="4">⭐⭐⭐⭐ (4) جيد جداً</option>
+                        <option value="3">⭐⭐⭐ (3) جيد</option>
+                        <option value="2">⭐⭐ (2) مقبول</option>
+                        <option value="1">⭐ (1) ضعيف</option>
                     </select>
+                    <span asp-validation-for="Rating" class="text-danger"></span>
                 </label>
-
-                <div class="rating-row" aria-hidden="true">
-                    <span class="star">★</span>
-                    <span class="star">★</span>
-                    <span class="star">★</span>
-                    <span class="star">★</span>
-                    <span class="star">★</span>
-                </div>
 
                 <label class="field-group">
-                    <span>تعليق اختياري</span>
-                    <textarea class="form-control modern-input modern-textarea" name="comment" rows="6" placeholder="اكتب ملاحظة تساعد على تحسين الخدمة."></textarea>
+                    <span>رأيك في الخدمة والتعامل</span>
+                    <textarea class="form-control modern-input modern-textarea" asp-for="Comment" rows="6" placeholder="اكتب ملاحظة مختصرة حول تعامل الطرف الآخر والتزامه بالخطة العلاجية والمواعيد..."></textarea>
+                    <span asp-validation-for="Comment" class="text-danger"></span>
                 </label>
 
-                <a class="primary-action" asp-controller="Review" asp-action="ViewReviews" asp-route-portal="@portalRoute">حفظ التقييم</a>
+                <div class="form-actions mt-4">
+                    <button type="submit" class="primary-action">حفظ التقييم وإرساله</button>
+                    <a class="ghost-action" asp-controller="Match" asp-action="MatchDetails" asp-route-id="@Model.MatchId" asp-route-portal="@portalRoute">إلغاء</a>
+                </div>
             </form>
         </section>
 
@@ -50,16 +59,20 @@
             <article class="health-panel side-accent">
                 <div class="panel-heading">
                     <div>
-                        <h2>قبل التقييم</h2>
-                        <p>التقييم يظهر بعد اكتمال الجلسة أو المطابقة.</p>
+                        <h2>إرشادات التقييم</h2>
+                        <p>يساعد التقييم في تحسين جودة ونزاهة المنصة لجميع الأعضاء.</p>
                     </div>
                 </div>
                 <ul class="clean-list">
-                    <li>اكتب تعليق عملي ومحترم.</li>
-                    <li>لا تشارك بيانات طبية حساسة داخل التعليق العام.</li>
-                    <li>استخدم البلاغات للمشاكل التي تحتاج تدخل إدارة.</li>
+                    <li>كن أميناً وموضوعياً في تقييمك.</li>
+                    <li>تحدث عن الالتزام بالمواعيد والاحترافية الطبية.</li>
+                    <li>لا تشارك أي معلومات شخصية أو أرقام هواتف في التعليق.</li>
                 </ul>
             </article>
         </aside>
     </div>
 </section>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
