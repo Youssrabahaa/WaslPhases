@@ -23,18 +23,14 @@ public class CaseController : Controller
     public async Task<IActionResult> CaseDetails(int id)
     {
         var c = await _caseService.GetByIdAsync(id);
-
-        if (c == null)
-            return NotFound();
-
+        if (c == null) return NotFound();
         return View(c);
     }
 
     public IActionResult CreateCase()
     {
         var patientId = HttpContext.Session.GetInt32("UserId") ?? 0;
-        var dto = new CreateCaseDTO { PatientUserId = patientId };
-        return View(dto);
+        return View(new CreateCaseDTO { PatientUserId = patientId });
     }
 
     [HttpPost]
@@ -47,7 +43,6 @@ public class CaseController : Controller
             return View(dto);
 
         await _caseService.CreateAsync(dto);
-
         TempData["Success"] = "تم نشر الحالة بنجاح.";
         return RedirectToAction(nameof(MyCases));
     }
@@ -55,11 +50,9 @@ public class CaseController : Controller
     public async Task<IActionResult> EditCase(int id)
     {
         var c = await _caseService.GetByIdAsync(id);
+        if (c == null) return NotFound();
 
-        if (c == null)
-            return NotFound();
-
-        var dto = new UpdateCaseDTO
+        return View(new UpdateCaseDTO
         {
             Id = c.Id,
             ServiceTypeId = c.ServiceTypeId,
@@ -73,9 +66,7 @@ public class CaseController : Controller
             Governorate = c.Governorate,
             City = c.City,
             Area = c.Area
-        };
-
-        return View(dto);
+        });
     }
 
     [HttpPost]

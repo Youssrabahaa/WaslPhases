@@ -1,5 +1,7 @@
+@model phase_1.BLL.DTOs.CreateOfferDTO
 @{
     ViewData["Title"] = "تقديم عرض";
+    var portalRoute = ViewContext.RouteData.Values["portal"]?.ToString();
 }
 
 <section class="health-page">
@@ -10,13 +12,34 @@
             <p class="health-subtitle">العرض الجيد يوضح السعر، عدد الجلسات، والخطة المختصرة قبل قبول المريض.</p>
         </div>
         <div class="hero-actions">
-            <a class="ghost-action" asp-controller="Offer" asp-action="BrowseCases">العودة للحالات</a>
+            <a class="ghost-action"
+               asp-controller="Offer"
+               asp-action="BrowseCases"
+               asp-route-portal="@portalRoute">العودة للحالات</a>
         </div>
     </div>
 
+    @if (TempData["Error"] != null)
+    {
+        <div class="alert-soft-danger">@TempData["Error"]</div>
+    }
+
     <div class="content-grid">
         <section class="content-main">
-            <form class="health-panel form-panel">
+
+            <!-- ✅ form صح: method post + asp-action + AntiForgery-->
+            <form class="health-panel form-panel"
+                  asp-action="CreateOffer"
+                  asp-controller="Offer"
+                  asp-route-portal="@portalRoute"
+                  method="post">
+
+                @Html.AntiForgeryToken()
+
+                <!-- ✅ hidden inputs مطلوبة عشان الـ DTO يتملى-->
+                <input type="hidden" asp-for="CaseId" />
+                <input type="hidden" asp-for="StudentUserId" />
+
                 <div class="panel-heading">
                     <div>
                         <h2>تفاصيل العرض</h2>
@@ -26,29 +49,40 @@
 
                 <div class="form-grid">
                     <label class="field-group">
-                        <span>السعر المقترح</span>
-                        <input class="form-control modern-input" name="proposedPrice" inputmode="decimal" placeholder="220" />
+                        <span>السعر المقترح (ج.م)</span>
+                        <!-- ✅ asp-for بدل name-->
+                        <input class="form-control modern-input"
+                               asp-for="ProposedPrice"
+                               inputmode="decimal"
+                               placeholder="220" />
+                        <span asp-validation-for="ProposedPrice" class="text-danger"></span>
                     </label>
+
                     <label class="field-group">
                         <span>عدد الجلسات المتوقع</span>
-                        <input class="form-control modern-input" name="estimatedSessionsCount" inputmode="numeric" placeholder="2" />
+                        <input class="form-control modern-input"
+                               asp-for="EstimatedSessionsCount"
+                               inputmode="numeric"
+                               placeholder="2" />
+                        <span asp-validation-for="EstimatedSessionsCount" class="text-danger"></span>
                     </label>
+
                     <label class="field-group field-span-2">
                         <span>رسالة للمريض</span>
-                        <textarea class="form-control modern-input modern-textarea" name="message" rows="6" placeholder="اشرح خطتك المختصرة، سبب السعر، وما يحتاجه المريض قبل الجلسة."></textarea>
+                        <textarea class="form-control modern-input modern-textarea"
+                                  asp-for="Message"
+                                  rows="6"
+                                  placeholder="اشرح خطتك المختصرة، سبب السعر، وما يحتاجه المريض قبل الجلسة."></textarea>
                     </label>
-                </div>
-
-                <div class="alert-soft-success">
-                    مثال لحالة جاهزية: الطالب موثق ويمكنه تقديم عروض على الحالات المفتوحة.
                 </div>
 
                 <div class="form-actions">
-                    <a class="primary-action loading-button" asp-controller="Offer" asp-action="MyOffers">
-                        <span class="button-label">إرسال العرض</span>
-                        <span class="button-loader"></span>
-                    </a>
-                    <a class="ghost-action" asp-controller="Offer" asp-action="BrowseCases">حفظ كمسودة</a>
+                    <!-- ✅ button type="submit" بدل <a>-->
+                    <button type="submit" class="primary-action">إرسال العرض</button>
+                    <a class="ghost-action"
+                       asp-controller="Offer"
+                       asp-action="BrowseCases"
+                       asp-route-portal="@portalRoute">إلغاء</a>
                 </div>
             </form>
         </section>
@@ -63,16 +97,8 @@
                 </div>
                 <dl class="stacked-list">
                     <div>
-                        <dt>العنوان</dt>
-                        <dd>متابعة لطفل يعاني من تسوسات متعددة</dd>
-                    </div>
-                    <div>
-                        <dt>الموقع</dt>
-                        <dd>القاهرة، مدينة نصر</dd>
-                    </div>
-                    <div>
-                        <dt>الميزانية</dt>
-                        <dd>180 - 250 ج.م</dd>
+                        <dt>رقم الحالة</dt>
+                        <dd>#@Model.CaseId</dd>
                     </div>
                 </dl>
             </article>

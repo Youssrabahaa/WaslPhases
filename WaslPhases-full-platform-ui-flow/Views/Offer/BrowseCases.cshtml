@@ -1,5 +1,7 @@
+@model List<phase_1.BLL.DTOs.CaseListDTO>
 @{
     ViewData["Title"] = "تصفح الحالات";
+    var portalRoute = ViewContext.RouteData.Values["portal"]?.ToString();
 }
 
 <section class="health-page">
@@ -7,91 +9,79 @@
         <div>
             <span class="health-kicker">تصفح الحالات</span>
             <h1 class="health-title">حالات مناسبة لتدريبك، مرتبة بذكاء.</h1>
-            <p class="health-subtitle">صفحة تصفح الحالات تعرض الفلاتر، الكروت، وحالات عدم وجود حالات أو خطأ أو تحميل بشكل جاهز.</p>
+            <p class="health-subtitle">تصفح الحالات المتاحة وقدم عرضك على ما يناسب تخصصك.</p>
         </div>
         <div class="hero-actions">
-            <a class="primary-action" asp-controller="Offer" asp-action="CreateOffer">تقديم عرض</a>
-            <a class="ghost-action" asp-controller="Offer" asp-action="MyOffers">عروضي</a>
+            <a class="ghost-action" asp-controller="Offer" asp-action="MyOffers" asp-route-portal="@portalRoute">عروضي</a>
         </div>
-    </div>
-
-    <div class="filter-row">
-        <span class="filter-pill active">كل الحالات</span>
-        <span class="filter-pill">قريبة مني</span>
-        <span class="filter-pill">داخل العيادة</span>
-        <span class="filter-pill">زيارة منزلية</span>
-        <span class="filter-pill">تحتاج مشرف</span>
     </div>
 
     <div class="content-grid">
         <section class="content-main">
-            <article class="case-card">
-                <div>
-                    <div class="case-card-top">
-                        <span class="status-badge status-open">متاحة</span>
-                        <span class="case-meta">طب أسنان أطفال</span>
-                        <span class="case-meta">مدينة نصر</span>
-                    </div>
-                    <h3>متابعة لطفل يعاني من تسوسات متعددة بالأسنان</h3>
-                    <p>الأسرة تطلب طالبا تحت إشراف لوضع خطة وقائية وعلاجية واضحة مع متابعة بعد كل زيارة.</p>
-                    <div class="row-actions mt-3">
-                        <a class="primary-action compact-action" asp-controller="Offer" asp-action="CreateOffer" asp-route-caseId="1">تقديم عرض</a>
-                        <a class="ghost-action compact-action" asp-controller="Case" asp-action="CaseDetails" asp-route-id="1">تفاصيل الحالة</a>
-                    </div>
-                </div>
-                <div class="card-side">
-                    <strong>180 - 250 ج.م</strong>
-                    <span class="case-meta">جلسة أو جلستان</span>
-                </div>
-            </article>
 
-            <article class="case-card">
-                <div>
-                    <div class="case-card-top">
-                        <span class="status-badge status-pending">قيد المراجعة</span>
-                        <span class="case-meta">علاج تحفظي</span>
-                        <span class="case-meta">المعادي</span>
-                    </div>
-                    <h3>علاج تحفظي لضروس متضررة</h3>
-                    <p>المريض يحتاج تقييما داخل العيادة، مع توضيح عدد الجلسات المتوقع والتكلفة قبل البدء.</p>
-                    <div class="row-actions mt-3">
-                        <a class="primary-action compact-action" asp-controller="Offer" asp-action="CreateOffer" asp-route-caseId="2">تقديم عرض</a>
-                        <a class="ghost-action compact-action" asp-controller="Case" asp-action="CaseDetails" asp-route-id="2">تفاصيل الحالة</a>
-                    </div>
-                </div>
-                <div class="card-side">
-                    <strong>220 - 320 ج.م</strong>
-                    <span class="case-meta">3 جلسات تقديرية</span>
-                </div>
-            </article>
+            @if (Model != null && Model.Any())
+            {
+                @foreach (var c in Model)
+                {
+                    <article class="case-card">
+                        <div>
+                            <div class="case-card-top">
+                                <span class="status-badge status-open">متاحة</span>
+                                <span class="case-meta">@c.TreatmentCategoryName</span>
+                                <span class="case-meta">@c.City</span>
+                            </div>
+                            <h3>@c.Title</h3>
+                            <p class="case-meta">@c.Governorate — @c.OffersCount عرض حتى الآن</p>
+                            <div class="row-actions mt-3">
+                                <a class="primary-action compact-action"
+                                   asp-controller="Offer"
+                                   asp-action="CreateOffer"
+                                   asp-route-caseId="@c.Id"
+                                   asp-route-portal="@portalRoute">تقديم عرض</a>
+                                <a class="ghost-action compact-action"
+                                   asp-controller="Case"
+                                   asp-action="CaseDetails"
+                                   asp-route-id="@c.Id"
+                                   asp-route-portal="@portalRoute">تفاصيل الحالة</a>
+                            </div>
+                        </div>
+                        <div class="card-side">
+                            <strong>
+                                @(c.EstimatedPriceMin.HasValue ? $"{c.EstimatedPriceMin:N0}" : "—") —
+                                @(c.EstimatedPriceMax.HasValue ? $"{c.EstimatedPriceMax:N0}" : "—") ج.م
+                            </strong>
+                            <span class="case-meta">@c.ServiceTypeName</span>
+                            <span class="case-meta">@c.CreatedAt.ToString("dd MMM yyyy")</span>
+                        </div>
+                    </article>
+                }
+            }
+            else
+            {
+                <section class="state-grid">
+                    <article class="empty-state-card">
+                        <span class="empty-state-icon">📋</span>
+                        <h3>لا توجد حالات متاحة</h3>
+                        <p>لا توجد حالات مفتوحة حالياً. تحقق لاحقاً.</p>
+                    </article>
+                </section>
+            }
 
-            <section class="state-grid">
-                <article class="empty-state-card">
-                    <span class="empty-state-icon">0</span>
-                    <h3>لا توجد حالات متاحة</h3>
-                    <p>لا توجد حالات متاحة حسب الفلاتر الحالية. جرّب توسيع النطاق أو تغيير نوع الخدمة.</p>
-                </article>
-                @await Html.PartialAsync("_Loader")
-                <article class="empty-state-card">
-                    <span class="empty-state-icon">!</span>
-                    <h3>حدث خطأ</h3>
-                    <p>تعذر تحميل الحالات مؤقتا. هذه الحالة جاهزة للعرض عند فشل الاتصال بالخادم.</p>
-                </article>
-            </section>
         </section>
 
         <aside class="content-side">
             <article class="health-panel side-accent">
                 <div class="panel-heading">
                     <div>
-                        <h2>فلترة ذكية</h2>
-                        <p>يمكن ربطها لاحقا بمعاملات البحث.</p>
+                        <h2>فلترة</h2>
+                        <p>يمكن ربطها لاحقاً بمعاملات البحث.</p>
                     </div>
                 </div>
                 <div class="form-panel">
                     <label class="field-group">
                         <span>المحافظة</span>
                         <select class="form-select modern-input">
+                            <option>الكل</option>
                             <option>القاهرة</option>
                             <option>الجيزة</option>
                             <option>الإسكندرية</option>

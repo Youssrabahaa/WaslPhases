@@ -1,7 +1,9 @@
 ﻿@model phase_1.BLL.DTOs.ConversationDTO
 @{
     ViewData["Title"] = "المحادثة";
-    var portalRoute = ViewContext.RouteData.Values["portal"]?.ToString();
+    var portalRoute = ViewContext.RouteData.Values["portal"]?.ToString() ?? "student";
+    //  بناء الـ URL الصح للـ Send بناءً على الـ portal
+    var sendUrl = $"/{portalRoute}/Conversation/Send";
 }
 
 <section class="health-page">
@@ -76,6 +78,7 @@
                 @Html.AntiForgeryToken()
                 <input type="hidden" id="MatchId" value="@Model.MatchId" />
                 <input type="hidden" id="SenderUserId" value="@Model.CurrentUserId" />
+                <input type="hidden" id="SendUrl" value="@sendUrl" />
                 <input type="text"
                        id="Content"
                        class="modern-input"
@@ -94,6 +97,7 @@
     (function () {
         const matchId       = document.getElementById('MatchId').value;
         const currentUserId = parseInt(document.getElementById('SenderUserId').value);
+        const sendUrl       = document.getElementById('SendUrl').value;
         const chatBox       = document.getElementById('chat-box');
         const emptyState    = document.getElementById('empty-state');
         const sendForm      = document.getElementById('send-form');
@@ -137,38 +141,39 @@
             scrollToBottom();
         }
 
-        // ─── SignalR Connection ───
+        // ─── SignalR ───
         const connection = new signalR.HubConnectionBuilder()
-            .withUrl("/chatHub")
+            .withUrl('/chatHub')
             .withAutomaticReconnect()
             .build();
 
-        connection.on("ReceiveMessage", function (msg) {
+        connection.on('ReceiveMessage', function (msg) {
             const isOwn = msg.senderUserId === currentUserId;
             appendMessage(msg, isOwn);
         });
 
         connection.start()
-            .then(() => connection.invoke("JoinMatch", parseInt(matchId)))
-            .catch(err => console.error(err));
+            .then(() => connection.invoke('JoinMatch', parseInt(matchId)))
+            .catch(err => console.error('SignalR error:', err));
 
-        // ─── Send message via AJAX ───
+        // ─── Send via AJAX ───
         sendForm.addEventListener('submit', function (e) {
             e.preventDefault();
 
             const content = contentInput.value.trim();
             if (!content) return;
 
-            fetch('/Conversation/Send', {
+            // ✅ إصلاح: sendUrl يحتوي على الـ portal prefix الصح
+            fetch(sendUrl, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/x-www-form-urlencoded',
                     'RequestVerificationToken': tokenInput.value
                 },
                 body: new URLSearchParams({
-                    MatchId: matchId,
+                    MatchId:      matchId,
                     SenderUserId: currentUserId,
-                    Content: content,
+                    Content:      content,
                     __RequestVerificationToken: tokenInput.value
                 })
             })

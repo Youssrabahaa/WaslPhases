@@ -9,7 +9,7 @@
         <div>
             <span class="health-kicker">بوابة المريض</span>
             <h1 class="health-title">حالاتي</h1>
-            <p class="health-subtitle">قائمة الحالات التي نشرتها وحالة كل منها.</p>
+            <p class="health-subtitle">قائمة الحالات التي نشرتها — اضغط على الحالة لمراجعة العروض وقبول أحدها.</p>
         </div>
         <div class="hero-actions">
             <a class="primary-action"
@@ -33,25 +33,58 @@
         <div class="offer-list">
             @foreach (var c in Model)
             {
-                <article class="session-card">
+                
+                    var cls = c.Status == 1 ? "status-inprogress"
+                            : c.Status == 2 ? "status-completed"
+                            : "status-rejected";
+
+                    // ✅ إشارة واضحة لو في عروض على الحالة المفتوحة
+                    var hasOffers = c.OffersCount > 0 && c.Status == 1;
+                
+                <article class="session-card" style="@(hasOffers ? "border-right: 3px solid var(--teal);" : "")">
                     <div>
                         <div class="case-card-top">
-                            @{
-                                var cls = c.Status == 1 ? "status-inprogress"
-                                : c.Status == 2 ? "status-completed"
-                                : "status-rejected";
-                            }
                             <span class="status-badge @cls">@c.StatusText</span>
                             <span class="case-meta">@c.TreatmentCategoryName</span>
+
+                            @* ✅ badge يظهر لو في عروض جديدة *@
+                            @if (hasOffers)
+                            {
+                                <span class="status-badge status-inprogress">
+                                    🔔 @c.OffersCount عرض جديد
+                                </span>
+                            }
                         </div>
+
                         <h3>@c.Title</h3>
-                        <p class="case-meta">@c.Governorate — @c.City · @c.OffersCount عرض</p>
+                        <p class="case-meta">@c.Governorate — @c.City</p>
+
+                        @if (hasOffers)
+                        {
+                            <p class="case-meta" style="color: var(--teal); font-weight: 600;">
+                                ✅ وصلك @c.OffersCount عرض من طلاب الأسنان — اضغط "مراجعة العروض" للقبول
+                            </p>
+                        }
+
                         <div class="row-actions mt-3">
-                            <a class="primary-action compact-action"
-                               asp-controller="Case"
-                               asp-action="CaseDetails"
-                               asp-route-id="@c.Id"
-                               asp-route-portal="@portalRoute">التفاصيل</a>
+                            @if (hasOffers)
+                            {
+                                <a class="primary-action compact-action"
+                                   asp-controller="Case"
+                                   asp-action="CaseDetails"
+                                   asp-route-id="@c.Id"
+                                   asp-route-portal="@portalRoute">
+                                    🔔 مراجعة العروض (@c.OffersCount)
+                                </a>
+                            }
+                            else
+                            {
+                                <a class="primary-action compact-action"
+                                   asp-controller="Case"
+                                   asp-action="CaseDetails"
+                                   asp-route-id="@c.Id"
+                                   asp-route-portal="@portalRoute">التفاصيل</a>
+                            }
 
                             @if (c.Status == 1)
                             {
@@ -76,6 +109,10 @@
                     </div>
                     <div class="card-side">
                         <strong>@c.ServiceTypeName</strong>
+                        @if (c.OffersCount > 0)
+                        {
+                            <span class="status-badge status-inprogress">@c.OffersCount عرض</span>
+                        }
                         <span class="case-meta">@c.CreatedAt.ToString("dd MMM yyyy")</span>
                     </div>
                 </article>

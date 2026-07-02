@@ -1,18 +1,40 @@
+@model phase_1.BLL.DTOs.OfferDetailsDTO
 @{
     ViewData["Title"] = "تفاصيل العرض";
+    var portalRoute = ViewContext.RouteData.Values["portal"]?.ToString();
+
+    var statusText = Model.Status == 1 ? "قيد المراجعة"
+                    : Model.Status == 2 ? "مقبول"
+                    : Model.Status == 3 ? "مرفوض"
+                    : "ملغي";
+    var statusClass = Model.Status == 1 ? "status-pending"
+                    : Model.Status == 2 ? "status-completed"
+                    : "status-rejected";
 }
 
 <section class="health-page">
     <div class="health-hero compact-hero">
         <div>
             <span class="health-kicker">تفاصيل العرض</span>
-            <h1 class="health-title">تفاصيل العرض رقم 1</h1>
-            <p class="health-subtitle">عرض شامل لبيانات العرض، الحالة، ورسالة الطالب قبل قرار المريض.</p>
+            <h1 class="health-title">عرض رقم @Model.Id</h1>
+            <p class="health-subtitle">@Model.CaseTitle</p>
         </div>
         <div class="hero-actions">
-            <a class="ghost-action" asp-controller="Offer" asp-action="MyOffers">العودة للعروض</a>
+            <a class="ghost-action"
+               asp-controller="Offer"
+               asp-action="MyOffers"
+               asp-route-portal="@portalRoute">← العودة للعروض</a>
         </div>
     </div>
+
+    @if (TempData["Success"] != null)
+    {
+        <div class="app-toast"><span class="app-toast-dot"></span>@TempData["Success"]</div>
+    }
+    @if (TempData["Error"] != null)
+    {
+        <div class="alert-soft-danger">@TempData["Error"]</div>
+    }
 
     <div class="content-grid">
         <section class="content-main">
@@ -22,55 +44,107 @@
                         <h2>ملخص العرض</h2>
                         <p>ملخص سريع للسعر، عدد الجلسات، وحالة رد المريض.</p>
                     </div>
-                    <span class="status-badge status-pending">قيد المراجعة</span>
+                    <span class="status-badge @statusClass">@statusText</span>
                 </div>
                 <div class="info-grid">
                     <div class="info-block">
-                        <span>السعر المقترح</span>
-                        <strong>250 ج.م</strong>
-                    </div>
-                    <div class="info-block">
-                        <span>عدد الجلسات</span>
-                        <strong>3 جلسات</strong>
-                    </div>
-                    <div class="info-block">
-                        <span>تاريخ الإرسال</span>
-                        <strong>28 أبريل 2026</strong>
+                        <span>الطالب</span>
+                        <strong>@Model.StudentName</strong>
                     </div>
                     <div class="info-block">
                         <span>الحالة</span>
-                        <strong>بانتظار رد المريض</strong>
+                        <strong>@Model.CaseTitle</strong>
                     </div>
+                    <div class="info-block">
+                        <span>السعر المقترح</span>
+                        <strong>@(Model.ProposedPrice?.ToString("N0") ?? "—") ج.م</strong>
+                    </div>
+                    <div class="info-block">
+                        <span>عدد الجلسات</span>
+                        <strong>@(Model.EstimatedSessionsCount?.ToString() ?? "—") جلسة</strong>
+                    </div>
+                    <div class="info-block">
+                        <span>تاريخ الإرسال</span>
+                        <strong>@Model.CreatedAt.ToString("dd MMM yyyy")</strong>
+                    </div>
+                    @if (Model.DecidedAt.HasValue)
+                    {
+                        <div class="info-block">
+                            <span>تاريخ القرار</span>
+                            <strong>@Model.DecidedAt.Value.ToString("dd MMM yyyy")</strong>
+                        </div>
+                    }
                 </div>
             </article>
 
-            <article class="health-panel">
-                <div class="panel-heading">
-                    <div>
-                        <h2>رسالة الطالب</h2>
-                        <p>النص الذي يراه المريض قبل قبول العرض.</p>
+            @if (!string.IsNullOrEmpty(Model.Message))
+            {
+                <article class="health-panel">
+                    <div class="panel-heading">
+                        <div>
+                            <h2>رسالة الطالب</h2>
+                            <p>النص الذي يراه المريض قبل قبول العرض.</p>
+                        </div>
                     </div>
-                </div>
-                <p class="body-copy">أقترح البدء بتقييم داخل العيادة ثم جلستين علاجيتين حسب نتيجة الفحص. سيتم توضيح الخطة للمريض قبل أي إجراء.</p>
-            </article>
+                    <p class="body-copy">@Model.Message</p>
+                </article>
+            }
         </section>
 
         <aside class="content-side">
-            <article class="health-panel side-accent">
-                <div class="panel-heading">
-                    <div>
-                        <h2>قرار العرض</h2>
-                        <p>أزرار جاهزة لمسار المطابقة.</p>
+            @*  زر Accept يظهر فقط للمريض لو الـ Offer لا يزال Pending *@
+            @if (Model.Status == 1)
+            {
+                <article class="health-panel side-accent">
+                    <div class="panel-heading">
+                        <div>
+                            <h2>قرار العرض</h2>
+                            <p>اقبل أو ارفض هذا العرض.</p>
+                        </div>
                     </div>
-                </div>
-                <div class="form-actions">
-                    <a class="primary-action loading-button" asp-controller="Match" asp-action="MatchDetails">
-                        <span class="button-label">قبول العرض</span>
-                        <span class="button-loader"></span>
-                    </a>
-                    <a class="danger-action" asp-controller="Offer" asp-action="MyOffers">رفض العرض</a>
-                </div>
-            </article>
+                    <div class="form-actions">
+                        @*  Accept عبر POST → MatchService.AcceptOfferAsync *@
+                        <form asp-controller="Match"
+                              asp-action="AcceptOffer"
+                              asp-route-portal="@portalRoute"
+                              method="post"
+                              onsubmit="return confirm('هل تريد قبول هذا العرض؟ سيتم إنشاء مطابقة.')">
+                            @Html.AntiForgeryToken()
+                            <input type="hidden" name="offerId" value="@Model.Id" />
+                            <input type="hidden" name="caseId" value="@Model.CaseId" />
+                            <button type="submit" class="primary-action w-100">قبول العرض</button>
+                        </form>
+
+                        <form asp-controller="Offer"
+                              asp-action="RejectOffer"
+                              asp-route-portal="@portalRoute"
+                              method="post"
+                              onsubmit="return confirm('هل تريد رفض هذا العرض؟')">
+                            @Html.AntiForgeryToken()
+                            <input type="hidden" name="id" value="@Model.Id" />
+                            <button type="submit" class="danger-action w-100">رفض العرض</button>
+                        </form>
+                    </div>
+                </article>
+            }
+            else
+            {
+                <article class="health-panel">
+                    <div class="panel-heading">
+                        <div><h2>حالة العرض</h2></div>
+                    </div>
+                    <p class="case-meta">
+                        العرض @statusText — لا يمكن تغيير القرار.
+                    </p>
+                    @if (Model.Status == 2)
+                    {
+                        <a class="primary-action mt-3"
+                           asp-controller="Match"
+                           asp-action="Index"
+                           asp-route-portal="@portalRoute">عرض المطابقة</a>
+                    }
+                </article>
+            }
         </aside>
     </div>
 </section>

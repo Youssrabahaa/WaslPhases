@@ -8,19 +8,38 @@ public class OfferController : Controller
 {
     private readonly IOfferService _offerService;
     private readonly IMatchService _matchService;
+    private readonly ICaseService _caseService;
 
-    public OfferController(IOfferService offerService, IMatchService matchService)
+    public OfferController(
+        IOfferService offerService,
+        IMatchService matchService,
+        ICaseService caseService)
     {
         _offerService = offerService;
         _matchService = matchService;
+        _caseService = caseService;
+    }
+
+    public async Task<IActionResult> BrowseCases()
+    {
+        var cases = await _caseService.GetOpenCasesAsync();
+        return View(cases);
     }
 
     [HttpGet]
-    public IActionResult CreateOffer(int caseId)
+    public async Task<IActionResult> CreateOffer(int caseId)
     {
         var studentId = HttpContext.Session.GetInt32("UserId") ?? 0;
-        var model = new CreateOfferDTO { CaseId = caseId, StudentUserId = studentId };
-        return View(model);
+
+        // ✅ لو الطالب عنده offer موجود — وجهه لعرضه بدل ما يكرر
+        var existing = await _offerService.GetExistingOfferAsync(studentId, caseId);
+        if (existing != null)
+        {
+            TempData["Error"] = "لقد قدمت عرضًا على هذه الحالة مسبقًا.";
+            return RedirectToAction(nameof(OfferDetails), new { id = existing.Id });
+        }
+
+        return View(new CreateOfferDTO { CaseId = caseId, StudentUserId = studentId });
     }
 
     [HttpPost]
@@ -32,9 +51,18 @@ public class OfferController : Controller
         if (!ModelState.IsValid)
             return View(model);
 
-        await _offerService.CreateOfferAsync(model);
-        TempData["Success"] = "تم إرسال العرض بنجاح.";
-        return RedirectToAction(nameof(MyOffers));
+        try
+        {
+            await _offerService.CreateOfferAsync(model);
+            TempData["Success"] = "تم إرسال العرض بنجاح.";
+            return RedirectToAction(nameof(MyOffers));
+        }
+        catch (InvalidOperationException ex)
+        {
+            // ✅ عرض موجود — وجهه لعرضه
+            TempData["Error"] = ex.Message;
+            return RedirectToAction("CaseDetails", "Case", new { id = model.CaseId });
+        }
     }
 
     public async Task<IActionResult> MyOffers()
@@ -44,12 +72,6 @@ public class OfferController : Controller
         return View(offers);
     }
 
-    public async Task<IActionResult> BrowseCases()
-    {
-        // يُستبدل بـ CaseService لاحقًا
-        return View();
-    }
-
     public async Task<IActionResult> OfferDetails(int id)
     {
         var offer = await _offerService.GetOfferDetailsAsync(id);
@@ -57,7 +79,6 @@ public class OfferController : Controller
         return View(offer);
     }
 
-    // ✅ AcceptOffer يمر عبر MatchService — هو اللي بينشئ Match + Conversation + يرفض باقي العروض
     [HttpPost]
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> AcceptOffer(int offerId, int caseId)
@@ -67,7 +88,7 @@ public class OfferController : Controller
         if (!result)
         {
             TempData["Error"] = "تعذّر قبول هذا العرض.";
-            return RedirectToAction("OfferDetails", new { id = offerId });
+            return RedirectToAction("CaseDetails", "Case", new { id = caseId });
         }
 
         TempData["Success"] = "تم قبول العرض وإنشاء المطابقة.";
@@ -78,8 +99,9 @@ public class OfferController : Controller
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> RejectOffer(int id)
     {
+        var offer = await _offerService.GetOfferDetailsAsync(id);
         await _offerService.RejectOfferAsync(id);
         TempData["Success"] = "تم رفض العرض.";
-        return RedirectToAction("OfferDetails", new { id });
+        return RedirectToAction("CaseDetails", "Case", new { id = offer?.CaseId ?? 0 });
     }
 }

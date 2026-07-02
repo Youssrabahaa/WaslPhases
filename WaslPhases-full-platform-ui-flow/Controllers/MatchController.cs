@@ -1,4 +1,4 @@
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using phase_1.BLL.DTOs;
 using phase_1.BLL.Services;
 
@@ -13,6 +13,7 @@ public class MatchController : Controller
         _matchService = matchService;
     }
 
+    //  الـ Index بيقرأ UserId و Role من الـ Session ويوجه للقائمة الصح
     public async Task<IActionResult> Index()
     {
         var userId = HttpContext.Session.GetInt32("UserId");
@@ -28,16 +29,20 @@ public class MatchController : Controller
         return View(matches);
     }
 
-    public async Task<IActionResult> PatientMatches(int patientId)
+    //  إصلاح: بيقرأ من Session بدل URL parameter
+    public async Task<IActionResult> PatientMatches()
     {
+        var patientId = HttpContext.Session.GetInt32("UserId") ?? 0;
         var matches = await _matchService.GetPatientMatchesAsync(patientId);
-        return View(matches);
+        return View("Index", matches);
     }
 
-    public async Task<IActionResult> StudentMatches(int studentId)
+    //  إصلاح: بيقرأ من Session بدل URL parameter
+    public async Task<IActionResult> StudentMatches()
     {
+        var studentId = HttpContext.Session.GetInt32("UserId") ?? 0;
         var matches = await _matchService.GetStudentMatchesAsync(studentId);
-        return View(matches);
+        return View("Index", matches);
     }
 
     public async Task<IActionResult> MatchDetails(int id)
@@ -58,11 +63,12 @@ public class MatchController : Controller
 
         if (!result)
         {
-            TempData["Error"] = "????? ???? ??? ?????.";
+            TempData["Error"] = "تعذّر قبول هذا العرض.";
             return RedirectToAction("CaseDetails", "Case", new { id = caseId });
         }
 
-        TempData["Success"] = "?? ???? ????? ?????.";
+        TempData["Success"] = "تم قبول العرض وإنشاء المطابقة.";
+        //  إصلاح: PatientMatches لا تحتاج parameter — بتقرأ من Session
         return RedirectToAction(nameof(PatientMatches));
     }
 
@@ -74,11 +80,11 @@ public class MatchController : Controller
 
         if (!result)
         {
-            TempData["Error"] = "?? ???? ????? ??? ????????. ???? ?? ???? ??????? ??????.";
+            TempData["Error"] = "لا يمكن إتمام هذه المطابقة. تأكد أن جميع الجلسات مكتملة.";
             return RedirectToAction(nameof(MatchDetails), new { id });
         }
 
-        TempData["Success"] = "?? ????? ???????? ?????.";
+        TempData["Success"] = "تم إتمام المطابقة بنجاح.";
         return RedirectToAction(nameof(MatchDetails), new { id });
     }
 
@@ -86,17 +92,17 @@ public class MatchController : Controller
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> Cancel(int id, CancelMatchDto dto)
     {
+        //  بيقرأ UserId من Session — أكثر أمانًا من الـ form
         var userId = HttpContext.Session.GetInt32("UserId") ?? 0;
         var result = await _matchService.CancelMatchAsync(id, userId);
-        //var result = await _matchService.CancelMatchAsync(id, dto.UserId);
 
         if (!result)
         {
-            TempData["Error"] = "?? ???? ????? ??? ????????. ?????? ??? ??????.";
+            TempData["Error"] = "لا يمكن إلغاء هذه المطابقة. العلاج بدأ بالفعل.";
             return RedirectToAction(nameof(MatchDetails), new { id });
         }
 
-        TempData["Success"] = "?? ????? ????????.";
+        TempData["Success"] = "تم إلغاء المطابقة.";
         return RedirectToAction(nameof(MatchDetails), new { id });
     }
 
@@ -105,7 +111,7 @@ public class MatchController : Controller
     public async Task<IActionResult> CancelExpired()
     {
         await _matchService.CancelExpiredMatchesAsync();
-        TempData["Success"] = "?? ??? ????????? ????????.";
-        return RedirectToAction(nameof(PatientMatches));
+        TempData["Success"] = "تم فحص المطابقات المنتهية.";
+        return RedirectToAction(nameof(Index));
     }
 }
