@@ -15,6 +15,11 @@ namespace phase_1.BLL.Services
 
         public async Task<OfferDTO> CreateOfferAsync(CreateOfferDTO dto)
         {
+            //  تحقق إن الطالب مش عنده offer موجود على نفس الحالة
+            var existing = await _offerRepository.GetByStudentAndCaseAsync(dto.StudentUserId, dto.CaseId);
+            if (existing != null)
+                throw new InvalidOperationException("لقد قدمت عرضًا على هذه الحالة مسبقًا.");
+
             var offer = new Offer
             {
                 CaseId = dto.CaseId,
@@ -113,6 +118,27 @@ namespace phase_1.BLL.Services
 
             await _offerRepository.UpdateAsync(offer);
             return true;
+        }
+
+        //  implementation — بترجع الـ offer الموجود لو الطالب سبق وقدم على نفس الحالة
+        public async Task<OfferDTO?> GetExistingOfferAsync(int studentId, int caseId)
+        {
+            var offer = await _offerRepository.GetByStudentAndCaseAsync(studentId, caseId);
+
+            if (offer == null)
+                return null;
+
+            return new OfferDTO
+            {
+                Id = offer.Id,
+                CaseId = offer.CaseId,
+                StudentUserId = offer.StudentUserId,
+                Message = offer.Message,
+                ProposedPrice = offer.ProposedPrice,
+                EstimatedSessionsCount = offer.EstimatedSessionsCount,
+                Status = offer.Status,
+                CreatedAt = offer.CreatedAt
+            };
         }
     }
 }

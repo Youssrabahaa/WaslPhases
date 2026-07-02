@@ -43,7 +43,23 @@ namespace phase_1.BLL.Services
                 City = c.City,
                 Area = c.Area,
                 CreatedAt = c.CreatedAt,
-                OffersCount = c.Offers.Count
+                OffersCount = c.Offers.Count,
+
+                // ✅ إضافة العروض للمريض عشان يشوفها ويقبل
+                Offers = c.Offers.Select(o => new OfferDetailsDTO
+                {
+                    Id = o.Id,
+                    CaseId = o.CaseId,
+                    CaseTitle = c.Title,
+                    StudentUserId = o.StudentUserId,
+                    StudentName = o.StudentUser?.FullName ?? string.Empty,
+                    Message = o.Message,
+                    ProposedPrice = o.ProposedPrice,
+                    EstimatedSessionsCount = o.EstimatedSessionsCount,
+                    Status = o.Status,
+                    CreatedAt = o.CreatedAt,
+                    DecidedAt = o.DecidedAt
+                }).ToList()
             };
         }
 
@@ -65,7 +81,9 @@ namespace phase_1.BLL.Services
                 Governorate = c.Governorate,
                 City = c.City,
                 CreatedAt = c.CreatedAt,
-                OffersCount = c.Offers.Count
+                OffersCount = c.Offers.Count,
+                EstimatedPriceMin = c.EstimatedPriceMin,
+                EstimatedPriceMax = c.EstimatedPriceMax
             }).ToList();
         }
 
@@ -85,7 +103,9 @@ namespace phase_1.BLL.Services
                 Governorate = c.Governorate,
                 City = c.City,
                 CreatedAt = c.CreatedAt,
-                OffersCount = c.Offers.Count
+                OffersCount = c.Offers.Count,
+                EstimatedPriceMin = c.EstimatedPriceMin,
+                EstimatedPriceMax = c.EstimatedPriceMax
             }).ToList();
         }
 
@@ -99,7 +119,7 @@ namespace phase_1.BLL.Services
                 Title = dto.Title,
                 Description = dto.Description,
                 Urgency = dto.Urgency,
-                Status = 1,   // Open
+                Status = 1,
                 EstimatedPriceMin = dto.EstimatedPriceMin,
                 EstimatedPriceMax = dto.EstimatedPriceMax,
                 NeedsSupervisorApproval = dto.NeedsSupervisorApproval,
@@ -122,7 +142,6 @@ namespace phase_1.BLL.Services
             if (c == null)
                 return false;
 
-            // ✅ لا يجوز تعديل الحالة لو مش Open
             if (c.Status != 1)
                 return false;
 

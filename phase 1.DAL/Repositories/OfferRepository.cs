@@ -46,12 +46,18 @@ namespace phase_1.DAL.Repositories
                 .ToListAsync();
         }
 
-    
         public async Task<List<Offer>> GetCaseOffersAsync(int caseId)
         {
             return await _context.Offers
                 .Where(o => o.CaseId == caseId)
                 .ToListAsync();
+        }
+
+        // ✅ implementation جديد — بيتحقق إن الطالب مش عنده offer على نفس الحالة
+        public async Task<Offer?> GetByStudentAndCaseAsync(int studentId, int caseId)
+        {
+            return await _context.Offers
+                .FirstOrDefaultAsync(o => o.StudentUserId == studentId && o.CaseId == caseId);
         }
 
         public async Task UpdateAsync(Offer offer)

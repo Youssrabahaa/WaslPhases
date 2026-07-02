@@ -21,6 +21,8 @@ namespace phase_1.DAL.Repositories
                 .Include(c => c.ServiceType)
                 .Include(c => c.TreatmentCategory)
                 .Include(c => c.Offers)
+                    //  مطلوب عشان CaseDetailsDTO.Offers.StudentName يشتغل
+                    .ThenInclude(o => o.StudentUser)
                 .FirstOrDefaultAsync(c => c.Id == id);
         }
 
@@ -42,7 +44,7 @@ namespace phase_1.DAL.Repositories
                 .Include(c => c.ServiceType)
                 .Include(c => c.TreatmentCategory)
                 .Include(c => c.Offers)
-                .Where(c => c.Status == 1)  // Open
+                .Where(c => c.Status == 1)
                 .OrderByDescending(c => c.CreatedAt)
                 .ToListAsync();
         }

@@ -13,5 +13,8 @@
         public string City { get; set; } = string.Empty;
         public DateTime CreatedAt { get; set; }
         public int OffersCount { get; set; }
+        public decimal? EstimatedPriceMin { get; set; }
+       
+         public decimal? EstimatedPriceMax { get; set; }
     }
 }

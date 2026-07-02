@@ -8,7 +8,9 @@ namespace phase_1.BLL.Services
         Task<OfferDetailsDTO?> GetOfferDetailsAsync(int id);
         Task<IEnumerable<OfferDTO>> GetOffersForCaseAsync(int caseId);
         Task<IEnumerable<OfferDTO>> GetOffersByStudentAsync(int studentId);
-        // ✅ AcceptOffer محذوف — اتحول لـ MatchService.AcceptOfferAsync حسب الـ business rules
         Task<bool> RejectOfferAsync(int offerId);
+
+        //  method جديدة — بترجع الـ offer الموجود لو الطالب عنده offer على نفس الحالة
+        Task<OfferDTO?> GetExistingOfferAsync(int studentId, int caseId);
     }
 }

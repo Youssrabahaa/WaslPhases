@@ -22,5 +22,8 @@
         public string Area { get; set; } = string.Empty;
         public DateTime CreatedAt { get; set; }
         public int OffersCount { get; set; }
+
+        // ✅ مضافة عشان المريض يشوف العروض ويقبل واحدة
+        public List<OfferDetailsDTO> Offers { get; set; } = new();
     }
 }
