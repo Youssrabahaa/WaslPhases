@@ -2,6 +2,10 @@
 @{
     ViewData["Title"] = "تفاصيل المطابقة";
     var portalRoute = ViewContext.RouteData.Values["portal"]?.ToString();
+    var currentUserId = Context.Session.GetInt32("UserId") ?? 0;
+    var userRole = Context.Session.GetInt32("UserRole") ?? 0;
+    var isPatient = userRole == 1;
+    var isStudent = userRole == 2;
 
     var statusClass = Model.Status == 1 ? "status-inprogress"
                     : Model.Status == 2 ? "status-completed"
@@ -9,17 +13,12 @@
     var statusText = Model.Status == 1 ? "نشطة"
                     : Model.Status == 2 ? "مكتملة"
                     : "ملغية";
+
+    // حساب إمكانية الإلغاء: لا يوجد جلسة InProgress أو Completed
+    var canCancel = Model.Status == 1;
 }
 
 <section class="health-page">
-    <a class="action-tile"
-       asp-controller="Conversation"
-       asp-action="Chat"
-       asp-route-matchId="@Model.MatchId"
-       asp-route-portal="@portalRoute">
-        <strong>💬 المحادثة</strong>
-        <span>تواصل مع الطرف الآخر.</span>
-    </a>
     <!-- Hero-->
     <div class="health-hero">
         <div>
@@ -29,21 +28,22 @@
         </div>
         <div class="hero-actions">
             <a class="primary-action"
-               asp-controller="Session"
-               asp-action="SessionList"
+               asp-controller="Conversation"
+               asp-action="Chat"
                asp-route-matchId="@Model.MatchId"
                asp-route-portal="@portalRoute">
-                إدارة الجلسات
+                💬 فتح المحادثة
             </a>
             <a class="ghost-action"
                asp-controller="Session"
                asp-action="SessionList"
                asp-route-matchId="@Model.MatchId"
                asp-route-portal="@portalRoute">
-                التقارير من الجلسات
+                📅 الجلسات
             </a>
 
-            @if (Model.Status == 1)
+            @* ✅ إلغاء المطابقة: متاح للمريض والطالب كليهما — بالشروط المحددة في Service *@
+            @if (canCancel)
             {
                 <form asp-action="Cancel"
                       asp-controller="Match"
@@ -55,6 +55,21 @@
                     <input type="hidden" name="id" value="@Model.MatchId" />
                     <input type="hidden" name="dto.UserId" value="0" />
                     <button type="submit" class="danger-action">إلغاء المطابقة</button>
+                </form>
+            }
+
+            @* ✅ إكمال المطابقة: يظهر فقط عند Active ولكن يتحقق Service من الشروط *@
+            @if (Model.Status == 1 && Model.CompletedSessions > 0 && Model.RemainingSessions == 0)
+            {
+                <form asp-action="Complete"
+                      asp-controller="Match"
+                      asp-route-portal="@portalRoute"
+                      method="post"
+                      style="display:inline;"
+                      onsubmit="return confirm('هل تريد إكمال المطابقة؟ تأكد من اكتمال جميع الجلسات.')">
+                    @Html.AntiForgeryToken()
+                    <input type="hidden" name="id" value="@Model.MatchId" />
+                    <button type="submit" class="primary-action" style="background-color: #10b981;">✓ إكمال المطابقة</button>
                 </form>
             }
         </div>
@@ -97,7 +112,6 @@
 
     <div class="content-grid">
         <section class="content-main">
-
       
             <article class="health-panel">
                 <div class="panel-heading">
@@ -111,6 +125,7 @@
                     <div class="info-block">
                         <span>المريض</span>
                         <strong>@Model.PatientName</strong>
+                        @* ✅ رقم الهاتف: الطالب يرى رقم المريض والعكس — بعد قبول المطابقة فقط *@
                         <small class="case-meta">@Model.PatientPhone</small>
                     </div>
                     <div class="info-block">
@@ -165,14 +180,35 @@
                     </div>
                 </div>
                 <div class="action-list">
+                    @* ✅ الشات متاح دائماً لكلاهما طالما المطابقة موجودة *@
+                    <a class="action-tile"
+                       asp-controller="Conversation"
+                       asp-action="Chat"
+                       asp-route-matchId="@Model.MatchId"
+                       asp-route-portal="@portalRoute">
+                        <strong>💬 المحادثة</strong>
+                        <span>تواصل مع الطرف الآخر مباشرة.</span>
+                    </a>
                     <a class="action-tile"
                        asp-controller="Session"
                        asp-action="SessionList"
                        asp-route-matchId="@Model.MatchId"
                        asp-route-portal="@portalRoute">
-                        <strong>📅 فتح الجلسات</strong>
+                        <strong>📅 الجلسات</strong>
                         <span>راجع قائمة الجلسات المرتبطة بهذه المطابقة.</span>
                     </a>
+                    @* ✅ إضافة جلسة: للمريض فقط *@
+                    @if (isPatient && Model.Status == 1)
+                    {
+                        <a class="action-tile"
+                           asp-controller="Session"
+                           asp-action="AddSession"
+                           asp-route-matchId="@Model.MatchId"
+                           asp-route-portal="@portalRoute">
+                            <strong>➕ إضافة جلسة</strong>
+                            <span>حدد موعداً جديداً للجلسة.</span>
+                        </a>
+                    }
                     <a class="action-tile"
                        asp-controller="Review"
                        asp-action="AddReview"

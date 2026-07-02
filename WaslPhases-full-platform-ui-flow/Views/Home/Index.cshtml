@@ -1,19 +1,29 @@
-﻿@{
-    ViewData["Title"] = "Ø§Ù„Ø±Ø¦ÙŠØ³ÙŠØ©";
+@{
+    ViewData["Title"] = "الرئيسية";
     var sessionRole = Context.Session.GetInt32("UserRole");
     var portalRoute = sessionRole == 1 ? "patient"
         : sessionRole == 2 ? "student"
         : ViewContext.RouteData.Values["portal"]?.ToString() ?? "student";
     var isPatient = sessionRole == 1;
     var isStudent = sessionRole == 2;
+    var userName = Context.Session.GetString("UserName") ?? "";
 }
 
 <section class="health-page">
     <div class="health-hero">
         <div>
-            <span class="health-kicker">Ù…Ù†ØµØ© Ù…Ø·Ø§Ø¨Ù‚Ø© Ø§Ù„Ø±Ø¹Ø§ÙŠØ© Ø§Ù„ØµØ­ÙŠØ©</span>
-            <h1 class="health-title">ÙˆØµÙ„ ÙŠÙ†Ø¸Ù… Ø§Ù„Ø±Ø­Ù„Ø© Ù…Ù† Ø§Ù„Ø­Ø§Ù„Ø© Ù„Ù„Ø¹Ø±Ø¶ Ù„Ù„Ø¬Ù„Ø³Ø©.</h1>
-            <p class="health-subtitle">Ù„ÙˆØ­Ø© Ù…ÙˆØ­Ø¯Ø© ØªØ¬Ù…Ø¹ Ø§Ù„ØªØ³Ø¬ÙŠÙ„ØŒ Ø§Ù„Ø·Ø§Ù„Ø¨ØŒ Ø§Ù„Ø¹Ø±ÙˆØ¶ØŒ Ø§Ù„Ù…Ø·Ø§Ø¨Ù‚Ø§ØªØŒ Ø§Ù„Ø¬Ù„Ø³Ø§ØªØŒ Ø§Ù„ØªÙ‚Ø§Ø±ÙŠØ±ØŒ ÙˆØ§Ù„ØªÙ‚ÙŠÙŠÙ…Ø§Øª ÙÙŠ ØªØ¬Ø±Ø¨Ø© ÙˆØ§Ø­Ø¯Ø© Ù…ØªÙ…Ø§Ø³ÙƒØ©.</p>
+            <span class="health-kicker">منصة مطابقة الرعاية الصحية</span>
+            <h1 class="health-title">
+                @if (!string.IsNullOrEmpty(userName))
+                {
+                    <span>مرحباً، @userName 👋</span>
+                }
+                else
+                {
+                    <span>وصل ينظم الرحلة من الحالة للعرض للجلسة.</span>
+                }
+            </h1>
+            <p class="health-subtitle">لوحة موحدة تجمع التسجيل، الطالب، العروض، المطابقات، الجلسات، التقارير، والتقييمات في تجربة واحدة متماسكة.</p>
         </div>
         <div class="hero-actions">
             @if (isPatient)
@@ -36,24 +46,24 @@
 
     <div class="metric-strip">
         <article class="mini-kpi">
-            <span class="mini-kpi-label">Ø§Ù„Ø£Ù‚Ø³Ø§Ù…</span>
+            <span class="mini-kpi-label">الأقسام</span>
             <strong>5</strong>
-            <span class="mini-kpi-meta">Ø§Ù„ØªØ³Ø¬ÙŠÙ„ØŒ Ø§Ù„Ø·Ø§Ù„Ø¨ØŒ Ø§Ù„Ø£Ø³Ø§Ø³ÙŠØ§ØªØŒ Ø§Ù„ÙˆØ§Ø¬Ù‡Ø©</span>
+            <span class="mini-kpi-meta">التسجيل، الطالب، الأساسيات، الواجهة</span>
         </article>
         <article class="mini-kpi">
-            <span class="mini-kpi-label">Ø§Ù„ØµÙØ­Ø§Øª</span>
+            <span class="mini-kpi-label">الصفحات</span>
             <strong>20+</strong>
-            <span class="mini-kpi-meta">Ø¬Ø§Ù‡Ø²Ø© Ù„Ù„Ø±Ø¨Ø·</span>
+            <span class="mini-kpi-meta">جاهزة للربط</span>
         </article>
         <article class="mini-kpi">
-            <span class="mini-kpi-label">Ø§Ù„Ø­Ø§Ù„Ø§Øª</span>
-            <strong>ÙØ§Ø±Øº / ØªØ­Ù…ÙŠÙ„ / Ø®Ø·Ø£</strong>
-            <span class="mini-kpi-meta">Ù…ÙˆØ¬ÙˆØ¯Ø© ÙÙŠ Ø§Ù„ØµÙØ­Ø§Øª</span>
+            <span class="mini-kpi-label">الحالات</span>
+            <strong>فارغ / تحميل / خطأ</strong>
+            <span class="mini-kpi-meta">موجودة في الصفحات</span>
         </article>
         <article class="mini-kpi">
-            <span class="mini-kpi-label">Ù…ØªØ¬Ø§ÙˆØ¨Ø©</span>
-            <strong>Ù†Ø¹Ù…</strong>
-            <span class="mini-kpi-meta">Ø­Ø§Ø³ÙˆØ¨ ÙˆÙ‡Ø§ØªÙ</span>
+            <span class="mini-kpi-label">متجاوبة</span>
+            <strong>نعم</strong>
+            <span class="mini-kpi-meta">حاسوب وهاتف</span>
         </article>
     </div>
 
@@ -78,6 +88,11 @@
                 <h2>حالاتي</h2>
                 <p>إدارة الحالات الطبية ومتابعة العروض المقبولة عليها.</p>
             </a>
+            <a class="module-card" asp-controller="Match" asp-action="Index" asp-route-portal="@portalRoute">
+                <span class="module-icon">ط</span>
+                <h2>المطابقات</h2>
+                <p>تابع المطابقات مع الطلاب وأدر جلساتك.</p>
+            </a>
         }
         @if (isStudent)
         {
@@ -86,72 +101,21 @@
                 <h2>مسار الطالب</h2>
                 <p>الملف الشخصي، تصفح الحالات، إنشاء عرض، ومتابعة العروض.</p>
             </a>
+            <a class="module-card" asp-controller="Offer" asp-action="BrowseCases" asp-route-portal="@portalRoute">
+                <span class="module-icon">ح</span>
+                <h2>تصفح الحالات</h2>
+                <p>اعثر على حالات مناسبة وقدم عرضك الطبي.</p>
+            </a>
+            <a class="module-card" asp-controller="Match" asp-action="Index" asp-route-portal="@portalRoute">
+                <span class="module-icon">م</span>
+                <h2>المطابقات والمتابعة</h2>
+                <p>تحويل العرض إلى مطابقة، متابعة الجلسات، التقارير، وخطوات المتابعة.</p>
+            </a>
         }
-        <a class="module-card" asp-controller="Match" asp-action="Index" asp-route-portal="@portalRoute">
-            <span class="module-icon">Ù…</span>
-            <h2>Ø§Ù„Ù…Ø·Ø§Ø¨Ù‚Ø© ÙˆØ§Ù„Ù…ØªØ§Ø¨Ø¹Ø©</h2>
-            <p>ØªØ­ÙˆÙŠÙ„ Ø§Ù„Ø¹Ø±Ø¶ Ø¥Ù„Ù‰ Ù…Ø·Ø§Ø¨Ù‚Ø©ØŒ Ù…ØªØ§Ø¨Ø¹Ø© Ø§Ù„Ø¬Ù„Ø³Ø§ØªØŒ Ø§Ù„ØªÙ‚Ø§Ø±ÙŠØ±ØŒ ÙˆØ®Ø·ÙˆØ§Øª Ø§Ù„Ù…ØªØ§Ø¨Ø¹Ø©.</p>
-        </a>
         <a class="module-card" asp-controller="Session" asp-action="SessionList" asp-route-portal="@portalRoute" style="border-color: #10b981;">
-            <span class="module-icon">Ø¬</span>
-            <h2>Ø§Ù„Ø¬Ù„Ø³Ø§Øª</h2>
-            <p>Ø¹Ø±Ø¶ ÙˆØ¥Ø¯Ø§Ø±Ø© Ø¬Ù„Ø³Ø§Øª Ø§Ù„Ø¹Ù„Ø§Ø¬ Ù„Ù„Ù…Ø·Ø§Ø¨Ù‚Ø§Øª Ø§Ù„Ù†Ø´Ø·Ø©.</p>
+            <span class="module-icon">ج</span>
+            <h2>الجلسات</h2>
+            <p>عرض وإدارة جلسات العلاج للمطابقات النشطة.</p>
         </a>
     </section>
-
-    <div class="content-grid">
-        <section class="content-main">
-            <article class="health-panel">
-                <div class="panel-heading">
-                    <div>
-                        <h2>Ù…ÙƒÙˆÙ†Ø§Øª Ù‚Ø§Ø¨Ù„Ø© Ù„Ø¥Ø¹Ø§Ø¯Ø© Ø§Ù„Ø§Ø³ØªØ®Ø¯Ø§Ù…</h2>
-                        <p>Ø£Ù…Ø«Ù„Ø© ÙØ¹Ù„ÙŠØ© Ù„Ù„Ø£Ø¬Ø²Ø§Ø¡ Ø§Ù„Ù…Ø´ØªØ±ÙƒØ© Ø§Ù„Ù…Ø·Ù„ÙˆØ¨Ø©.</p>
-                    </div>
-                    <button class="ghost-action compact-action" data-bs-toggle="modal" data-bs-target="#sharedModal">ÙØªØ­ Ø§Ù„Ù†Ø§ÙØ°Ø©</button>
-                </div>
-                <div class="state-grid">
-                    @await Html.PartialAsync("_Card")
-                    @await Html.PartialAsync("_EmptyState")
-                    @await Html.PartialAsync("_Loader")
-                </div>
-            </article>
-
-            <article class="health-panel">
-                <div class="panel-heading">
-                    <div>
-                        <h2>Ù†Ù…ÙˆØ°Ø¬ Ù…ÙˆØ­Ø¯</h2>
-                        <p>Ø¬Ø²Ø¡ Ø¬Ø§Ù‡Ø² Ù„Ø¥Ø¹Ø§Ø¯Ø© Ø§Ù„Ø§Ø³ØªØ®Ø¯Ø§Ù… Ø¯Ø§Ø®Ù„ Ø£ÙŠ Ø´Ø§Ø´Ø©.</p>
-                    </div>
-                </div>
-                @await Html.PartialAsync("_Form")
-            </article>
-        </section>
-
-        <aside class="content-side">
-            <article class="health-panel side-accent">
-                <div class="panel-heading">
-                    <div>
-                        <h2>Ø¢Ø®Ø± Ø§Ù„Ø¥Ø´Ø¹Ø§Ø±Ø§Øª</h2>
-                        <p>Ù…ÙƒÙˆÙ† Ù…ÙˆØ­Ø¯ Ù„Ù„Ø¥Ø´Ø¹Ø§Ø±.</p>
-                    </div>
-                    <a class="text-link" asp-controller="Notification" asp-action="GetNotifications">Ø§Ù„ÙƒÙ„</a>
-                </div>
-                <div class="notification-list">
-                    @await Html.PartialAsync("_NotificationItem")
-                    <article class="notification-item">
-                        <span class="notification-glow"></span>
-                        <div>
-                            <strong>Ø¬Ù„Ø³Ø© Ù‚Ø§Ø¯Ù…Ø©</strong>
-                            <p>ØªÙ… ØªØ£ÙƒÙŠØ¯ Ù…ÙˆØ¹Ø¯ Ø§Ù„Ø¬Ù„Ø³Ø© Ø§Ù„ØªØ§Ù„ÙŠØ© ÙÙŠ Ø§Ù„Ø®Ø§Ù…Ø³Ø© Ù…Ø³Ø§Ø¡.</p>
-                        </div>
-                        <time>Ø§Ù„ÙŠÙˆÙ…</time>
-                    </article>
-                </div>
-            </article>
-        </aside>
-    </div>
 </section>
-
-@await Html.PartialAsync("_Modal")
-
-

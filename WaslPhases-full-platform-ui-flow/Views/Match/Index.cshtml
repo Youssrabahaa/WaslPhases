@@ -2,12 +2,15 @@
 @{
     ViewData["Title"] = "المطابقات";
     var portalRoute = ViewContext.RouteData.Values["portal"]?.ToString();
+    var userRole = Context.Session.GetInt32("UserRole") ?? 0;
+    var isPatient = userRole == 1;
+    var isStudent = userRole == 2;
 }
 
 <section class="health-page">
     <div class="health-hero compact-hero">
         <div>
-            <span class="health-kicker">المطابقات</span>
+            <span class="health-kicker">@(isPatient ? "بوابة المريض" : "بوابة الطالب")</span>
             <h1 class="health-title">كل المطابقات المرتبطة بحسابك</h1>
             <p class="health-subtitle">افتح تفاصيل المطابقة لإدارة الجلسات والتواصل والتقارير.</p>
         </div>
@@ -18,11 +21,17 @@
         <div class="offer-list">
             @foreach (var match in Model)
             {
+                var sClass = match.Status == 1 ? "status-inprogress"
+                               : match.Status == 2 ? "status-completed"
+                               : "status-rejected";
+                var sText = match.Status == 1 ? "نشطة"
+                               : match.Status == 2 ? "مكتملة"
+                               : "ملغية";
                 <article class="session-card">
                     <div>
                         <div class="case-card-top">
-                            <span class="status-badge">مطابقة @match.MatchId</span>
-                            <span class="case-meta">حالة @match.CaseId</span>
+                            <span class="status-badge @sClass">@sText</span>
+                            <span class="case-meta">مطابقة رقم @match.MatchId</span>
                         </div>
                         <h3>@match.CaseTitle</h3>
                         <p>@(match.AcceptedAt.HasValue ? $"تم القبول {match.AcceptedAt.Value:dd/MM/yyyy}" : "مطابقة قيد المتابعة")</p>
@@ -37,7 +46,25 @@
                                asp-action="SessionList"
                                asp-route-matchId="@match.MatchId"
                                asp-route-portal="@portalRoute">الجلسات</a>
+                            @* ✅ الشات: متاح مباشرة من قائمة المطابقات *@
+                            @if (match.Status == 1)
+                            {
+                                <a class="ghost-action compact-action"
+                                   asp-controller="Conversation"
+                                   asp-action="Chat"
+                                   asp-route-matchId="@match.MatchId"
+                                   asp-route-portal="@portalRoute"
+                                   style="background: linear-gradient(135deg, var(--teal), var(--blue)); color: white; border: none;">
+                                    💬 شات
+                                </a>
+                            }
                         </div>
+                    </div>
+                    <div class="card-side">
+                        <strong><span class="status-badge @sClass">@sText</span></strong>
+                        <span class="case-meta">
+                            @(match.AcceptedAt.HasValue ? match.AcceptedAt.Value.ToString("dd/MM/yyyy") : "—")
+                        </span>
                     </div>
                 </article>
             }
@@ -47,9 +74,22 @@
     {
         <section class="state-grid">
             <article class="empty-state-card">
-                <span class="empty-state-icon">--</span>
+                <span class="empty-state-icon">🤝</span>
                 <h3>لا توجد مطابقات</h3>
-                <p>عند قبول عرض أو إنشاء مطابقة ستظهر هنا.</p>
+                @if (isPatient)
+                {
+                    <p>عند قبول عرض من أحد الطلاب ستظهر المطابقة هنا.</p>
+                    <div class="mt-3">
+                        <a class="primary-action" asp-controller="Case" asp-action="MyCases" asp-route-portal="@portalRoute">عرض حالاتي</a>
+                    </div>
+                }
+                else
+                {
+                    <p>عندما يقبل المريض عرضك ستظهر المطابقة هنا.</p>
+                    <div class="mt-3">
+                        <a class="primary-action" asp-controller="Offer" asp-action="MyOffers" asp-route-portal="@portalRoute">عرض عروضي</a>
+                    </div>
+                }
             </article>
         </section>
     }
