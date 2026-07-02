@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc;
 using phase_1.DTOs;
 using phase_1.Services;
 
@@ -36,7 +36,7 @@ public class AuthController : Controller
     public IActionResult Logout()
     {
         HttpContext.Session.Clear();
-        return RedirectToAction(nameof(Login));
+        return Redirect("/Auth/Login");
     }
 
     public IActionResult ForgotPassword()
@@ -133,6 +133,13 @@ public class AuthController : Controller
         {
             ModelState.AddModelError(string.Empty, result.Error ?? "فشل تسجيل الدخول.");
             return View(nameof(Login));
+        }
+
+        // التحقق من تأكيد رقم الهاتف أولاً
+        if (!result.Profile.IsPhoneVerified)
+        {
+            TempData["AuthMessage"] = "يجب تأكيد رقم الهاتف أولاً قبل تسجيل الدخول.";
+            return Redirect($"/Auth/VerifyOTP?phone={Uri.EscapeDataString(result.Profile.Phone)}&purpose=1");
         }
 
         HttpContext.Session.SetInt32("UserId", result.Profile.Id);

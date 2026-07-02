@@ -1,4 +1,4 @@
-﻿@{
+@{
     ViewData["Title"] = "تسجيل الدخول";
 }
 
@@ -15,6 +15,19 @@
         <span class="health-kicker">دخول</span>
         <h2>تسجيل الدخول</h2>
         <p>اكتب رقم الهاتف المسجل وكلمة المرور.</p>
+
+        @if (TempData["AuthMessage"] != null)
+        {
+            <div class="alert alert-success" style="padding: 10px 15px; border-radius: 8px; font-size: 0.9rem; margin-bottom: 15px;">
+                @TempData["AuthMessage"]
+            </div>
+        }
+        @if (TempData["ErrorMessage"] != null)
+        {
+            <div class="alert alert-danger" style="padding: 10px 15px; border-radius: 8px; font-size: 0.9rem; margin-bottom: 15px;">
+                @TempData["ErrorMessage"]
+            </div>
+        }
 
         <form class="form-panel" action="/Auth/LoginForm" method="post">
             @Html.AntiForgeryToken()

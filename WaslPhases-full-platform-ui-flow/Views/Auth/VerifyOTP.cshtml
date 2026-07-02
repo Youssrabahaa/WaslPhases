@@ -1,4 +1,4 @@
-﻿@{
+@{
     ViewData["Title"] = "تأكيد رقم الهاتف";
     var phone = ViewData["Phone"]?.ToString() ?? string.Empty;
     var purpose = ViewData["Purpose"]?.ToString() ?? "1";
@@ -19,9 +19,22 @@
         <h2>تأكيد الرمز</h2>
         <p>اكتب الرمز المرسل إلى <strong>@phone</strong>.</p>
 
+        @if (TempData["AuthMessage"] != null)
+        {
+            <div class="alert alert-success" style="padding: 10px 15px; border-radius: 8px; font-size: 0.9rem; margin-bottom: 15px;">
+                @TempData["AuthMessage"]
+            </div>
+        }
+        @if (TempData["ErrorMessage"] != null)
+        {
+            <div class="alert alert-danger" style="padding: 10px 15px; border-radius: 8px; font-size: 0.9rem; margin-bottom: 15px;">
+                @TempData["ErrorMessage"]
+            </div>
+        }
+
         @if (!string.IsNullOrWhiteSpace(debugOtp))
         {
-            <div class="alert-soft-info">رمز التحقق التجريبي: <strong>@debugOtp</strong></div>
+            <div class="alert-soft-info" style="margin-bottom: 15px;">رمز التحقق التجريبي: <strong>@debugOtp</strong></div>
         }
 
         <form class="form-panel" action="/Auth/VerifyOtpForm" method="post">
