@@ -8,10 +8,12 @@ namespace phase_1.Controllers
     public class ConversationController : Controller
     {
         private readonly IConversationService _conversationService;
+        private readonly IMatchService _matchService;
 
-        public ConversationController(IConversationService conversationService)
+        public ConversationController(IConversationService conversationService, IMatchService matchService)
         {
             _conversationService = conversationService;
+            _matchService = matchService;
         }
 
         public async Task<IActionResult> Chat(int matchId)
@@ -19,6 +21,14 @@ namespace phase_1.Controllers
             var currentUserId = HttpContext.Session.GetInt32("UserId") ?? 0;
             if (currentUserId <= 0)
                 return RedirectToAction("Login", "Auth");
+
+            // ✅ التحقق من أن المستخدم طرف في المطابقة
+            var match = await _matchService.GetMatchByIdAsync(matchId);
+            if (match == null)
+                return NotFound();
+
+            if (match.PatientUserId != currentUserId && match.StudentUserId != currentUserId)
+                return Forbid();
 
             var conversation = await _conversationService.GetByMatchIdAsync(matchId, currentUserId);
 
@@ -38,6 +48,14 @@ namespace phase_1.Controllers
 
             if (string.IsNullOrWhiteSpace(dto.Content))
                 return BadRequest(new { message = "اكتب رسالة أولا." });
+
+            // ✅ التحقق من أن المرسل طرف في المطابقة
+            var match = await _matchService.GetMatchByIdAsync(dto.MatchId);
+            if (match == null)
+                return NotFound();
+
+            if (match.PatientUserId != currentUserId && match.StudentUserId != currentUserId)
+                return Unauthorized(new { message = "غير مصرح لك بإرسال رسائل في هذه المحادثة." });
 
             dto.SenderUserId = currentUserId;
 
