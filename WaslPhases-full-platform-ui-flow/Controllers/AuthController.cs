@@ -139,9 +139,12 @@ public class AuthController : Controller
         HttpContext.Session.SetInt32("UserRole", result.Profile.Role);
         HttpContext.Session.SetString("UserName", result.Profile.FullName);
 
-        return result.Profile.Role == 1
-            ? Redirect("/patient")
-            : Redirect("/student");
+        if (result.Profile.Role == 1)
+            return Redirect("/patient");
+        if (result.Profile.Role == 3)
+            return RedirectToAction("Dashboard", "Admin");
+
+        return Redirect("/student");
     }
 
     [HttpPost("/Auth/VerifyOtpForm")]

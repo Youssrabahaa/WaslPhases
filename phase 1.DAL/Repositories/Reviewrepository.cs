@@ -71,6 +71,13 @@ namespace phase_1.DAL.Repositories
             return ratings.Count == 0 ? 0 : ratings.Average();
         }
 
+        public async Task<int> GetReviewCountForUserAsync(int userId)
+        {
+            return await _context.Reviews
+                .Where(r => r.ReviewedUserId == userId)
+                .CountAsync();
+        }
+
         public async Task<int> GetTotalReviewsCountAsync()
         {
             return await _context.Reviews.CountAsync();

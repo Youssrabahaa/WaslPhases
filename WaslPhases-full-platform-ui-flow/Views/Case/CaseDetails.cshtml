@@ -149,6 +149,16 @@
                                     </div>
                                     <h4>@offer.StudentName</h4>
                                     <p class="case-meta">
+                                        @if (offer.StudentReviewsCount > 0)
+                                        {
+                                            <span>⭐ @offer.StudentAverageRating.ToString("0.0") (@offer.StudentReviewsCount تقييم)</span>
+                                        }
+                                        else
+                                        {
+                                            <span>لا يوجد تقييم بعد</span>
+                                        }
+                                    </p>
+                                    <p class="case-meta">
                                         @(offer.ProposedPrice?.ToString("N0") ?? "—") ج.م —
                                         @(offer.EstimatedSessionsCount?.ToString() ?? "—") جلسة
                                     </p>

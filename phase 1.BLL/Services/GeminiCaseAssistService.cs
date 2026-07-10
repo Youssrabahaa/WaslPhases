@@ -41,6 +41,10 @@ namespace phase_1.BLL.Services
                 contents = new[]
                 {
                     new { parts = new[] { new { text = prompt } } }
+                },
+                generationConfig = new
+                {
+                    thinkingConfig = new { thinkingBudget = 0 }
                 }
             };
 

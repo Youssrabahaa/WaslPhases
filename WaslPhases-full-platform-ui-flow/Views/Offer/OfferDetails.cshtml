@@ -55,6 +55,14 @@
                     <div class="info-block">
                         <span>الطالب</span>
                         <strong>@Model.StudentName</strong>
+                        @if (Model.StudentReviewsCount > 0)
+                        {
+                            <small class="case-meta">⭐ @Model.StudentAverageRating.ToString("0.0") (@Model.StudentReviewsCount تقييم)</small>
+                        }
+                        else
+                        {
+                            <small class="case-meta">لا يوجد تقييم بعد</small>
+                        }
                     </div>
                     <div class="info-block">
                         <span>الحالة</span>

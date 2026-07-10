@@ -23,7 +23,7 @@ namespace phase_1.DAL.Models
         public string Message { get; set; } = string.Empty;
 
         // 1=OfferAccepted 2=OfferRejected 3=MatchCreated
-        // 4=NewMessage 5=SessionScheduled 6=Reminder
+        // 4=NewMessage 5=SessionScheduled 6=Reminder 7=NewOffer
         public int Type { get; set; }
 
         // مثلاً: MatchId أو OfferId أو SessionId

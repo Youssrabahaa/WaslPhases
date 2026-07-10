@@ -85,5 +85,12 @@ namespace phase_1.BLL.Services
         {
             return await _reviewRepository.GetAverageRatingForUserAsync(userId);
         }
+
+        public async Task<(double Average, int Count)> GetRatingSummaryAsync(int userId)
+        {
+            var average = await _reviewRepository.GetAverageRatingForUserAsync(userId);
+            var count = await _reviewRepository.GetReviewCountForUserAsync(userId);
+            return (average, count);
+        }
     }
 }

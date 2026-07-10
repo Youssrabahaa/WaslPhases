@@ -1,0 +1,107 @@
+@model List<phase_1.BLL.DTOs.ReportDTO>
+@{
+    ViewData["Title"] = "لوحة تحكم الأدمن";
+
+    var openCount = Model.Count(r => r.Status == 1);
+    var resolvedCount = Model.Count(r => r.Status == 2);
+    var rejectedCount = Model.Count(r => r.Status == 3);
+    var recentReports = Model.OrderByDescending(r => r.CreatedAt).Take(5).ToList();
+
+    string StatusText(int status) => status switch
+    {
+        1 => "مفتوح",
+        2 => "تم الحل",
+        3 => "مرفوض",
+        _ => "غير معروف"
+    };
+
+    string StatusClass(int status) => status switch
+    {
+        1 => "status-inprogress",
+        2 => "status-completed",
+        _ => "status-rejected"
+    };
+}
+
+<section class="health-page">
+    <div class="health-hero">
+        <div>
+            <span class="health-kicker">لوحة التحكم</span>
+            <h1 class="health-title">نظرة عامة على البلاغات</h1>
+            <p class="health-subtitle">متابعة البلاغات المفتوحة واتخاذ الإجراء المناسب.</p>
+        </div>
+    </div>
+
+    <div class="metric-strip">
+        <article class="mini-kpi">
+            <span class="mini-kpi-label">إجمالي البلاغات</span>
+            <strong>@Model.Count</strong>
+        </article>
+        <article class="mini-kpi">
+            <span class="mini-kpi-label">مفتوحة</span>
+            <strong>@openCount</strong>
+        </article>
+        <article class="mini-kpi">
+            <span class="mini-kpi-label">تم حلها</span>
+            <strong>@resolvedCount</strong>
+        </article>
+        <article class="mini-kpi">
+            <span class="mini-kpi-label">مرفوضة</span>
+            <strong>@rejectedCount</strong>
+        </article>
+    </div>
+
+    <article class="health-panel">
+        <div class="panel-heading">
+            <div>
+                <h2>أحدث البلاغات</h2>
+                <p>آخر 5 بلاغات مسجلة في النظام.</p>
+            </div>
+            <a class="ghost-action" asp-controller="Admin" asp-action="Reports">عرض كل البلاغات</a>
+        </div>
+
+        @if (recentReports.Any())
+        {
+            <div class="review-grid">
+                @foreach (var r in recentReports)
+                {
+                    <article class="review-card">
+                        <div class="rating-row">
+                            <span class="status-badge @StatusClass(r.Status)">@StatusText(r.Status)</span>
+                        </div>
+                        <p>@r.Description</p>
+                        <div class="info-grid mt-2" style="font-size:0.85rem;">
+                            <div class="info-block">
+                                <span>المُبلِّغ</span>
+                                <strong>@r.ReporterName</strong>
+                            </div>
+                            <div class="info-block">
+                                <span>المُبلَّغ عنه</span>
+                                <strong>@r.ReportedName</strong>
+                            </div>
+                            <div class="info-block">
+                                <span>التاريخ</span>
+                                <strong>@r.CreatedAt.ToString("dd MMM yyyy")</strong>
+                            </div>
+                            <div class="info-block">
+                                <a class="ghost-action compact-action"
+                                   asp-controller="Admin"
+                                   asp-action="ReportDetails"
+                                   asp-route-id="@r.Id">التفاصيل</a>
+                            </div>
+                        </div>
+                    </article>
+                }
+            </div>
+        }
+        else
+        {
+            <section class="state-grid">
+                <article class="empty-state-card">
+                    <span class="empty-state-icon">📋</span>
+                    <h3>لا توجد بلاغات بعد</h3>
+                </article>
+            </section>
+        }
+    </article>
+</section>

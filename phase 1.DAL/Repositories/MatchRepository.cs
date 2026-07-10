@@ -32,7 +32,9 @@ namespace phase_1.DAL.Repositories
 
         public async Task<List<Match>> GetAllAsync()
         {
-            return await _context.Matches.ToListAsync();
+            return await _context.Matches
+                .OrderByDescending(x => x.CreatedAt)
+                .ToListAsync();
         }
 
         // ✅ إضافة Include(Case) — كانت ناقصة وبتسبب NullReferenceException
@@ -41,6 +43,7 @@ namespace phase_1.DAL.Repositories
             return await _context.Matches
                 .Include(x => x.Case)
                 .Where(x => x.PatientUserId == patientId)
+                .OrderByDescending(x => x.CreatedAt)
                 .ToListAsync();
         }
 
@@ -50,6 +53,7 @@ namespace phase_1.DAL.Repositories
             return await _context.Matches
                 .Include(x => x.Case)
                 .Where(x => x.StudentUserId == studentId)
+                .OrderByDescending(x => x.CreatedAt)
                 .ToListAsync();
         }
 

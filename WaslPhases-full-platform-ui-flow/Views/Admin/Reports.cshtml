@@ -1,0 +1,87 @@
+@model List<phase_1.BLL.DTOs.ReportDTO>
+@{
+    ViewData["Title"] = "البلاغات";
+    var currentStatus = Context.Request.Query["status"].ToString();
+
+    string StatusText(int status) => status switch
+    {
+        1 => "مفتوح",
+        2 => "تم الحل",
+        3 => "مرفوض",
+        _ => "غير معروف"
+    };
+
+    string StatusClass(int status) => status switch
+    {
+        1 => "status-inprogress",
+        2 => "status-completed",
+        _ => "status-rejected"
+    };
+}
+
+<section class="health-page">
+    <div class="health-hero">
+        <div>
+            <span class="health-kicker">البلاغات</span>
+            <h1 class="health-title">إدارة البلاغات</h1>
+            <p class="health-subtitle">راجع كل البلاغات المقدمة من المرضى والطلاب.</p>
+        </div>
+    </div>
+
+    <div class="filter-pill-row mb-3">
+        <a class="filter-pill @(string.IsNullOrEmpty(currentStatus) ? "active" : "")"
+           asp-controller="Admin" asp-action="Reports">الكل</a>
+        <a class="filter-pill @(currentStatus == "1" ? "active" : "")"
+           asp-controller="Admin" asp-action="Reports" asp-route-status="1">مفتوحة</a>
+        <a class="filter-pill @(currentStatus == "2" ? "active" : "")"
+           asp-controller="Admin" asp-action="Reports" asp-route-status="2">تم حلها</a>
+        <a class="filter-pill @(currentStatus == "3" ? "active" : "")"
+           asp-controller="Admin" asp-action="Reports" asp-route-status="3">مرفوضة</a>
+    </div>
+
+    <article class="health-panel">
+        @if (Model.Any())
+        {
+            <div class="review-grid">
+                @foreach (var r in Model.OrderByDescending(x => x.CreatedAt))
+                {
+                    <article class="review-card">
+                        <div class="rating-row">
+                            <span class="status-badge @StatusClass(r.Status)">@StatusText(r.Status)</span>
+                        </div>
+                        <p>@r.Description</p>
+                        <div class="info-grid mt-2" style="font-size:0.85rem;">
+                            <div class="info-block">
+                                <span>المُبلِّغ</span>
+                                <strong>@r.ReporterName</strong>
+                            </div>
+                            <div class="info-block">
+                                <span>المُبلَّغ عنه</span>
+                                <strong>@r.ReportedName</strong>
+                            </div>
+                            <div class="info-block">
+                                <span>التاريخ</span>
+                                <strong>@r.CreatedAt.ToString("dd MMM yyyy")</strong>
+                            </div>
+                            <div class="info-block">
+                                <a class="ghost-action compact-action"
+                                   asp-controller="Admin"
+                                   asp-action="ReportDetails"
+                                   asp-route-id="@r.Id">التفاصيل</a>
+                            </div>
+                        </div>
+                    </article>
+                }
+            </div>
+        }
+        else
+        {
+            <section class="state-grid">
+                <article class="empty-state-card">
+                    <span class="empty-state-icon">📋</span>
+                    <h3>لا توجد بلاغات في هذا التصنيف</h3>
+                </article>
+            </section>
+        }
+    </article>
+</section>

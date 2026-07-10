@@ -1,0 +1,127 @@
+@model phase_1.BLL.DTOs.ReportDTO
+@{
+    ViewData["Title"] = "تفاصيل البلاغ";
+
+    string StatusText(int status) => status switch
+    {
+        1 => "مفتوح",
+        2 => "تم الحل",
+        3 => "مرفوض",
+        _ => "غير معروف"
+    };
+
+    string StatusClass(int status) => status switch
+    {
+        1 => "status-inprogress",
+        2 => "status-completed",
+        _ => "status-rejected"
+    };
+
+    string TypeText(int type) => type switch
+    {
+        1 => "سوء سلوك",
+        2 => "عدم حضور",
+        _ => "أخرى"
+    };
+}
+
+<section class="health-page">
+    <div class="health-hero">
+        <div>
+            <span class="health-kicker">بلاغ رقم @Model.Id</span>
+            <h1 class="health-title">تفاصيل البلاغ</h1>
+        </div>
+        <div class="hero-actions">
+            <a class="ghost-action" asp-controller="Admin" asp-action="Reports">← كل البلاغات</a>
+        </div>
+    </div>
+
+    @if (TempData["Success"] != null)
+    {
+        <div class="app-toast"><span class="app-toast-dot"></span>@TempData["Success"]</div>
+    }
+    @if (TempData["Error"] != null)
+    {
+        <div class="alert-soft-danger">@TempData["Error"]</div>
+    }
+
+    <div class="content-grid">
+        <section class="content-main">
+            <article class="health-panel">
+                <div class="panel-heading">
+                    <div>
+                        <h2>بيانات البلاغ</h2>
+                    </div>
+                    <span class="status-badge @StatusClass(Model.Status)">@StatusText(Model.Status)</span>
+                </div>
+                <div class="info-grid">
+                    <div class="info-block">
+                        <span>المُبلِّغ</span>
+                        <strong>@Model.ReporterName</strong>
+                    </div>
+                    <div class="info-block">
+                        <span>المُبلَّغ عنه</span>
+                        <strong>@Model.ReportedName</strong>
+                    </div>
+                    <div class="info-block">
+                        <span>نوع البلاغ</span>
+                        <strong>@TypeText(Model.Type)</strong>
+                    </div>
+                    <div class="info-block">
+                        <span>الجلسة</span>
+                        <a class="ghost-action compact-action"
+                           asp-controller="Session"
+                           asp-action="SessionDetails"
+                           asp-route-id="@Model.SessionId">جلسة #@Model.SessionId</a>
+                    </div>
+                    <div class="info-block">
+                        <span>تاريخ البلاغ</span>
+                        <strong>@Model.CreatedAt.ToString("dd MMM yyyy, hh:mm tt")</strong>
+                    </div>
+                    @if (Model.ResolvedAt.HasValue)
+                    {
+                        <div class="info-block">
+                            <span>تاريخ الحل</span>
+                            <strong>@Model.ResolvedAt.Value.ToString("dd MMM yyyy, hh:mm tt")</strong>
+                        </div>
+                    }
+                </div>
+                <div class="info-block mt-3">
+                    <span>الوصف</span>
+                    <strong>@Model.Description</strong>
+                </div>
+            </article>
+        </section>
+
+        <aside class="content-side">
+            <article class="health-panel side-accent">
+                <div class="panel-heading">
+                    <div><h2>اتخاذ إجراء</h2></div>
+                </div>
+
+                @if (Model.Status == 1)
+                {
+                    <form asp-controller="Admin" asp-action="ResolveReport" asp-route-id="@Model.Id" method="post">
+                        @Html.AntiForgeryToken()
+                        <div class="form-group">
+                            <label>الحالة الجديدة</label>
+                            <select name="NewStatus" class="modern-input">
+                                <option value="2">تم الحل</option>
+                                <option value="3">رفض البلاغ</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>ملاحظات (اختياري)</label>
+                            <textarea name="Notes" class="modern-input" rows="3" placeholder="ملاحظات الإدارة..."></textarea>
+                        </div>
+                        <button type="submit" class="primary-action">تحديث الحالة</button>
+                    </form>
+                }
+                else
+                {
+                    <p class="body-copy">تم البت في هذا البلاغ بالفعل.</p>
+                }
+            </article>
+        </aside>
+    </div>
+</section>

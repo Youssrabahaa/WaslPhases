@@ -10,21 +10,26 @@ namespace phase_1.BLL.Services
 {
     public class SessionService : ISessionService
     {
+        private const int NewSessionNotificationType = 5;
+
         private readonly ISessionRepository _sessionRepository;
         private readonly INoShowStrikeService _noShowStrikeService;
         private readonly IReminderService _reminderService;
         private readonly IMatchService _matchService;
+        private readonly INotificationService _notificationService;
 
         public SessionService(
             ISessionRepository sessionRepository,
             INoShowStrikeService noShowStrikeService,
             IReminderService reminderService,
-            IMatchService matchService)
+            IMatchService matchService,
+            INotificationService notificationService)
         {
             _sessionRepository = sessionRepository;
             _noShowStrikeService = noShowStrikeService;
             _reminderService = reminderService;
             _matchService = matchService;
+            _notificationService = notificationService;
         }
 
         public async Task<List<SessionDTO>> GetByMatchAsync(int matchId)
@@ -110,6 +115,16 @@ namespace phase_1.BLL.Services
 
             // ✅ Reminders تتنشأ تلقائيًا بعد الحفظ
             await _reminderService.CreateSessionRemindersAsync(session);
+
+            var match = await _matchService.GetMatchByIdAsync(session.MatchId);
+            if (match is not null)
+            {
+                await _notificationService.SendAsync(
+                    match.PatientUserId,
+                    "تم جدولة جلسة جديدة",
+                    $"تم تحديد موعد جلسة جديدة لحالة \"{match.CaseTitle}\" يوم {session.StartAt:dd MMM} الساعة {session.StartAt:hh:mm tt}.",
+                    type: NewSessionNotificationType, referenceId: session.Id, referenceType: "Session");
+            }
 
             return true;
         }

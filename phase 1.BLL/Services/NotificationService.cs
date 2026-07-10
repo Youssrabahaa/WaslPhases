@@ -27,7 +27,6 @@ namespace phase_1.BLL.Services
             int userId, string title, string message,
             int type, int? referenceId = null, string? referenceType = null)
         {
-            // 1. احفظ في الداتا بيز
             var notification = new Notification
             {
                 UserId = userId,
@@ -43,7 +42,7 @@ namespace phase_1.BLL.Services
             await _repo.AddAsync(notification);
             await _repo.SaveChangesAsync();
 
-            // 2. ابعت فورًا عبر SignalR
+
             var dto = MapToDTO(notification);
             await _hub.Clients
                 .Group($"user-{userId}")

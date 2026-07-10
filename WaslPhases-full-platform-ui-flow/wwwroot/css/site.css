@@ -591,15 +591,30 @@ a {
   background: #ffe4e9;
 }
 
+.filter-pill-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+}
+
 .filter-pill {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.55rem 1.1rem;
   border: 1px solid var(--line);
+  border-radius: 999px;
   color: var(--ink-soft);
   background: rgba(255, 255, 255, 0.7);
+  font-weight: 800;
+  font-size: 0.9rem;
+  transition: 0.2s ease;
 }
 
 .filter-pill.active {
   color: #fff;
   background: var(--ink);
+  border-color: var(--ink);
 }
 
 .field-group {

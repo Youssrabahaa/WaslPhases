@@ -11,6 +11,7 @@ namespace phase_1.DAL.Repositories.Interfaces
         Task<bool> ExistsForMatchAndReviewerAsync(int matchId, int reviewerUserId);
         Task AddAsync(Review review);
         Task<double> GetAverageRatingForUserAsync(int userId);
+        Task<int> GetReviewCountForUserAsync(int userId);
         Task<int> GetTotalReviewsCountAsync();
         Task SaveChangesAsync();
     }

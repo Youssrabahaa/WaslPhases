@@ -6,17 +6,21 @@ namespace phase_1.BLL.Services
 {
     public class OfferService : IOfferService
     {
-        private readonly IOfferRepository _offerRepository;
+        private const int NewOfferNotificationType = 7;
 
-        public OfferService(IOfferRepository offerRepository)
+        private readonly IOfferRepository _offerRepository;
+        private readonly IReviewService _reviewService;
+        private readonly INotificationService _notificationService;
+
+        public OfferService(IOfferRepository offerRepository, IReviewService reviewService, INotificationService notificationService)
         {
             _offerRepository = offerRepository;
+            _reviewService = reviewService;
+            _notificationService = notificationService;
         }
 
         public async Task<OfferDTO> CreateOfferAsync(CreateOfferDTO dto)
         {
-            // ✅ إصلاح: تحقق من Pending فقط (Status=1)
-            // لو الطالب عنده offer مرفوض أو ملغي يقدر يعمل عرض جديد
             var existing = await _offerRepository.GetByStudentAndCaseAsync(
                 dto.StudentUserId, dto.CaseId, pendingOnly: true);
 
@@ -35,6 +39,17 @@ namespace phase_1.BLL.Services
             };
 
             var created = await _offerRepository.AddAsync(offer);
+
+            var createdWithDetails = await _offerRepository.GetByIdAsync(created.Id);
+            if (createdWithDetails?.Case is not null)
+            {
+                var studentName = createdWithDetails.StudentUser?.FullName ?? "طالب";
+                await _notificationService.SendAsync(
+                    createdWithDetails.Case.PatientUserId,
+                    "عرض جديد على حالتك",
+                    $"قدم لك الطالب {studentName} عرضًا جديدًا على حالة \"{createdWithDetails.Case.Title}\".",
+                    type: NewOfferNotificationType, referenceId: created.Id, referenceType: "Offer");
+            }
 
             return new OfferDTO
             {
@@ -56,6 +71,8 @@ namespace phase_1.BLL.Services
             if (offer == null)
                 return null;
 
+            var ratingSummary = await _reviewService.GetRatingSummaryAsync(offer.StudentUserId);
+
             return new OfferDetailsDTO
             {
                 Id = offer.Id,
@@ -63,6 +80,8 @@ namespace phase_1.BLL.Services
                 CaseTitle = offer.Case?.Title,
                 StudentUserId = offer.StudentUserId,
                 StudentName = offer.StudentUser?.FullName,
+                StudentAverageRating = ratingSummary.Average,
+                StudentReviewsCount = ratingSummary.Count,
                 Message = offer.Message,
                 ProposedPrice = offer.ProposedPrice,
                 EstimatedSessionsCount = offer.EstimatedSessionsCount,
@@ -123,7 +142,6 @@ namespace phase_1.BLL.Services
             return true;
         }
 
-        // ✅ إصلاح: بترجع Pending فقط عشان الطالب يقدر يعمل عرض جديد بعد الرفض
         public async Task<OfferDTO?> GetExistingOfferAsync(int studentId, int caseId)
         {
             var offer = await _offerRepository.GetByStudentAndCaseAsync(

@@ -7,10 +7,12 @@ namespace phase_1.BLL.Services
     public class CaseService : ICaseService
     {
         private readonly ICaseRepository _caseRepository;
+        private readonly IReviewService _reviewService;
 
-        public CaseService(ICaseRepository caseRepository)
+        public CaseService(ICaseRepository caseRepository, IReviewService reviewService)
         {
             _caseRepository = caseRepository;
+            _reviewService = reviewService;
         }
 
         public async Task<CaseDetailsDTO?> GetByIdAsync(int id)
@@ -20,7 +22,7 @@ namespace phase_1.BLL.Services
             if (c == null)
                 return null;
 
-            return new CaseDetailsDTO
+            var dto = new CaseDetailsDTO
             {
                 Id = c.Id,
                 PatientUserId = c.PatientUserId,
@@ -45,7 +47,6 @@ namespace phase_1.BLL.Services
                 CreatedAt = c.CreatedAt,
                 OffersCount = c.Offers.Count,
 
-                // ✅ إضافة العروض للمريض عشان يشوفها ويقبل
                 Offers = c.Offers.Select(o => new OfferDetailsDTO
                 {
                     Id = o.Id,
@@ -61,6 +62,15 @@ namespace phase_1.BLL.Services
                     DecidedAt = o.DecidedAt
                 }).ToList()
             };
+
+            foreach (var offerDto in dto.Offers)
+            {
+                var ratingSummary = await _reviewService.GetRatingSummaryAsync(offerDto.StudentUserId);
+                offerDto.StudentAverageRating = ratingSummary.Average;
+                offerDto.StudentReviewsCount = ratingSummary.Count;
+            }
+
+            return dto;
         }
 
         public async Task<List<CaseListDTO>> GetPatientCasesAsync(int patientId)

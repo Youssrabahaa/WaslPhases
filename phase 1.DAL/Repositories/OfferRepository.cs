@@ -35,6 +35,7 @@ namespace phase_1.DAL.Repositories
             return await _context.Offers
                 .Include(o => o.StudentUser)
                 .Where(o => o.CaseId == caseId)
+                .OrderByDescending(o => o.CreatedAt)
                 .ToListAsync();
         }
 
@@ -43,6 +44,7 @@ namespace phase_1.DAL.Repositories
             return await _context.Offers
                 .Include(o => o.Case)
                 .Where(o => o.StudentUserId == studentId)
+                .OrderByDescending(o => o.CreatedAt)
                 .ToListAsync();
         }
 
@@ -50,6 +52,7 @@ namespace phase_1.DAL.Repositories
         {
             return await _context.Offers
                 .Where(o => o.CaseId == caseId)
+                .OrderByDescending(o => o.CreatedAt)
                 .ToListAsync();
         }
 

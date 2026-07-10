@@ -11,18 +11,24 @@ namespace phase_1.BLL.Services
 {
     public class ConversationService : IConversationService
     {
+        private const int NewMessageNotificationType = 4;
+        private const int NotificationMessageMaxLength = 400;
+
         private readonly IConversationRepository _conversationRepository;
         private readonly IMessageRepository _messageRepository;
         private readonly IHubContext<ChatHub> _hubContext;
+        private readonly INotificationService _notificationService;
 
         public ConversationService(
             IConversationRepository conversationRepository,
             IMessageRepository messageRepository,
-            IHubContext<ChatHub> hubContext)
+            IHubContext<ChatHub> hubContext,
+            INotificationService notificationService)
         {
             _conversationRepository = conversationRepository;
             _messageRepository = messageRepository;
             _hubContext = hubContext;
+            _notificationService = notificationService;
         }
 
         public async Task<ConversationDTO?> GetByMatchIdAsync(int matchId, int currentUserId)
@@ -99,6 +105,16 @@ namespace phase_1.BLL.Services
                     content = message.Content,
                     sentAt = message.SentAt.ToString("hh:mm tt")
                 });
+
+            var truncatedContent = message.Content.Length > NotificationMessageMaxLength
+                ? message.Content.Substring(0, NotificationMessageMaxLength) + "..."
+                : message.Content;
+
+            await _notificationService.SendAsync(
+                receiverId,
+                "رسالة جديدة",
+                $"{senderName}: {truncatedContent}",
+                type: NewMessageNotificationType, referenceId: dto.MatchId, referenceType: "Match");
 
             return true;
         }

@@ -13,6 +13,8 @@ namespace phase_1.BLL.DTOs
         public string? CaseTitle { get; set; }
         public int StudentUserId { get; set; }
         public string? StudentName { get; set; }
+        public double StudentAverageRating { get; set; }
+        public int StudentReviewsCount { get; set; }
         public string? Message { get; set; }
         public decimal? ProposedPrice { get; set; }
         public int? EstimatedSessionsCount { get; set; }
