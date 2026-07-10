@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -30,7 +30,6 @@ namespace phase_1.DAL.Models
 
         public bool IsRead { get; set; } = false;
 
-        // Navigation Properties
         public Conversation Conversation { get; set; } = default!;
 
         public ApplicationUser SenderUser { get; set; } = default!;

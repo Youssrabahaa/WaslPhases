@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -101,7 +101,6 @@ namespace phase_1.BLL.Services
             var session = new Session
             {
                 MatchId = dto.MatchId,
-                // ✅ إصلاح: Number كان ناقص
                 Number = dto.Number,
                 StartAt = dto.StartAt,
                 EndAt = dto.EndAt,
@@ -113,7 +112,6 @@ namespace phase_1.BLL.Services
             await _sessionRepository.AddAsync(session);
             await _sessionRepository.SaveChangesAsync();
 
-            // ✅ Reminders تتنشأ تلقائيًا بعد الحفظ
             await _reminderService.CreateSessionRemindersAsync(session);
 
             var match = await _matchService.GetMatchByIdAsync(session.MatchId);
@@ -136,11 +134,9 @@ namespace phase_1.BLL.Services
             if (session == null)
                 return false;
 
-            // ✅ إصلاح: التعديل مسموح فقط لو Scheduled
             if (session.Status != 1)
                 return false;
 
-            // نحفظ القديم قبل التغيير عشان نقارن في الـ Reminder
             var oldStartAt = session.StartAt;
 
             session.StartAt = dto.StartAt;
@@ -152,7 +148,6 @@ namespace phase_1.BLL.Services
             _sessionRepository.Update(session);
             await _sessionRepository.SaveChangesAsync();
 
-            // ✅ إصلاح: بنمرر oldStartAt — الـ Service يقارن ويقرر
             await _reminderService.UpdateSessionRemindersAsync(session, oldStartAt);
 
             return true;
@@ -193,7 +188,6 @@ namespace phase_1.BLL.Services
             _sessionRepository.Update(session);
             await _sessionRepository.SaveChangesAsync();
 
-            // ✅ إصلاح: بعد انتهاء آخر جلسة، تتحول المطابقة تلقائيًا لمكتملة
             await _matchService.CompleteMatchAsync(session.MatchId);
 
             return true;
@@ -206,7 +200,6 @@ namespace phase_1.BLL.Services
             if (session == null)
                 return false;
 
-            // مش مسموح تكنسل Completed
             if (session.Status == 3)
                 return false;
 
@@ -218,7 +211,6 @@ namespace phase_1.BLL.Services
             _sessionRepository.Update(session);
             await _sessionRepository.SaveChangesAsync();
 
-            // ✅ إصلاح: احذف Pending reminders بعد الكنسلة
             await _reminderService.DeletePendingRemindersAsync(id);
 
             return true;

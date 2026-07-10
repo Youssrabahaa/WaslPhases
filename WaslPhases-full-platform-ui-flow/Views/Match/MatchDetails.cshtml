@@ -10,7 +10,6 @@
                     : Model.Status == 2 ? "مكتملة"
                     : "ملغية";
 
-    // ✅ UI Auth
     var uid = Context.Session.GetInt32("UserId") ?? 0;
     var role = Context.Session.GetInt32("UserRole") ?? 0;
     var isPatient = role == 1;
@@ -23,7 +22,6 @@
 
 <section class="health-page">
 
-    <!-- Hero -->
     <div class="health-hero">
         <div>
             <span class="health-kicker">من العرض إلى المطابقة</span>
@@ -32,7 +30,6 @@
         </div>
         <div class="hero-actions">
 
-            @* ✅ المحادثة: المريض والطالب المشاركان فقط *@
             @if (isParticipant)
             {
                 <a class="primary-action"
@@ -44,7 +41,6 @@
                 </a>
             }
 
-            @* ✅ الجلسات: الكل يشوف *@
             <a class="ghost-action"
                asp-controller="Session"
                asp-action="SessionList"
@@ -53,7 +49,6 @@
                 إدارة الجلسات
             </a>
 
-            @* ✅ العودة حسب الـ Role *@
             <a class="ghost-action"
                asp-controller="Match"
                asp-action="@backAction"
@@ -61,7 +56,6 @@
                 ← المطابقات
             </a>
 
-            @* ✅ إلغاء: أي طرف مشارك فقط + Active فقط *@
             @if (isParticipant && Model.Status == 1)
             {
                 <form asp-action="Cancel"
@@ -87,7 +81,6 @@
         <div class="alert-soft-danger">@TempData["Error"]</div>
     }
 
-    <!-- KPI Strip -->
     <div class="metric-strip">
         <article class="mini-kpi">
             <span class="mini-kpi-label">حالة المطابقة</span>
@@ -112,11 +105,9 @@
         </article>
     </div>
 
-    <!-- Content Grid -->
     <div class="content-grid">
         <section class="content-main">
 
-            <!-- أطراف المطابقة -->
             <article class="health-panel">
                 <div class="panel-heading">
                     <div>
@@ -177,7 +168,6 @@
                 </div>
                 <div class="action-list">
 
-                    @* ✅ المحادثة: المشاركان فقط *@
                     @if (isParticipant)
                     {
                         <a class="action-tile"
@@ -190,7 +180,6 @@
                         </a>
                     }
 
-                    @* ✅ الجلسات: الكل *@
                     <a class="action-tile"
                        asp-controller="Session"
                        asp-action="SessionList"
@@ -200,7 +189,6 @@
                         <span>راجع قائمة الجلسات المرتبطة بهذه المطابقة.</span>
                     </a>
 
-                    @* ✅ التقييم: بعد Completed فقط + مشاركان *@
                     @if (isParticipant && Model.Status == 2)
                     {
                         <a class="action-tile"

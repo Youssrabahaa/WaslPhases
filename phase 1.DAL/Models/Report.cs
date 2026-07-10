@@ -29,14 +29,14 @@ namespace phase_1.DAL.Models
         public ApplicationUser ReportedUser { get; set; } = null!;
 
         [Required]
-        public int Type { get; set; }   // 1=Misconduct, 2=NoShow, 3=Other
+        public int Type { get; set; }
 
         [Required]
         [MaxLength(2000)]
         public string Description { get; set; } = null!;
 
         [Required]
-        public int Status { get; set; } = 1;   // 1=Open, 2=Resolved, 3=Rejected
+        public int Status { get; set; } = 1;
 
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
 

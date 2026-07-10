@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using phase_1.DAL.Models;
 
@@ -24,7 +24,6 @@ namespace phase_1.DAL.Repositories
 
         Task<List<Match>> GetActiveMatchesAsync();
 
-        // ✅ مطلوب لإنشاء Conversation تلقائيًا عند قبول الـ Offer
         Task AddConversationAsync(Conversation conversation);
 
         Task SaveChangesAsync();

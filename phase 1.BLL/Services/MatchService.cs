@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -69,21 +69,18 @@ namespace phase_1.BLL.Services
             await _matchRepository.AddConversationAsync(conversation);
             await _matchRepository.SaveChangesAsync();
 
-            // ✅ إشعار 1: للطالب — تم قبول عرضه
             await _notificationService.SendAsync(
                 offer.StudentUserId,
                 "تم قبول عرضك",
                 $"قبل المريض عرضك على حالة \"{offer.Case.Title}\".",
                 type: 1, referenceId: match.Id, referenceType: "Match");
 
-            // ✅ إشعار 2: للمريض — تم إنشاء مطابقة
             await _notificationService.SendAsync(
                 offer.Case.PatientUserId,
                 "تم إنشاء مطابقة جديدة",
                 "تم إنشاء مطابقتك مع الطالب. يمكنك الآن جدولة الجلسات.",
                 type: 3, referenceId: match.Id, referenceType: "Match");
 
-            // ✅ إشعار 3: للطالب أيضًا — تم إنشاء مطابقة
             await _notificationService.SendAsync(
                 offer.StudentUserId,
                 "تم إنشاء مطابقة جديدة",

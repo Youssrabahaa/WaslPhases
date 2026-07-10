@@ -3,7 +3,6 @@
     ViewData["Title"] = "تفاصيل الحالة";
     var portalRoute = ViewContext.RouteData.Values["portal"]?.ToString();
 
-    // ✅ UI Auth
     var uid      = Context.Session.GetInt32("UserId") ?? 0;
     var role     = Context.Session.GetInt32("UserRole") ?? 0;
     var isPatient = role == 1;
@@ -23,7 +22,6 @@
             <p class="health-subtitle">@Model.TreatmentCategoryName — @Model.Governorate</p>
         </div>
         <div class="hero-actions">
-            @* ✅ تعديل: المريض صاحب الحالة + Open فقط *@
             @if (isPatient && ownsCase && Model.Status == 1)
             {
                 <a class="ghost-action"
@@ -33,7 +31,6 @@
                    asp-route-portal="@portalRoute">تعديل</a>
             }
 
-            @* ✅ تقديم عرض: الطالب فقط + Open فقط *@
             @if (isStudent && Model.Status == 1)
             {
                 <a class="primary-action"
@@ -123,7 +120,6 @@
                 <p class="body-copy">@Model.Description</p>
             </article>
 
-            @* ✅ العروض: المريض صاحب الحالة فقط يشوف ويقبل *@
             @if (isPatient && ownsCase && Model.Offers.Any())
             {
                 <article class="health-panel">
@@ -167,7 +163,6 @@
                                         <p class="body-copy mt-2">@offer.Message</p>
                                     }
 
-                                    @* ✅ قبول/رفض: المريض صاحب الحالة + Pending + Case Open *@
                                     @if (offer.Status == 1 && Model.Status == 1)
                                     {
                                         <div class="row-actions mt-3">
@@ -210,7 +205,6 @@
                     <div><h2>إجراءات</h2></div>
                 </div>
                 <div class="action-list">
-                    @* ✅ تقديم عرض: الطالب فقط *@
                     @if (isStudent && Model.Status == 1)
                     {
                         <a class="action-tile"
@@ -222,7 +216,6 @@
                             <span>أرسل عرضك لهذه الحالة.</span>
                         </a>
                     }
-                    @* ✅ تعديل: المريض صاحب الحالة فقط *@
                     @if (isPatient && ownsCase && Model.Status == 1)
                     {
                         <a class="action-tile"

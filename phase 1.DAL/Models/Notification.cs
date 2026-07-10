@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -9,7 +9,6 @@ namespace phase_1.DAL.Models
         [Key]
         public int Id { get; set; }
 
-        // المستلم
         [Required]
         public int UserId { get; set; }
 
@@ -22,14 +21,10 @@ namespace phase_1.DAL.Models
         [Required, MaxLength(500)]
         public string Message { get; set; } = string.Empty;
 
-        // 1=OfferAccepted 2=OfferRejected 3=MatchCreated
-        // 4=NewMessage 5=SessionScheduled 6=Reminder 7=NewOffer
         public int Type { get; set; }
 
-        // مثلاً: MatchId أو OfferId أو SessionId
         public int? ReferenceId { get; set; }
 
-        // "Match" / "Offer" / "Session"
         [MaxLength(50)]
         public string? ReferenceType { get; set; }
 

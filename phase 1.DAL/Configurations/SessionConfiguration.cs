@@ -8,7 +8,6 @@ public class SessionConfiguration : IEntityTypeConfiguration<Session>
 {
     public void Configure(EntityTypeBuilder<Session> builder)
     {
-        // Property constraints provided by model attributes.
 
         builder
             .HasOne(x => x.Match)

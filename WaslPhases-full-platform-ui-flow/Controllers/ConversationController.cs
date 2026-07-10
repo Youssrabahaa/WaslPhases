@@ -17,13 +17,11 @@ namespace phase_1.Controllers
         public async Task<IActionResult> Chat(int matchId)
         {
             var currentUserId = HttpContext.Session.GetInt32("UserId") ?? 0;
-            // int currentUserId = 3;
 
             var conversation = await _conversationService.GetByMatchIdAsync(matchId, currentUserId);
 
             if (conversation == null)
                 return NotFound();
-                //return Content($"Conversation not found for matchId={matchId}, userId={currentUserId}");//test
             return View(conversation);
         }
 

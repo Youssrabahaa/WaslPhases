@@ -41,7 +41,6 @@ public class Match
 
     public ApplicationUser StudentUser { get; set; } = default!;
 
-    // Conversation removed — use phone calls. If true, contact via phone only.
     public Conversation? Conversation { get; set; }
     public bool PhoneContactOnly { get; set; } = true;
     public List<Session> Sessions { get; set; } = new List<Session>();

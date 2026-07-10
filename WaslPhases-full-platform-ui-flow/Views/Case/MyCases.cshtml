@@ -38,7 +38,6 @@
                             : c.Status == 2 ? "status-completed"
                             : "status-rejected";
 
-                    // ✅ إشارة واضحة لو في عروض على الحالة المفتوحة
                     var hasOffers = c.OffersCount > 0 && c.Status == 1;
                 
                 <article class="session-card" style="@(hasOffers ? "border-right: 3px solid var(--teal);" : "")">
@@ -47,7 +46,6 @@
                             <span class="status-badge @cls">@c.StatusText</span>
                             <span class="case-meta">@c.TreatmentCategoryName</span>
 
-                            @* ✅ badge يظهر لو في عروض جديدة *@
                             @if (hasOffers)
                             {
                                 <span class="status-badge status-inprogress">

@@ -1,4 +1,4 @@
-﻿namespace phase_1.BLL.DTOs
+namespace phase_1.BLL.DTOs
 {
     public class CaseDetailsDTO
     {
@@ -23,7 +23,6 @@
         public DateTime CreatedAt { get; set; }
         public int OffersCount { get; set; }
 
-        // ✅ مضافة عشان المريض يشوف العروض ويقبل واحدة
         public List<OfferDetailsDTO> Offers { get; set; } = new();
     }
 }

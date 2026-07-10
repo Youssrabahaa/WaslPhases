@@ -8,7 +8,6 @@ public class OtpCodeConfiguration : IEntityTypeConfiguration<OtpCode>
 {
     public void Configure(EntityTypeBuilder<OtpCode> builder)
     {
-        // Model annotations define phone/code/expires/attempts/purpose/createdAt constraints.
 
         builder
             .HasOne(x => x.User)

@@ -1,8 +1,7 @@
-﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc;
 using phase_1.BLL.DTOs;
 using phase_1.BLL.Services;
 
-// ✅ إصلاح: كان phase_1.BLL.Controllers — namespace غلط
 namespace phase_1.Controllers;
 
 public class SessionController : Controller
@@ -16,7 +15,6 @@ public class SessionController : Controller
 
     public async Task<IActionResult> SessionList(int matchId)
     {
-        // ✅ إصلاح: لو matchId = 0 (من الـ Navbar) نحاول نجيبه من أحدث match
         if (matchId <= 0)
         {
             TempData["ErrorMessage"] = "يرجى فتح الجلسات من تفاصيل المطابقة.";

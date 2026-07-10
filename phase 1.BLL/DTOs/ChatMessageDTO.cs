@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 
 namespace phase_1.BLL.DTOs
 {
@@ -10,6 +10,6 @@ namespace phase_1.BLL.DTOs
         public string Content { get; set; } = string.Empty;
         public DateTime SentAt { get; set; }
         public bool IsRead { get; set; }
-        public bool IsOwn { get; set; } // هل المرسل هو اليوزر الحالي
+        public bool IsOwn { get; set; }
     }
 }

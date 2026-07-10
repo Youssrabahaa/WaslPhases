@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
@@ -16,7 +16,6 @@ namespace phase_1.DAL.Repositories
             _context = context;
         }
 
-        // ✅ Full include للـ Details page
         public async Task<Match?> GetByIdAsync(int matchId)
         {
             return await _context.Matches
@@ -37,7 +36,6 @@ namespace phase_1.DAL.Repositories
                 .ToListAsync();
         }
 
-        // ✅ إضافة Include(Case) — كانت ناقصة وبتسبب NullReferenceException
         public async Task<List<Match>> GetByPatientIdAsync(int patientId)
         {
             return await _context.Matches
@@ -47,7 +45,6 @@ namespace phase_1.DAL.Repositories
                 .ToListAsync();
         }
 
-        // ✅ إضافة Include(Case) — كانت ناقصة وبتسبب NullReferenceException
         public async Task<List<Match>> GetByStudentIdAsync(int studentId)
         {
             return await _context.Matches
@@ -80,7 +77,6 @@ namespace phase_1.DAL.Repositories
             return Task.CompletedTask;
         }
 
-        // ✅ Include Offer و Case و Sessions كلها مطلوبة للـ expiry logic
         public async Task<List<Match>> GetActiveMatchesAsync()
         {
             return await _context.Matches
@@ -91,7 +87,6 @@ namespace phase_1.DAL.Repositories
                 .ToListAsync();
         }
 
-        // ✅ إنشاء Conversation تلقائيًا عند قبول الـ Offer
         public async Task AddConversationAsync(Conversation conversation)
         {
             await _context.Conversations.AddAsync(conversation);

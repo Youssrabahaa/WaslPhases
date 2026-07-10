@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc;
 using phase_1.BLL.DTOs;
 using phase_1.BLL.Services;
 
@@ -13,7 +13,6 @@ public class MatchController : Controller
         _matchService = matchService;
     }
 
-    //  الـ Index بيقرأ UserId و Role من الـ Session ويوجه للقائمة الصح
     public async Task<IActionResult> Index()
     {
         var userId = HttpContext.Session.GetInt32("UserId");
@@ -29,7 +28,6 @@ public class MatchController : Controller
         return View(matches);
     }
 
-    //  إصلاح: بيقرأ من Session بدل URL parameter
     public async Task<IActionResult> PatientMatches()
     {
         var patientId = HttpContext.Session.GetInt32("UserId") ?? 0;
@@ -37,7 +35,6 @@ public class MatchController : Controller
         return View("Index", matches);
     }
 
-    //  إصلاح: بيقرأ من Session بدل URL parameter
     public async Task<IActionResult> StudentMatches()
     {
         var studentId = HttpContext.Session.GetInt32("UserId") ?? 0;
@@ -68,7 +65,6 @@ public class MatchController : Controller
         }
 
         TempData["Success"] = "تم قبول العرض وإنشاء المطابقة.";
-        //  إصلاح: PatientMatches لا تحتاج parameter — بتقرأ من Session
         return RedirectToAction(nameof(PatientMatches));
     }
 
@@ -92,7 +88,6 @@ public class MatchController : Controller
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> Cancel(int id, CancelMatchDto dto)
     {
-        //  بيقرأ UserId من Session — أكثر أمانًا من الـ form
         var userId = HttpContext.Session.GetInt32("UserId") ?? 0;
         var result = await _matchService.CancelMatchAsync(id, userId);
 

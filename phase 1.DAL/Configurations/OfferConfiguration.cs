@@ -8,7 +8,6 @@ public class OfferConfiguration : IEntityTypeConfiguration<Offer>
 {
     public void Configure(EntityTypeBuilder<Offer> builder)
     {
-        // Property constraints handled by model annotations.
 
         builder
             .HasOne(x => x.Case)

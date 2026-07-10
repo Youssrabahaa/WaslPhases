@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -74,9 +74,6 @@ namespace phase_1.BLL.Services
 
         public async Task ProcessDueRemindersAsync()
         {
-            // ScheduledAt/StartAt are stored as raw local wall-clock values (from a
-            // datetime-local input, never converted to UTC), so "due" must be checked
-            // against local time too, not DateTime.UtcNow.
             var dueReminders = await _repository.GetDueRemindersAsync(DateTime.Now);
 
             foreach (var reminder in dueReminders)

@@ -1,22 +1,18 @@
-﻿@using phase_1
+@using phase_1
 @using phase_1.BLL.DTOs
 @using phase_1.DAL.Models
 @using phase_1.Controllers
 @addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
 
-@* ✅ UI Auth Helpers - متاحة في كل الـ views *@
 @functions {
-    // قراءة UserId من الـ Session
     int CurrentUserId() => Context.Session.GetInt32("UserId") ?? 0;
 
-    // 1 = Patient, 2 = Student, 3 = Admin
     int CurrentRole() => Context.Session.GetInt32("UserRole") ?? 0;
 
     bool IsPatient() => CurrentRole() == 1;
     bool IsStudent() => CurrentRole() == 2;
     bool IsAdmin() => CurrentRole() == 3;
 
-    // Ownership checks
     bool OwnsCase(int patientUserId) => CurrentUserId() == patientUserId;
     bool OwnsOffer(int studentUserId) => CurrentUserId() == studentUserId;
     bool OwnsMatch(int patientId, int studentId) =>

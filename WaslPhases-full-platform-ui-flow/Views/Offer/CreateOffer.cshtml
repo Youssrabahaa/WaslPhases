@@ -27,7 +27,6 @@
     <div class="content-grid">
         <section class="content-main">
 
-            <!-- ✅ form صح: method post + asp-action + AntiForgery-->
             <form class="health-panel form-panel"
                   asp-action="CreateOffer"
                   asp-controller="Offer"
@@ -36,7 +35,6 @@
 
                 @Html.AntiForgeryToken()
 
-                <!-- ✅ hidden inputs مطلوبة عشان الـ DTO يتملى-->
                 <input type="hidden" asp-for="CaseId" />
                 <input type="hidden" asp-for="StudentUserId" />
 
@@ -50,7 +48,6 @@
                 <div class="form-grid">
                     <label class="field-group">
                         <span>السعر المقترح (ج.م)</span>
-                        <!-- ✅ asp-for بدل name-->
                         <input class="form-control modern-input"
                                asp-for="ProposedPrice"
                                inputmode="decimal"
@@ -77,7 +74,6 @@
                 </div>
 
                 <div class="form-actions">
-                    <!-- ✅ button type="submit" بدل <a>-->
                     <button type="submit" class="primary-action">إرسال العرض</button>
                     <a class="ghost-action"
                        asp-controller="Offer"

@@ -1,8 +1,7 @@
-﻿@model phase_1.BLL.DTOs.ConversationDTO
+@model phase_1.BLL.DTOs.ConversationDTO
 @{
     ViewData["Title"] = "المحادثة";
     var portalRoute = ViewContext.RouteData.Values["portal"]?.ToString() ?? "student";
-    //  بناء الـ URL الصح للـ Send بناءً على الـ portal
     var sendUrl = $"/{portalRoute}/Conversation/Send";
 }
 
@@ -141,7 +140,6 @@
             scrollToBottom();
         }
 
-        // ─── SignalR ───
         const connection = new signalR.HubConnectionBuilder()
             .withUrl('/chatHub')
             .withAutomaticReconnect()
@@ -156,14 +154,12 @@
             .then(() => connection.invoke('JoinMatch', parseInt(matchId)))
             .catch(err => console.error('SignalR error:', err));
 
-        // ─── Send via AJAX ───
         sendForm.addEventListener('submit', function (e) {
             e.preventDefault();
 
             const content = contentInput.value.trim();
             if (!content) return;
 
-            // ✅ إصلاح: sendUrl يحتوي على الـ portal prefix الصح
             fetch(sendUrl, {
                 method: 'POST',
                 headers: {

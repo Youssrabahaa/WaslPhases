@@ -8,7 +8,6 @@ public class PatientProfileConfiguration : IEntityTypeConfiguration<PatientProfi
 {
     public void Configure(EntityTypeBuilder<PatientProfile> builder)
     {
-        // Column/length constraints are defined via attributes on the model.
 
         builder
             .HasOne(x => x.User)

@@ -50,21 +50,18 @@
                         </p>
                         <div class="row-actions mt-3">
 
-                            @* تفاصيل المطابقة: الكل *@
                             <a class="primary-action compact-action"
                                asp-controller="Match"
                                asp-action="MatchDetails"
                                asp-route-id="@match.MatchId"
                                asp-route-portal="@portalRoute">تفاصيل المطابقة</a>
 
-                            @* الجلسات: الكل *@
                             <a class="ghost-action compact-action"
                                asp-controller="Session"
                                asp-action="SessionList"
                                asp-route-matchId="@match.MatchId"
                                asp-route-portal="@portalRoute">الجلسات</a>
 
-                            @* المحادثة: الكل (Service يتحقق من الـ ownership) *@
                             <a class="ghost-action compact-action"
                                asp-controller="Conversation"
                                asp-action="Chat"

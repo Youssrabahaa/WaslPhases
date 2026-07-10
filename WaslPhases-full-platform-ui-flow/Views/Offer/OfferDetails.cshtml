@@ -3,7 +3,6 @@
     ViewData["Title"] = "تفاصيل العرض";
     var portalRoute = ViewContext.RouteData.Values["portal"]?.ToString();
 
-    // ✅ UI Auth
     var uid = Context.Session.GetInt32("UserId") ?? 0;
     var role = Context.Session.GetInt32("UserRole") ?? 0;
     var isPatient = role == 1;
@@ -95,7 +94,6 @@
         </section>
 
         <aside class="content-side">
-            @* ✅ قبول/رفض: المريض فقط + Pending فقط *@
             @if (isPatient && Model.Status == 1)
             {
                 <article class="health-panel side-accent">
@@ -130,7 +128,6 @@
                 </article>
             }
 
-            @* ✅ حالة العرض بعد القرار *@
             @if (Model.Status != 1)
             {
                 <article class="health-panel">
@@ -148,7 +145,6 @@
                 </article>
             }
 
-            @* ✅ الطالب يشوف حالة عرضه بس مش يقبل أو يرفض *@
             @if (isStudent && ownsOffer)
             {
                 <article class="health-panel">

@@ -1,4 +1,4 @@
-﻿@{
+@{
     ViewData["Title"] = "تعديل الجلسة";
     var portalRoute = ViewContext.RouteData.Values["portal"]?.ToString();
 }
@@ -12,7 +12,6 @@
         </div>
         <div class="hero-actions">
             <a class="ghost-action" asp-controller="Session" asp-action="SessionList" asp-route-portal="@portalRoute">كل الجلسات</a>
-            <!-- أزرار تنقل إضافية -->
              </div>
     </div>
 

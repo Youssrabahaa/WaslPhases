@@ -1,4 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using phase_1.DAL.Models;
 using phase_1.DAL.Repositories.Interfaces;
 using phase_1.Data;
@@ -56,8 +56,6 @@ namespace phase_1.DAL.Repositories
                 .ToListAsync();
         }
 
-        // ✅ إصلاح: pendingOnly=true → يتحقق من Status=1 فقط
-        // الطالب يقدر يعمل عرض جديد لو عنده offer مرفوض أو ملغي
         public async Task<Offer?> GetByStudentAndCaseAsync(
             int studentId, int caseId, bool pendingOnly = false)
         {

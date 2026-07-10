@@ -1,4 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using phase_1.DAL.Models;
 using phase_1.DAL.Repositories.Interfaces;
 using phase_1.Data;
@@ -21,7 +21,6 @@ namespace phase_1.DAL.Repositories
                 .Include(c => c.ServiceType)
                 .Include(c => c.TreatmentCategory)
                 .Include(c => c.Offers)
-                    //  مطلوب عشان CaseDetailsDTO.Offers.StudentName يشتغل
                     .ThenInclude(o => o.StudentUser)
                 .FirstOrDefaultAsync(c => c.Id == id);
         }

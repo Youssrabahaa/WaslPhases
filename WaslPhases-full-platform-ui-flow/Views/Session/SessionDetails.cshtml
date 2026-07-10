@@ -4,7 +4,6 @@
     ViewData["Title"] = "تفاصيل الجلسة";
     var portalRoute = ViewContext.RouteData.Values["portal"]?.ToString();
 
-    // ✅ UI Auth
     var uid = Context.Session.GetInt32("UserId") ?? 0;
     var role = Context.Session.GetInt32("UserRole") ?? 0;
     var isStudent = role == 2;
@@ -25,7 +24,6 @@
                asp-route-matchId="@Model.MatchId"
                asp-route-portal="@portalRoute">← كل الجلسات</a>
 
-            @* ✅ تعديل الجلسة: الطالب فقط + Scheduled فقط *@
             @if (isStudent && isParticipant && Model.Status == 1)
             {
                 <a class="ghost-action"
@@ -87,7 +85,6 @@
 
         <aside class="content-side">
 
-            @* ✅ حالة التنفيذ: الطالب المشارك فقط يبدأ وينهي *@
             @if (isParticipant)
             {
                 <article class="health-panel side-accent">
@@ -99,7 +96,6 @@
                     </div>
                     <div class="form-actions">
 
-                        @* بدء الجلسة: الطالب فقط *@
                         @if (isStudent && Model.CanStart)
                         {
                             <form asp-controller="Session" asp-action="Start"
@@ -111,7 +107,6 @@
                             </form>
                         }
 
-                        @* إنهاء الجلسة: الطالب فقط *@
                         @if (isStudent && Model.CanFinish)
                         {
                             <form asp-controller="Session" asp-action="Finish"
@@ -123,7 +118,6 @@
                             </form>
                         }
 
-                        @* إلغاء الجلسة: أي مشارك — ما عدا Completed *@
                         @if (Model.Status != 3)
                         {
                             <form asp-controller="Session" asp-action="Cancel"
@@ -141,7 +135,6 @@
                 </article>
             }
 
-            @* ✅ عدم الحضور: أي مشارك — زر يبعت بنفسه كـ ReportedBy *@
             @if (isParticipant && Model.NoShowStrike == null && Model.Status != 3)
             {
                 <article class="health-panel">
@@ -156,7 +149,6 @@
                     <p>غياب الطالب: <strong>@Model.StudentStrikeCount</strong> مرة</p>
 
                     <div class="form-actions mt-3">
-                        @* ✅ لو طالب: يسجل غياب المريض *@
                         @if (isStudent)
                         {
                             <form asp-controller="NoShowStrike" asp-action="Create"
@@ -170,7 +162,6 @@
                             </form>
                         }
 
-                        @* ✅ لو مريض: يسجل غياب الطالب *@
                         @if (!isStudent)
                         {
                             <form asp-controller="NoShowStrike" asp-action="Create"

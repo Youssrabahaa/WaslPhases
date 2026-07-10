@@ -5,7 +5,6 @@
     var portalRoute = ViewContext.RouteData.Values["portal"]?.ToString() ?? "student";
     var matchId = ViewBag.MatchId as int? ?? 0;
 
-    //  إصلاح: Role متحفظ كـ int في Session مش string
     var userRole = Context.Session.GetInt32("UserRole") ?? 0;
     var isStudent = userRole == 2;
 }
@@ -24,7 +23,6 @@
                asp-route-id="@matchId"
                asp-route-portal="@portalRoute">← تفاصيل المطابقة</a>
 
-            @*  إصلاح: يظهر للطالب فقط (Role=2) *@
             @if (isStudent && matchId > 0)
             {
                 <a class="primary-action"

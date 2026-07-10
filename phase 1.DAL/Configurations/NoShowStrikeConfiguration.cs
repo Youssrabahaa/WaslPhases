@@ -8,7 +8,6 @@ public class NoShowStrikeConfiguration : IEntityTypeConfiguration<NoShowStrike>
 {
     public void Configure(EntityTypeBuilder<NoShowStrike> builder)
     {
-        // Property constraints defined via model attributes.
 
         builder
             .HasOne(x => x.Session)

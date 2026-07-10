@@ -1,14 +1,12 @@
-﻿using System;
+using System;
 using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
 namespace phase_1.Migrations
 {
-    /// <inheritdoc />
     public partial class AddMatchSeed : Migration
     {
-        /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.UpdateData(
@@ -29,7 +27,6 @@ namespace phase_1.Migrations
                 values: new object[] { 1, new DateTime(2026, 4, 11, 12, 0, 0, 0, DateTimeKind.Utc), 1, null, new DateTime(2026, 4, 11, 12, 0, 0, 0, DateTimeKind.Utc), 1, 1, true, 1, 3 });
         }
 
-        /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DeleteData(

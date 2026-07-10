@@ -23,7 +23,6 @@ namespace phase_1.Data
         public DbSet<Case> Cases { get; set; } = null!;
         public DbSet<Offer> Offers { get; set; } = null!;
         public DbSet<Match> Matches { get; set; } = null!;
-        // Conversations and Messages removed — using phone-call flow instead
         public DbSet<Session> Sessions { get; set; } = null!;
         public DbSet<Reminder> Reminders { get; set; } = null!;
         public DbSet<Review> Reviews { get; set; } = null!;

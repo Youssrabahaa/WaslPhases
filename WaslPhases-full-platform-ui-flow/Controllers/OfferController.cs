@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc;
 using phase_1.BLL.DTOs;
 using phase_1.BLL.Services;
 
@@ -31,7 +31,6 @@ public class OfferController : Controller
     {
         var studentId = HttpContext.Session.GetInt32("UserId") ?? 0;
 
-        // ✅ لو الطالب عنده offer موجود — وجهه لعرضه بدل ما يكرر
         var existing = await _offerService.GetExistingOfferAsync(studentId, caseId);
         if (existing != null)
         {
@@ -59,7 +58,6 @@ public class OfferController : Controller
         }
         catch (InvalidOperationException ex)
         {
-            // ✅ عرض موجود — وجهه لعرضه
             TempData["Error"] = ex.Message;
             return RedirectToAction("CaseDetails", "Case", new { id = model.CaseId });
         }

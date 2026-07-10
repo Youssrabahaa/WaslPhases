@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -16,7 +16,7 @@ namespace phase_1.BLL.DTOs
         public int ReportedUserId { get; set; }
 
         [Required]
-        public int Type { get; set; }   // 1=Misconduct, 2=NoShow, 3=Other
+        public int Type { get; set; }
 
         [Required]
         [MaxLength(2000)]

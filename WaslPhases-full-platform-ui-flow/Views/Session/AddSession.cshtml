@@ -1,4 +1,4 @@
-﻿@model phase_1.BLL.DTOs.CreateSessionDTO
+@model phase_1.BLL.DTOs.CreateSessionDTO
 @{
     ViewData["Title"] = "إضافة جلسة جديدة";
     var portalRoute = ViewContext.RouteData.Values["portal"]?.ToString();
@@ -38,12 +38,10 @@
                       method="post">
                     @Html.AntiForgeryToken()
 
-                    <!-- ✅ hidden fields مطلوبة-->
                     <input type="hidden" asp-for="MatchId" />
 
                     <div class="info-grid" style="grid-template-columns: 1fr 1fr;">
 
-                        <!-- ✅ Number field مضاف-->
                         <div class="info-block" style="display:flex; flex-direction:column; align-items:start;">
                             <label asp-for="Number">رقم الجلسة</label>
                             <input asp-for="Number"

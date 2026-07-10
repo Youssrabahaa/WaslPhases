@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc;
 using phase_1.BLL.DTOs;
 using phase_1.BLL.Services;
 
@@ -18,7 +18,7 @@ namespace phase_1.Controllers
         private bool IsAdmin()
         {
             var role = HttpContext.Session.GetInt32("UserRole");
-            return role == 3; // 3 = Admin
+            return role == 3;
         }
 
         public async Task<IActionResult> Dashboard()

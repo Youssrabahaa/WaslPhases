@@ -8,7 +8,6 @@ public class ReminderConfiguration : IEntityTypeConfiguration<Reminder>
 {
     public void Configure(EntityTypeBuilder<Reminder> builder)
     {
-        // Property attributes live on the model; keep relationships/indexes here.
 
         builder
             .HasOne(x => x.Session)

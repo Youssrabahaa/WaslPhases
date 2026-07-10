@@ -1,4 +1,4 @@
-﻿using phase_1.DAL.Models;
+using phase_1.DAL.Models;
 using Microsoft.EntityFrameworkCore;
  
 namespace phase_1.SeedData;
@@ -15,7 +15,7 @@ public static class MatchSeed
             Message         = "أقترح البدء بتقييم داخل العيادة ثم جلستين علاجيتين حسب نتيجة الفحص.",
             ProposedPrice   = 220.00m,
             EstimatedSessionsCount = 3,
-            Status          = 2,   // Accepted
+            Status          = 2,
             CreatedAt       = new DateTime(2026, 4, 10, 10, 0, 0, DateTimeKind.Utc),
             DecidedAt       = new DateTime(2026, 4, 11, 12, 0, 0, DateTimeKind.Utc)
         }
@@ -31,7 +31,7 @@ public static class MatchSeed
             CaseId         = SeedIds.Cases.ChildSpeechCase,
             PatientUserId  = SeedIds.Users.PatientMona,
             StudentUserId  = SeedIds.Users.StudentAhmed,
-            Status         = 1,   // Active
+            Status         = 1,
             CreatedAt      = new DateTime(2026, 4, 11, 12, 0, 0, DateTimeKind.Utc),
             AcceptedAt     = new DateTime(2026, 4, 11, 12, 0, 0, DateTimeKind.Utc)
         }

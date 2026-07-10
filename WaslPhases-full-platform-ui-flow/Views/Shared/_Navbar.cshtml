@@ -1,4 +1,4 @@
-﻿@{
+@{
     var currentController = ViewContext.RouteData.Values["controller"]?.ToString() ?? string.Empty;
     var currentAction = ViewContext.RouteData.Values["action"]?.ToString() ?? string.Empty;
     var currentPortal = ViewContext.RouteData.Values["portal"]?.ToString()
@@ -6,7 +6,6 @@
         ?? string.Empty;
     var isAuthPage = string.Equals(currentController, "Auth", StringComparison.OrdinalIgnoreCase);
 
-    // ✅ قراءة Role من Session — المصدر الحقيقي
     var navRole = Context.Session.GetInt32("UserRole") ?? 0;
     var navUserId = Context.Session.GetInt32("UserId") ?? 0;
     var isLoggedIn = navUserId > 0;
@@ -59,23 +58,20 @@
                 @if (!isAuthPage && isLoggedIn)
                 {
                     <div class="app-nav-links">
-                        @if (navRole == 1) @* Patient *@
+                        @if (navRole == 1)
                         {
                             <a class="@NavLinkClass("Patients", "Profile")"
                                asp-controller="Patients" asp-action="Profile"
                                asp-route-portal="patient">الرئيسية</a>
 
-                            @* ✅ Patient يشوف حالاته والعروض عليها *@
                             <a class="@NavLinkClass("Case")"
                                asp-controller="Case" asp-action="MyCases"
                                asp-route-portal="patient">حالاتي والعروض</a>
 
-                            @* ✅ Patient يشوف مطابقاته *@
                             <a class="@NavLinkClass("Match")"
                                asp-controller="Match" asp-action="PatientMatches"
                                asp-route-portal="patient">مطابقاتي</a>
 
-                            @* ✅ Patient يشوف الجلسات (view only) — لكن مش من Navbar مباشرة *@
                             <a class="@NavLinkClass("Review")"
                                asp-controller="Review" asp-action="ViewReviews"
                                asp-route-portal="patient">التقييمات</a>
@@ -84,23 +80,20 @@
                                asp-controller="Notification" asp-action="GetNotifications"
                                asp-route-portal="patient">الإشعارات</a>
                         }
-                        else if (navRole == 2) @* Student *@
+                        else if (navRole == 2)
                         {
                             <a class="@NavLinkClass("Home", "Index")"
                                asp-controller="Home" asp-action="Index"
                                asp-route-portal="student">الرئيسية</a>
 
-                            @* ✅ Student يتصفح الحالات ويقدم عروض *@
                             <a class="@NavLinkClass("Offer", "BrowseCases")"
                                asp-controller="Offer" asp-action="BrowseCases"
                                asp-route-portal="student">تصفح الحالات</a>
 
-                            @* ✅ Student يشوف عروضه *@
                             <a class="@NavLinkClass("Offer", "MyOffers")"
                                asp-controller="Offer" asp-action="MyOffers"
                                asp-route-portal="student">عروضي</a>
 
-                            @* ✅ Student يشوف مطابقاته *@
                             <a class="@NavLinkClass("Match")"
                                asp-controller="Match" asp-action="StudentMatches"
                                asp-route-portal="student">مطابقاتي</a>
@@ -113,7 +106,7 @@
                                asp-controller="Notification" asp-action="GetNotifications"
                                asp-route-portal="student">الإشعارات</a>
                         }
-                        else if (navRole == 3) @* Admin *@
+                        else if (navRole == 3)
                         {
                             <a class="@NavLinkClass("Admin", "Dashboard")"
                                asp-controller="Admin" asp-action="Dashboard">لوحة التحكم</a>
